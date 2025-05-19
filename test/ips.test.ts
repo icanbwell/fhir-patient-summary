@@ -67,7 +67,8 @@ describe('International Patient Summary (IPS) Implementation', () => {
             status: 'completed',
             vaccineCode: {text: 'COVID-19 Vaccine'},
             patient: {reference: 'Patient/test-patient-01'},
-            occurrenceDateTime: '2023-01-01'
+            notGiven: false,
+            primarySource: true,
         }
     ];
 

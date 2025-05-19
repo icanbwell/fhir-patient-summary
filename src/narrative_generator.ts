@@ -32,7 +32,7 @@ class NarrativeGenerator {
         };
 
         // Select generator or use default
-        const generator = generators[resource.resourceType] ||
+        const generator = generators[`${resource.resourceType}`] ||
             this.generateDefaultNarrative;
 
         return {
@@ -90,7 +90,7 @@ class NarrativeGenerator {
         allergy: AllergyIntolerance
     ): string {
         const allergenName = this.formatCodeableConcept(allergy.code);
-        const clinicalStatus = this.formatCodeableConcept(allergy.clinicalStatus);
+        const clinicalStatus = allergy.clinicalStatus;
         const reactions = this.formatReactions(allergy.reaction);
 
         return `
@@ -187,10 +187,6 @@ class NarrativeGenerator {
           <tr>
             <th>Vaccine</th>
             <td>${vaccineName}</td>
-          </tr>
-          <tr>
-            <th>Date</th>
-            <td>${immunization.occurrenceDateTime || 'Unknown'}</td>
           </tr>
           <tr>
             <th>Status</th>
