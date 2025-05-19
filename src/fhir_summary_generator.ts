@@ -46,7 +46,7 @@ export class ComprehensiveIPSCompositionBuilder {
         // Ensure all mandatory sections are present
         const mandatorySections = Object.values(IPSMandatorySections);
         const presentSectionTypes = this.sections.map(
-            section => section.code.coding?.[0]?.code
+            section => section.code?.coding?.[0]?.code
         );
 
         const missingMandatorySections = mandatorySections.filter(
