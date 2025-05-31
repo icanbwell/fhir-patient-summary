@@ -1,11 +1,11 @@
-import {TDomainResource} from "./types/resources/DomainResource";
-import {TPatient} from "./types/resources/Patient";
-import {TAllergyIntolerance} from "./types/resources/AllergyIntolerance";
-import {TMedicationStatement} from "./types/resources/MedicationStatement";
-import {TCondition} from "./types/resources/Condition";
-import {TImmunization} from "./types/resources/Immunization";
-import {TObservation} from "./types/resources/Observation";
-import {TCodeableConcept} from "./types/partials/CodeableConcept";
+import {TDomainResource} from "../types/resources/DomainResource";
+import {TPatient} from "../types/resources/Patient";
+import {TAllergyIntolerance} from "../types/resources/AllergyIntolerance";
+import {TMedicationStatement} from "../types/resources/MedicationStatement";
+import {TCondition} from "../types/resources/Condition";
+import {TImmunization} from "../types/resources/Immunization";
+import {TObservation} from "../types/resources/Observation";
+import {TCodeableConcept} from "../types/partials/CodeableConcept";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';

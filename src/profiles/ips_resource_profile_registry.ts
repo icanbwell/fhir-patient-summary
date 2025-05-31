@@ -1,7 +1,7 @@
-import {IPSResourceProfile} from "./ips_resource_profile";
-import {IPSMandatorySections} from "./ips_mandatory_sections";
-import {IPSRecommendedSections} from "./ips_recommended_sections";
-import {TDomainResource} from "./types/resources/DomainResource";
+import {IPSResourceProfile} from "../structures/ips_resource_profile";
+import {IPSMandatorySections} from "../structures/ips_mandatory_sections";
+import {IPSRecommendedSections} from "../structures/ips_recommended_sections";
+import {TDomainResource} from "../types/resources/DomainResource";
 
 export class IPSResourceProfileRegistry {
     // Comprehensive resource profiles aligned with IPS specification

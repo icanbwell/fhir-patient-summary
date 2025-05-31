@@ -1,9 +1,9 @@
 // Comprehensive IPS Resource Mapping
-import {IPSMandatorySections} from "./ips_mandatory_sections";
-import {IPSResourceProfileRegistry} from "./ips_resource_profile_registry";
-import {TPatient} from "./types/resources/Patient";
-import {TCompositionSection} from "./types/partials/CompositionSection";
-import {TDomainResource} from "./types/resources/DomainResource";
+import {IPSMandatorySections} from "../structures/ips_mandatory_sections";
+import {IPSResourceProfileRegistry} from "../profiles/ips_resource_profile_registry";
+import {TPatient} from "../types/resources/Patient";
+import {TCompositionSection} from "../types/partials/CompositionSection";
+import {TDomainResource} from "../types/resources/DomainResource";
 
 export class ComprehensiveIPSCompositionBuilder {
     private patient: TPatient;
@@ -36,7 +36,11 @@ export class ComprehensiveIPSCompositionBuilder {
         }
 
         // Existing section generation logic
-        // (Similar to previous implementation)
+        this.sections.push(
+            {
+
+            }
+        )
 
         return this;
     }

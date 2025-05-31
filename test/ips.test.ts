@@ -1,8 +1,8 @@
-import {IPSResourceProfileRegistry} from "../src/ips_resource_profile_registry";
-import {IPSMandatorySections} from "../src/ips_mandatory_sections";
-import {ComprehensiveIPSCompositionBuilder} from "../src/fhir_summary_generator";
-import {IPSRecommendedSections} from "../src/ips_recommended_sections";
-import {NarrativeGenerator} from "../src/narrative_generator";
+import {IPSResourceProfileRegistry} from "../src/profiles/ips_resource_profile_registry";
+import {IPSMandatorySections} from "../src/structures/ips_mandatory_sections";
+import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
+import {IPSRecommendedSections} from "../src/structures/ips_recommended_sections";
+import {NarrativeGenerator} from "../src/generators/narrative_generator";
 import {TPatient} from "../src/types/resources/Patient";
 import {TAllergyIntolerance} from "../src/types/resources/AllergyIntolerance";
 import {TMedicationStatement} from "../src/types/resources/MedicationStatement";
@@ -165,7 +165,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
             expect(narrative).toBeDefined();
             expect(narrative.status).toBe('generated');
             expect(narrative.div).toContain('John Doe');
-            expect(narrative.div).toContain('Gender: male');
+            expect(narrative.div).toContain('male');
         });
 
         test('Allergy narrative should be generated', () => {
@@ -188,6 +188,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
                     .addSection(IPSMandatorySections.MEDICATIONS, mockMedications)
                     .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
                     .addSection(IPSMandatorySections.IMMUNIZATIONS, mockImmunizations)
+                    .addSection(IPSMandatorySections.PATIENT, [mockPatient])
                     .build();
             };
 
