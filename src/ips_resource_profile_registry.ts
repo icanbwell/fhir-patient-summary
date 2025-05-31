@@ -1,7 +1,7 @@
 import {IPSResourceProfile} from "./ips_resource_profile";
 import {IPSMandatorySections} from "./ips_mandatory_sections";
 import {IPSRecommendedSections} from "./ips_recommended_sections";
-import Resource = fhir.Resource;
+import {TDomainResource} from "./types/resources/DomainResource";
 
 export class IPSResourceProfileRegistry {
     // Comprehensive resource profiles aligned with IPS specification
@@ -125,7 +125,7 @@ export class IPSResourceProfileRegistry {
 
     // Validate resource against IPS profile
     static validateResource(
-        resource: Resource,
+        resource: TDomainResource,
         profileType: string
     ): boolean {
         const profile = this.PROFILES[profileType] ||

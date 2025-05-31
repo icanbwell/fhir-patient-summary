@@ -1,11 +1,11 @@
-import Resource = fhir.Resource;
-import Patient = fhir.Patient;
-import AllergyIntolerance = fhir.AllergyIntolerance;
-import MedicationStatement = fhir.MedicationStatement;
-import Condition = fhir.Condition;
-import Immunization = fhir.Immunization;
-import Observation = fhir.Observation;
-import CodeableConcept = fhir.CodeableConcept;
+import {TDomainResource} from "./types/resources/DomainResource";
+import {TPatient} from "./types/resources/Patient";
+import {TAllergyIntolerance} from "./types/resources/AllergyIntolerance";
+import {TMedicationStatement} from "./types/resources/MedicationStatement";
+import {TCondition} from "./types/resources/Condition";
+import {TImmunization} from "./types/resources/Immunization";
+import {TObservation} from "./types/resources/Observation";
+import {TCodeableConcept} from "./types/partials/CodeableConcept";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
@@ -18,26 +18,26 @@ class NarrativeGenerator {
      * @param resource - FHIR resource
      * @returns Narrative representation
      */
-    static generateNarrative<T extends Resource>(
+    static generateNarrative<T extends TDomainResource>(
         resource: T
     ): Narrative {
         // Dispatch to specific resource type generators
         const generators: Record<string, (res: any) => string> = {
-            Patient: this.generatePatientNarrative,
-            AllergyIntolerance: this.generateAllergyIntoleranceNarrative,
-            MedicationStatement: this.generateMedicationStatementNarrative,
-            Condition: this.generateConditionNarrative,
-            Immunization: this.generateImmunizationNarrative,
-            Observation: this.generateObservationNarrative
+            Patient: NarrativeGenerator.generatePatientNarrative,
+            AllergyIntolerance: NarrativeGenerator.generateAllergyIntoleranceNarrative,
+            MedicationStatement: NarrativeGenerator.generateMedicationStatementNarrative,
+            Condition: NarrativeGenerator.generateConditionNarrative,
+            Immunization: NarrativeGenerator.generateImmunizationNarrative,
+            Observation: NarrativeGenerator.generateObservationNarrative
         };
 
         // Select generator or use default
         const generator = generators[`${resource.resourceType}`] ||
-            this.generateDefaultNarrative;
+            NarrativeGenerator.generateDefaultNarrative;
 
         return {
             status: 'generated',
-            div: this.wrapInXhtml(generator(resource))
+            div: NarrativeGenerator.wrapInXhtml(generator(resource))
         };
     }
 
@@ -55,9 +55,9 @@ class NarrativeGenerator {
      * @param patient - Patient resource
      * @returns Narrative HTML
      */
-    private static generatePatientNarrative(patient: Patient): string {
-        const name = this.formatPersonName(patient.name);
-        const identifiers = this.formatIdentifiers(patient.identifier);
+    private static generatePatientNarrative(patient: TPatient): string {
+        const name = NarrativeGenerator.formatPersonName(patient.name);
+        const identifiers = NarrativeGenerator.formatIdentifiers(patient.identifier);
 
         return `
       <h1>${name}</h1>
@@ -87,11 +87,11 @@ class NarrativeGenerator {
      * @returns Narrative HTML
      */
     private static generateAllergyIntoleranceNarrative(
-        allergy: AllergyIntolerance
+        allergy: TAllergyIntolerance
     ): string {
-        const allergenName = this.formatCodeableConcept(allergy.code);
+        const allergenName = NarrativeGenerator.formatCodeableConcept(allergy.code);
         const clinicalStatus = allergy.clinicalStatus;
-        const reactions = this.formatReactions(allergy.reaction);
+        const reactions = NarrativeGenerator.formatReactions(allergy.reaction);
 
         return `
       <h2>Allergy/Intolerance</h2>
@@ -121,9 +121,9 @@ class NarrativeGenerator {
      * @returns Narrative HTML
      */
     private static generateMedicationStatementNarrative(
-        medication: MedicationStatement
+        medication: TMedicationStatement
     ): string {
-        const medicationName = this.formatCodeableConcept(
+        const medicationName = NarrativeGenerator.formatCodeableConcept(
             medication.medicationCodeableConcept
         );
 
@@ -149,8 +149,8 @@ class NarrativeGenerator {
      * @param condition - Condition resource
      * @returns Narrative HTML
      */
-    private static generateConditionNarrative(condition: Condition): string {
-        const conditionName = this.formatCodeableConcept(condition.code);
+    private static generateConditionNarrative(condition: TCondition): string {
+        const conditionName = NarrativeGenerator.formatCodeableConcept(condition.code);
         const clinicalStatus = condition.clinicalStatus;
 
         return `
@@ -176,9 +176,9 @@ class NarrativeGenerator {
      * @returns Narrative HTML
      */
     private static generateImmunizationNarrative(
-        immunization: Immunization
+        immunization: TImmunization
     ): string {
-        const vaccineName = this.formatCodeableConcept(immunization.vaccineCode);
+        const vaccineName = NarrativeGenerator.formatCodeableConcept(immunization.vaccineCode);
 
         return `
       <h2>Immunization</h2>
@@ -203,10 +203,10 @@ class NarrativeGenerator {
      * @returns Narrative HTML
      */
     private static generateObservationNarrative(
-        observation: Observation
+        observation: TObservation
     ): string {
-        const observationName = this.formatCodeableConcept(observation.code);
-        const value = this.formatObservationValue(observation);
+        const observationName = NarrativeGenerator.formatCodeableConcept(observation.code);
+        const value = NarrativeGenerator.formatObservationValue(observation);
 
         return `
       <h2>Observation</h2>
@@ -234,7 +234,7 @@ class NarrativeGenerator {
      * @param resource - Any FHIR resource
      * @returns Default narrative HTML
      */
-    private static generateDefaultNarrative(resource: Resource): string {
+    private static generateDefaultNarrative(resource: TDomainResource): string {
         return `
       <h2>${resource.resourceType} Resource</h2>
       <p>Resource ID: ${resource.id || 'Not specified'}</p>
@@ -288,7 +288,7 @@ class NarrativeGenerator {
      * @returns Formatted concept string
      */
     private static formatCodeableConcept(
-        concept?: CodeableConcept
+        concept?: TCodeableConcept
     ): string {
         if (!concept) return 'Not specified';
 
@@ -304,7 +304,7 @@ class NarrativeGenerator {
      * @returns Formatted value string
      */
     private static formatObservationValue(
-        observation: Observation
+        observation: TObservation
     ): string {
         if (observation.valueQuantity) {
             const {value, unit} = observation.valueQuantity;
@@ -321,7 +321,7 @@ class NarrativeGenerator {
      */
     private static formatReactions(
         reactions?: Array<{
-            manifestation?: CodeableConcept[];
+            manifestation?: TCodeableConcept[];
             severity?: string;
         }>
     ): string {
@@ -330,7 +330,7 @@ class NarrativeGenerator {
         return reactions
             .map(reaction => {
                 const manifestations = reaction.manifestation
-                    ?.map(m => this.formatCodeableConcept(m))
+                    ?.map(m => NarrativeGenerator.formatCodeableConcept(m))
                     .join(', ') || 'Unknown';
 
                 return `${manifestations} (${reaction.severity || 'Unknown Severity'})`;

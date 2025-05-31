@@ -1,15 +1,15 @@
 // Comprehensive IPS Resource Mapping
-import Resource = fhir.Resource;
-import Patient = fhir.Patient;
-import CompositionSection = fhir.CompositionSection;
 import {IPSMandatorySections} from "./ips_mandatory_sections";
 import {IPSResourceProfileRegistry} from "./ips_resource_profile_registry";
+import {TPatient} from "./types/resources/Patient";
+import {TCompositionSection} from "./types/partials/CompositionSection";
+import {TDomainResource} from "./types/resources/DomainResource";
 
 export class ComprehensiveIPSCompositionBuilder {
-    private patient: Patient;
-    private sections: CompositionSection[] = [];
+    private patient: TPatient;
+    private sections: TCompositionSection[] = [];
 
-    constructor(patient: Patient) {
+    constructor(patient: TPatient) {
         // Validate patient resource
         if (!IPSResourceProfileRegistry.validateResource(
             patient,
@@ -21,7 +21,7 @@ export class ComprehensiveIPSCompositionBuilder {
     }
 
     // Methods to add sections with validation
-    addSection<T extends Resource>(
+    addSection<T extends TDomainResource>(
         resourceType: string,
         resources: T[]
     ): this {
@@ -42,7 +42,7 @@ export class ComprehensiveIPSCompositionBuilder {
     }
 
     // Comprehensive build method
-    build(): CompositionSection[] {
+    build(): TCompositionSection[] {
         // Ensure all mandatory sections are present
         const mandatorySections = Object.values(IPSMandatorySections);
         const presentSectionTypes = this.sections.map(

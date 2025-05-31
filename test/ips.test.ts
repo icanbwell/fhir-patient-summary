@@ -1,22 +1,22 @@
-import AllergyIntolerance = fhir.AllergyIntolerance;
-import MedicationStatement = fhir.MedicationStatement;
-import Condition = fhir.Condition;
-import Immunization = fhir.Immunization;
-import Observation = fhir.Observation;
 import {IPSResourceProfileRegistry} from "../src/ips_resource_profile_registry";
 import {IPSMandatorySections} from "../src/ips_mandatory_sections";
 import {ComprehensiveIPSCompositionBuilder} from "../src/fhir_summary_generator";
 import {IPSRecommendedSections} from "../src/ips_recommended_sections";
-import Patient = fhir.Patient;
 import {NarrativeGenerator} from "../src/narrative_generator";
+import {TPatient} from "../src/types/resources/Patient";
+import {TAllergyIntolerance} from "../src/types/resources/AllergyIntolerance";
+import {TMedicationStatement} from "../src/types/resources/MedicationStatement";
+import {TCondition} from "../src/types/resources/Condition";
+import {TImmunization} from "../src/types/resources/Immunization";
+import {TObservation} from "../src/types/resources/Observation";
 
 describe('International Patient Summary (IPS) Implementation', () => {
     // Mock Resources for Testing
-    const mockPatient: Patient = {
+    const mockPatient: TPatient = {
         resourceType: 'Patient',
         id: 'test-patient-01',
         identifier: [{
-            system: 'http://example.org',
+            system: 'https://example.org',
             value: '12345'
         }],
         name: [{
@@ -27,52 +27,76 @@ describe('International Patient Summary (IPS) Implementation', () => {
         birthDate: '1980-01-01'
     };
 
-    const mockAllergies: AllergyIntolerance[] = [
+    const mockAllergies: TAllergyIntolerance[] = [
         {
             resourceType: 'AllergyIntolerance',
             id: 'allergy-01',
-            clinicalStatus: 'active',
-            verificationStatus: 'confirmed',
+            clinicalStatus: {
+                coding: [
+                    {
+                        code: 'active'
+                    }
+                ]
+            },
+            verificationStatus: {
+                coding: [
+                    {
+                        code: 'confirmed'
+                    }
+                ]
+            },
             code: {text: 'Penicillin'},
             patient: {reference: 'Patient/test-patient-01'}
         }
     ];
 
-    const mockMedications: MedicationStatement[] = [
+    const mockMedications: TMedicationStatement[] = [
         {
             resourceType: 'MedicationStatement',
             id: 'med-01',
             status: 'active',
             medicationCodeableConcept: {text: 'Aspirin'},
             subject: {reference: 'Patient/test-patient-01'},
-            taken: 'y'
+            // taken: 'y'
         }
     ];
 
-    const mockConditions: Condition[] = [
+    const mockConditions: TCondition[] = [
         {
             resourceType: 'Condition',
             id: 'condition-01',
-            clinicalStatus:  'active',
-            verificationStatus: 'confirmed',
+            clinicalStatus: {
+                coding: [
+                    {
+                        code: 'active'
+                    }
+                ]
+            },
+            verificationStatus: {
+                coding: [
+                    {
+                        code: 'confirmed'
+                    }
+                ]
+            },
             code: {text: 'Hypertension'},
             subject: {reference: 'Patient/test-patient-01'}
         }
     ];
 
-    const mockImmunizations: Immunization[] = [
+    const mockImmunizations: TImmunization[] = [
         {
             resourceType: 'Immunization',
             id: 'imm-01',
             status: 'completed',
             vaccineCode: {text: 'COVID-19 Vaccine'},
             patient: {reference: 'Patient/test-patient-01'},
-            notGiven: false,
             primarySource: true,
+            occurrenceDateTime: '2024-01-01'
         }
     ];
 
-    const mockLaboratoryResults: Observation[] = [
+    const mockLaboratoryResults: TObservation[] = [
         {
             resourceType: 'Observation',
             id: 'lab-01',
@@ -233,7 +257,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
     describe('Performance Considerations', () => {
         test('Should handle multiple resources efficiently', () => {
             // Generate a large number of resources
-            const largeMedicationList: MedicationStatement[] = Array.from(
+            const largeMedicationList: TMedicationStatement[] = Array.from(
                 {length: 100},
                 (_, index) => ({
                     resourceType: 'MedicationStatement',
