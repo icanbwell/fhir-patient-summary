@@ -36,11 +36,21 @@ export class ComprehensiveIPSCompositionBuilder {
         }
 
         // Existing section generation logic
-        this.sections.push(
-            {
-
-            }
-        )
+        this.sections.push({
+            code: {
+                coding: [
+                    {
+                        system: 'http://loinc.org',
+                        code: resourceType,
+                        display: `Section for ${resourceType}`
+                    }
+                ]
+            },
+            entry: validResources.map(resource => ({
+                reference: `Resource/${resource.id}`,
+                display: resource.resourceType
+            }))
+        });
 
         return this;
     }

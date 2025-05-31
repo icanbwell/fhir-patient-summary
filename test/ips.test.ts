@@ -210,6 +210,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildFullIPS = () => {
                 ipsBuilder
+                    .addSection(IPSMandatorySections.PATIENT, [mockPatient])
                     .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
                     .addSection(IPSMandatorySections.MEDICATIONS, mockMedications)
                     .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
@@ -274,6 +275,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildLargeIPS = () => {
                 ipsBuilder
+                    .addSection(IPSMandatorySections.PATIENT, [mockPatient])
                     .addSection(IPSMandatorySections.MEDICATIONS, largeMedicationList)
                     .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
                     .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
