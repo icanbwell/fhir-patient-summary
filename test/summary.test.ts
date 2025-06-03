@@ -346,8 +346,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const result = builder.addSection(IPSMandatorySections.ALLERGIES, mockAllergies);
 
             expect(result).toBe(builder);
-            // Should not add any sections if all resources are invalid
-            expect(builder.build().length).toBe(0);
+            // Should throw error when trying to build with no valid sections
+            expect(() => {
+                builder.build();
+            }).toThrow(/Missing mandatory IPS sections/);
         });
 
         it('should warn when no valid resources are found', () => {
