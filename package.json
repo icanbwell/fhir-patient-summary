@@ -1,5 +1,5 @@
 {
-  "name": "@imranq2/fhir-patient-summary",
+  "name": "@imranq2/fhirpatientsummary",
   "version": "x.x.x",
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./lib/index.js",
@@ -46,7 +46,6 @@
   },
   "homepage": "https://github.com/icanbwell/fhir-patient-summary#readme",
   "dependencies": {
-    "@types/fhir": "^3.0.2"
   },
   "devDependencies": {
     "commitizen": "^4.3.1",
