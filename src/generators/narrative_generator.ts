@@ -6,6 +6,12 @@ import {TCondition} from "../types/resources/Condition";
 import {TImmunization} from "../types/resources/Immunization";
 import {TObservation} from "../types/resources/Observation";
 import {TCodeableConcept} from "../types/partials/CodeableConcept";
+import {TClinicalImpression} from "../types/resources/ClinicalImpression";
+import {TCarePlan} from "../types/resources/CarePlan";
+import {TFamilyMemberHistory} from "../types/resources/FamilyMemberHistory";
+import {TProcedure} from "../types/resources/Procedure";
+import {TDiagnosticReport} from "../types/resources/DiagnosticReport";
+import {TDevice} from "../types/resources/Device";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
@@ -21,14 +27,20 @@ class NarrativeGenerator {
     static generateNarrative<T extends TDomainResource>(
         resource: T
     ): Narrative {
-        // Dispatch to specific resource type generators
+        // Expanded resource type generators
         const generators: Record<string, (res: any) => string> = {
             Patient: NarrativeGenerator.generatePatientNarrative,
             AllergyIntolerance: NarrativeGenerator.generateAllergyIntoleranceNarrative,
             MedicationStatement: NarrativeGenerator.generateMedicationStatementNarrative,
             Condition: NarrativeGenerator.generateConditionNarrative,
             Immunization: NarrativeGenerator.generateImmunizationNarrative,
-            Observation: NarrativeGenerator.generateObservationNarrative
+            Observation: NarrativeGenerator.generateObservationNarrative,
+            Device: NarrativeGenerator.generateDeviceNarrative,
+            DiagnosticReport: NarrativeGenerator.generateDiagnosticReportNarrative,
+            Procedure: NarrativeGenerator.generateProcedureNarrative,
+            FamilyMemberHistory: NarrativeGenerator.generateFamilyMemberHistoryNarrative,
+            CarePlan: NarrativeGenerator.generateCarePlanNarrative,
+            ClinicalImpression: NarrativeGenerator.generateClinicalImpressionNarrative
         };
 
         // Select generator or use default
@@ -39,6 +51,185 @@ class NarrativeGenerator {
             status: 'generated',
             div: NarrativeGenerator.wrapInXhtml(generator(resource))
         };
+    }
+
+    // Existing methods from previous implementation...
+
+    /**
+     * Generate device narrative
+     * @param device - Device resource
+     * @returns Narrative HTML
+     */
+    private static generateDeviceNarrative(device: TDevice): string {
+        const deviceName = NarrativeGenerator.formatCodeableConcept(device.type);
+        return `
+        <h2>Medical Device</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Device Type</th>
+                    <td>${deviceName}</td>
+                </tr>
+                <tr>
+                    <th>Manufacturer</th>
+                    <td>${device.manufacturer || 'Not specified'}</td>
+                </tr>
+                <tr>
+                    <th>Model Number</th>
+                    <td>${device.modelNumber || 'Not specified'}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+    }
+
+    /**
+     * Generate diagnostic report narrative
+     * @param report - DiagnosticReport resource
+     * @returns Narrative HTML
+     */
+    private static generateDiagnosticReportNarrative(report: TDiagnosticReport): string {
+        const reportName = NarrativeGenerator.formatCodeableConcept(report.code);
+        const results = report.result?.map(r =>
+            `${r.display || r.reference || 'Unnamed Result'}`
+        ).join(', ') || 'No results';
+
+        return `
+        <h2>Diagnostic Report</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Report Type</th>
+                    <td>${reportName}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>${report.status || 'Unknown'}</td>
+                </tr>
+                <tr>
+                    <th>Results</th>
+                    <td>${results}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+    }
+
+    /**
+     * Generate procedure narrative
+     * @param procedure - Procedure resource
+     * @returns Narrative HTML
+     */
+    private static generateProcedureNarrative(procedure: TProcedure): string {
+        const procedureName = NarrativeGenerator.formatCodeableConcept(procedure.code);
+        return `
+        <h2>Procedure</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Procedure</th>
+                    <td>${procedureName}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>${procedure.status || 'Unknown'}</td>
+                </tr>
+                <tr>
+                    <th>Performed</th>
+                    <td>${procedure.performedDateTime || procedure.performedPeriod?.start || 'Not specified'}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+    }
+
+    /**
+     * Generate family member history narrative
+     * @param history - FamilyMemberHistory resource
+     * @returns Narrative HTML
+     */
+    private static generateFamilyMemberHistoryNarrative(history: TFamilyMemberHistory): string {
+        const conditions = history.condition?.map(c =>
+            NarrativeGenerator.formatCodeableConcept(c.code)
+        ).join(', ') || 'No conditions';
+
+        return `
+        <h2>Family Member History</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Relationship</th>
+                    <td>${NarrativeGenerator.formatCodeableConcept(history.relationship)}</td>
+                </tr>
+                <tr>
+                    <th>Conditions</th>
+                    <td>${conditions}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>${history.status || 'Unknown'}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+    }
+
+    /**
+     * Generate care plan narrative
+     * @param carePlan - CarePlan resource
+     * @returns Narrative HTML
+     */
+    private static generateCarePlanNarrative(carePlan: TCarePlan): string {
+        const activities = carePlan.activity?.map(a =>
+            NarrativeGenerator.formatCodeableConcept(a.detail?.code)
+        ).join(', ') || 'No activities';
+
+        return `
+        <h2>Care Plan</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Status</th>
+                    <td>${carePlan.status || 'Unknown'}</td>
+                </tr>
+                <tr>
+                    <th>Intent</th>
+                    <td>${carePlan.intent || 'Not specified'}</td>
+                </tr>
+                <tr>
+                    <th>Activities</th>
+                    <td>${activities}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+    }
+
+    /**
+     * Generate clinical impression narrative
+     * @param impression - ClinicalImpression resource
+     * @returns Narrative HTML
+     */
+    private static generateClinicalImpressionNarrative(impression: TClinicalImpression): string {
+        const findings = impression.finding?.map(f =>
+            NarrativeGenerator.formatCodeableConcept(f.itemCodeableConcept)
+        ).join(', ') || 'No findings';
+
+        return `
+        <h2>Clinical Impression</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Status</th>
+                    <td>${impression.status || 'Unknown'}</td>
+                </tr>
+                <tr>
+                    <th>Findings</th>
+                    <td>${findings}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
     }
 
     /**
