@@ -7,6 +7,8 @@ import {TCondition} from "../src/types/resources/Condition";
 import {TImmunization} from "../src/types/resources/Immunization";
 import {IPSSections} from "../src/structures/ips_sections";
 import {IPS_SECTION_LOINC_CODES} from "../src/structures/ips_section_loinc_codes";
+import {TDomainResource} from "../src/types/resources/DomainResource";
+import {TCompositionSection} from "../src/types/partials/CompositionSection";
 
 describe('ComprehensiveIPSCompositionBuilder', () => {
     // Mock patient resource
@@ -431,6 +433,45 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 expect(section.entry).toBeTruthy();
                 expect(section.code?.coding?.[0]?.system).toBe('http://loinc.org');
             });
+
+        });
+    });
+    describe('integration_bundle', () => {
+        it('should create a complete IPS composition', () => {
+            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+
+            builder
+                .addSection(IPSSections.ALLERGIES, mockAllergies)
+                .addSection(IPSSections.MEDICATIONS, mockMedications)
+                .addSection(IPSSections.PROBLEMS, [{
+                    resourceType: 'Condition',
+                    id: 'condition1',
+                    clinicalStatus: {coding: [{code: 'active'}]},
+                    code: {coding: [{code: 'hypertension'}]}
+                }])
+                .addSection(IPSSections.IMMUNIZATIONS, [{
+                    resourceType: 'Immunization',
+                    id: 'immunization1',
+                    status: 'completed',
+                    vaccineCode: {coding: [{code: 'MMR'}]}
+                }]);
+
+            const bundle = builder.build_bundle();
+
+            expect(bundle.resourceType).toBe('Bundle');
+            expect(bundle.type).toBe('collection');
+            expect(bundle.entry).toBeDefined();
+            if (bundle.entry) {
+                expect(bundle.entry.length).toBeGreaterThan(0);
+                bundle.entry.forEach(entry => {
+                    expect(entry.resource).toBeTruthy();
+                    if (entry.resource) {
+                        const resource: TCompositionSection = entry.resource as TDomainResource;
+                        expect(entry.resource.resourceType).toBe('CompositionSection');
+                        expect(resource.code?.coding?.[0]?.system).toBe('http://loinc.org');
+                    }
+                });
+            }
         });
     });
 });

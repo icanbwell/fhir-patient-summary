@@ -5,8 +5,7 @@ import {TCompositionSection} from "../types/partials/CompositionSection";
 import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
-
-
+import {TBundle} from "../types/resources/Bundle";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -114,5 +113,27 @@ export class ComprehensiveIPSCompositionBuilder {
         }
 
         return this.sections;
+    }
+
+    build_bundle(): TBundle {
+        const bundle: TBundle = {
+            resourceType: 'Bundle',
+            type: 'collection',
+            entry: this.sections.map(section => ({
+                resource: {
+                    ...section,
+                    resourceType: 'CompositionSection'
+                }
+            })) || []
+        };
+
+        if (bundle.entry) {
+            // Add patient as the first entry
+            bundle.entry.unshift({
+                resource: this.patient
+            });
+        }
+
+        return bundle;
     }
 }
