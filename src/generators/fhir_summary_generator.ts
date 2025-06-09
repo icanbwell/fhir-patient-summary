@@ -176,23 +176,31 @@ export class ComprehensiveIPSCompositionBuilder {
             resource: composition
         });
 
-        if (bundle.entry) {
-            // Add patient as second entry
-            bundle.entry.push({
-                fullUrl: `${baseUrl}/Patient/${this.patient.id}`,
-                resource: this.patient
-            });
+        // Add patient as second entry
+        bundle.entry?.push({
+            fullUrl: `${baseUrl}/Patient/${this.patient.id}`,
+            resource: this.patient
+        });
 
-            // Extract and add all resources referenced in sections
-            this.resources.forEach(resource => {
-                bundle.entry?.push(
-                    {
-                        fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
-                        resource: resource
-                    }
-                )
-            });
-        }
+        // Extract and add all resources referenced in sections
+        this.resources.forEach(resource => {
+            bundle.entry?.push(
+                {
+                    fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
+                    resource: resource
+                }
+            )
+        });
+
+        // add a bundle entry for Organization
+        bundle.entry?.push({
+            fullUrl: `${baseUrl}/Organization/${authorOrganizationId}`,
+            resource: {
+                resourceType: 'Organization',
+                id: authorOrganizationId,
+                name: authorOrganizationName
+            }
+        });
 
         return bundle;
     }

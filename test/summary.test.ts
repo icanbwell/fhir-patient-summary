@@ -31,8 +31,19 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
     const mockAllergies: TAllergyIntolerance[] = [{
         resourceType: 'AllergyIntolerance',
         id: 'allergy1',
-        clinicalStatus: {coding: [{code: 'active'}]},
-        code: {coding: [{code: 'nickel'}]},
+        clinicalStatus: {
+            coding: [{
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                code: 'active'
+            }]
+        },
+        code: {
+            coding: [{
+                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                "code": "7980",
+                "display": "Penicillin G"
+            }]
+        },
         patient: {reference: `Patient/${mockPatient.id}`},
     }];
 
@@ -452,7 +463,12 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 'https://fhir.icanbwell.com/4_0_0/'
             );
             console.info('---- Bundle ----');
-            console.info(JSON.stringify(bundle));
+            console.info(JSON.stringify(bundle, (key, value) => {
+                if (value === undefined) {
+                    return undefined; // This will omit undefined properties
+                }
+                return value;
+            }));
             console.info('-----------------');
 
             expect(bundle.resourceType).toBe('Bundle');
@@ -488,7 +504,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 }
 
                 // subsequent entries should be the sections
-                expect(bundle.entry.length).toEqual(8);
+                expect(bundle.entry.length).toEqual(9);
                 // check that each section has a valid LOINC code
                 bundle.entry.slice(1).forEach((entry) => {
                     const section: TDomainResource = entry.resource as TDomainResource;
