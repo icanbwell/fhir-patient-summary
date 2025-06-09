@@ -1,11 +1,11 @@
 import {TPatient} from "../src/types/resources/Patient";
 import {IPSResourceProfileRegistry} from "../src/profiles/ips_resource_profile_registry";
 import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
-import {IPSMandatorySections} from "../src/structures/ips_mandatory_sections";
 import {TAllergyIntolerance} from "../src/types/resources/AllergyIntolerance";
 import {TMedicationRequest} from "../src/types/resources/MedicationRequest";
 import {TCondition} from "../src/types/resources/Condition";
 import {TImmunization} from "../src/types/resources/Immunization";
+import {IPSSections} from "../src/structures/ips_sections";
 
 describe('ComprehensiveIPSCompositionBuilder', () => {
     // Mock patient resource
@@ -332,10 +332,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         it('should add a section with valid resources', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
-            const result = builder.addSection(IPSMandatorySections.ALLERGIES, mockAllergies);
+            const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies);
 
             expect(result).toBe(builder);
-            expect(mockValidateResource).toHaveBeenCalledWith(mockAllergies[0], IPSMandatorySections.ALLERGIES);
+            expect(mockValidateResource).toHaveBeenCalledWith(mockAllergies[0], IPSSections.ALLERGIES);
         });
 
         it('should filter out invalid resources', () => {
@@ -343,7 +343,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             mockValidateResource.mockReturnValueOnce(false);
 
-            const result = builder.addSection(IPSMandatorySections.ALLERGIES, mockAllergies);
+            const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies);
 
             expect(result).toBe(builder);
             // Should throw error when trying to build with no valid sections
@@ -358,7 +358,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             mockValidateResource.mockReturnValueOnce(false);
 
-            builder.addSection(IPSMandatorySections.ALLERGIES, mockAllergies);
+            builder.addSection(IPSSections.ALLERGIES, mockAllergies);
 
             expect(consoleSpy).toHaveBeenCalledWith('No valid resources for AllergyIntolerance');
 
@@ -371,28 +371,28 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             builder
-                .addSection(IPSMandatorySections.PATIENT, [mockPatient])
-                .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
-                .addSection(IPSMandatorySections.MEDICATIONS, mockMedications)
-                .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
-                .addSection(IPSMandatorySections.IMMUNIZATIONS, mockImmunizations)
+                .addSection(IPSSections.PATIENT, [mockPatient])
+                .addSection(IPSSections.ALLERGIES, mockAllergies)
+                .addSection(IPSSections.MEDICATIONS, mockMedications)
+                .addSection(IPSSections.PROBLEMS, mockConditions)
+                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
             ;
 
             const sections = builder.build();
 
             expect(sections.length).toBe(5);
-            expect(sections[0].code?.coding?.[0]?.code).toBe(IPSMandatorySections.PATIENT);
-            expect(sections[1].code?.coding?.[0]?.code).toBe(IPSMandatorySections.ALLERGIES);
-            expect(sections[2].code?.coding?.[0]?.code).toBe(IPSMandatorySections.MEDICATIONS);
-            expect(sections[3].code?.coding?.[0]?.code).toBe(IPSMandatorySections.PROBLEMS);
-            expect(sections[4].code?.coding?.[0]?.code).toBe(IPSMandatorySections.IMMUNIZATIONS);
+            expect(sections[0].code?.coding?.[0]?.code).toBe(IPSSections.PATIENT);
+            expect(sections[1].code?.coding?.[0]?.code).toBe(IPSSections.ALLERGIES);
+            expect(sections[2].code?.coding?.[0]?.code).toBe(IPSSections.MEDICATIONS);
+            expect(sections[3].code?.coding?.[0]?.code).toBe(IPSSections.PROBLEMS);
+            expect(sections[4].code?.coding?.[0]?.code).toBe(IPSSections.IMMUNIZATIONS);
         });
 
         it('should throw an error if mandatory sections are missing', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             // Not adding all mandatory sections
-            builder.addSection(IPSMandatorySections.ALLERGIES, mockAllergies);
+            builder.addSection(IPSSections.ALLERGIES, mockAllergies);
 
             expect(() => {
                 builder.build();
@@ -405,16 +405,16 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             builder
-                .addSection(IPSMandatorySections.PATIENT, [mockPatient])
-                .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
-                .addSection(IPSMandatorySections.MEDICATIONS, mockMedications)
-                .addSection(IPSMandatorySections.PROBLEMS, [{
+                .addSection(IPSSections.PATIENT, [mockPatient])
+                .addSection(IPSSections.ALLERGIES, mockAllergies)
+                .addSection(IPSSections.MEDICATIONS, mockMedications)
+                .addSection(IPSSections.PROBLEMS, [{
                     resourceType: 'Condition',
                     id: 'condition1',
                     clinicalStatus: {coding: [{code: 'active'}]},
                     code: {coding: [{code: 'hypertension'}]}
                 }])
-                .addSection(IPSMandatorySections.IMMUNIZATIONS, [{
+                .addSection(IPSSections.IMMUNIZATIONS, [{
                     resourceType: 'Immunization',
                     id: 'immunization1',
                     status: 'completed',

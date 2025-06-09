@@ -1,7 +1,6 @@
 import {IPSResourceProfileRegistry} from "../src/profiles/ips_resource_profile_registry";
 import {IPSMandatorySections} from "../src/structures/ips_mandatory_sections";
 import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
-import {IPSRecommendedSections} from "../src/structures/ips_recommended_sections";
 import {NarrativeGenerator} from "../src/generators/narrative_generator";
 import {TPatient} from "../src/types/resources/Patient";
 import {TAllergyIntolerance} from "../src/types/resources/AllergyIntolerance";
@@ -9,6 +8,7 @@ import {TMedicationStatement} from "../src/types/resources/MedicationStatement";
 import {TCondition} from "../src/types/resources/Condition";
 import {TImmunization} from "../src/types/resources/Immunization";
 import {TObservation} from "../src/types/resources/Observation";
+import {IPSSections} from "../src/structures/ips_sections";
 
 describe('International Patient Summary (IPS) Implementation', () => {
     // Mock Resources for Testing
@@ -184,11 +184,11 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildIPS = () => {
                 ipsBuilder
-                    .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
-                    .addSection(IPSMandatorySections.MEDICATIONS, mockMedications)
-                    .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
-                    .addSection(IPSMandatorySections.IMMUNIZATIONS, mockImmunizations)
-                    .addSection(IPSMandatorySections.PATIENT, [mockPatient])
+                    .addSection(IPSSections.ALLERGIES, mockAllergies)
+                    .addSection(IPSSections.MEDICATIONS, mockMedications)
+                    .addSection(IPSSections.PROBLEMS, mockConditions)
+                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
+                    .addSection(IPSSections.PATIENT, [mockPatient])
                     .build();
             };
 
@@ -210,12 +210,12 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildFullIPS = () => {
                 ipsBuilder
-                    .addSection(IPSMandatorySections.PATIENT, [mockPatient])
-                    .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
-                    .addSection(IPSMandatorySections.MEDICATIONS, mockMedications)
-                    .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
-                    .addSection(IPSMandatorySections.IMMUNIZATIONS, mockImmunizations)
-                    .addSection(IPSRecommendedSections.LABORATORY_RESULTS, mockLaboratoryResults)
+                    .addSection(IPSSections.PATIENT, [mockPatient])
+                    .addSection(IPSSections.ALLERGIES, mockAllergies)
+                    .addSection(IPSSections.MEDICATIONS, mockMedications)
+                    .addSection(IPSSections.PROBLEMS, mockConditions)
+                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
+                    .addSection(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults)
                     .build();
             };
 
@@ -275,11 +275,11 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildLargeIPS = () => {
                 ipsBuilder
-                    .addSection(IPSMandatorySections.PATIENT, [mockPatient])
-                    .addSection(IPSMandatorySections.MEDICATIONS, largeMedicationList)
-                    .addSection(IPSMandatorySections.ALLERGIES, mockAllergies)
-                    .addSection(IPSMandatorySections.PROBLEMS, mockConditions)
-                    .addSection(IPSMandatorySections.IMMUNIZATIONS, mockImmunizations)
+                    .addSection(IPSSections.PATIENT, [mockPatient])
+                    .addSection(IPSSections.MEDICATIONS, largeMedicationList)
+                    .addSection(IPSSections.ALLERGIES, mockAllergies)
+                    .addSection(IPSSections.PROBLEMS, mockConditions)
+                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
                     .build();
             };
 
