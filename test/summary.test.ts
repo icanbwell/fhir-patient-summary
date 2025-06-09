@@ -437,24 +437,14 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         });
     });
     describe('integration_bundle', () => {
-        it('should create a complete IPS composition', () => {
+        it('should create a complete IPS composition bundle', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             builder
                 .addSection(IPSSections.ALLERGIES, mockAllergies)
                 .addSection(IPSSections.MEDICATIONS, mockMedications)
-                .addSection(IPSSections.PROBLEMS, [{
-                    resourceType: 'Condition',
-                    id: 'condition1',
-                    clinicalStatus: {coding: [{code: 'active'}]},
-                    code: {coding: [{code: 'hypertension'}]}
-                }])
-                .addSection(IPSSections.IMMUNIZATIONS, [{
-                    resourceType: 'Immunization',
-                    id: 'immunization1',
-                    status: 'completed',
-                    vaccineCode: {coding: [{code: 'MMR'}]}
-                }]);
+                .addSection(IPSSections.PROBLEMS, mockConditions)
+                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations);
 
             const bundle = builder.build_bundle();
             console.info('---- Bundle ----');
@@ -494,7 +484,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 }
 
                 // subsequent entries should be the sections
-                expect(bundle.entry.length).toEqual(6);
+                expect(bundle.entry.length).toEqual(8);
                 // check that each section has a valid LOINC code
                 bundle.entry.slice(1).forEach((entry) => {
                     const section: TDomainResource = entry.resource as TDomainResource;
