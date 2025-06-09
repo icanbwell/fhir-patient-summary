@@ -57,9 +57,10 @@ class NarrativeGenerator {
         const generator = generators[`${resourceType}`] ||
             new DefaultNarrativeGenerator();
 
+        const content = generator.generateNarrative(resources).replace(/\n/g, '');
         return {
             status: 'generated',
-            div: NarrativeGenerator.wrapInXhtml(generator.generateNarrative(resources))
+            div: NarrativeGenerator.wrapInXhtml(content)
         };
     }
 

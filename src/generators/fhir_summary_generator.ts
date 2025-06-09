@@ -8,6 +8,7 @@ import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/
 import {TBundle} from "../types/resources/Bundle";
 import {NarrativeGenerator} from "./narrative_generator";
 import {TComposition} from "../types/resources/Composition";
+import {TNarrative} from "../types/partials/Narrative";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -78,6 +79,7 @@ export class ComprehensiveIPSCompositionBuilder {
         }
 
         // Create section entry
+        const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(validResources);
         const sectionEntry: TCompositionSection = {
             title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
             code: {
@@ -88,10 +90,7 @@ export class ComprehensiveIPSCompositionBuilder {
                 }],
                 text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
             },
-            text: {
-                status: 'generated',
-                div: `<div xmlns="http://www.w3.org/1999/xhtml">${NarrativeGenerator.generateNarrative(validResources)}</div>`
-            },
+            text: narrative,
             entry: validResources.map(resource => ({
                 reference: `${resource.resourceType}/${resource.id}`,
                 display: resource.resourceType
