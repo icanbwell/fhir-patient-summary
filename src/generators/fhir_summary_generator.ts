@@ -32,21 +32,21 @@ export class ComprehensiveIPSCompositionBuilder {
 
     // Add patient section with standard LOINC code
     private addPatientSection(): this {
-        this.sections.push({
-            title: 'Patient Demographics',
-            code: {
-                coding: [{
-                    system: 'http://loinc.org',
-                    code: IPS_SECTION_LOINC_CODES[IPSSections.PATIENT],
-                    display: 'Patient Demographics'
-                }]
-            },
-            entry: [{
-                reference: `Patient/${this.patient.id}`,
-                display: 'Patient Details'
-            }]
-        });
-        this.mandatorySectionsAdded.add(IPSSections.PATIENT);
+        // this.sections.push({
+        //     title: 'Patient Demographics',
+        //     code: {
+        //         coding: [{
+        //             system: 'http://loinc.org',
+        //             code: IPS_SECTION_LOINC_CODES[IPSSections.PATIENT],
+        //             display: 'Patient Demographics'
+        //         }]
+        //     },
+        //     entry: [{
+        //         reference: `Patient/${this.patient.id}`,
+        //         display: 'Patient Details'
+        //     }]
+        // });
+        // this.mandatorySectionsAdded.add(IPSSections.PATIENT);
         return this;
     }
 
