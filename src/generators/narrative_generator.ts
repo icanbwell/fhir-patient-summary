@@ -72,26 +72,6 @@ class NarrativeGenerator {
         return `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`;
     }
 
-    /**
-     * Format person name
-     * @param names - Array of name components
-     * @returns Formatted name string
-     */
-    private static formatPersonName(
-        names?: Array<{
-            use?: string;
-            family?: string;
-            given?: string[];
-        }>
-    ): string {
-        if (!names || names.length === 0) return 'Unnamed';
-
-        const name = names[0];
-        const givenName = name.given?.join(' ') || '';
-        const familyName = name.family || '';
-
-        return `${givenName} ${familyName}`.trim();
-    }
 
     /**
      * Format identifiers
