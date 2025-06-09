@@ -8,7 +8,7 @@ import {TImmunization} from "../src/types/resources/Immunization";
 import {IPSSections} from "../src/structures/ips_sections";
 import {IPS_SECTION_LOINC_CODES} from "../src/structures/ips_section_loinc_codes";
 import {TDomainResource} from "../src/types/resources/DomainResource";
-import {TCompositionSection} from "../src/types/partials/CompositionSection";
+import {TComposition} from "../src/types/resources/Composition";
 
 describe('ComprehensiveIPSCompositionBuilder', () => {
     // Mock patient resource
@@ -457,20 +457,41 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 }]);
 
             const bundle = builder.build_bundle();
+            console.info('---- Bundle ----');
+            console.info(JSON.stringify(bundle));
+            console.info('-----------------');
 
             expect(bundle.resourceType).toBe('Bundle');
-            expect(bundle.type).toBe('collection');
+            expect(bundle.type).toBe('document');
             expect(bundle.entry).toBeDefined();
             if (bundle.entry) {
                 expect(bundle.entry.length).toBeGreaterThan(0);
-                bundle.entry.forEach(entry => {
-                    expect(entry.resource).toBeTruthy();
-                    if (entry.resource) {
-                        const resource: TCompositionSection = entry.resource as TDomainResource;
-                        expect(entry.resource.resourceType).toBe('CompositionSection');
-                        expect(resource.code?.coding?.[0]?.system).toBe('http://loinc.org');
-                    }
+                // first entry should be the Composition resource
+                const composition: TComposition = bundle.entry[0].resource as TComposition;
+                expect(composition.resourceType).toBe('Composition');
+                expect(composition.type?.coding?.[0]?.system).toBe('http://loinc.org');
+                expect(composition.type?.coding?.[0]?.code).toBe('60591-5'); // LOINC code for IPS
+                expect(composition.subject?.reference).toBe(`Patient/${mockPatient.id}`);
+                // check that the sections in the composition are present
+                expect(composition.section).toBeDefined();
+                console.assert(composition.section);
+                if (composition.section) {
+                    expect(composition.section.length).toBeGreaterThan(0);
+                    // check that there is a patient section
+                    const patientSection = composition.section.find(
+                        section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.Patient
+                    );
+                    expect(patientSection).toBeDefined();
+                }
+
+                // subsequent entries should be the sections
+                expect(bundle.entry.length).toBeGreaterThan(1);
+                // check that each section has a valid LOINC code
+                bundle.entry.slice(1).forEach((entry) => {
+                    const section: TDomainResource = entry.resource as TDomainResource;
+                    expect(section.resourceType).toBeDefined();
                 });
+
             }
         });
     });

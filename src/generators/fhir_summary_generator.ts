@@ -116,23 +116,48 @@ export class ComprehensiveIPSCompositionBuilder {
     }
 
     build_bundle(): TBundle {
-        const bundle: TBundle = {
-            resourceType: 'Bundle',
-            type: 'collection',
-            entry: this.sections.map(section => ({
-                resource: {
-                    ...section,
-                    resourceType: 'CompositionSection'
-                }
-            })) || []
+        // Create the Composition resource
+        const composition = {
+            resourceType: 'Composition',
+            status: 'final',
+            type: {
+                coding: [{
+                    system: 'http://loinc.org',
+                    code: '60591-5',
+                    display: 'International Patient Summary'
+                }]
+            },
+            subject: {
+                reference: `Patient/${this.patient.id}`
+            },
+            date: new Date().toISOString(),
+            title: 'International Patient Summary',
+            section: this.sections
         };
 
-        if (bundle.entry) {
-            // Add patient as the first entry
-            bundle.entry.unshift({
-                resource: this.patient
-            });
-        }
+        // Create the bundle with proper document type
+        const bundle: TBundle = {
+            resourceType: 'Bundle',
+            type: 'document',
+            timestamp: new Date().toISOString(),
+            entry: []
+        };
+
+        // Add Composition as first entry
+        bundle.entry = [{
+            fullUrl: `urn:uuid:${crypto.randomUUID()}`,
+            resource: composition
+        }];
+
+        // Add patient as second entry
+        bundle.entry.push({
+            fullUrl: `Patient/${this.patient.id}`,
+            resource: this.patient
+        });
+
+        // Extract and add all resources referenced in sections
+        // This would require tracking resources during section addition
+        // For a complete solution, modify the class to store resources when addSection is called
 
         return bundle;
     }
