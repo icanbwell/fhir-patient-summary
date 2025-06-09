@@ -16,7 +16,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         resourceType: 'Patient',
         id: 'example-patient',
         identifier: [{
-            system: 'http://example.org',
+            system: 'http://icanbwell.com',
             value: '12345'
         }],
         name: [{
@@ -448,7 +448,8 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             const bundle = builder.build_bundle(
                 'example-organization',
-                'Example Organization'
+                'Example Organization',
+                'https://fhir.icanbwell.com/4_0_0/'
             );
             console.info('---- Bundle ----');
             console.info(JSON.stringify(bundle));

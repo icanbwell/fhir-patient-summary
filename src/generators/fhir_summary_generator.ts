@@ -7,6 +7,7 @@ import {IPSSections} from "../structures/ips_sections";
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
 import {TBundle} from "../types/resources/Bundle";
 import {NarrativeGenerator} from "./narrative_generator";
+import {TComposition} from "../types/resources/Composition";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -127,9 +128,13 @@ export class ComprehensiveIPSCompositionBuilder {
         return this.sections;
     }
 
-    build_bundle(authorOrganizationId: string, authorOrganizationName: string): TBundle {
+    build_bundle(authorOrganizationId: string, authorOrganizationName: string, baseUrl: string): TBundle {
+        if (baseUrl.endsWith('/')) {
+            baseUrl = baseUrl.slice(0, -1); // Remove trailing slash if present
+        }
         // Create the Composition resource
-        const composition = {
+        const composition: TComposition = {
+            id: `Composition-${this.patient.id}`,
             resourceType: 'Composition',
             status: 'final',
             type: {
@@ -156,18 +161,23 @@ export class ComprehensiveIPSCompositionBuilder {
             resourceType: 'Bundle',
             type: 'document',
             timestamp: new Date().toISOString(),
+            identifier: {
+                "system": "urn:ietf:rfc:3986",
+                "value": "urn:uuid:4dcfd353-49fd-4ab0-b521-c8d57ced74d6"
+            },
             entry: []
         };
 
         // Add Composition as first entry
-        bundle.entry = [{
-            fullUrl: `urn:uuid:${crypto.randomUUID()}`,
+        bundle.entry?.push({
+            fullUrl: `${baseUrl}/Composition/${composition.id}`,
             resource: composition
-        }];
+        });
+
         if (bundle.entry) {
             // Add patient as second entry
             bundle.entry.push({
-                fullUrl: `Patient/${this.patient.id}`,
+                fullUrl: `${baseUrl}/Patient/${this.patient.id}`,
                 resource: this.patient
             });
 
@@ -175,7 +185,7 @@ export class ComprehensiveIPSCompositionBuilder {
             this.resources.forEach(resource => {
                 bundle.entry?.push(
                     {
-                        fullUrl: `${resource.resourceType}/${resource.id}`,
+                        fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
                         resource: resource
                     }
                 )
