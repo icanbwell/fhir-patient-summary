@@ -482,10 +482,19 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                         section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.Patient
                     );
                     expect(patientSection).toBeDefined();
+                    const medicationSection = composition.section.find(
+                        section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.MedicationSection
+                    );
+                    expect(medicationSection).toBeDefined();
+
+                    const conditionSection = composition.section.find(
+                        section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.ProblemSection
+                    );
+                    expect(conditionSection).toBeDefined();
                 }
 
                 // subsequent entries should be the sections
-                expect(bundle.entry.length).toBeGreaterThan(1);
+                expect(bundle.entry.length).toEqual(6);
                 // check that each section has a valid LOINC code
                 bundle.entry.slice(1).forEach((entry) => {
                     const section: TDomainResource = entry.resource as TDomainResource;

@@ -9,9 +9,10 @@ import {TBundle} from "../types/resources/Bundle";
 
 
 export class ComprehensiveIPSCompositionBuilder {
-    private patient: TPatient;
+    private readonly patient: TPatient;
     private sections: TCompositionSection[] = [];
     private mandatorySectionsAdded: Set<IPSSections> = new Set();
+    private resources: Set<TDomainResource> = new Set();
 
     constructor(patient: TPatient) {
         // Validate patient resource
@@ -59,6 +60,11 @@ export class ComprehensiveIPSCompositionBuilder {
         const validResources = resources.filter(resource =>
             IPSResourceProfileRegistry.validateResource(resource, sectionType)
         );
+
+        for (const resource of validResources) {
+            // Add resource to the internal set
+            this.resources.add(resource);
+        }
 
         // Skip if no valid resources and not mandatory
         if (validResources.length === 0) {
@@ -148,16 +154,23 @@ export class ComprehensiveIPSCompositionBuilder {
             fullUrl: `urn:uuid:${crypto.randomUUID()}`,
             resource: composition
         }];
+        if (bundle.entry) {
+            // Add patient as second entry
+            bundle.entry.push({
+                fullUrl: `Patient/${this.patient.id}`,
+                resource: this.patient
+            });
 
-        // Add patient as second entry
-        bundle.entry.push({
-            fullUrl: `Patient/${this.patient.id}`,
-            resource: this.patient
-        });
-
-        // Extract and add all resources referenced in sections
-        // This would require tracking resources during section addition
-        // For a complete solution, modify the class to store resources when addSection is called
+            // Extract and add all resources referenced in sections
+            this.resources.forEach(resource => {
+                bundle.entry?.push(
+                    {
+                        fullUrl: `urn:uuid:${crypto.randomUUID()}`,
+                        resource: resource
+                    }
+                )
+            });
+        }
 
         return bundle;
     }
