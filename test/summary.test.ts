@@ -371,7 +371,6 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             builder
-                .addSection(IPSSections.PATIENT, [mockPatient])
                 .addSection(IPSSections.ALLERGIES, mockAllergies)
                 .addSection(IPSSections.MEDICATIONS, mockMedications)
                 .addSection(IPSSections.PROBLEMS, mockConditions)
@@ -379,6 +378,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             ;
 
             const sections = builder.build();
+
+            for (const section of sections) {
+                console.info(section.code?.coding?.[0]?.display);
+            }
 
             expect(sections.length).toBe(5);
             expect(sections[0].code?.coding?.[0]?.code).toBe(IPSSections.PATIENT);
