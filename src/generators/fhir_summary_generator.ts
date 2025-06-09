@@ -175,7 +175,7 @@ export class ComprehensiveIPSCompositionBuilder {
             this.resources.forEach(resource => {
                 bundle.entry?.push(
                     {
-                        fullUrl: `urn:uuid:${crypto.randomUUID()}`,
+                        fullUrl: `${resource.resourceType}/${resource.id}`,
                         resource: resource
                     }
                 )

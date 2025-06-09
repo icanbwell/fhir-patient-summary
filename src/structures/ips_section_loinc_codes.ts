@@ -1,6 +1,9 @@
 // LOINC Codes for IPS Sections
 import {IPSSections} from "./ips_sections";
 
+/*
+    * LOINC codes for each IPS section. https://hl7.org/fhir/R4/valueset-doc-section-codes.html
+ */
 const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
     [IPSSections.PATIENT]: '54126-4',
     [IPSSections.ALLERGIES]: '48765-2',
