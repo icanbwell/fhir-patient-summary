@@ -446,7 +446,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 .addSection(IPSSections.PROBLEMS, mockConditions)
                 .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations);
 
-            const bundle = builder.build_bundle();
+            const bundle = builder.build_bundle(
+                'example-organization',
+                'Example Organization'
+            );
             console.info('---- Bundle ----');
             console.info(JSON.stringify(bundle));
             console.info('-----------------');

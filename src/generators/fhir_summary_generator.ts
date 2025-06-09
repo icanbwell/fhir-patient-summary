@@ -127,7 +127,7 @@ export class ComprehensiveIPSCompositionBuilder {
         return this.sections;
     }
 
-    build_bundle(): TBundle {
+    build_bundle(authorOrganizationId: string, authorOrganizationName: string): TBundle {
         // Create the Composition resource
         const composition = {
             resourceType: 'Composition',
@@ -136,12 +136,16 @@ export class ComprehensiveIPSCompositionBuilder {
                 coding: [{
                     system: 'http://loinc.org',
                     code: '60591-5',
-                    display: 'International Patient Summary'
+                    display: 'Patient summary Document'
                 }]
             },
             subject: {
                 reference: `Patient/${this.patient.id}`
             },
+            author: [{
+                reference: `Organization/${authorOrganizationId}`, // Assuming patient is also a practitioner for simplicity
+                display: authorOrganizationName
+            }],
             date: new Date().toISOString(),
             title: 'International Patient Summary',
             section: this.sections
