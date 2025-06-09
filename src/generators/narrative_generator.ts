@@ -12,6 +12,19 @@ import {TFamilyMemberHistory} from "../types/resources/FamilyMemberHistory";
 import {TProcedure} from "../types/resources/Procedure";
 import {TDiagnosticReport} from "../types/resources/DiagnosticReport";
 import {TDevice} from "../types/resources/Device";
+import {BaseNarrativeGenerator} from "../narratives/baseNarrative";
+import {PatientNarrativeGenerator} from "../narratives/patient";
+import {AllergyIntoleranceNarrativeGenerator} from "../narratives/allergyIntolerance";
+import {MedicationStatementNarrativeGenerator} from "../narratives/medicationStatement";
+import {ConditionNarrativeGenerator} from "../narratives/condition";
+import {ImmunizationNarrativeGenerator} from "../narratives/immunization";
+import {ObservationNarrativeGenerator} from "../narratives/observation";
+import {DeviceNarrativeGenerator} from "../narratives/device";
+import {DiagnosticReportNarrativeGenerator} from "../narratives/diagnosticReport";
+import {ProcedureNarrativeGenerator} from "../narratives/procedure";
+import {FamilyMemberHistoryNarrativeGenerator} from "../narratives/familyMemberHistory";
+import {CarePlanNarrativeGenerator} from "../narratives/carePlan";
+import {ClinicalImpressionNarrativeGenerator} from "../narratives/clinicalImpression";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
@@ -21,35 +34,42 @@ interface Narrative {
 class NarrativeGenerator {
     /**
      * Generate a narrative for any FHIR resource
-     * @param resource - FHIR resource
+     * @param resources - FHIR resources
      * @returns Narrative representation
      */
     static generateNarrative<T extends TDomainResource>(
-        resource: T
-    ): Narrative {
+        resources: T[]
+    ): Narrative | undefined {
+
+        if (!resources || resources.length === 0) {
+            return undefined; // No resources to generate narrative
+        }
+
         // Expanded resource type generators
-        const generators: Record<string, (res: any) => string> = {
-            Patient: NarrativeGenerator.generatePatientNarrative,
-            AllergyIntolerance: NarrativeGenerator.generateAllergyIntoleranceNarrative,
-            MedicationStatement: NarrativeGenerator.generateMedicationStatementNarrative,
-            Condition: NarrativeGenerator.generateConditionNarrative,
-            Immunization: NarrativeGenerator.generateImmunizationNarrative,
-            Observation: NarrativeGenerator.generateObservationNarrative,
-            Device: NarrativeGenerator.generateDeviceNarrative,
-            DiagnosticReport: NarrativeGenerator.generateDiagnosticReportNarrative,
-            Procedure: NarrativeGenerator.generateProcedureNarrative,
-            FamilyMemberHistory: NarrativeGenerator.generateFamilyMemberHistoryNarrative,
-            CarePlan: NarrativeGenerator.generateCarePlanNarrative,
-            ClinicalImpression: NarrativeGenerator.generateClinicalImpressionNarrative
+        const generators: Record<string, BaseNarrativeGenerator<TDomainResource>> = {
+            Patient: new PatientNarrativeGenerator(),
+            AllergyIntolerance: new AllergyIntoleranceNarrativeGenerator(),
+            MedicationStatement: new MedicationStatementNarrativeGenerator(),
+            Condition: new ConditionNarrativeGenerator(),
+            Immunization: new ImmunizationNarrativeGenerator(),
+            Observation: new ObservationNarrativeGenerator(),
+            Device: new DeviceNarrativeGenerator(),
+            DiagnosticReport: new DiagnosticReportNarrativeGenerator(),
+            Procedure: new ProcedureNarrativeGenerator(),
+            FamilyMemberHistory: new FamilyMemberHistoryNarrativeGenerator(),
+            CarePlan: new CarePlanNarrativeGenerator(),
+            ClinicalImpression: new ClinicalImpressionNarrativeGenerator(),
         };
 
+        const resourceType = resources[0]?.resourceType;
+
         // Select generator or use default
-        const generator = generators[`${resource.resourceType}`] ||
+        const generator = generators[`${resourceType}`] ||
             NarrativeGenerator.generateDefaultNarrative;
 
         return {
             status: 'generated',
-            div: NarrativeGenerator.wrapInXhtml(generator(resource))
+            div: NarrativeGenerator.wrapInXhtml(generator.generateNarrative(resources))
         };
     }
 
@@ -337,28 +357,128 @@ class NarrativeGenerator {
 
     /**
      * Generate condition narrative
-     * @param condition - Condition resource
+     * @param conditions - Condition resources
      * @returns Narrative HTML
      */
-    private static generateConditionNarrative(condition: TCondition): string {
-        const conditionName = NarrativeGenerator.formatCodeableConcept(condition.code);
-        const clinicalStatus = condition.clinicalStatus;
+    private static generateConditionNarrative(conditions: TCondition[]): string {
 
-        return `
-      <h2>Condition</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>Condition</th>
-            <td>${conditionName}</td>
-          </tr>
-          <tr>
-            <th>Clinical Status</th>
-            <td>${clinicalStatus}</td>
-          </tr>
-        </tbody>
-      </table>
+        function isConditionActive(condition: TCondition): boolean {
+            // Check if clinicalStatus exists and is 'active'
+            const isActiveClinicalStatus = condition.clinicalStatus?.coding?.some(
+                coding =>
+                    coding.system === 'http://terminology.hl7.org/CodeSystem/condition-clinical' &&
+                    coding.code === 'active'
+            );
+
+            // Check if verificationStatus exists and is 'confirmed'
+            const isConfirmedVerificationStatus = condition.verificationStatus?.coding?.some(
+                coding =>
+                    coding.system === 'http://terminology.hl7.org/CodeSystem/condition-verification' &&
+                    coding.code === 'confirmed'
+            );
+
+            // Return true only if both conditions are met
+            return !!(isActiveClinicalStatus && isConfirmedVerificationStatus);
+        }
+
+        function isConditionResolved(condition: TCondition): boolean {
+            // Check if clinicalStatus is 'resolved'
+            const isResolvedClinicalStatus = condition.clinicalStatus?.coding?.some(
+                coding =>
+                    coding.system === 'http://terminology.hl7.org/CodeSystem/condition-clinical' &&
+                    coding.code === 'resolved'
+            );
+
+            // Return true if clinical status is resolved
+            return isResolvedClinicalStatus === true;
+        }
+
+        function isConditionConfirmed(condition: TCondition): boolean {
+            // Optional: Additional verification status check
+            const isConfirmedVerificationStatus = condition.verificationStatus?.coding?.some(
+                coding =>
+                    coding.system === 'http://terminology.hl7.org/CodeSystem/condition-verification' &&
+                    coding.code === 'confirmed'
+            );
+
+            // Return true if clinical status is resolved
+            return isConfirmedVerificationStatus === true;
+        }
+
+        const activeProblems = conditions.filter(c => isConditionActive(c));
+        const resolvedProblems = conditions.filter(c => isConditionResolved(c));
+
+        const formatConditionRow = (condition: TCondition): string => {
+            const conditionName = NarrativeGenerator.formatCodeableConcept(condition.code);
+            const priority = /*condition.priority ||*/ '-';
+            const notedDate = condition.onsetDateTime || '-';
+            const diagnosedDate = condition.onsetDateTime || '-';
+            const confirmedDate = isConditionConfirmed(condition) ? condition.abatementDateTime || '-' : '-';
+            const resolvedDate = isConditionResolved(condition) ? condition.abatementDateTime || '-' : '';
+
+            const notes = condition.note?.map(note => `
+            <li class="Note">
+                <span class="NoteTitle">(${note.time}):</span><br />
+                <span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />
+                <span class="NoteText">${note.text}<br /></span>
+            </li>
+        `).join('') || '';
+
+            return `
+            <tr>
+                <td class="Name">
+                    <span class="ProblemName">${conditionName}</span>
+                    ${notes ? `<ul>${notes}</ul>` : ''}
+                </td>
+                <td class="Priority">${priority}</td>
+                <td class="NotedDate">${notedDate}</td>
+                <td class="DiagnosedDate">${diagnosedDate}</td>
+                ${confirmedDate ? `<td class="ConfirmedDate">${confirmedDate}</td>` : ''}
+                ${resolvedDate ? `<td class="ResolvedDate">${resolvedDate}</td>` : ''}
+            </tr>
+        `;
+        };
+
+        const activeProblemsTable = `
+        <div class="ActiveProblems">
+            <h3>Active Problems</h3>
+            <table class="ActiveProblemTable">
+                <thead>
+                    <tr>
+                        <th>Problem</th>
+                        <th>Priority</th>
+                        <th>Noted Date</th>
+                        <th>Diagnosed Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${activeProblems.map(formatConditionRow).join('')}
+                </tbody>
+            </table>
+        </div>
     `;
+
+        const resolvedProblemsTable = `
+        <div class="ResolvedProblems">
+            <h3>Resolved Problems</h3>
+            <table class="ResolvedProblemTable">
+                <thead>
+                    <tr>
+                        <th>Problem</th>
+                        <th>Priority</th>
+                        <th>Noted Date</th>
+                        <th>Diagnosed Date</th>
+                        <th>Resolved Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${resolvedProblems.map(formatConditionRow).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+        return `<div xmlns="http://www.w3.org/1999/xhtml">${activeProblemsTable}<br />${resolvedProblemsTable}</div>`;
     }
 
     /**

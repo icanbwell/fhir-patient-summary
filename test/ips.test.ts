@@ -160,20 +160,20 @@ describe('International Patient Summary (IPS) Implementation', () => {
     // Narrative Generation Tests
     describe('Narrative Generation', () => {
         test('Patient narrative should be generated', () => {
-            const narrative = NarrativeGenerator.generateNarrative(mockPatient);
+            const narrative = NarrativeGenerator.generateNarrative([mockPatient]);
 
             expect(narrative).toBeDefined();
-            expect(narrative.status).toBe('generated');
-            expect(narrative.div).toContain('John Doe');
-            expect(narrative.div).toContain('male');
+            expect(narrative?.status).toBe('generated');
+            expect(narrative?.div).toContain('John Doe');
+            expect(narrative?.div).toContain('male');
         });
 
         test('Allergy narrative should be generated', () => {
-            const narrative = NarrativeGenerator.generateNarrative(mockAllergies[0]);
+            const narrative = NarrativeGenerator.generateNarrative([mockAllergies[0]]);
 
             expect(narrative).toBeDefined();
-            expect(narrative.status).toBe('generated');
-            expect(narrative.div).toContain('Penicillin');
+            expect(narrative?.status).toBe('generated');
+            expect(narrative?.div).toContain('Penicillin');
         });
     });
 

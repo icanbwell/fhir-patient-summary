@@ -6,6 +6,7 @@ import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
 import {TBundle} from "../types/resources/Bundle";
+import {NarrativeGenerator} from "./narrative_generator";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -84,7 +85,10 @@ export class ComprehensiveIPSCompositionBuilder {
                 }],
                 text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
             },
-            // TODO: generative narrative text can be added here
+            text: {
+                status: 'generated',
+                div: `<div xmlns="http://www.w3.org/1999/xhtml">${NarrativeGenerator.generateNarrative(validResources)}</div>`
+            },
             entry: validResources.map(resource => ({
                 reference: `${resource.resourceType}/${resource.id}`,
                 display: resource.resourceType
