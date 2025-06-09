@@ -33,6 +33,7 @@ export class ComprehensiveIPSCompositionBuilder {
     // Add patient section with standard LOINC code
     private addPatientSection(): this {
         this.sections.push({
+            title: 'Patient Demographics',
             code: {
                 coding: [{
                     system: 'http://loinc.org',
@@ -78,6 +79,7 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // Create section entry
         const sectionEntry: TCompositionSection = {
+            title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
             code: {
                 coding: [{
                     system: 'http://loinc.org',
