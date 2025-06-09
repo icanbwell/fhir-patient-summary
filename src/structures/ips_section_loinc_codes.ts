@@ -21,4 +21,24 @@ const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
     [IPSSections.CLINICAL_IMPRESSION]: '51848-0'
 };
 
-export {IPS_SECTION_LOINC_CODES};
+const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
+    [IPSSections.PATIENT]: 'Patient summary Document',
+    [IPSSections.ALLERGIES]: 'Allergies and adverse reactions Document',
+    [IPSSections.MEDICATIONS]: 'Medication list Document',
+    [IPSSections.PROBLEMS]: 'Problem list Document',
+    [IPSSections.IMMUNIZATIONS]: 'Immunization list Document',
+    [IPSSections.VITAL_SIGNS]: 'Vital signs Document',
+    [IPSSections.MEDICAL_DEVICES]: 'Medical equipment Document',
+    [IPSSections.LABORATORY_RESULTS]: 'Laboratory report Document',
+    [IPSSections.DIAGNOSTIC_REPORTS]: 'Diagnostic report Document',
+    [IPSSections.PROCEDURES]: 'Procedure list Document',
+    [IPSSections.FAMILY_HISTORY]: 'Family history Document',
+    [IPSSections.SOCIAL_HISTORY]: 'Social history Document',
+    [IPSSections.PREGNANCY_HISTORY]: 'Pregnancy history Document',
+    [IPSSections.FUNCTIONAL_STATUS]: 'Functional status Document',
+    [IPSSections.MEDICAL_HISTORY]: 'History and physical note Document',
+    [IPSSections.CARE_PLAN]: 'Care plan Document',
+    [IPSSections.CLINICAL_IMPRESSION]: 'Clinical impression Document'
+};
+
+export {IPS_SECTION_LOINC_CODES, IPS_SECTION_DISPLAY_NAMES};

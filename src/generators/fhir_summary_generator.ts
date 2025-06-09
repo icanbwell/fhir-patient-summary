@@ -4,7 +4,7 @@ import {TPatient} from "../types/resources/Patient";
 import {TCompositionSection} from "../types/partials/CompositionSection";
 import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
-import {IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
+import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
 import {TBundle} from "../types/resources/Bundle";
 
 
@@ -80,9 +80,11 @@ export class ComprehensiveIPSCompositionBuilder {
                 coding: [{
                     system: 'http://loinc.org',
                     code: options?.customLoincCode || IPS_SECTION_LOINC_CODES[sectionType],
-                    display: `Section for ${sectionType}`
-                }]
+                    display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+                }],
+                text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
             },
+            // TODO: generative narrative text can be added here
             entry: validResources.map(resource => ({
                 reference: `${resource.resourceType}/${resource.id}`,
                 display: resource.resourceType
