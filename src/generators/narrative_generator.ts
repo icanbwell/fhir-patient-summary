@@ -35,6 +35,7 @@ class NarrativeGenerator {
             return undefined; // No resources to generate narrative
         }
 
+        // HAPI example templates: https://github.com/hapifhir/hapi-fhir/tree/master/hapi-fhir-jpaserver-ips/src/main/resources/ca/uhn/fhir/jpa/ips/narrative
         // Expanded resource type generators
         const generators: Record<string, BaseNarrativeGenerator<TDomainResource>> = {
             Patient: new PatientNarrativeGenerator(),
