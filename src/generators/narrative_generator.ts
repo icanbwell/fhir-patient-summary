@@ -1,20 +1,20 @@
 import {TDomainResource} from "../types/resources/DomainResource";
 import {TObservation} from "../types/resources/Observation";
 import {TCodeableConcept} from "../types/partials/CodeableConcept";
-import {BaseNarrativeGenerator} from "../narratives/baseNarrative";
-import {PatientNarrativeGenerator} from "../narratives/patient";
-import {AllergyIntoleranceNarrativeGenerator} from "../narratives/allergyIntolerance";
-import {MedicationStatementNarrativeGenerator} from "../narratives/medicationStatement";
-import {ConditionNarrativeGenerator} from "../narratives/condition";
-import {ImmunizationNarrativeGenerator} from "../narratives/immunization";
-import {ObservationNarrativeGenerator} from "../narratives/observation";
-import {DeviceNarrativeGenerator} from "../narratives/device";
-import {DiagnosticReportNarrativeGenerator} from "../narratives/diagnosticReport";
-import {ProcedureNarrativeGenerator} from "../narratives/procedure";
-import {FamilyMemberHistoryNarrativeGenerator} from "../narratives/familyMemberHistory";
-import {CarePlanNarrativeGenerator} from "../narratives/carePlan";
-import {ClinicalImpressionNarrativeGenerator} from "../narratives/clinicalImpression";
-import {DefaultNarrativeGenerator} from "../narratives/default";
+import {BaseNarrativeGenerator} from "../narratives3/baseNarrative";
+import {PatientNarrativeGenerator} from "../narratives3/patient";
+import {AllergyIntoleranceNarrativeGenerator} from "../narratives3/allergyIntolerance";
+import {MedicationStatementNarrativeGenerator} from "../narratives3/medicationStatement";
+import {ConditionNarrativeGenerator} from "../narratives3/condition";
+import {ImmunizationNarrativeGenerator} from "../narratives3/immunization";
+import {ObservationNarrativeGenerator} from "../narratives3/observation";
+import {DeviceNarrativeGenerator} from "../narratives3/device";
+import {DiagnosticReportNarrativeGenerator} from "../narratives3/diagnosticReport";
+import {ProcedureNarrativeGenerator} from "../narratives3/procedure";
+import {FamilyMemberHistoryNarrativeGenerator} from "../narratives3/familyMemberHistory";
+import {CarePlanNarrativeGenerator} from "../narratives3/carePlan";
+import {ClinicalImpressionNarrativeGenerator} from "../narratives3/clinicalImpression";
+import {DefaultNarrativeGenerator} from "../narratives3/default";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';

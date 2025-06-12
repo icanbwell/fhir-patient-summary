@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/icanbwell/fhir-patient-summary#readme",
   "dependencies": {
+    "thymeleaf": "^0.22.0"
   },
   "devDependencies": {
     "commitizen": "^4.3.1",

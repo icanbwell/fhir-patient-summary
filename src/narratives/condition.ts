@@ -1,75 +1,60 @@
 import {TCondition} from "../types/resources/Condition";
-import {BaseNarrativeGenerator} from "./baseNarrative";
+import {IpsNarrativeGenerator} from "./ipsNarrativeGenerator";
 
-export class ConditionNarrativeGenerator implements BaseNarrativeGenerator<TCondition> {
-    generateNarrative(conditions: TCondition[]): string {
-        return conditions.map(condition => {
-            const conditionName = this.formatConditionName(condition);
-            const clinicalStatus = this.formatClinicalStatus(condition);
-            const verificationStatus = this.formatVerificationStatus(condition);
-            const onset = this.formatOnset(condition);
-            const severity = this.formatSeverity(condition);
 
-            return `
-                <div class="condition-narrative">
-                    <h2>Medical Condition</h2>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Condition</th>
-                                <td>${conditionName}</td>
-                            </tr>
-                            <tr>
-                                <th>Clinical Status</th>
-                                <td>${clinicalStatus}</td>
-                            </tr>
-                            <tr>
-                                <th>Verification Status</th>
-                                <td>${verificationStatus}</td>
-                            </tr>
-                            <tr>
-                                <th>Onset</th>
-                                <td>${onset}</td>
-                            </tr>
-                            <tr>
-                                <th>Severity</th>
-                                <td>${severity}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }).join('<br />');
-    }
+export class ConditionNarrativeGenerator extends IpsNarrativeGenerator<TCondition> {
+    generateNarrative(): string {
+        const conditionCode = this.utility.getCodeableConceptDisplay(this.resource.code);
+        const clinicalStatus = this.resource.clinicalStatus
+            ? this.utility.getCodeableConceptDisplay(this.resource.clinicalStatus)
+            : '';
 
-    private formatConditionName(condition: TCondition): string {
-        return condition.code?.text
-            || condition.code?.coding?.[0]?.display
-            || condition.code?.coding?.[0]?.code
-            || 'Unspecified Condition';
-    }
+        let onsetDate = '';
+        if (this.resource.onsetDateTime) {
+            onsetDate = this.utility.formatDate(this.resource.onsetDateTime);
+        } else if (this.resource.onsetPeriod) {
+            onsetDate = this.utility.renderTime(this.resource.onsetPeriod);
+        }
 
-    private formatClinicalStatus(condition: TCondition): string {
-        return condition.clinicalStatus?.coding?.[0]?.display
-            || condition.clinicalStatus?.coding?.[0]?.code
-            || 'Not specified';
-    }
+        let html = `<div xmlns="http://www.w3.org/1999/xhtml">
+      <div class="hapiHeaderText">${conditionCode}</div>
+      <table class="hapiPropertyTable">`;
 
-    private formatVerificationStatus(condition: TCondition): string {
-        return condition.verificationStatus?.coding?.[0]?.display
-            || condition.verificationStatus?.coding?.[0]?.code
-            || 'Not verified';
-    }
+        if (clinicalStatus) {
+            html += `<tr><td>Clinical Status</td><td>${clinicalStatus}</td></tr>`;
+        }
 
-    private formatOnset(condition: TCondition): string {
-        if (typeof condition.onsetString === 'string') return condition.onsetString;
-        if (typeof condition.onsetDateTime === 'string') return condition.onsetDateTime;
-        return JSON.stringify(condition.onsetDateTime);
-    }
+        if (this.resource.verificationStatus) {
+            html += `<tr><td>Verification Status</td><td>${this.utility.getCodeableConceptDisplay(this.resource.verificationStatus)}</td></tr>`;
+        }
 
-    private formatSeverity(condition: TCondition): string {
-        return condition.severity?.coding?.[0]?.display
-            || condition.severity?.coding?.[0]?.code
-            || 'Not rated';
+        if (onsetDate) {
+            html += `<tr><td>Onset</td><td>${onsetDate}</td></tr>`;
+        }
+
+        if (this.resource.abatementDateTime) {
+            html += `<tr><td>Resolved</td><td>${this.utility.formatDate(this.resource.abatementDateTime)}</td></tr>`;
+        }
+
+        if (this.resource.severity) {
+            html += `<tr><td>Severity</td><td>${this.utility.getCodeableConceptDisplay(this.resource.severity)}</td></tr>`;
+        }
+
+        if (this.resource.bodySite && this.resource.bodySite.length > 0) {
+            const sites = this.utility.concatCodeableConcept(this.resource.bodySite);
+            html += `<tr><td>Body Site</td><td>${sites}</td></tr>`;
+        }
+
+        if (this.resource.note && this.resource.note.length > 0) {
+            html += `<tr><td>Notes</td><td><ul>`;
+            html += this.utility.concat(this.resource.note, 'text')
+                .split(', ')
+                .map(item => `<li>${item}</li>`)
+                .join('');
+            html += `</ul></td></tr>`;
+        }
+
+        html += `</table></div>`;
+        return html;
     }
 }

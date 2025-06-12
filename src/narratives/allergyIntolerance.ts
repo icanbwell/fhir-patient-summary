@@ -1,90 +1,43 @@
-import {BaseNarrativeGenerator} from "./baseNarrative";
 import {TAllergyIntolerance} from "../types/resources/AllergyIntolerance";
+import {IpsNarrativeGenerator} from "./ipsNarrativeGenerator";
 
-export class AllergyIntoleranceNarrativeGenerator implements BaseNarrativeGenerator<TAllergyIntolerance> {
-    generateNarrative(allergies: TAllergyIntolerance[]): string {
-        return allergies.map(allergy => {
-            const allergenName = this.formatAllergenName(allergy);
-            const clinicalStatus = this.formatClinicalStatus(allergy);
-            const verificationStatus = this.formatVerificationStatus(allergy);
-            const reactions = this.formatReactions(allergy);
-            const criticality = this.formatCriticality(allergy);
-            const onset = this.formatOnset(allergy);
 
-            return `
-                <div class="allergy-intolerance-narrative">
-                    <h2>Allergy/Intolerance</h2>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Allergen</th>
-                                <td>${allergenName}</td>
-                            </tr>
-                            <tr>
-                                <th>Clinical Status</th>
-                                <td>${clinicalStatus}</td>
-                            </tr>
-                            <tr>
-                                <th>Verification Status</th>
-                                <td>${verificationStatus}</td>
-                            </tr>
-                            <tr>
-                                <th>Reactions</th>
-                                <td>${reactions}</td>
-                            </tr>
-                            <tr>
-                                <th>Criticality</th>
-                                <td>${criticality}</td>
-                            </tr>
-                            <tr>
-                                <th>Onset</th>
-                                <td>${onset}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }).join('<br />');
-    }
+export class AllergyIntoleranceNarrativeGenerator extends IpsNarrativeGenerator<TAllergyIntolerance> {
+    generateNarrative(): string {
+        const allergyCode = this.utility.getCodeableConceptDisplay(this.resource.code);
+        const clinicalStatus = this.resource.clinicalStatus
+            ? this.utility.getCodeableConceptDisplay(this.resource.clinicalStatus)
+            : '';
+        const verificationStatus = this.resource.verificationStatus
+            ? this.utility.getCodeableConceptDisplay(this.resource.verificationStatus)
+            : '';
 
-    private formatAllergenName(allergy: TAllergyIntolerance): string {
-        return allergy.code?.text
-            || allergy.code?.coding?.[0]?.display
-            || allergy.code?.coding?.[0]?.code
-            || 'Unknown Allergen';
-    }
+        let html = `<div xmlns="http://www.w3.org/1999/xhtml">
+      <div class="hapiHeaderText">${allergyCode}</div>
+      <table class="hapiPropertyTable">`;
 
-    private formatClinicalStatus(allergy: TAllergyIntolerance): string {
-        return allergy.clinicalStatus?.coding?.[0]?.display
-            || allergy.clinicalStatus?.coding?.[0]?.code
-            || 'Not specified';
-    }
+        if (clinicalStatus) {
+            html += `<tr><td>Clinical Status</td><td>${clinicalStatus}</td></tr>`;
+        }
 
-    private formatVerificationStatus(allergy: TAllergyIntolerance): string {
-        return allergy.verificationStatus?.coding?.[0]?.display
-            || allergy.verificationStatus?.coding?.[0]?.code
-            || 'Not verified';
-    }
+        if (verificationStatus) {
+            html += `<tr><td>Verification Status</td><td>${verificationStatus}</td></tr>`;
+        }
 
-    private formatReactions(allergy: TAllergyIntolerance): string {
-        if (!allergy.reaction || allergy.reaction.length === 0) return 'No reactions recorded';
-        return allergy.reaction.map(reaction => {
-            const manifestations = reaction.manifestation
-                ?.map(m => m.text || m.coding?.[0]?.display || m.coding?.[0]?.code)
-                .filter(Boolean)
-                .join(', ') || 'Unspecified';
-            const severity = reaction.severity || 'Not rated';
-            return `${manifestations} (Severity: ${severity})`;
-        }).join(' | ');
-    }
+        if (this.resource.onsetDateTime) {
+            html += `<tr><td>Onset</td><td>${this.utility.formatDate(this.resource.onsetDateTime)}</td></tr>`;
+        }
 
-    private formatCriticality(allergy: TAllergyIntolerance): string {
-        return allergy.criticality || 'Not assessed';
-    }
+        if (this.resource.reaction && this.resource.reaction.length > 0) {
+            html += `<tr><td>Reactions</td><td><ul>`;
+            html += this.utility.concatReactionManifestation(this.resource.reaction)
+                .split(', ')
+                .map(item => `<li>${item}</li>`)
+                .join('');
+            html += `</ul></td></tr>`;
+        }
 
-    private formatOnset(allergy: TAllergyIntolerance): string {
-        if (typeof allergy.onsetString === 'string') return allergy.onsetString;
-        if (typeof allergy.onsetDateTime === 'string') return allergy.onsetDateTime;
-        return JSON.stringify(allergy.onsetDateTime);
+        html += `</table></div>`;
+        return html;
     }
 }
