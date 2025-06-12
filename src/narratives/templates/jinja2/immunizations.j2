@@ -18,8 +18,12 @@
     {% for entry in resource.entry %}
       {% set imm = entry.resource %}
       {% if imm.resourceType == 'Immunization' %}
-        {% set extension = imm.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
-        <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+        {% if imm.extension is defined and imm.extension %}
+          {% set extension = imm.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+        {% else %}
+          {% set extension = None %}
+        {% endif %}
+        <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
           <td>{{ codeableConcept(imm.vaccineCode, 'display') }}</td>
           <td>{{ imm.status }}</td>
           <td>{{ concatDoseNumber(imm.protocolApplied) }}</td>

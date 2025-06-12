@@ -14,8 +14,12 @@
     {% for entry in resource.entry %}
       {% set proc = entry.resource %}
       {% if proc.resourceType != 'Composition' %}
-        {% set extension = proc.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
-        <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+        {% if proc.extension is defined and proc.extension %}
+          {% set extension = proc.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+        {% else %}
+          {% set extension = None %}
+        {% endif %}
+        <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
           <td>{{ codeableConcept(proc.code, 'display') }}</td>
           <td>{{ concat(proc.note, 'text') }}</td>
           <td>{{ renderTime(proc.performed) }}</td>

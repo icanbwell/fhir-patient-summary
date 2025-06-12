@@ -16,7 +16,11 @@
     {% for entry in resource.entry %}
       {% set ci = entry.resource %}
       {% if ci.resourceType != 'Composition' %}
-        {% set extension = ci.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        {% if ci.extension is defined and ci.extension %}
+          {% set extension = ci.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        {% else %}
+          {% set extension = None %}
+        {% endif %}
         <tr id="{{ extension.split('#')[1] if extension }}">
           <td>{{ codeableConcept(ci.code, 'display') }}</td>
           <td>{{ ci.status.code }}</td>

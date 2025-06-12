@@ -14,11 +14,15 @@
     {% for entry in resource.entry %}
       {% set consent = entry.resource %}
       {% if consent.resourceType != 'Composition' %}
-        {% set extension = consent.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        {% if consent.extension is defined and consent.extension %}
+          {% set extension = consent.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        {% else %}
+          {% set extension = None %}
+        {% endif %}
         <tr id="{{ extension.split('#')[1] if extension }}">
-          <td>{% include 'utility-fragments/codeableConcept.j2' with cc=consent.scope attr='display' %}</td>
+          <td>{{ codeableConcept(consent.scope, 'display') }}</td>
           <td>{{ consent.status.display }}</td>
-          <td>{% include 'utility-fragments/concatCodeableConcept.j2' with list=consent.provision.action %}</td>
+          <td>{{ concatCodeableConcept(consent.provision.action) }}</td>
           <td>{{ consent.dateTime }}</td>
         </tr>
       {% endif %}

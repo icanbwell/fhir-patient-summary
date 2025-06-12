@@ -15,7 +15,11 @@
     {% for entry in resource.entry %}
       {% set dus = entry.resource %}
       {% if dus.resourceType == 'DeviceUseStatement' %}
-        {% set extension = dus.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        {% if dus.extension is defined and dus.extension %}
+          {% set extension = dus.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        {% else %}
+          {% set extension = None %}
+        {% endif %}
         <tr id="{{ extension.split('#')[1] if extension }}">
           <td>{{ renderDevice(dus.device) }}</td>
           <td>{{ dus.status }}</td>

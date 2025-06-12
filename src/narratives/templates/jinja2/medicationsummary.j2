@@ -18,8 +18,12 @@
       {% for entry in resource.entry %}
         {% set mr = entry.resource %}
         {% if mr.resourceType == 'MedicationRequest' %}
-          {% set extension = mr.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
-          <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+          {% if mr.extension is defined and mr.extension %}
+            {% set extension = mr.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+          {% else %}
+            {% set extension = None %}
+          {% endif %}
+          <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
             <td>{{ renderMedication(mr) }}</td>
             <td>{{ mr.status.display if mr.status else '' }}</td>
             <td>{{ concatDosageRoute(mr.dosageInstruction) }}</td>
@@ -50,8 +54,12 @@
       {% for entry in resource.entry %}
         {% set ms = entry.resource %}
         {% if ms.resourceType == 'MedicationStatement' %}
-          {% set extension = ms.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
-          <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+          {% if ms.extension is defined and ms.extension %}
+            {% set extension = ms.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+          {% else %}
+            {% set extension = None %}
+          {% endif %}
+          <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
             <td>{{ renderMedication(ms) }}</td>
             <td>{{ ms.status.display if ms.status else '' }}</td>
             <td>{{ concatDosageRoute(ms.dosage) }}</td>
