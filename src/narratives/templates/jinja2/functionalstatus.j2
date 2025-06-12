@@ -1,0 +1,28 @@
+{# Functional Status #}
+<h5>Functional Status</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Assessment</th>
+      <th>Status</th>
+      <th>Finding</th>
+      <th>Comments</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set ci = entry.resource %}
+      {% if ci.resourceType != 'Composition' %}
+        {% set extension = ci.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        <tr id="{{ extension.split('#')[1] if extension }}">
+          <td>{{ codeableConcept(ci.code, 'display') }}</td>
+          <td>{{ ci.status.code }}</td>
+          <td>{{ ci.summary }}</td>
+          <td>{{ concat(ci.note, 'text') }}</td>
+          <td>{{ renderEffective(ci.effective) }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

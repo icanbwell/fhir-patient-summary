@@ -1,0 +1,28 @@
+{# Social History #}
+<h5>Social History</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Result</th>
+      <th>Unit</th>
+      <th>Comments</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set obs = entry.resource %}
+      {% if obs.resourceType != 'Composition' %}
+        {% set extension = obs.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+        <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+          <td>{{ codeableConcept(obs.code, 'display') }}</td>
+          <td>{{ renderValue(obs.value) }}</td>
+          <td>{{ renderValueUnit(obs.value) }}</td>
+          <td>{{ concat(obs.note, 'text') }}</td>
+          <td>{{ renderTime(obs.effective) }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,146 @@
+{# Utility Fragments for Jinja2 #}
+
+{# Render Device #}
+{% macro renderDevice(deviceRef) %}
+  {%- set device = deviceRef.resolve() if deviceRef and deviceRef.resolve is defined else None -%}
+  {% if device and device.resourceType == 'Device' %}
+    {{ codeableConcept(device.type, 'display') }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Organization #}
+{% macro renderOrganization(orgRef) %}
+  {%- set organization = orgRef.resolve() if orgRef and orgRef.resolve is defined else None -%}
+  {% if organization and organization.resourceType == 'Organization' %}
+    {{ organization.name }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Vaccine Manufacturer #}
+{% macro renderVaccineManufacturer(immunization) %}
+  {%- set organization = immunization.manufacturer.resolve() if immunization.manufacturer and immunization.manufacturer.resolve is defined else None -%}
+  {% if organization and organization.resourceType == 'Organization' %}
+    {{ organization.name }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Medication #}
+{% macro renderMedication(medicationType) %}
+  {% if medicationType and medicationType.medication is defined %}
+    {% if medicationType.medication.__class__.__name__ == 'CodeableConcept' %}
+      {{ codeableConcept(medicationType.medication, 'display') }}
+    {% elif medicationType.medication.__class__.__name__ == 'Reference' %}
+      {{ renderMedicationRef(medicationType) }}
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{# Render Medication Reference #}
+{% macro renderMedicationRef(medicationRef) %}
+  {%- set medication = medicationRef.medication.resolve() if medicationRef.medication and medicationRef.medication.resolve is defined else None -%}
+  {% if medication %}
+    {{ renderMedicationCode(medication) }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Medication Code #}
+{% macro renderMedicationCode(medication) %}
+  {% if medication %}
+    {{ codeableConcept(medication.code, 'display') }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Dose Number #}
+{% macro renderDoseNumber(doseNumber) %}
+  {% if doseNumber %}
+    {{ doseNumber.value }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Value #}
+{% macro renderValue(value) %}
+  {% if value %}
+    {% if value.__class__.__name__ == 'Quantity' %}{{ value.value }}{% elif value.__class__.__name__ == 'DateTimeType' %}{{ value.value }}{% elif value.__class__.__name__ == 'CodeableConcept' %}{{ codeableConcept(value, 'display') }}{% elif value.__class__.__name__ == 'StringType' %}{{ value.value }}{% endif %}
+  {% endif %}
+{% endmacro %}
+
+{# Render Value Unit #}
+{% macro renderValueUnit(value) %}
+  {% if value and value.__class__.__name__ == 'Quantity' %}{{ value.unit }}{% endif %}
+{% endmacro %}
+
+{# Render Effective Date #}
+{% macro renderEffective(effective) %}
+  {% if effective %}{{ effective }}{% endif %}
+{% endmacro %}
+
+{# Render Time #}
+{% macro renderTime(time) %}
+  {% if time %}{{ time }}{% endif %}
+{% endmacro %}
+
+{# Render Recorded Date #}
+{% macro renderRecorded(recorded) %}
+  {% if recorded %}{{ recorded }}{% endif %}
+{% endmacro %}
+
+{# CodeableConcept Utility #}
+{% macro codeableConcept(cc, attr) %}
+  {% if cc %}
+    {% if cc[attr] is defined %}{{ cc[attr] }}{% elif cc.coding and cc.coding[0][attr] is defined %}{{ cc.coding[0][attr] }}{% endif %}
+  {% endif %}
+{% endmacro %}
+
+{# Concat Utility #}
+{% macro concat(list, attr) %}
+  {% if list %}
+    {{ list | map(attribute=attr) | join(', ') }}
+  {% endif %}
+{% endmacro %}
+
+{# Concat CodeableConcept Utility #}
+{% macro concatCodeableConcept(list) %}
+  {% if list %}
+    {{ list | map(attribute='text') | join(', ') }}
+  {% endif %}
+{% endmacro %}
+
+{# Concat Reaction Manifestation Utility #}
+{% macro concatReactionManifestation(list) %}
+  {% if list %}
+    {{ list | map(attribute='manifestation') | map(attribute=0) | map(attribute='text') | join(', ') }}
+  {% endif %}
+{% endmacro %}
+
+{# Concat Dose Number Utility #}
+{% macro concatDoseNumber(list) %}
+  {% if list %}
+    {{ list | map(attribute='doseNumberPositiveInt') | join(', ') }}
+  {% endif %}
+{% endmacro %}
+
+{# Concat Dosage Route Utility #}
+{% macro concatDosageRoute(list) %}
+  {% if list %}
+    {{ list | map(attribute='route') | map(attribute='text') | join(', ') }}
+  {% endif %}
+{% endmacro %}
+
+{# First From CodeableConcept List Utility #}
+{% macro firstFromCodeableConceptList(list) %}
+  {% if list and list[0] %}{{ codeableConcept(list[0], 'display') }}{% endif %}
+{% endmacro %}
+
+{# Concat Reference Range Utility #}
+{% macro concatReferenceRange(list) %}
+  {% if list %}
+    {{ list | map(attribute='text') | join(', ') }}
+  {% endif %}
+{% endmacro %}
+
+{# Render Component Utility #}
+{% macro renderComponent(list) %}
+  {% if list %}
+    {{ list | map(attribute='code') | map(attribute='text') | join(', ') }}
+  {% endif %}
+{% endmacro %}

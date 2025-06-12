@@ -1,0 +1,26 @@
+{# Past History of Illnesses #}
+<h5>Past History of Illnesses</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Medical Problems</th>
+      <th>Status</th>
+      <th>Comments</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set cond = entry.resource %}
+      {% if cond.resourceType != 'Composition' %}
+        {% set extension = cond.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+        <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+          <td>{{ codeableConcept(cond.code, 'display') }}</td>
+          <td>{{ codeableConcept(cond.clinicalStatus, 'code') }}</td>
+          <td>{{ concat(cond.note, 'text') }}</td>
+          <td>{{ renderTime(cond.onset) }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

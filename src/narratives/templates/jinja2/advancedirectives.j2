@@ -1,0 +1,26 @@
+{# Advance Directives #}
+<h5>Advance Directives</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Scope</th>
+      <th>Status</th>
+      <th>Action Controlled</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set consent = entry.resource %}
+      {% if consent.resourceType != 'Composition' %}
+        {% set extension = consent.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        <tr id="{{ extension.split('#')[1] if extension }}">
+          <td>{% include 'utility-fragments/codeableConcept.j2' with cc=consent.scope attr='display' %}</td>
+          <td>{{ consent.status.display }}</td>
+          <td>{% include 'utility-fragments/concatCodeableConcept.j2' with list=consent.provision.action %}</td>
+          <td>{{ consent.dateTime }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

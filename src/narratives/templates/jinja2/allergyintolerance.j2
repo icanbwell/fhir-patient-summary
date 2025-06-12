@@ -1,0 +1,30 @@
+{# Allergies And Intolerances #}
+<h5>Allergies And Intolerances</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Allergen</th>
+      <th>Status</th>
+      <th>Category</th>
+      <th>Reaction</th>
+      <th>Severity</th>
+      <th>Comments</th>
+      <th>Onset</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set allergy = entry.resource %}
+      {% set extension = allergy.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+      <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+        <td>{{ codeableConcept(allergy.code, 'display') }}</td>
+        <td>{{ codeableConcept(allergy.clinicalStatus, 'code') }}</td>
+        <td>{{ concat(allergy.category, 'value') }}</td>
+        <td>{{ concatReactionManifestation(allergy.reaction) }}</td>
+        <td>{{ concat(allergy.reaction, 'severity') }}</td>
+        <td>{{ concat(allergy.note, 'text') }}</td>
+        <td>{{ renderTime(allergy.onset) }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

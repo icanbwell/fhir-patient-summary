@@ -1,0 +1,32 @@
+{# Immunizations #}
+<h5>Immunizations</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Immunization</th>
+      <th>Status</th>
+      <th>Dose Number</th>
+      <th>Manufacturer</th>
+      <th>Lot Number</th>
+      <th>Comments</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set imm = entry.resource %}
+      {% if imm.resourceType == 'Immunization' %}
+        {% set extension = imm.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+        <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+          <td>{{ codeableConcept(imm.vaccineCode, 'display') }}</td>
+          <td>{{ imm.status }}</td>
+          <td>{{ concatDoseNumber(imm.protocolApplied) }}</td>
+          <td>{{ renderVaccineManufacturer(imm) }}</td>
+          <td>{{ imm.lotNumber }}</td>
+          <td>{{ concat(imm.note, 'text') }}</td>
+          <td>{{ renderTime(imm.occurrence) }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

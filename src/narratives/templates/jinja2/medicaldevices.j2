@@ -1,0 +1,26 @@
+{# Medical Devices #}
+<h5>Medical Devices</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Device</th>
+      <th>Status</th>
+      <th>Comments</th>
+      <th>Date Recorded</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set dus = entry.resource %}
+      {% if dus.resourceType == 'DeviceUseStatement' %}
+        {% set extension = dus.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+        <tr id="{{ extension.split('#')[1] if extension }}">
+          <td>{{ renderDevice(dus.device) }}</td>
+          <td>{{ dus.status }}</td>
+          <td>{{ concat(dus.note, 'text') }}</td>
+          <td>{{ renderRecorded(dus.recordedOn) }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

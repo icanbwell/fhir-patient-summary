@@ -1,0 +1,63 @@
+{# Medication Summary: Medication Requests #}
+{% if resource.entry | selectattr('resource.resourceType', 'equalto', 'MedicationRequest') | list %}
+  <h5>Medication Summary: Medication Requests</h5>
+  <table class="hapiPropertyTable">
+    <thead>
+      <tr>
+        <th>Medication</th>
+        <th>Status</th>
+        <th>Route</th>
+        <th>Sig</th>
+        <th>Comments</th>
+        <th>Authored Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in resource.entry %}
+        {% set mr = entry.resource %}
+        {% if mr.resourceType == 'MedicationRequest' %}
+          {% set extension = mr.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+          <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+            <td>{{ renderMedication(mr) }}</td>
+            <td>{{ mr.status.display if mr.status else '' }}</td>
+            <td>{{ concatDosageRoute(mr.dosageInstruction) }}</td>
+            <td>{{ concat(mr.dosageInstruction, 'text') }}</td>
+            <td>{{ concat(mr.note, 'text') }}</td>
+            <td>{{ mr.authoredOn }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{# Medication Summary: Medication Statements #}
+{% if resource.entry | selectattr('resource.resourceType', 'equalto', 'MedicationStatement') | list %}
+  <h5>Medication Summary: Medication Statements</h5>
+  <table class="hapiPropertyTable">
+    <thead>
+      <tr>
+        <th>Medication</th>
+        <th>Status</th>
+        <th>Route</th>
+        <th>Sig</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in resource.entry %}
+        {% set ms = entry.resource %}
+        {% if ms.resourceType == 'MedicationStatement' %}
+          {% set extension = ms.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+          <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+            <td>{{ renderMedication(ms) }}</td>
+            <td>{{ ms.status.display if ms.status else '' }}</td>
+            <td>{{ concatDosageRoute(ms.dosage) }}</td>
+            <td>{{ concat(ms.dosage, 'text') }}</td>
+            <td>{{ renderTime(ms.effective) }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}

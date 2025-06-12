@@ -1,0 +1,24 @@
+{# History Of Procedures #}
+<h5>History Of Procedures</h5>
+<table class="hapiPropertyTable">
+  <thead>
+    <tr>
+      <th>Procedure</th>
+      <th>Comments</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in resource.entry %}
+      {% set proc = entry.resource %}
+      {% if proc.resourceType != 'Composition' %}
+        {% set extension = proc.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+        <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+          <td>{{ codeableConcept(proc.code, 'display') }}</td>
+          <td>{{ concat(proc.note, 'text') }}</td>
+          <td>{{ renderTime(proc.performed) }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

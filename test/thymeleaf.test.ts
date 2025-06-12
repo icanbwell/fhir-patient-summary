@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {STANDARD_CONFIGURATION, TemplateEngine} from 'thymeleaf';
+import {STANDARD_CONFIGURATION, StandardDialect, TemplateEngine} from 'thymeleaf';
 import * as fs from 'fs';
 import * as path from 'path';
 import {TPatient} from "../src/types/resources/Patient";
@@ -126,24 +126,22 @@ describe('International Patient Summary (IPS) Implementation', () => {
             });
     });
     it('should create result from file template', async () => {
-        // const templateEngine = new TemplateEngine(
-        //     {
-        //         dialects: [new StandardDialect('th', { // Enable isomorphic mode with this config object
-        //             prefix: 'thjs'
-        //         })],
-        //         templateResolver: {
-        //             resolveTemplate: (key: string, parameters: any) => {
-        //                 return path.join(__dirname, '../src/narratives/templates/', key);
-        //             }
-        //         },
-        //         messageResolver: {
-        //             resolveMessage: (key: string, parameters: any) => {
-        //                 return path.join(__dirname, '../src/narratives/messages/', key);
-        //             }
-        //         }
-        //     }
-        // );
-        const templateEngine = new TemplateEngine(STANDARD_CONFIGURATION);
+        const templateEngine = new TemplateEngine(
+            {
+                dialects: [new StandardDialect('th')],
+                templateResolver: {
+                    resolveTemplate: (key: string, parameters: any) => {
+                        return path.join(__dirname, '../src/narratives/templates/', key);
+                    }
+                },
+                messageResolver: {
+                    resolveMessage: (key: string, parameters: any) => {
+                        return path.join(__dirname, '../src/narratives/messages/', key);
+                    }
+                }
+            }
+        );
+        // const templateEngine = new TemplateEngine(STANDARD_CONFIGURATION);
 
 
         const filePath = path.join(__dirname, '../src/narratives/templates/allergyintolerance.html');
