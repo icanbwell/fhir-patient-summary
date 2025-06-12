@@ -1,3 +1,5 @@
+{% from "utility-fragments.j2" import codeableConcept, renderValue, renderValueUnit, firstFromCodeableConceptList, concatReferenceRange, concat, renderTime %}
+
 {# Diagnostic Results: Observations #}
 {% if resource.entry | selectattr('resource.resourceType', 'equalto', 'Observation') | list %}
   <h5>Diagnostic Results: Observations</h5>

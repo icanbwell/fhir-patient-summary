@@ -1,3 +1,5 @@
+{% from "utility-fragments.j2" import renderMedication, concatDosageRoute, concat, renderTime %}
+
 {# Medication Summary: Medication Requests #}
 {% if resource.entry | selectattr('resource.resourceType', 'equalto', 'MedicationRequest') | list %}
   <h5>Medication Summary: Medication Requests</h5>

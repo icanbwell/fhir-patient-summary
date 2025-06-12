@@ -1,3 +1,5 @@
+{% from "utility-fragments.j2" import codeableConcept, concat, concatReactionManifestation, renderTime %}
+
 {# Allergies And Intolerances #}
 <h5>Allergies And Intolerances</h5>
 <table class="hapiPropertyTable">
@@ -15,8 +17,12 @@
   <tbody>
     {% for entry in resource.entry %}
       {% set allergy = entry.resource %}
-      {% set extension = allergy.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
-      <tr id="{{ extension.value.value.split('#')[1] if extension }}">
+      {% if allergy.extension is defined and allergy.extension %}
+        {% set extension = allergy.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | list | first %}
+      {% else %}
+        {% set extension = None %}
+      {% endif %}
+      <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
         <td>{{ codeableConcept(allergy.code, 'display') }}</td>
         <td>{{ codeableConcept(allergy.clinicalStatus, 'code') }}</td>
         <td>{{ concat(allergy.category, 'value') }}</td>

@@ -10,6 +10,7 @@
     </tr>
   </thead>
   <tbody>
+    {% from "utility-fragments.j2" import codeableConcept, concatCodeableConcept %}
     {% for entry in resource.entry %}
       {% set consent = entry.resource %}
       {% if consent.resourceType != 'Composition' %}
