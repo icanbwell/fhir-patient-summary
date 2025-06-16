@@ -9,6 +9,7 @@ import {TBundle} from "../types/resources/Bundle";
 import {Narrative, NarrativeGenerator} from "./narrative_generator";
 import {TComposition} from "../types/resources/Composition";
 import {TNarrative} from "../types/partials/Narrative";
+import {IPSSectionResourceHelper} from "../structures/ips_section_resource_map";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -114,9 +115,10 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!bundle.entry) {return this;}
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
+            const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
             const resources = bundle.entry
                 .map(e => e.resource)
-                .filter(r => r && r.resourceType === sectionType);
+                .filter(r => typeof r?.resourceType === 'string' && resourceTypesForSection.includes(r.resourceType as string));
 
             if (resources.length > 0) {
                 this.addSection(sectionType, resources as TDomainResource[], {isOptional: true});
