@@ -4,6 +4,7 @@ import {TCodeableConcept} from "../types/partials/CodeableConcept";
 import nunjucks from "nunjucks";
 import path from "path";
 import {IPSSections} from "../structures/ips_sections";
+import {IPSTemplateMapper} from "../narratives/IPSTemplateMapper";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
@@ -27,7 +28,10 @@ class NarrativeGenerator {
             noCache: false
         });
         // get the template name based on section
-        const templateName = `ips-${section.toLowerCase()}.html`;
+        const templateName = IPSTemplateMapper.getTemplate(section);
+        if (!templateName) {
+            throw new Error(`No template found for section: ${section}`);
+        }
         // Check if the template exists
         if (!env.getTemplate(templateName, true)) {
             throw new Error(`Template not found: ${templateName}`);
