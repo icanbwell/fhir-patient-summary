@@ -9,11 +9,12 @@ export class IPSResourceProfileRegistry {
         [IPSMandatorySections.PATIENT]: {
             resourceType: 'Patient',
             mandatoryFields: [
-                'name',
-                'gender',
-                'birthDate'
+                // FHIR R4B: No required fields except resourceType, but name and gender are often expected in practice
             ],
             recommendedFields: [
+                'name',
+                'gender',
+                'birthDate',
                 'identifier',
                 'address',
                 'telecom',
@@ -26,12 +27,12 @@ export class IPSResourceProfileRegistry {
         [IPSMandatorySections.ALLERGIES]: {
             resourceType: 'AllergyIntolerance',
             mandatoryFields: [
-                'clinicalStatus',
-                'code',
                 'patient'
             ],
             recommendedFields: [
+                'clinicalStatus',
                 'verificationStatus',
+                'code',
                 'reaction',
                 'criticality'
             ],
@@ -42,11 +43,11 @@ export class IPSResourceProfileRegistry {
             resourceType: 'MedicationStatement',
             mandatoryFields: [
                 'status',
-                'medicationCodeableConcept', // or 'medicationReference'
-                'subject',
-                'effectiveDateTime' // or 'effectivePeriod'
+                'subject'
             ],
             recommendedFields: [
+                'medicationCodeableConcept', // or 'medicationReference'
+                'effectiveDateTime', // or 'effectivePeriod'
                 'dosage',
                 'reasonCode'
             ],
@@ -56,12 +57,12 @@ export class IPSResourceProfileRegistry {
         [IPSMandatorySections.PROBLEMS]: {
             resourceType: 'Condition',
             mandatoryFields: [
-                'clinicalStatus',
-                'code',
                 'subject'
             ],
             recommendedFields: [
+                'clinicalStatus',
                 'verificationStatus',
+                'code',
                 'onsetDateTime', // or 'onsetAge', 'onsetPeriod', 'onsetRange', 'onsetString'
                 'recordedDate',
                 'severity'
