@@ -138,7 +138,7 @@
         {%- set items = items + [item] -%}
       {%- endif -%}
     {%- endfor -%}
-    {{ items | join(', ') }}
+    {{ items | select('string') | list | join(', ') }}
   {% endif %}
 {% endmacro %}
 
@@ -151,7 +151,7 @@
         {%- set items = items + [item.text] -%}
       {%- endif -%}
     {%- endfor -%}
-    {{ items | join(', ') }}
+    {{ items | select('string') | list | join(', ') }}
   {% endif %}
 {% endmacro %}
 
