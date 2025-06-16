@@ -5,10 +5,78 @@ import {TCompositionSection} from "../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../src/types/partials/BundleEntry";
 
 describe('FHIR Patient Summary Generation', () => {
-    it('should generate the correct summary for the provided bundle', () => {
+    it('should generate the correct summary for the Aidbox bundle', () => {
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-bundle.json'), 'utf-8'));
         const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-bundle.json'), 'utf-8'));
+
+        // Extract resources from the bundle
+        const resources = inputBundle.entry.map((e: any) => e.resource);
+
+        // extract the patient resource
+        const mockPatient = resources.find((r: any) => r.resourceType === 'Patient');
+
+        // Generate the summary
+        const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+        builder.read_bundle(inputBundle);
+
+        const bundle = builder.build_bundle(
+            'example-organization',
+            'Example Organization',
+            'https://fhir.icanbwell.com/4_0_0/'
+        );
+        console.info('---- Bundle ----');
+        console.info(JSON.stringify(bundle, (key, value) => {
+            if (value === undefined) {
+                return undefined; // This will omit undefined properties
+            }
+            return value;
+        }));
+        console.info('-----------------');
+
+        // Compare the generated summary to the expected output in the bundle
+        // (Assume the expected output is the Composition resource in the bundle)
+        expect(bundle.entry).toBeDefined();
+        // remove the date from the bundle for comparison
+        bundle.timestamp = expectedBundle.timestamp;
+        if (bundle.entry && bundle.entry[0].resource?.date) {
+            bundle.entry[0].resource.date = expectedBundle.entry[0].resource.date;
+        }
+
+        // extract the dev from each section and compare
+        const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
+            .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
+            .flat()
+            .filter((s: TCompositionSection) => s);
+        const expectedSections: TCompositionSection[] | undefined = expectedBundle.entry
+            .filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
+            .map((e: TBundleEntry) => e.resource?.section)
+            .flat()
+            .filter((s: TCompositionSection) => s);
+        // compare the div of each section
+        expect(generatedSections).toBeDefined();
+        expect(expectedSections).toBeDefined();
+        // expect(generatedSections?.length).toBe(expectedSections?.length);
+        if (generatedSections && expectedSections) {
+            for (let i = 0; i < generatedSections.length; i++) {
+                console.info(`Comparing section ${i + 1}/${generatedSections.length}`);
+                console.info(`Generated: ${generatedSections[i].text?.div}`);
+                console.info(`Expected: ${expectedSections[i]?.text?.div}`);
+                // now clear out the div for comparison
+                if (generatedSections && generatedSections[i] && generatedSections[i].text && generatedSections[i]?.text?.div) {
+                    expect(generatedSections[i].text?.div).toBeDefined();
+                }
+                if (expectedSections && expectedSections[i] && expectedSections[i].text && expectedSections[i]?.text?.div) {
+                    expect(expectedSections[i].text?.div).toBeDefined();
+                }
+            }
+        }
+        expect(bundle).toEqual(expectedBundle);
+    });
+    it('should generate the correct summary for the Epic bundle', () => {
+        // Read the test bundle JSON
+        const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-epic-bundle.json'), 'utf-8'));
+        const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-epic-bundle.json'), 'utf-8'));
 
         // Extract resources from the bundle
         const resources = inputBundle.entry.map((e: any) => e.resource);
