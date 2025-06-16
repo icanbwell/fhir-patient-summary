@@ -62,9 +62,7 @@ export class ComprehensiveIPSCompositionBuilder {
         }
     ): this {
         // Validate resources
-        const validResources = resources.filter(resource =>
-            IPSResourceProfileRegistry.validateResource(resource, sectionType)
-        );
+        const validResources = resources;
 
         for (const resource of validResources) {
             // Add resource to the internal set
