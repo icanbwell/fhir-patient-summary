@@ -203,7 +203,7 @@
 
 {# Macro to safely extract narrative link id from extension #}
 {% macro narrative_link_id(extension) %}
-  {%- if extension is mapping and extension.value is defined and extension.value.value is defined and extension.value.value is string and '#' in extension.value.value -%}
+  {%- if extension is defined and extension is mapping and extension.value is defined and extension.value.value is defined and extension.value.value is string and '#' in extension.value.value -%}
     {{ extension.value.value.split('#')[1] }}
   {%- else -%}
     {{ '' }}
