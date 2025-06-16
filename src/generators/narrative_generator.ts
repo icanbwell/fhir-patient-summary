@@ -1,20 +1,9 @@
 import {TDomainResource} from "../types/resources/DomainResource";
 import {TObservation} from "../types/resources/Observation";
 import {TCodeableConcept} from "../types/partials/CodeableConcept";
-import {BaseNarrativeGenerator} from "../narratives3/baseNarrative";
-import {PatientNarrativeGenerator} from "../narratives3/patient";
-import {AllergyIntoleranceNarrativeGenerator} from "../narratives3/allergyIntolerance";
-import {MedicationStatementNarrativeGenerator} from "../narratives3/medicationStatement";
-import {ConditionNarrativeGenerator} from "../narratives3/condition";
-import {ImmunizationNarrativeGenerator} from "../narratives3/immunization";
-import {ObservationNarrativeGenerator} from "../narratives3/observation";
-import {DeviceNarrativeGenerator} from "../narratives3/device";
-import {DiagnosticReportNarrativeGenerator} from "../narratives3/diagnosticReport";
-import {ProcedureNarrativeGenerator} from "../narratives3/procedure";
-import {FamilyMemberHistoryNarrativeGenerator} from "../narratives3/familyMemberHistory";
-import {CarePlanNarrativeGenerator} from "../narratives3/carePlan";
-import {ClinicalImpressionNarrativeGenerator} from "../narratives3/clinicalImpression";
-import {DefaultNarrativeGenerator} from "../narratives3/default";
+import nunjucks from "nunjucks";
+import path from "path";
+import {IPSSections} from "../structures/ips_sections";
 
 interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
@@ -24,48 +13,54 @@ interface Narrative {
 class NarrativeGenerator {
 
     static generateNarrativeContent<T extends TDomainResource>(
+        section: IPSSections,
         resources: T[]
     ): string | undefined {
-                if (!resources || resources.length === 0) {
+        if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
         }
 
         // HAPI example templates: https://github.com/hapifhir/hapi-fhir/tree/master/hapi-fhir-jpaserver-ips/src/main/resources/ca/uhn/fhir/jpa/ips/narrative
-        // Expanded resource type generators
-        const generators: Record<string, BaseNarrativeGenerator<TDomainResource>> = {
-            Patient: new PatientNarrativeGenerator(),
-            AllergyIntolerance: new AllergyIntoleranceNarrativeGenerator(),
-            MedicationStatement: new MedicationStatementNarrativeGenerator(),
-            Condition: new ConditionNarrativeGenerator(),
-            Immunization: new ImmunizationNarrativeGenerator(),
-            Observation: new ObservationNarrativeGenerator(),
-            Device: new DeviceNarrativeGenerator(),
-            DiagnosticReport: new DiagnosticReportNarrativeGenerator(),
-            Procedure: new ProcedureNarrativeGenerator(),
-            FamilyMemberHistory: new FamilyMemberHistoryNarrativeGenerator(),
-            CarePlan: new CarePlanNarrativeGenerator(),
-            ClinicalImpression: new ClinicalImpressionNarrativeGenerator(),
+
+        const env = nunjucks.configure(path.join(__dirname, '../narratives/templates/jinja2'), {
+            autoescape: false,
+            noCache: false
+        });
+        // get the template name based on section
+        const templateName = `ips-${section.toLowerCase()}.html`;
+        // Check if the template exists
+        if (!env.getTemplate(templateName, true)) {
+            throw new Error(`Template not found: ${templateName}`);
+        }
+        // Create a bundle-like structure for the template
+        const bundle: Record<string, any> = {
+            resourceType: 'Bundle',
+            type: 'document',
+            entry: resources.map(resource => ({
+                resource,
+                fullUrl: `urn:uuid:${resource.id}`
+            }))
         };
+        const content = env.render(templateName, { resource: bundle });
 
-        const resourceType = resources[0]?.resourceType;
-
-        // Select generator or use default
-        const generator = generators[`${resourceType}`] ||
-            new DefaultNarrativeGenerator();
-
-        return generator.generateNarrative(resources).replace(/\n/g, '');
+        return content.replace(/\n/g, '');
     }
+
     /**
      * Generate a narrative for any FHIR resource
      * @param resources - FHIR resources
+     * @param section - IPS section type
      * @returns Narrative representation
      */
     static generateNarrative<T extends TDomainResource>(
+        section: IPSSections,
         resources: T[]
     ): Narrative | undefined {
 
-        const content = this.generateNarrativeContent(resources);
-        if (content === undefined) {return content;}
+        const content = this.generateNarrativeContent(section, resources);
+        if (content === undefined) {
+            return content;
+        }
         return {
             status: 'generated',
             div: NarrativeGenerator.wrapInXhtml(content)

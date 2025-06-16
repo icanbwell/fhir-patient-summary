@@ -79,9 +79,8 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // Patient resource does not get a section, it is handled separately
         if (sectionType !== IPSSections.PATIENT) {
-
             // Create section entry
-            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(validResources);
+            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(sectionType, validResources);
             const sectionEntry: TCompositionSection = {
                 title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
                 code: {
@@ -110,7 +109,9 @@ export class ComprehensiveIPSCompositionBuilder {
     }
 
     read_bundle(bundle: TBundle): this {
-        if (!bundle.entry) {return this;}
+        if (!bundle.entry) {
+            return this;
+        }
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
             const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
@@ -203,14 +204,15 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // Extract and add all resources referenced in sections
         this.resources.forEach(resource => {
-            if (resource.resourceType !== "Patient"){
-            bundle.entry?.push(
-                {
-                    fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
-                    resource: resource
-                }
-            );
-        }});
+            if (resource.resourceType !== "Patient") {
+                bundle.entry?.push(
+                    {
+                        fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
+                        resource: resource
+                    }
+                );
+            }
+        });
 
         // add a bundle entry for Organization
         bundle.entry?.push({
@@ -229,17 +231,21 @@ export class ComprehensiveIPSCompositionBuilder {
         const patient = this.patient;
         let fullNarrativeContent: string = ";"
         // generate narrative for the patient
-        const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent([patient]);
+        const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
+            IPSSections.PATIENT,
+            [patient]
+        );
         fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');
+
         // now generate narrative for the sections and add to this narrative
-        for (const section of this.sections) {
-            if (section.entry) {
-                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(section.entry.map(e => {
-                    const resource = Array.from(this.resources).find(
-                        r =>  e.reference ? r.id === e.reference.split('/')[1]: undefined
-                    );
-                    return resource ? resource : e;
-                }));
+        for (const sectionType of Object.values(IPSSections)) {
+            const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
+            const allResources = Array.from(this.resources);
+            const resources = allResources
+                .filter(r => resourceTypesForSection.includes(r.resourceType as string));
+
+            if (resources.length > 0) {
+                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(sectionType, resources);
                 fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
             }
         }

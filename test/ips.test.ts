@@ -160,7 +160,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
     // Narrative Generation Tests
     describe('Narrative Generation', () => {
         test('Patient narrative should be generated', () => {
-            const narrative = NarrativeGenerator.generateNarrative([mockPatient]);
+            const narrative = NarrativeGenerator.generateNarrative(IPSSections.PATIENT, [mockPatient]);
 
             expect(narrative).toBeDefined();
             expect(narrative?.status).toBe('generated');
@@ -169,7 +169,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
         });
 
         test('Allergy narrative should be generated', () => {
-            const narrative = NarrativeGenerator.generateNarrative([mockAllergies[0]]);
+            const narrative = NarrativeGenerator.generateNarrative(IPSSections.ALLERGIES, [mockAllergies[0]]);
 
             expect(narrative).toBeDefined();
             expect(narrative?.status).toBe('generated');
