@@ -27,6 +27,16 @@ class NarrativeGenerator {
             autoescape: false,
             noCache: false
         });
+        env.addFilter('map', function (arr, attr) {
+            if (!Array.isArray(arr)) return [];
+            return arr.map(item => {
+                // Support dot notation for nested attributes
+                if (typeof attr === 'string' && attr.includes('.')) {
+                    return attr.split('.').reduce((obj, key) => (obj ? obj[key] : undefined), item);
+                }
+                return item[attr];
+            });
+        });
         // get the template name based on section
         const templateName = IPSTemplateMapper.getTemplate(section);
         if (!templateName) {
@@ -45,7 +55,7 @@ class NarrativeGenerator {
                 fullUrl: `urn:uuid:${resource.id}`
             }))
         };
-        const content = env.render(templateName, { resource: bundle });
+        const content = env.render(templateName, {resource: bundle});
 
         return content.replace(/\n/g, '');
     }
