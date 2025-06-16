@@ -78,31 +78,35 @@ export class ComprehensiveIPSCompositionBuilder {
             return this;
         }
 
-        // Create section entry
-        const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(validResources);
-        const sectionEntry: TCompositionSection = {
-            title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
-            code: {
-                coding: [{
-                    system: 'http://loinc.org',
-                    code: options?.customLoincCode || IPS_SECTION_LOINC_CODES[sectionType],
-                    display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
-                }],
-                text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
-            },
-            text: narrative,
-            entry: validResources.map(resource => ({
-                reference: `${resource.resourceType}/${resource.id}`,
-                display: resource.resourceType
-            }))
-        };
+        // Patient resource does not get a section, it is handled separately
+        if (sectionType !== IPSSections.PATIENT) {
 
-        // Track mandatory sections
-        if (!options?.isOptional) {
-            this.mandatorySectionsAdded.add(sectionType);
+            // Create section entry
+            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(validResources);
+            const sectionEntry: TCompositionSection = {
+                title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
+                code: {
+                    coding: [{
+                        system: 'http://loinc.org',
+                        code: options?.customLoincCode || IPS_SECTION_LOINC_CODES[sectionType],
+                        display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+                    }],
+                    text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+                },
+                text: narrative,
+                entry: validResources.map(resource => ({
+                    reference: `${resource.resourceType}/${resource.id}`,
+                    display: resource.resourceType
+                }))
+            };
+
+            // Track mandatory sections
+            if (!options?.isOptional) {
+                this.mandatorySectionsAdded.add(sectionType);
+            }
+
+            this.sections.push(sectionEntry);
         }
-
-        this.sections.push(sectionEntry);
         return this;
     }
 

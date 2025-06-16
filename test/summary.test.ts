@@ -397,12 +397,11 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 console.info(section.code?.coding?.[0]?.display);
             }
 
-            expect(sections.length).toBe(5);
-            expect(sections[0].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.Patient);
-            expect(sections[1].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.AllergyIntoleranceSection);
-            expect(sections[2].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.MedicationSection);
-            expect(sections[3].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ProblemSection);
-            expect(sections[4].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ImmunizationSection);
+            expect(sections.length).toBe(4);
+            expect(sections[0].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.AllergyIntoleranceSection);
+            expect(sections[1].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.MedicationSection);
+            expect(sections[2].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ProblemSection);
+            expect(sections[3].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ImmunizationSection);
         });
 
         it('should throw an error if mandatory sections are missing', () => {
@@ -439,7 +438,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             const sections = builder.build();
 
-            expect(sections.length).toBe(5);
+            expect(sections.length).toBe(4);
             sections.forEach(section => {
                 expect(section.entry).toBeTruthy();
                 expect(section.code?.coding?.[0]?.system).toBe('http://loinc.org');
@@ -487,11 +486,11 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 console.assert(composition.section);
                 if (composition.section) {
                     expect(composition.section.length).toBeGreaterThan(0);
-                    // check that there is a patient section
+                    // check that there is NOT a patient section
                     const patientSection = composition.section.find(
                         section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.Patient
                     );
-                    expect(patientSection).toBeDefined();
+                    expect(patientSection).toBeUndefined();
                     const medicationSection = composition.section.find(
                         section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.MedicationSection
                     );
