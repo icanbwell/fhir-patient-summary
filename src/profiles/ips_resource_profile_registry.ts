@@ -9,12 +9,12 @@ export class IPSResourceProfileRegistry {
         [IPSMandatorySections.PATIENT]: {
             resourceType: 'Patient',
             mandatoryFields: [
-                'identifier',
                 'name',
                 'gender',
                 'birthDate'
             ],
             recommendedFields: [
+                'identifier',
                 'address',
                 'telecom',
                 'communication',
@@ -27,11 +27,11 @@ export class IPSResourceProfileRegistry {
             resourceType: 'AllergyIntolerance',
             mandatoryFields: [
                 'clinicalStatus',
-                'verificationStatus',
                 'code',
                 'patient'
             ],
             recommendedFields: [
+                'verificationStatus',
                 'reaction',
                 'criticality'
             ],
@@ -42,8 +42,9 @@ export class IPSResourceProfileRegistry {
             resourceType: 'MedicationStatement',
             mandatoryFields: [
                 'status',
-                'medicationCodeableConcept',
-                'subject'
+                'medicationCodeableConcept', // or 'medicationReference'
+                'subject',
+                'effectiveDateTime' // or 'effectivePeriod'
             ],
             recommendedFields: [
                 'dosage',
@@ -56,12 +57,12 @@ export class IPSResourceProfileRegistry {
             resourceType: 'Condition',
             mandatoryFields: [
                 'clinicalStatus',
-                'verificationStatus',
                 'code',
                 'subject'
             ],
             recommendedFields: [
-                'onset',
+                'verificationStatus',
+                'onsetDateTime', // or 'onsetAge', 'onsetPeriod', 'onsetRange', 'onsetString'
                 'recordedDate',
                 'severity'
             ],
@@ -74,7 +75,7 @@ export class IPSResourceProfileRegistry {
                 'status',
                 'vaccineCode',
                 'patient',
-                'occurrenceDateTime'
+                'occurrenceDateTime' // or 'occurrenceString'
             ],
             recommendedFields: [
                 'lotNumber',
@@ -92,13 +93,13 @@ export class IPSResourceProfileRegistry {
             resourceType: 'Observation',
             mandatoryFields: [
                 'status',
-                'category',
                 'code',
                 'subject',
-                'effectiveDateTime',
-                'valueQuantity'
+                'effectiveDateTime' // or 'effectivePeriod'
             ],
             recommendedFields: [
+                'category',
+                'valueQuantity', // or value[x]
                 'interpretation',
                 'referenceRange'
             ],
@@ -109,13 +110,13 @@ export class IPSResourceProfileRegistry {
             resourceType: 'Observation',
             mandatoryFields: [
                 'status',
-                'category',
                 'code',
                 'subject',
-                'effectiveDateTime',
-                'valueQuantity'
+                'effectiveDateTime' // or 'effectivePeriod'
             ],
             recommendedFields: [
+                'category',
+                'valueQuantity', // or value[x]
                 'component'
             ],
             loincCode: '8716-3',
