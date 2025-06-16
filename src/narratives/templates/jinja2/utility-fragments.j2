@@ -162,8 +162,9 @@
 
 {# Concat Reaction Manifestation Utility #}
 {% macro concatReactionManifestation(list) %}
-  {% if list %}
-    {{ list | map(attribute='manifestation') | map(attribute=0) | map(attribute='text') | join(', ') }}
+  {% set safeList = list | default([]) %}
+  {% if safeList %}
+    {{ safeList | map(attribute='manifestation') | map(attribute=0) | map(attribute='text') | join(', ') }}
   {% endif %}
 {% endmacro %}
 
@@ -202,5 +203,9 @@
 
 {# Macro to safely extract narrative link id from extension #}
 {% macro narrative_link_id(extension) %}
-  {{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value is string and '#' in extension.value.value else '' }}
+  {%- if extension is mapping and extension.value is defined and extension.value.value is defined and extension.value.value is string and '#' in extension.value.value -%}
+    {{ extension.value.value.split('#')[1] }}
+  {%- else -%}
+    {{ '' }}
+  {%- endif -%}
 {% endmacro %}

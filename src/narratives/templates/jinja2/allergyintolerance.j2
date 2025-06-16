@@ -26,7 +26,7 @@
         <td>{{ codeableConcept(allergy.code) }}</td>
         <td>{{ codeableConcept(allergy.clinicalStatus) }}</td>
         <td>{{ safe_concat(allergy.category, 'value') }}</td>
-        <td>{{ concatReactionManifestation(allergy.reaction | default([])) }}</td>
+        <td>{{ concatReactionManifestation(allergy.reaction) }}</td>
         <td>{{ safe_concat(allergy.reaction, 'severity') }}</td>
         <td>{{ safe_concat(allergy.note, 'text') }}</td>
         <td>{{ renderTime(allergy.onset) }}</td>
