@@ -110,6 +110,21 @@ export class ComprehensiveIPSCompositionBuilder {
         return this;
     }
 
+    read_bundle(bundle: TBundle): this {
+        if (!bundle.entry) {return this;}
+        // find resources for each section in IPSSections and add the section
+        for (const sectionType of Object.values(IPSSections)) {
+            const resources = bundle.entry
+                .map(e => e.resource)
+                .filter(r => r && r.resourceType === sectionType);
+
+            if (resources.length > 0) {
+                this.addSection(sectionType, resources as TDomainResource[], {isOptional: true});
+            }
+        }
+        return this;
+    }
+
     // Comprehensive build method with validation
     build(): TCompositionSection[] {
         // Ensure all mandatory sections are present

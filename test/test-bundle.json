@@ -1,0 +1,487 @@
+{
+    "resourceType": "Bundle",
+    "type": "document",
+    "timestamp": "2025-06-16T18:39:48.436Z",
+    "identifier": {
+        "system": "urn:ietf:rfc:3986",
+        "value": "urn:uuid:4dcfd353-49fd-4ab0-b521-c8d57ced74d6"
+    },
+    "entry": [
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Composition/Composition-example-patient",
+            "resource": {
+                "id": "Composition-example-patient",
+                "resourceType": "Composition",
+                "status": "final",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "60591-5",
+                            "display": "Patient summary Document"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/example-patient"
+                },
+                "author": [
+                    {
+                        "reference": "Organization/example-organization",
+                        "display": "Example Organization"
+                    }
+                ],
+                "date": "2025-06-16T18:39:48.434Z",
+                "title": "International Patient Summary",
+                "section": [
+                    {
+                        "title": "Allergies and adverse reactions Document",
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "48765-2",
+                                    "display": "Allergies and adverse reactions Document"
+                                }
+                            ],
+                            "text": "Allergies and adverse reactions Document"
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">                <div class=\"allergy-intolerance-narrative\">                    <h2>Allergy/Intolerance</h2>                    <table>                        <tbody>                            <tr>                                <th>Allergen</th>                                <td>Penicillin G</td>                            </tr>                            <tr>                                <th>Clinical Status</th>                                <td>active</td>                            </tr>                            <tr>                                <th>Verification Status</th>                                <td>Not verified</td>                            </tr>                            <tr>                                <th>Reactions</th>                                <td>No reactions recorded</td>                            </tr>                            <tr>                                <th>Criticality</th>                                <td>Not assessed</td>                            </tr>                            <tr>                                <th>Onset</th>                                <td>undefined</td>                            </tr>                        </tbody>                    </table>                </div>            </div>"
+                        },
+                        "entry": [
+                            {
+                                "reference": "AllergyIntolerance/allergy1",
+                                "display": "AllergyIntolerance"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "History of Medication use Narrative",
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "10160-0",
+                                    "display": "History of Medication use Narrative"
+                                }
+                            ],
+                            "text": "History of Medication use Narrative"
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">            <h2>MedicationRequest</h2>            <table>                <tbody>                    <tr>                        <th>ID</th>                        <td>med1</td>                    </tr>                </tbody>            </table>            </div>"
+                        },
+                        "entry": [
+                            {
+                                "reference": "MedicationRequest/med1",
+                                "display": "MedicationRequest"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Problem list - Reported",
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "11450-4",
+                                    "display": "Problem list - Reported"
+                                }
+                            ],
+                            "text": "Problem list - Reported"
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">                <div class=\"condition-narrative\">                    <h2>Medical Condition</h2>                    <table>                        <tbody>                            <tr>                                <th>Condition</th>                                <td>Pneumonia</td>                            </tr>                            <tr>                                <th>Clinical Status</th>                                <td>Resolved</td>                            </tr>                            <tr>                                <th>Verification Status</th>                                <td>Confirmed</td>                            </tr>                            <tr>                                <th>Onset</th>                                <td>2016-12-05</td>                            </tr>                            <tr>                                <th>Severity</th>                                <td>Not rated</td>                            </tr>                        </tbody>                    </table>                </div>            <br />                <div class=\"condition-narrative\">                    <h2>Medical Condition</h2>                    <table>                        <tbody>                            <tr>                                <th>Condition</th>                                <td>Essential hypertension</td>                            </tr>                            <tr>                                <th>Clinical Status</th>                                <td>Active</td>                            </tr>                            <tr>                                <th>Verification Status</th>                                <td>Confirmed</td>                            </tr>                            <tr>                                <th>Onset</th>                                <td>2020-03-04</td>                            </tr>                            <tr>                                <th>Severity</th>                                <td>Not rated</td>                            </tr>                        </tbody>                    </table>                </div>            </div>"
+                        },
+                        "entry": [
+                            {
+                                "reference": "Condition/e6.ToRrlZE9pwFAPiLa6E2nRUitzucwMQODU8OsVpNGA3",
+                                "display": "Condition"
+                            },
+                            {
+                                "reference": "Condition/eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+                                "display": "Condition"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "History of Immunization Narrative",
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "11369-6",
+                                    "display": "History of Immunization Narrative"
+                                }
+                            ],
+                            "text": "History of Immunization Narrative"
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">            <h2>Immunization</h2>            <table>                <tbody>                    <tr>                        <th>Vaccine</th>                        <td>MMR</td>                    </tr>                    <tr>                        <th>Status</th>                        <td>completed</td>                    </tr>                </tbody>            </table>            <br />            <h2>Immunization</h2>            <table>                <tbody>                    <tr>                        <th>Vaccine</th>                        <td>DTaP, Unspecified Formulation (IST) Imm-rx</td>                    </tr>                    <tr>                        <th>Status</th>                        <td>completed</td>                    </tr>                </tbody>            </table>            </div>"
+                        },
+                        "entry": [
+                            {
+                                "reference": "Immunization/emAKcOP2creGzeLlEt5R4MBF6oYm0wzxJ9aWwOTiOqHI3",
+                                "display": "Immunization"
+                            },
+                            {
+                                "reference": "Immunization/emAKcOP2creGzeLlEt5R4MFyM.TLHisGiY2OL7vh-KKI3",
+                                "display": "Immunization"
+                            }
+                        ]
+                    }
+                ],
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">;                <div class=\"patient-narrative\">                    <h2>Patient Information</h2>                    <table>                        <tbody>                            <tr>                                <th>Name</th>                                <td>John Doe</td>                            </tr>                            <tr>                                <th>Gender</th>                                <td>male</td>                            </tr>                            <tr>                                <th>Birth Date</th>                                <td>1980-01-01</td>                            </tr>                            <tr>                                <th>Address</th>                                <td>No address provided</td>                            </tr>                            <tr>                                <th>Contact</th>                                <td>No contact information</td>                            </tr>                        </tbody>                    </table>                </div>                            <div class=\"allergy-intolerance-narrative\">                    <h2>Allergy/Intolerance</h2>                    <table>                        <tbody>                            <tr>                                <th>Allergen</th>                                <td>Penicillin G</td>                            </tr>                            <tr>                                <th>Clinical Status</th>                                <td>active</td>                            </tr>                            <tr>                                <th>Verification Status</th>                                <td>Not verified</td>                            </tr>                            <tr>                                <th>Reactions</th>                                <td>No reactions recorded</td>                            </tr>                            <tr>                                <th>Criticality</th>                                <td>Not assessed</td>                            </tr>                            <tr>                                <th>Onset</th>                                <td>undefined</td>                            </tr>                        </tbody>                    </table>                </div>                        <h2>MedicationRequest</h2>            <table>                <tbody>                    <tr>                        <th>ID</th>                        <td>med1</td>                    </tr>                </tbody>            </table>                            <div class=\"condition-narrative\">                    <h2>Medical Condition</h2>                    <table>                        <tbody>                            <tr>                                <th>Condition</th>                                <td>Pneumonia</td>                            </tr>                            <tr>                                <th>Clinical Status</th>                                <td>Resolved</td>                            </tr>                            <tr>                                <th>Verification Status</th>                                <td>Confirmed</td>                            </tr>                            <tr>                                <th>Onset</th>                                <td>2016-12-05</td>                            </tr>                            <tr>                                <th>Severity</th>                                <td>Not rated</td>                            </tr>                        </tbody>                    </table>                </div>            <br />                <div class=\"condition-narrative\">                    <h2>Medical Condition</h2>                    <table>                        <tbody>                            <tr>                                <th>Condition</th>                                <td>Essential hypertension</td>                            </tr>                            <tr>                                <th>Clinical Status</th>                                <td>Active</td>                            </tr>                            <tr>                                <th>Verification Status</th>                                <td>Confirmed</td>                            </tr>                            <tr>                                <th>Onset</th>                                <td>2020-03-04</td>                            </tr>                            <tr>                                <th>Severity</th>                                <td>Not rated</td>                            </tr>                        </tbody>                    </table>                </div>                        <h2>Immunization</h2>            <table>                <tbody>                    <tr>                        <th>Vaccine</th>                        <td>MMR</td>                    </tr>                    <tr>                        <th>Status</th>                        <td>completed</td>                    </tr>                </tbody>            </table>            <br />            <h2>Immunization</h2>            <table>                <tbody>                    <tr>                        <th>Vaccine</th>                        <td>DTaP, Unspecified Formulation (IST) Imm-rx</td>                    </tr>                    <tr>                        <th>Status</th>                        <td>completed</td>                    </tr>                </tbody>            </table>            </div>"
+                }
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Patient/example-patient",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "example-patient",
+                "identifier": [
+                    {
+                        "system": "http://icanbwell.com",
+                        "value": "12345"
+                    }
+                ],
+                "name": [
+                    {
+                        "family": "Doe",
+                        "given": [
+                            "John"
+                        ]
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "1980-01-01"
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/AllergyIntolerance/allergy1",
+            "resource": {
+                "resourceType": "AllergyIntolerance",
+                "id": "allergy1",
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                            "code": "active"
+                        }
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "7980",
+                            "display": "Penicillin G"
+                        }
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/example-patient"
+                }
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/MedicationRequest/med1",
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "med1",
+                "status": "active",
+                "medicationReference": {
+                    "display": "Test Medication"
+                },
+                "subject": {
+                    "reference": "Patient/example-patient"
+                },
+                "intent": "order"
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Condition/e6.ToRrlZE9pwFAPiLa6E2nRUitzucwMQODU8OsVpNGA3",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "e6.ToRrlZE9pwFAPiLa6E2nRUitzucwMQODU8OsVpNGA3",
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                            "code": "resolved",
+                            "display": "Resolved"
+                        }
+                    ],
+                    "text": "Resolved"
+                },
+                "verificationStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                            "code": "confirmed",
+                            "display": "Confirmed"
+                        }
+                    ],
+                    "text": "Confirmed"
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                                "code": "problem-list-item",
+                                "display": "Problem List Item"
+                            }
+                        ],
+                        "text": "Problem List Item"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                            "code": "J18.9",
+                            "display": "Pneumonia, unspecified organism"
+                        }
+                    ],
+                    "text": "Pneumonia"
+                },
+                "subject": {
+                    "reference": "Patient/example-patient",
+                    "display": "FHIR, Automation"
+                },
+                "onsetDateTime": "2016-12-05",
+                "abatementDateTime": "2016-12-20",
+                "recordedDate": "2020-03-04"
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Condition/eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                            "code": "active",
+                            "display": "Active"
+                        }
+                    ],
+                    "text": "Active"
+                },
+                "verificationStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                            "code": "confirmed",
+                            "display": "Confirmed"
+                        }
+                    ],
+                    "text": "Confirmed"
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                                "code": "problem-list-item",
+                                "display": "Problem List Item"
+                            }
+                        ],
+                        "text": "Problem List Item"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                            "code": "I10",
+                            "display": "Essential (primary) hypertension"
+                        }
+                    ],
+                    "text": "Essential hypertension"
+                },
+                "subject": {
+                    "reference": "Patient/example-patient",
+                    "display": "FHIR, Automation"
+                },
+                "onsetDateTime": "2020-03-04",
+                "recordedDate": "2020-03-04",
+                "severity": {
+                    "text": "Med"
+                }
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Immunization/emAKcOP2creGzeLlEt5R4MBF6oYm0wzxJ9aWwOTiOqHI3",
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "emAKcOP2creGzeLlEt5R4MBF6oYm0wzxJ9aWwOTiOqHI3",
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:1.2.840.114350.1.13.1.1.7.2.768076",
+                        "value": "1000000246"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/sid/cvx",
+                            "code": "03"
+                        }
+                    ],
+                    "text": "MMR"
+                },
+                "patient": {
+                    "reference": "Patient/example-patient",
+                    "display": "FHIR, Automation"
+                },
+                "occurrenceDateTime": "2000-03-04",
+                "primarySource": false,
+                "reportOrigin": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4082",
+                            "code": "1",
+                            "display": "Patient reported"
+                        }
+                    ],
+                    "text": "Patient reported"
+                },
+                "location": {
+                    "display": "right arm"
+                },
+                "performer": [
+                    {
+                        "function_": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP",
+                                    "display": "Administering Provider"
+                                }
+                            ],
+                            "text": "Administering Provider"
+                        },
+                        "actor": {
+                            "reference": "Practitioner/example-practitioner",
+                            "type": "Practitioner",
+                            "display": "Starter Provider"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "comment on MMR"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Immunization/emAKcOP2creGzeLlEt5R4MFyM.TLHisGiY2OL7vh-KKI3",
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "emAKcOP2creGzeLlEt5R4MFyM.TLHisGiY2OL7vh-KKI3",
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:1.2.840.114350.1.13.1.1.7.2.768076",
+                        "value": "1000000244"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/sid/cvx",
+                            "code": "107"
+                        }
+                    ],
+                    "text": "DTaP, Unspecified Formulation (IST) Imm-rx"
+                },
+                "patient": {
+                    "reference": "Patient/example-patient",
+                    "display": "FHIR, Automation"
+                },
+                "occurrenceDateTime": "2020-03-04T18:56:00Z",
+                "primarySource": true,
+                "location": {
+                    "display": "connectathon-testing for EpicConnect and Pulsar testing only"
+                },
+                "manufacturer": {
+                    "display": "Merck, Sharp, Dohme"
+                },
+                "lotNumber": "486745",
+                "expirationDate": "2030-03-04",
+                "site": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4040",
+                            "code": "14",
+                            "display": "Left arm"
+                        }
+                    ],
+                    "text": "Left arm"
+                },
+                "route": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4030",
+                            "code": "2",
+                            "display": "Intramuscular"
+                        }
+                    ],
+                    "text": "Intramuscular"
+                },
+                "doseQuantity": {
+                    "value": 0.5,
+                    "unit": "mL",
+                    "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4019",
+                    "code": "1"
+                },
+                "performer": [
+                    {
+                        "function_": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP",
+                                    "display": "Administering Provider"
+                                }
+                            ],
+                            "text": "Administering Provider"
+                        },
+                        "actor": {
+                            "reference": "Practitioner/example-practitioner",
+                            "type": "Practitioner",
+                            "display": "Emily Williams, MD"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "comment on DTAP"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Organization/example-organization",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "example-organization",
+                "name": "Example Organization"
+            }
+        }
+    ]
+}
