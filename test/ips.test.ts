@@ -164,6 +164,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             expect(narrative).toBeDefined();
             expect(narrative?.status).toBe('generated');
+            console.info(narrative?.div);
             expect(narrative?.div).toContain('John Doe');
             expect(narrative?.div).toContain('male');
         });
