@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import renderDevice, concat, renderRecorded %}
+{% from "utility-fragments.j2" import renderDevice, concat, renderRecorded, narrative_link_id, safe_concat %}
 
 {# Medical Devices #}
 <h5>Medical Devices</h5>
@@ -16,10 +16,10 @@
       {% set dus = entry.resource %}
       {% if dus.resourceType == 'DeviceUseStatement' %}
         {% set extension = dus.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first if dus.extension is defined and dus.extension else None %}
-        <tr id="{{ extension.split('#')[1] if extension }}">
+        <tr id="{{ narrative_link_id(extension) }}">
           <td>{{ renderDevice(dus.device) }}</td>
           <td>{{ dus.status }}</td>
-          <td>{{ concat(dus.note, 'text') }}</td>
+          <td>{{ safe_concat(dus.note, 'text') }}</td>
           <td>{{ renderRecorded(dus.recordedOn) }}</td>
         </tr>
       {% endif %}

@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import codeableConcept, concat, concatReactionManifestation, renderTime, narrative_link_id %}
+{% from "utility-fragments.j2" import codeableConcept, concat, concatReactionManifestation, renderTime, narrative_link_id, safe_concat %}
 
 {# Allergies And Intolerances #}
 <h5>Allergies And Intolerances</h5>
@@ -25,10 +25,10 @@
       <tr id="{{ narrative_link_id(extension) }}">
         <td>{{ codeableConcept(allergy.code) }}</td>
         <td>{{ codeableConcept(allergy.clinicalStatus) }}</td>
-        <td>{{ concat(allergy.category, 'value') }}</td>
-        <td>{{ concatReactionManifestation(allergy.reaction) }}</td>
-        <td>{{ concat(allergy.reaction, 'severity') }}</td>
-        <td>{{ concat(allergy.note, 'text') }}</td>
+        <td>{{ safe_concat(allergy.category, 'value') }}</td>
+        <td>{{ concatReactionManifestation(allergy.reaction | default([])) }}</td>
+        <td>{{ safe_concat(allergy.reaction, 'severity') }}</td>
+        <td>{{ safe_concat(allergy.note, 'text') }}</td>
         <td>{{ renderTime(allergy.onset) }}</td>
       </tr>
     {% endfor %}

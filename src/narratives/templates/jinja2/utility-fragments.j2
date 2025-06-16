@@ -142,6 +142,11 @@
   {% endif %}
 {% endmacro %}
 
+{# Safe Concat Utility #}
+{% macro safe_concat(list, attr) %}
+  {{ concat(list | default([]), attr) }}
+{% endmacro %}
+
 {# Concat CodeableConcept Utility #}
 {% macro concatCodeableConcept(list) %}
   {% if list %}

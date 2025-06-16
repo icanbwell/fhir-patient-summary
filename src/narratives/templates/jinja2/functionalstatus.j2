@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import codeableConcept, concat, renderEffective %}
+{% from "utility-fragments.j2" import codeableConcept, concat, renderEffective, narrative_link_id, safe_concat %}
 
 {# Functional Status #}
 <h5>Functional Status</h5>
@@ -21,11 +21,11 @@
         {% else %}
           {% set extension = None %}
         {% endif %}
-        <tr id="{{ extension.split('#')[1] if extension }}">
+        <tr id="{{ narrative_link_id(extension) }}">
           <td>{{ codeableConcept(ci.code, 'display') }}</td>
           <td>{{ ci.status.code }}</td>
           <td>{{ ci.summary }}</td>
-          <td>{{ concat(ci.note, 'text') }}</td>
+          <td>{{ safe_concat(ci.note, 'text') }}</td>
           <td>{{ renderEffective(ci.effective) }}</td>
         </tr>
       {% endif %}

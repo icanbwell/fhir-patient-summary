@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import codeableConcept, concat, renderTime, narrative_link_id %}
+{% from "utility-fragments.j2" import codeableConcept, concat, renderTime, narrative_link_id, safe_concat %}
 
 {# Problem List #}
 <h5>Problem List</h5>
@@ -23,7 +23,7 @@
         <tr id="{{ narrative_link_id(extension) }}">
           <td>{{ codeableConcept(cond.code) }}</td>
           <td>{{ codeableConcept(cond.clinicalStatus) }}</td>
-          <td>{{ concat(cond.note, 'text') }}</td>
+          <td>{{ safe_concat(cond.note, 'text') }}</td>
           <td>{{ renderTime(cond.onset) }}</td>
         </tr>
       {% endif %}

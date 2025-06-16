@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import codeableConcept, concatDoseNumber, renderVaccineManufacturer, concat, renderTime, narrative_link_id %}
+{% from "utility-fragments.j2" import codeableConcept, concatDoseNumber, renderVaccineManufacturer, concat, renderTime, narrative_link_id, safe_concat %}
 
 {# Immunizations #}
 <h5>Immunizations</h5>
@@ -23,13 +23,13 @@
         {% else %}
           {% set extension = None %}
         {% endif %}
-        <tr id="{{ narrative_link_id(extension) }}">
+        <tr id="{{ narrative_link_id(imm) }}">
           <td>{{ codeableConcept(imm.vaccineCode) }}</td>
           <td>{{ imm.status }}</td>
           <td>{{ concatDoseNumber(imm.protocolApplied) }}</td>
           <td>{{ renderVaccineManufacturer(imm) }}</td>
           <td>{{ imm.lotNumber }}</td>
-          <td>{{ concat(imm.note, 'text') }}</td>
+          <td>{{ safe_concat(imm.note, 'text') }}</td>
           <td>{{ renderTime(imm.occurrence) }}</td>
         </tr>
       {% endif %}

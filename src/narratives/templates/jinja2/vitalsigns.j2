@@ -23,13 +23,13 @@
         {% else %}
           {% set extension = None %}
         {% endif %}
-        <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
+        <tr id="{{ narrative_link_id(extension) }}">
           <td>{{ codeableConcept(obs.code, 'display') }}</td>
           <td>{{ renderValue(obs.value) }}</td>
           <td>{{ renderValueUnit(obs.value) }}</td>
           <td>{{ firstFromCodeableConceptList(obs.interpretation) }}</td>
           <td>{{ renderComponent(obs.component) }}</td>
-          <td>{{ concat(obs.note, 'text') }}</td>
+          <td>{{ safe_concat(obs.note, 'text') }}</td>
           <td>{{ renderEffective(obs.effective) }}</td>
         </tr>
       {% endif %}

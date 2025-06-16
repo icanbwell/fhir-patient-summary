@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import codeableConcept, renderValue, renderValueUnit, concat, renderTime, narrative_link_id %}
+{% from "utility-fragments.j2" import codeableConcept, renderValue, renderValueUnit, concat, renderTime, narrative_link_id, safe_concat %}
 
 {# Social History #}
 <h5>Social History</h5>
@@ -21,11 +21,11 @@
         {% else %}
           {% set extension = None %}
         {% endif %}
-        <tr id="{{ narrative_link_id(extension) }}">
+        <tr id="{{ narrative_link_id(obs) }}">
           <td>{{ codeableConcept(obs.code, 'display') }}</td>
           <td>{{ renderValue(obs.value) }}</td>
           <td>{{ renderValueUnit(obs.value) }}</td>
-          <td>{{ concat(obs.note, 'text') }}</td>
+          <td>{{ safe_concat(obs.note, 'text') }}</td>
           <td>{{ renderTime(obs.effective) }}</td>
         </tr>
       {% endif %}
