@@ -1,5 +1,4 @@
 // Comprehensive IPS Resource Mapping
-import {IPSResourceProfileRegistry} from "../profiles/ips_resource_profile_registry";
 import {TPatient} from "../types/resources/Patient";
 import {TCompositionSection} from "../types/partials/CompositionSection";
 import {TDomainResource} from "../types/resources/DomainResource";
@@ -19,13 +18,6 @@ export class ComprehensiveIPSCompositionBuilder {
     private resources: Set<TDomainResource> = new Set();
 
     constructor(patient: TPatient) {
-        // Validate patient resource
-        if (!IPSResourceProfileRegistry.validateResource(
-            patient,
-            IPSSections.PATIENT
-        )) {
-            throw new Error('Patient resource does not meet IPS requirements');
-        }
         this.patient = patient;
 
         // Add patient section by default
