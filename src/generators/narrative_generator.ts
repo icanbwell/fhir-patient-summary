@@ -30,6 +30,7 @@ class NarrativeGenerator {
         env.addFilter('map', function (arr, attr) {
             if (!Array.isArray(arr)) return [];
             return arr.map(item => {
+                if (typeof item !== 'object' || item === null) return undefined;
                 // Support dot notation for nested attributes
                 if (typeof attr === 'string' && attr.includes('.')) {
                     return attr.split('.').reduce((obj, key) => (obj ? obj[key] : undefined), item);
