@@ -22,16 +22,11 @@ interface Narrative {
 }
 
 class NarrativeGenerator {
-    /**
-     * Generate a narrative for any FHIR resource
-     * @param resources - FHIR resources
-     * @returns Narrative representation
-     */
-    static generateNarrative<T extends TDomainResource>(
-        resources: T[]
-    ): Narrative | undefined {
 
-        if (!resources || resources.length === 0) {
+    static generateNarrativeContent<T extends TDomainResource>(
+        resources: T[]
+    ): string | undefined {
+                if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
         }
 
@@ -58,7 +53,19 @@ class NarrativeGenerator {
         const generator = generators[`${resourceType}`] ||
             new DefaultNarrativeGenerator();
 
-        const content = generator.generateNarrative(resources).replace(/\n/g, '');
+        return generator.generateNarrative(resources).replace(/\n/g, '');
+    }
+    /**
+     * Generate a narrative for any FHIR resource
+     * @param resources - FHIR resources
+     * @returns Narrative representation
+     */
+    static generateNarrative<T extends TDomainResource>(
+        resources: T[]
+    ): Narrative | undefined {
+
+        const content = this.generateNarrativeContent(resources);
+        if (content === undefined) {return content;}
         return {
             status: 'generated',
             div: NarrativeGenerator.wrapInXhtml(content)
@@ -70,7 +77,7 @@ class NarrativeGenerator {
      * @param content - HTML content to wrap
      * @returns XHTML div string
      */
-    private static wrapInXhtml(content: string): string {
+    static wrapInXhtml(content: string): string {
         return `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`;
     }
 

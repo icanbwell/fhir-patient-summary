@@ -6,7 +6,7 @@ import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
 import {TBundle} from "../types/resources/Bundle";
-import {NarrativeGenerator} from "./narrative_generator";
+import {Narrative, NarrativeGenerator} from "./narrative_generator";
 import {TComposition} from "../types/resources/Composition";
 import {TNarrative} from "../types/partials/Narrative";
 
@@ -158,7 +158,8 @@ export class ComprehensiveIPSCompositionBuilder {
             }],
             date: new Date().toISOString(),
             title: 'International Patient Summary',
-            section: this.sections
+            section: this.sections,
+            text: this.createCompositionNarrative()
         };
 
         // Create the bundle with proper document type
@@ -206,5 +207,30 @@ export class ComprehensiveIPSCompositionBuilder {
         });
 
         return bundle;
+    }
+
+    private createCompositionNarrative(): Narrative {
+        const patient = this.patient;
+        let fullNarrativeContent: string = ";"
+        // generate narrative for the patient
+        const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent([patient]);
+        fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');
+        // now generate narrative for the sections and add to this narrative
+        for (const section of this.sections) {
+            if (section.entry) {
+                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(section.entry.map(e => {
+                    const resource = Array.from(this.resources).find(
+                        r =>  e.reference ? r.id === e.reference.split('/')[1]: undefined
+                    );
+                    return resource ? resource : e;
+                }));
+                fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
+            }
+        }
+
+        return {
+            status: 'generated',
+            div: NarrativeGenerator.wrapInXhtml(fullNarrativeContent)
+        }
     }
 }
