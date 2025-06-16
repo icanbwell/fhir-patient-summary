@@ -89,14 +89,14 @@
 {# Render Dose Number #}
 {% macro renderDoseNumber(doseNumber) %}
   {% if doseNumber %}
-    {{ doseNumber.value }}
+    {{ doseNumber.value if doseNumber.value is defined else '' }}
   {% endif %}
 {% endmacro %}
 
 {# Render Value #}
 {% macro renderValue(value) %}
   {% if value %}
-    {% if value.__class__.__name__ == 'Quantity' %}{{ value.value }}{% elif value.__class__.__name__ == 'DateTimeType' %}{{ value.value }}{% elif value.__class__.__name__ == 'CodeableConcept' %}{{ codeableConcept(value, 'display') }}{% elif value.__class__.__name__ == 'StringType' %}{{ value.value }}{% endif %}
+    {% if value.__class__.__name__ == 'Quantity' %}{{ value.value if value.value is defined else '' }}{% elif value.__class__.__name__ == 'DateTimeType' %}{{ value.value if value.value is defined else '' }}{% elif value.__class__.__name__ == 'CodeableConcept' %}{{ codeableConcept(value, 'display') }}{% elif value.__class__.__name__ == 'StringType' %}{{ value.value if value.value is defined else '' }}{% endif %}
   {% endif %}
 {% endmacro %}
 
@@ -186,4 +186,9 @@
   {% if list %}
     {{ list | map(attribute='code') | map(attribute='text') | join(', ') }}
   {% endif %}
+{% endmacro %}
+
+{# Macro to safely extract narrative link id from extension #}
+{% macro narrative_link_id(extension) %}
+  {{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value is string and '#' in extension.value.value else '' }}
 {% endmacro %}

@@ -15,11 +15,7 @@
     {% for entry in resource.entry %}
       {% set cp = entry.resource %}
       {% if cp.resourceType != 'Composition' %}
-        {% if cp.extension is defined and cp.extension %}
-          {% set extension = cp.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
-        {% else %}
-          {% set extension = None %}
-        {% endif %}
+        {% set extension = cp.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first if cp.extension is defined and cp.extension else None %}
         <tr id="{{ extension.split('#')[1] if extension }}">
           <td>{{ cp.description }}</td>
           <td>{{ cp.intent.code }}</td>

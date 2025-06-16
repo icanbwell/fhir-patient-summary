@@ -22,14 +22,14 @@
         <li><strong>Identifier(s):</strong>
           <ul>
             {% for id in patient.identifier %}
-              <li>{{ id.system }}: {{ id.value }}</li>
+              <li>{{ id.system if id.system is defined else '' }}: {{ id.value if id.value is defined else '' }}</li>
             {% endfor %}
           </ul>
         </li>
         <li><strong>Telecom:</strong>
           <ul>
             {% for telecom in patient.telecom %}
-              <li>{{ telecom.system|capitalize }}: {{ telecom.value }}{% if telecom.use %} ({{ telecom.use }}){% endif %}</li>
+              <li>{{ telecom.system|capitalize if telecom.system is defined else '' }}: {{ telecom.value if telecom.value is defined else '' }}{% if telecom.use %} ({{ telecom.use }}){% endif %}</li>
             {% endfor %}
           </ul>
         </li>

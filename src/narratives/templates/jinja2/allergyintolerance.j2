@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import codeableConcept, concat, concatReactionManifestation, renderTime %}
+{% from "utility-fragments.j2" import codeableConcept, concat, concatReactionManifestation, renderTime, narrative_link_id %}
 
 {# Allergies And Intolerances #}
 <h5>Allergies And Intolerances</h5>
@@ -22,7 +22,7 @@
       {% else %}
         {% set extension = None %}
       {% endif %}
-      <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
+      <tr id="{{ narrative_link_id(extension) }}">
         <td>{{ codeableConcept(allergy.code) }}</td>
         <td>{{ codeableConcept(allergy.clinicalStatus) }}</td>
         <td>{{ concat(allergy.category, 'value') }}</td>

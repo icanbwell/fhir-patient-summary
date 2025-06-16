@@ -26,8 +26,8 @@
           {% endif %}
           <tr id="{{ extension.split('#')[1] if extension }}">
             <td>{{ codeableConcept(obs.code) }}</td>
-            <td>{{ renderValue(obs.value) }}</td>
-            <td>{{ renderValueUnit(obs.value) }}</td>
+            <td>{{ renderValue(obs.value) if obs.value is defined else '' }}</td>
+            <td>{{ renderValueUnit(obs.value) if obs.value is defined else '' }}</td>
             <td>{{ firstFromCodeableConceptList(obs.interpretation) }}</td>
             <td>{{ concatReferenceRange(obs.referenceRange) }}</td>
             <td>{{ concat(obs.note, 'text') }}</td>

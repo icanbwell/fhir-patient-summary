@@ -17,7 +17,7 @@
       {% set ci = entry.resource %}
       {% if ci.resourceType != 'Composition' %}
         {% if ci.extension is defined and ci.extension %}
-          {% set extension = ci.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first %}
+          {% set extension = ci.extension | selectattr('url', 'equalto', 'http://hl7.org/fhir/StructureDefinition/narrativeLink') | map(attribute='value.value') | list | first if ci.extension is defined and ci.extension else None %}
         {% else %}
           {% set extension = None %}
         {% endif %}
