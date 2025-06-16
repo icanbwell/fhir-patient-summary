@@ -7,7 +7,7 @@ import {TBundleEntry} from "../src/types/partials/BundleEntry";
 describe('FHIR Patient Summary Generation', () => {
     it('should generate the correct summary for the provided bundle', () => {
         // Read the test bundle JSON
-        const bundlePath = path.join(__dirname, 'test-bundle.json');
+        const bundlePath = path.join(__dirname, 'fixtures/test-bundle.json');
         const inputBundle = JSON.parse(fs.readFileSync(bundlePath, 'utf-8'));
 
         // Extract resources from the bundle
