@@ -3,7 +3,7 @@ import { IPSSections } from '../structures/ips_sections';
 
 export class IPSTemplateMapper {
     private static sectionToTemplate: Record<IPSSections, string> = {
-        [IPSSections.PATIENT]: 'composition.j2', // No direct patient template, using composition
+        [IPSSections.PATIENT]: 'patient.j2',
         [IPSSections.ALLERGIES]: 'allergyintolerance.j2',
         [IPSSections.MEDICATIONS]: 'medicationsummary.j2',
         [IPSSections.PROBLEMS]: 'problemlist.j2',
