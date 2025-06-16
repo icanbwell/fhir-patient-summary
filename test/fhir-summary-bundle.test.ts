@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
+import {TCompositionSection} from "../src/types/partials/CompositionSection";
+import {TBundleEntry} from "../src/types/partials/BundleEntry";
 
 describe('FHIR Patient Summary Generation', () => {
     it('should generate the correct summary for the provided bundle', () => {
@@ -43,6 +45,28 @@ describe('FHIR Patient Summary Generation', () => {
         }
         if (inputBundle.entry && inputBundle.entry[0].resource?.date) {
             inputBundle.entry[0].resource.date = undefined;
+        }
+        // extract the dev from each section and compare
+        const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
+            .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
+            .flat();
+        const expectedSections: TCompositionSection[] | undefined = inputBundle.entry
+            .filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
+            .map((e: TBundleEntry) => e.resource?.section)
+            .flat();
+        // compare the div of each section
+        expect(generatedSections).toBeDefined();
+        expect(expectedSections).toBeDefined();
+        // expect(generatedSections?.length).toBe(expectedSections?.length);
+        if (generatedSections && expectedSections) {
+            for (let i = 0; i < (generatedSections.length ?? 0); i++) {
+                expect(generatedSections[i].text?.div).toBeDefined();
+                expect(expectedSections[i].text?.div).toBeDefined();
+                console.info(`Comparing section ${i + 1}/${generatedSections.length}`);
+                console.info(`Generated: ${generatedSections[i].text?.div}`);
+                console.info(`Expected: ${expectedSections[i].text?.div}`);
+                expect(generatedSections[i].text?.div).toEqual(expectedSections[i].text?.div);
+            }
         }
         expect(bundle).toEqual(inputBundle);
     });
