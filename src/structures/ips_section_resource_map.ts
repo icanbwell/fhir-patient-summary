@@ -4,7 +4,7 @@ import { IPSSections } from "./ips_sections";
 export const IPSSectionResourceMap: Record<IPSSections, string[]> = {
     [IPSSections.PATIENT]: ['Patient'],
     [IPSSections.ALLERGIES]: ['AllergyIntolerance'],
-    [IPSSections.MEDICATIONS]: ['MedicationStatement'],
+    [IPSSections.MEDICATIONS]: ['MedicationRequest', 'MedicationStatement'],
     [IPSSections.PROBLEMS]: ['Condition'],
     [IPSSections.IMMUNIZATIONS]: ['Immunization'],
     [IPSSections.VITAL_SIGNS]: ['Observation'],
