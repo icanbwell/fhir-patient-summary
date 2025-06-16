@@ -108,14 +108,28 @@
 {# Concat Utility #}
 {% macro concat(list, attr) %}
   {% if list %}
-    {{ list | map(attribute=attr) | join(', ') }}
+    {%- set items = [] -%}
+    {%- for item in list -%}
+      {%- if attribute is defined and item[attr] is defined -%}
+        {%- set _ = items.append(item[attr]) -%}
+      {%- elif attr is not defined and item is defined -%}
+        {%- set _ = items.append(item) -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {{ items | join(', ') }}
   {% endif %}
 {% endmacro %}
 
 {# Concat CodeableConcept Utility #}
 {% macro concatCodeableConcept(list) %}
   {% if list %}
-    {{ list | map(attribute='text') | join(', ') }}
+    {%- set items = [] -%}
+    {%- for item in list -%}
+      {%- if item.text is defined and item.text -%}
+        {%- set _ = items.append(item.text) -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {{ items | join(', ') }}
   {% endif %}
 {% endmacro %}
 

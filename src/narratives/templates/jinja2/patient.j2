@@ -36,7 +36,11 @@
       </ul>
     </li>
     <li><strong>Marital Status:</strong> {{ patient.maritalStatus.text if patient.maritalStatus }}</li>
-    <li><strong>Deceased:</strong> {{ 'Yes' if patient.deceasedBoolean else 'No' if patient.deceasedBoolean is not none else '' }}</li>
+    <li><strong>Deceased:</strong>
+      {% if patient.deceasedBoolean is not none %}
+        {% if patient.deceasedBoolean %}Yes{% else %}No{% endif %}
+      {% endif %}
+    </li>
     <li><strong>Language(s):</strong>
       <ul>
         {% for comm in patient.communication %}
@@ -59,7 +63,7 @@
         {% endfor %}
       </ul>
     </li>
-    <li><strong>Birth Place:</strong> {{ patient.birthPlace.address.text if patient.birthPlace and patient.birthPlace.address }}</li>
+    <li><strong>Birthplace:</strong> {{ patient.birthPlace.address.text if patient.birthPlace and patient.birthPlace.address }}</li>
     <li><strong>Photo:</strong>
       {% if patient.photo %}
         <img src="{{ patient.photo[0].url }}" alt="Patient Photo" style="max-width:100px;max-height:100px;"/>
@@ -69,4 +73,3 @@
     </li>
   </ul>
 </div>
-
