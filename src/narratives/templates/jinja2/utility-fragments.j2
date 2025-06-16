@@ -133,9 +133,9 @@
     {%- set items = [] -%}
     {%- for item in list -%}
       {%- if attr is defined and item[attr] is defined -%}
-        {%- set _ = items.append(item[attr]) -%}
+        {%- set items = items + [item[attr]] -%}
       {%- elif attr is not defined and item is defined -%}
-        {%- set _ = items.append(item) -%}
+        {%- set items = items + [item] -%}
       {%- endif -%}
     {%- endfor -%}
     {{ items | join(', ') }}
@@ -148,7 +148,7 @@
     {%- set items = [] -%}
     {%- for item in list -%}
       {%- if item.text is defined and item.text -%}
-        {%- set _ = items.append(item.text) -%}
+        {%- set items = items + [item.text] -%}
       {%- endif -%}
     {%- endfor -%}
     {{ items | join(', ') }}
