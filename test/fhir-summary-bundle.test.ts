@@ -35,6 +35,15 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
+        // remove the date from the bundle for comparison
+        bundle.timestamp = undefined;
+        inputBundle.timestamp = undefined;
+        if (bundle.entry && bundle.entry[0].resource?.date) {
+            bundle.entry[0].resource.date = undefined;
+        }
+        if (inputBundle.entry && inputBundle.entry[0].resource?.date) {
+            inputBundle.entry[0].resource.date = undefined;
+        }
         expect(bundle).toEqual(inputBundle);
     });
 });
