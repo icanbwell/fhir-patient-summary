@@ -203,13 +203,14 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // Extract and add all resources referenced in sections
         this.resources.forEach(resource => {
+            if (resource.resourceType !== "Patient"){
             bundle.entry?.push(
                 {
                     fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
                     resource: resource
                 }
-            )
-        });
+            );
+        }});
 
         // add a bundle entry for Organization
         bundle.entry?.push({
