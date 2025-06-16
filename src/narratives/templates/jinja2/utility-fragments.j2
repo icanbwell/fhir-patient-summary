@@ -85,9 +85,15 @@
 {% endmacro %}
 
 {# CodeableConcept Utility #}
-{% macro codeableConcept(cc, attr) %}
+{% macro codeableConcept(cc) %}
   {% if cc %}
-    {% if cc[attr] is defined %}{{ cc[attr] }}{% elif cc.coding and cc.coding[0][attr] is defined %}{{ cc.coding[0][attr] }}{% endif %}
+    {# Prefer 'text', then 'display', then 'code', then coding[0].display, then coding[0].code #}
+    {% if cc.text is defined and cc.text %}{{ cc.text }}
+    {% elif cc.display is defined and cc.display %}{{ cc.display }}
+    {% elif cc.code is defined and cc.code %}{{ cc.code }}
+    {% elif cc.coding and cc.coding[0].display is defined and cc.coding[0].display %}{{ cc.coding[0].display }}
+    {% elif cc.coding and cc.coding[0].code is defined and cc.coding[0].code %}{{ cc.coding[0].code }}
+    {% endif %}
   {% endif %}
 {% endmacro %}
 

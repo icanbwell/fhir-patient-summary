@@ -24,8 +24,8 @@
             {% set extension = None %}
           {% endif %}
           <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
-            <td>{{ renderMedication(mr) }}</td>
-            <td>{{ mr.status.display if mr.status else '' }}</td>
+            <td>{{ codeableConcept(mr.medicationCodeableConcept) }}</td>
+            <td>{{ mr.status.display if mr.status and mr.status.display else mr.status if mr.status else '' }}</td>
             <td>{{ concatDosageRoute(mr.dosageInstruction) }}</td>
             <td>{{ concat(mr.dosageInstruction, 'text') }}</td>
             <td>{{ concat(mr.note, 'text') }}</td>

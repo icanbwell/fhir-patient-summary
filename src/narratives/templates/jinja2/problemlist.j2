@@ -21,8 +21,8 @@
           {% set extension = None %}
         {% endif %}
         <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
-          <td>{{ codeableConcept(cond.code, 'display') }}</td>
-          <td>{{ codeableConcept(cond.clinicalStatus, 'code') }}</td>
+          <td>{{ codeableConcept(cond.code) }}</td>
+          <td>{{ codeableConcept(cond.clinicalStatus) }}</td>
           <td>{{ concat(cond.note, 'text') }}</td>
           <td>{{ renderTime(cond.onset) }}</td>
         </tr>

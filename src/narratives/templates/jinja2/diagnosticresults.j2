@@ -25,7 +25,7 @@
             {% set extension = None %}
           {% endif %}
           <tr id="{{ extension.split('#')[1] if extension }}">
-            <td>{{ codeableConcept(obs.code, 'display') }}</td>
+            <td>{{ codeableConcept(obs.code) }}</td>
             <td>{{ renderValue(obs.value) }}</td>
             <td>{{ renderValueUnit(obs.value) }}</td>
             <td>{{ firstFromCodeableConceptList(obs.interpretation) }}</td>

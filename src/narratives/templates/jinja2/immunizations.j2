@@ -24,7 +24,7 @@
           {% set extension = None %}
         {% endif %}
         <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
-          <td>{{ codeableConcept(imm.vaccineCode, 'display') }}</td>
+          <td>{{ codeableConcept(imm.vaccineCode) }}</td>
           <td>{{ imm.status }}</td>
           <td>{{ concatDoseNumber(imm.protocolApplied) }}</td>
           <td>{{ renderVaccineManufacturer(imm) }}</td>

@@ -23,8 +23,8 @@
         {% set extension = None %}
       {% endif %}
       <tr id="{{ extension.value.value.split('#')[1] if extension and extension.value and extension.value.value }}">
-        <td>{{ codeableConcept(allergy.code, 'display') }}</td>
-        <td>{{ codeableConcept(allergy.clinicalStatus, 'code') }}</td>
+        <td>{{ codeableConcept(allergy.code) }}</td>
+        <td>{{ codeableConcept(allergy.clinicalStatus) }}</td>
         <td>{{ concat(allergy.category, 'value') }}</td>
         <td>{{ concatReactionManifestation(allergy.reaction) }}</td>
         <td>{{ concat(allergy.reaction, 'severity') }}</td>
