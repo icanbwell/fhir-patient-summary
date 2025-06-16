@@ -1,14 +1,29 @@
 {# Utility Fragments for Jinja2 #}
 
 {# CodeableConcept Utility #}
-{% macro codeableConcept(cc) %}
+{% macro codeableConcept(cc, field=None) %}
   {% if cc %}
-    {# Prefer 'text', then 'display', then 'code', then coding[0].display, then coding[0].code #}
-    {% if cc.text is defined and cc.text %}{{ cc.text }}
-    {% elif cc.display is defined and cc.display %}{{ cc.display }}
-    {% elif cc.code is defined and cc.code %}{{ cc.code }}
-    {% elif cc.coding and cc.coding[0].display is defined and cc.coding[0].display %}{{ cc.coding[0].display }}
-    {% elif cc.coding and cc.coding[0].code is defined and cc.coding[0].code %}{{ cc.coding[0].code }}
+    {# If a specific field is requested, use it if available #}
+    {% if field is defined and field %}
+      {% if cc[field] is defined and cc[field] %}{{ cc[field] }}
+      {% elif cc.coding and cc.coding[0][field] is defined and cc.coding[0][field] %}{{ cc.coding[0][field] }}
+      {% else %}
+        {# Fallback to default order if field not found #}
+        {% if cc.text is defined and cc.text %}{{ cc.text }}
+        {% elif cc.display is defined and cc.display %}{{ cc.display }}
+        {% elif cc.code is defined and cc.code %}{{ cc.code }}
+        {% elif cc.coding and cc.coding[0].display is defined and cc.coding[0].display %}{{ cc.coding[0].display }}
+        {% elif cc.coding and cc.coding[0].code is defined and cc.coding[0].code %}{{ cc.coding[0].code }}
+        {% endif %}
+      {% endif %}
+    {% else %}
+      {# Default order: text, display, code, coding[0].display, coding[0].code #}
+      {% if cc.text is defined and cc.text %}{{ cc.text }}
+      {% elif cc.display is defined and cc.display %}{{ cc.display }}
+      {% elif cc.code is defined and cc.code %}{{ cc.code }}
+      {% elif cc.coding and cc.coding[0].display is defined and cc.coding[0].display %}{{ cc.coding[0].display }}
+      {% elif cc.coding and cc.coding[0].code is defined and cc.coding[0].code %}{{ cc.coding[0].code }}
+      {% endif %}
     {% endif %}
   {% endif %}
 {% endmacro %}
