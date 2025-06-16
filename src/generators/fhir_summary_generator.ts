@@ -107,10 +107,13 @@ export class ComprehensiveIPSCompositionBuilder {
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
             const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
-            const resources = bundle.entry
+            const customFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
+            let resources = bundle.entry
                 .map(e => e.resource)
                 .filter(r => typeof r?.resourceType === 'string' && resourceTypesForSection.includes(r.resourceType as string));
-
+            if (customFilter) {
+                resources = resources.filter(customFilter);
+            }
             if (resources.length > 0) {
                 this.addSection(sectionType, resources as TDomainResource[], {isOptional: true});
             }
