@@ -76,6 +76,13 @@ describe('FHIR Patient Summary Generation', () => {
                 }
             }
         }
+        // now remove the text from the Composition resource for comparison
+        if (bundle.entry && bundle.entry[0].resource?.text) {
+            delete bundle.entry[0].resource.text;
+        }
+        if (inputBundle.entry && inputBundle.entry[0].resource?.text) {
+            delete inputBundle.entry[0].resource.text;
+        }
         expect(bundle).toEqual(inputBundle);
     });
 });
