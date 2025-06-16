@@ -1,4 +1,4 @@
-{% from "utility-fragments.j2" import renderMedication, concatDosageRoute, concat, renderTime %}
+{% from "utility-fragments.j2" import renderMedication, concatDosageRoute, concat, renderTime, codeableConcept %}
 
 {# Medication Summary: Medication Requests #}
 {% if resource.entry | selectattr('resource.resourceType', 'equalto', 'MedicationRequest') | list %}
@@ -70,7 +70,7 @@
                 {% endif %}
                 {% set row_id = (extension.value.value.split('#')[1]) if extension and extension.value and extension.value.value and ('#' in extension.value.value) else None %}
                 <tr{% if row_id %} id="{{ row_id }}"{% endif %}>
-                    <td>{{ renderMedication(ms) }}</td>
+                    <td>{{ codeableConcept(ms.medicationCodeableConcept) }}</td>
                     <td>{{ ms.status.display if ms.status else '' }}</td>
                     <td>{{ concatDosageRoute(ms.dosage) }}</td>
                     <td>{{ concat(ms.dosage, 'text') }}</td>

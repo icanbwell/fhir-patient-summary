@@ -1,5 +1,19 @@
 {# Utility Fragments for Jinja2 #}
 
+{# CodeableConcept Utility #}
+{% macro codeableConcept(cc) %}
+  {% if cc %}
+    {# Prefer 'text', then 'display', then 'code', then coding[0].display, then coding[0].code #}
+    {% if cc.text is defined and cc.text %}{{ cc.text }}
+    {% elif cc.display is defined and cc.display %}{{ cc.display }}
+    {% elif cc.code is defined and cc.code %}{{ cc.code }}
+    {% elif cc.coding and cc.coding[0].display is defined and cc.coding[0].display %}{{ cc.coding[0].display }}
+    {% elif cc.coding and cc.coding[0].code is defined and cc.coding[0].code %}{{ cc.coding[0].code }}
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+
 {# Render Device #}
 {% macro renderDevice(deviceRef) %}
   {%- set device = deviceRef.resolve() if deviceRef and deviceRef.resolve is defined else None -%}
@@ -26,11 +40,18 @@
 
 {# Render Medication #}
 {% macro renderMedication(medicationType) %}
-  {% if medicationType and medicationType.medication is defined %}
-    {% if medicationType.medication.__class__.__name__ == 'CodeableConcept' %}
-      {{ codeableConcept(medicationType.medication, 'display') }}
-    {% elif medicationType.medication.__class__.__name__ == 'Reference' %}
-      {{ renderMedicationRef(medicationType) }}
+  {# Handle FHIR resource objects with medicationCodeableConcept or medicationReference (e.g., MedicationStatement, MedicationRequest) #}
+  {% if medicationType is mapping %}
+    {% if medicationType.medicationCodeableConcept is defined and medicationType.medicationCodeableConcept %}
+      {{ codeableConcept(medicationType.medicationCodeableConcept) }}
+    {% elif medicationType.medicationReference is defined and medicationType.medicationReference %}
+      {{ renderMedicationRef({'medication': medicationType.medicationReference}) }}
+    {% elif medicationType.medication is defined %}
+      {% if medicationType.medication.__class__.__name__ == 'CodeableConcept' %}
+        {{ codeableConcept(medicationType.medication, 'display') }}
+      {% elif medicationType.medication.__class__.__name__ == 'Reference' %}
+        {{ renderMedicationRef(medicationType) }}
+      {% endif %}
     {% endif %}
   {% endif %}
 {% endmacro %}
@@ -82,19 +103,6 @@
 {# Render Recorded Date #}
 {% macro renderRecorded(recorded) %}
   {% if recorded %}{{ recorded }}{% endif %}
-{% endmacro %}
-
-{# CodeableConcept Utility #}
-{% macro codeableConcept(cc) %}
-  {% if cc %}
-    {# Prefer 'text', then 'display', then 'code', then coding[0].display, then coding[0].code #}
-    {% if cc.text is defined and cc.text %}{{ cc.text }}
-    {% elif cc.display is defined and cc.display %}{{ cc.display }}
-    {% elif cc.code is defined and cc.code %}{{ cc.code }}
-    {% elif cc.coding and cc.coding[0].display is defined and cc.coding[0].display %}{{ cc.coding[0].display }}
-    {% elif cc.coding and cc.coding[0].code is defined and cc.coding[0].code %}{{ cc.coding[0].code }}
-    {% endif %}
-  {% endif %}
 {% endmacro %}
 
 {# Concat Utility #}
