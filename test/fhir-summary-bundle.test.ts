@@ -7,8 +7,8 @@ import {TBundleEntry} from "../src/types/partials/BundleEntry";
 describe('FHIR Patient Summary Generation', () => {
     it('should generate the correct summary for the provided bundle', () => {
         // Read the test bundle JSON
-        const bundlePath = path.join(__dirname, 'fixtures/test-bundle.json');
-        const inputBundle = JSON.parse(fs.readFileSync(bundlePath, 'utf-8'));
+        const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-bundle.json'), 'utf-8'));
+        const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-bundle.json'), 'utf-8'));
 
         // Extract resources from the bundle
         const resources = inputBundle.entry.map((e: any) => e.resource);
@@ -38,20 +38,17 @@ describe('FHIR Patient Summary Generation', () => {
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
         // remove the date from the bundle for comparison
-        bundle.timestamp = undefined;
-        inputBundle.timestamp = undefined;
+        bundle.timestamp = expectedBundle.timestamp;
         if (bundle.entry && bundle.entry[0].resource?.date) {
-            bundle.entry[0].resource.date = undefined;
+            bundle.entry[0].resource.date = expectedBundle.entry[0].resource.date;
         }
-        if (inputBundle.entry && inputBundle.entry[0].resource?.date) {
-            inputBundle.entry[0].resource.date = undefined;
-        }
+
         // extract the dev from each section and compare
         const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
             .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
             .flat()
             .filter((s: TCompositionSection) => s);
-        const expectedSections: TCompositionSection[] | undefined = inputBundle.entry
+        const expectedSections: TCompositionSection[] | undefined = expectedBundle.entry
             .filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
             .map((e: TBundleEntry) => e.resource?.section)
             .flat()
@@ -68,21 +65,12 @@ describe('FHIR Patient Summary Generation', () => {
                 // now clear out the div for comparison
                 if (generatedSections && generatedSections[i] && generatedSections[i].text && generatedSections[i]?.text?.div) {
                     expect(generatedSections[i].text?.div).toBeDefined();
-                    delete generatedSections[i].text;
                 }
                 if (expectedSections && expectedSections[i] && expectedSections[i].text && expectedSections[i]?.text?.div) {
                     expect(expectedSections[i].text?.div).toBeDefined();
-                    delete expectedSections[i].text;
                 }
             }
         }
-        // now remove the text from the Composition resource for comparison
-        if (bundle.entry && bundle.entry[0].resource?.text) {
-            delete bundle.entry[0].resource.text;
-        }
-        if (inputBundle.entry && inputBundle.entry[0].resource?.text) {
-            delete inputBundle.entry[0].resource.text;
-        }
-        expect(bundle).toEqual(inputBundle);
+        expect(bundle).toEqual(expectedBundle);
     });
 });
