@@ -2,7 +2,10 @@
 
 {# CodeableConcept Utility #}
 {% macro codeableConcept(cc, field=None) %}
-  {% if cc %}
+  {% if cc is not defined or not cc %}
+    {# Always return empty string if undefined/null #}
+    {{ '' }}
+  {% else %}
     {# If a specific field is requested, use it if available #}
     {% if field is defined and field %}
       {% if cc[field] is defined and cc[field] %}{{ cc[field] }}
@@ -95,7 +98,9 @@
 
 {# Render Value #}
 {% macro renderValue(value) %}
-  {% if value %}
+  {% if value is not defined or not value %}
+    {{ '' }}
+  {% else %}
     {% if value.__class__.__name__ == 'Quantity' %}{{ value.value if value.value is defined else '' }}{% elif value.__class__.__name__ == 'DateTimeType' %}{{ value.value if value.value is defined else '' }}{% elif value.__class__.__name__ == 'CodeableConcept' %}{{ codeableConcept(value, 'display') }}{% elif value.__class__.__name__ == 'StringType' %}{{ value.value if value.value is defined else '' }}{% endif %}
   {% endif %}
 {% endmacro %}
@@ -112,7 +117,7 @@
 
 {# Render Time #}
 {% macro renderTime(time) %}
-  {% if time %}{{ time }}{% endif %}
+  {% if time is not defined or not time %}{{ '' }}{% else %}{{ time }}{% endif %}
 {% endmacro %}
 
 {# Render Recorded Date #}
@@ -122,10 +127,12 @@
 
 {# Concat Utility #}
 {% macro concat(list, attr) %}
-  {% if list %}
+  {% if list is not defined or not list %}
+    {{ '' }}
+  {% else %}
     {%- set items = [] -%}
     {%- for item in list -%}
-      {%- if attribute is defined and item[attr] is defined -%}
+      {%- if attr is defined and item[attr] is defined -%}
         {%- set _ = items.append(item[attr]) -%}
       {%- elif attr is not defined and item is defined -%}
         {%- set _ = items.append(item) -%}
