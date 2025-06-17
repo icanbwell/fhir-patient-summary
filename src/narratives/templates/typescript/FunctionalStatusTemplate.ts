@@ -14,6 +14,7 @@ export class FunctionalStatusTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Functional Status</h5>
@@ -41,16 +42,16 @@ export class FunctionalStatusTemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(ci);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(ci);
 
         // Add a table row for this clinical impression
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(ci.code, 'display')}</td>
+            <td>${templateUtilities.codeableConcept(ci.code, 'display')}</td>
             <td>${ci.status || ''}</td>
             <td>${ci.summary || ''}</td>
-            <td>${TemplateUtilities.safeConcat(ci.note, 'text')}</td>
-            <td>${TemplateUtilities.renderEffective(ci.effectiveDateTime)}</td>
+            <td>${templateUtilities.safeConcat(ci.note, 'text')}</td>
+            <td>${templateUtilities.renderEffective(ci.effectiveDateTime)}</td>
           </tr>`;
       }
     }

@@ -14,6 +14,7 @@ export class HistoryOfProceduresTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>History Of Procedures</h5>
@@ -39,14 +40,14 @@ export class HistoryOfProceduresTemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(proc);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(proc);
 
         // Add a table row for this procedure
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(proc.code, 'display')}</td>
-            <td>${TemplateUtilities.safeConcat(proc.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(proc.performedDateTime)}</td>
+            <td>${templateUtilities.codeableConcept(proc.code, 'display')}</td>
+            <td>${templateUtilities.safeConcat(proc.note, 'text')}</td>
+            <td>${templateUtilities.renderTime(proc.performedDateTime)}</td>
           </tr>`;
       }
     }

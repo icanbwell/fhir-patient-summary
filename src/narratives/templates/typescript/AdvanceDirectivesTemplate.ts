@@ -14,6 +14,8 @@ export class AdvanceDirectivesTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Advance Directives</h5>
@@ -40,14 +42,14 @@ export class AdvanceDirectivesTemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(consent);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(consent);
 
         // Add a table row for this consent
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(consent.scope, 'display')}</td>
+            <td>${templateUtilities.codeableConcept(consent.scope, 'display')}</td>
             <td>${consent.status || ''}</td>
-            <td>${consent.provision?.action ? TemplateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>
+            <td>${consent.provision?.action ? templateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>
             <td>${consent.dateTime || ''}</td>
           </tr>`;
       }

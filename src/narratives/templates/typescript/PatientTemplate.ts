@@ -14,6 +14,7 @@ export class PatientTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     let html = '';
 
     // Loop through bundle entries to find Patient resources
@@ -54,7 +55,7 @@ export class PatientTemplate {
             </li>
             <li><strong>Language(s):</strong>
               <ul>
-                ${this.renderCommunication(patient)}
+                ${this.renderCommunication(templateUtilities, patient)}
               </ul>
             </li>
           </ul>
@@ -151,10 +152,11 @@ export class PatientTemplate {
 
   /**
    * Renders patient communication preferences as HTML list items
+   * @param templateUtilities - Instance of TemplateUtilities for utility functions
    * @param patient - Patient resource
    * @returns HTML string of list items
    */
-  private static renderCommunication(patient: TPatient): string {
+  private static renderCommunication(templateUtilities: TemplateUtilities, patient: TPatient): string {
     if (!patient.communication || patient.communication.length === 0) {
       return '';
     }
@@ -162,7 +164,7 @@ export class PatientTemplate {
     return patient.communication.map(comm => {
       if (!comm.language) return '';
 
-      const language = TemplateUtilities.codeableConcept(comm.language);
+      const language = templateUtilities.codeableConcept(comm.language);
       const preferred = comm.preferred ? ' (preferred)' : '';
       return `<li>${language}${preferred}</li>`;
     }).join('');

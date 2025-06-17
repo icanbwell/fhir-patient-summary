@@ -14,6 +14,7 @@ export class ImmunizationsTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Immunizations</h5>
@@ -39,18 +40,18 @@ export class ImmunizationsTemplate {
           const imm = entry.resource as TImmunization;
 
           // Find the narrative link extension if it exists
-          const narrativeLinkId = TemplateUtilities.narrativeLinkId(imm);
+          const narrativeLinkId = templateUtilities.narrativeLinkId(imm);
 
           // Add a table row for this immunization
           html += `
             <tr id="${narrativeLinkId}">
-              <td>${TemplateUtilities.codeableConcept(imm.vaccineCode)}</td>
+              <td>${templateUtilities.codeableConcept(imm.vaccineCode)}</td>
               <td>${imm.status || ''}</td>
-              <td>${TemplateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
-              <td>${TemplateUtilities.renderVaccineManufacturer(imm)}</td>
+              <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
+              <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
               <td>${imm.lotNumber || ''}</td>
-              <td>${TemplateUtilities.safeConcat(imm.note, 'text')}</td>
-              <td>${TemplateUtilities.renderTime(imm.occurrenceDateTime)}</td>
+              <td>${templateUtilities.safeConcat(imm.note, 'text')}</td>
+              <td>${templateUtilities.renderTime(imm.occurrenceDateTime)}</td>
             </tr>`;
         }
       }

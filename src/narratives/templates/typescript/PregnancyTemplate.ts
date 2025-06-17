@@ -14,6 +14,7 @@ export class PregnancyTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Pregnancy</h5>
@@ -40,15 +41,15 @@ export class PregnancyTemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(obs);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(obs);
 
         // Add a table row for this observation
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(obs.code, 'display')}</td>
-            <td>${TemplateUtilities.extractObservationValue(obs)}</td>
-            <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${TemplateUtilities.renderEffective(obs.effectiveDateTime)}</td>
+            <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
+            <td>${templateUtilities.extractObservationValue(obs)}</td>
+            <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
+            <td>${templateUtilities.renderEffective(obs.effectiveDateTime)}</td>
           </tr>`;
       }
     }

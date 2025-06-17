@@ -14,6 +14,7 @@ export class PlanOfCareTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Plan of Care</h5>
@@ -41,14 +42,14 @@ export class PlanOfCareTemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(cp);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(cp);
 
         // Add a table row for this care plan
         html += `
           <tr id="${narrativeLinkId}">
             <td>${cp.description || ''}</td>
             <td>${cp.intent || cp.intent || ''}</td>
-            <td>${TemplateUtilities.concat(cp.note, 'text')}</td>
+            <td>${templateUtilities.concat(cp.note, 'text')}</td>
             <td>${cp.period?.start || ''}</td>
             <td>${cp.period?.end || ''}</td>
           </tr>`;

@@ -5,32 +5,45 @@ import {TDevice} from '../../../types/resources/Device';
 import {TOrganization} from '../../../types/resources/Organization';
 import {TMedication} from '../../../types/resources/Medication';
 import {TImmunization} from "../../../types/resources/Immunization";
-import {TMedicationRequest} from "../../../types/resources/MedicationRequest";
 import {TMedicationStatement} from "../../../types/resources/MedicationStatement";
 import {TQuantity} from "../../../types/partials/Quantity";
 import {TObservation} from "../../../types/resources/Observation";
 import {TObservationComponent} from "../../../types/partials/ObservationComponent";
+import {TBundle} from "../../../types/resources/Bundle";
+import {TDomainResource} from "../../../types/resources/DomainResource";
+import {TExtension} from "../../../types/partials/Extension";
+import {TResourceContainer} from "../../../types/simpleTypes/ResourceContainer";
 
 type ObservationValueType =
-  | string
-  | number
-  | boolean
-  | TQuantity
-  | { code?: string; text?: string }
-  | Date;
+    | string
+    | number
+    | boolean
+    | TQuantity
+    | { code?: string; text?: string }
+    | Date;
 
 /**
  * Utility class containing methods for formatting and rendering FHIR resources
  * This replaces the Jinja2 utility-fragments.j2 macros
  */
 export class TemplateUtilities {
+    private readonly bundle: TBundle;
+
+    /**
+     * Constructor to initialize the TemplateUtilities with a FHIR Bundle
+     * @param bundle - FHIR Bundle containing resources
+     */
+    constructor(bundle: TBundle) {
+        this.bundle = bundle;
+    }
+
     /**
      * Formats a CodeableConcept object
      * @param cc - The CodeableConcept object
      * @param field - Optional specific field to return
      * @returns Formatted string representation
      */
-    static codeableConcept(cc?: TCodeableConcept | null, field?: string): string {
+    codeableConcept(cc?: TCodeableConcept | null, field?: string): string {
         if (!cc) {
             return '';
         }
@@ -60,13 +73,33 @@ export class TemplateUtilities {
         return '';
     }
 
+    resolveReference<T extends TDomainResource>(ref: TReference): T | null {
+        // find the resource in the bundle that matches the reference
+        if (!ref || !this.bundle || !this.bundle.entry) {
+            return null;
+        }
+        // split the reference into referenceResourceType and id on /
+        const referenceParts = ref.reference?.split('/');
+        if (!referenceParts || referenceParts.length !== 2) {
+            return null;
+        }
+        const referenceResourceType = referenceParts[0];
+        const referenceResourceId = referenceParts[1];
+
+        const resource = this.bundle.entry.find(entry => {
+            return entry.resource && entry.resource.resourceType === referenceResourceType &&
+                entry.resource.id === referenceResourceId;
+        });
+        return resource ? (resource.resource as T) : null;
+    }
+
     /**
      * Renders a Device reference
      * @param deviceRef - Reference to a Device resource
      * @returns Formatted device description
      */
-    static renderDevice(deviceRef: TReference): string {
-        const device = deviceRef && typeof deviceRef.resolve === 'function' ? deviceRef.resolve() as TDevice : null;
+    renderDevice(deviceRef: TReference): string {
+        const device: TDevice | undefined = deviceRef && this.resolveReference(deviceRef) as TDevice;
 
         if (device && device.resourceType === 'Device' && device.type) {
             return this.codeableConcept(device.type, 'display');
@@ -80,9 +113,8 @@ export class TemplateUtilities {
      * @param orgRef - Reference to an Organization resource
      * @returns Organization name
      */
-    static renderOrganization(orgRef: TReference): string {
-        const organization = orgRef && typeof orgRef.resolve === 'function' ?
-            orgRef.resolve() as TOrganization : null;
+    renderOrganization(orgRef: TReference): string {
+        const organization: TOrganization | null = orgRef && this.resolveReference(orgRef);
 
         if (organization && organization.resourceType === 'Organization' && organization.name) {
             return organization.name;
@@ -96,9 +128,8 @@ export class TemplateUtilities {
      * @param immunization - Immunization resource
      * @returns Manufacturer name
      */
-    static renderVaccineManufacturer(immunization: TImmunization): string {
-        const organization = immunization.manufacturer && typeof immunization.manufacturer.resolve === 'function' ?
-            immunization.manufacturer.resolve() as TOrganization : null;
+    renderVaccineManufacturer(immunization: TImmunization): string {
+        const organization: TOrganization | undefined = immunization.manufacturer && this.resolveReference(immunization.manufacturer) as TOrganization;
 
         if (organization && organization.resourceType === 'Organization' && organization.name) {
             return organization.name;
@@ -112,7 +143,7 @@ export class TemplateUtilities {
      * @param medicationType - Resource containing medication information
      * @returns Formatted medication description
      */
-    static renderMedication(medicationType: TMedicationRequest | TMedicationStatement): string {
+    renderMedicationStatement(medicationType: TMedicationStatement): string {
         if (typeof medicationType !== 'object' || medicationType === null) {
             return '';
         }
@@ -120,15 +151,7 @@ export class TemplateUtilities {
         if (medicationType.medicationCodeableConcept) {
             return this.codeableConcept(medicationType.medicationCodeableConcept);
         } else if (medicationType.medicationReference) {
-            return this.renderMedicationRef({medication: medicationType.medicationReference});
-        } else if (medicationType.medication) {
-            if (medicationType.medication.constructor &&
-                medicationType.medication.constructor.name === 'CodeableConcept') {
-                return this.codeableConcept(medicationType.medication, 'display');
-            } else if (medicationType.medication.constructor &&
-                medicationType.medication.constructor.name === 'Reference') {
-                return this.renderMedicationRef(medicationType);
-            }
+            return this.renderMedicationRef(medicationType.medicationReference);
         }
 
         return '';
@@ -139,9 +162,8 @@ export class TemplateUtilities {
      * @param medicationRef - Reference to a Medication resource
      * @returns Formatted medication description
      */
-    static renderMedicationRef(medicationRef: any): string {
-        const medication = medicationRef.medication && typeof medicationRef.medication.resolve === 'function' ?
-            medicationRef.medication.resolve() as TMedication : null;
+    renderMedicationRef(medicationRef: TReference): string {
+        const medication = medicationRef && this.resolveReference(medicationRef) as TMedication;
 
         if (medication) {
             return this.renderMedicationCode(medication);
@@ -155,7 +177,7 @@ export class TemplateUtilities {
      * @param medication - Medication resource
      * @returns Formatted medication code
      */
-    static renderMedicationCode(medication: TMedication): string {
+    renderMedicationCode(medication: TMedication): string {
         if (medication && medication.code) {
             return this.codeableConcept(medication.code, 'display');
         }
@@ -168,34 +190,9 @@ export class TemplateUtilities {
      * @param doseNumber - Dose number object
      * @returns Formatted dose number
      */
-    static renderDoseNumber(doseNumber: any): string {
+    renderDoseNumber(doseNumber: any): string {
         if (doseNumber && doseNumber.value !== undefined) {
             return doseNumber.value.toString();
-        }
-
-        return '';
-    }
-
-    /**
-     * Renders a value based on its type
-     * @param value - Value object (Quantity, DateTime, CodeableConcept, etc.)
-     * @returns Formatted value
-     */
-    static renderValue(value: TQuantity | TCodeableConcept): string {
-        if (!value) {
-            return '';
-        }
-
-        const className = value.constructor?.name;
-
-        if (value && value.value !== undefined) {
-            return value.value.toString();
-        } else if (className === 'DateTimeType' && value.value !== undefined) {
-            return value.value.toString();
-        } else if (className === 'CodeableConcept') {
-            return this.codeableConcept(value, 'display');
-        } else if (className === 'StringType' && value.value !== undefined) {
-            return value.value.toString();
         }
 
         return '';
@@ -206,7 +203,7 @@ export class TemplateUtilities {
      * @param value - Value object
      * @returns Unit string
      */
-    static renderValueUnit(value: any): string {
+    renderValueUnit(value: any): string {
         if (value && value.constructor?.name === 'Quantity' && value.unit) {
             return value.unit;
         }
@@ -219,7 +216,7 @@ export class TemplateUtilities {
      * @param effective - Date value
      * @returns Formatted date string
      */
-    static renderEffective(effective: any): string {
+    renderEffective(effective: any): string {
         return effective ? effective.toString() : '';
     }
 
@@ -228,7 +225,7 @@ export class TemplateUtilities {
      * @param time - Time value
      * @returns Formatted time string
      */
-    static renderTime(time: any): string {
+    renderTime(time: any): string {
         return time ? time.toString() : '';
     }
 
@@ -237,7 +234,7 @@ export class TemplateUtilities {
      * @param recorded - Date value
      * @returns Formatted date string
      */
-    static renderRecorded(recorded: any): string {
+    renderRecorded(recorded: any): string {
         return recorded ? recorded.toString() : '';
     }
 
@@ -247,7 +244,7 @@ export class TemplateUtilities {
      * @param attr - Optional attribute to extract from each item
      * @returns Comma-separated string of items
      */
-    static concat(list?: any[] | null, attr?: string): string {
+    concat(list?: any[] | null, attr?: string): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -273,7 +270,7 @@ export class TemplateUtilities {
      * @param attr - Optional attribute to extract from each item
      * @returns Comma-separated string of items
      */
-    static safeConcat(list?: any[] | null, attr?: string): string {
+    safeConcat(list?: any[] | null, attr?: string): string {
         return this.concat(list || [], attr);
     }
 
@@ -282,7 +279,7 @@ export class TemplateUtilities {
      * @param list - Array of CodeableConcept objects
      * @returns Comma-separated string of text values
      */
-    static concatCodeableConcept(list?: TCodeableConcept[] | null): string {
+    concatCodeableConcept(list?: TCodeableConcept[] | null): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -303,7 +300,7 @@ export class TemplateUtilities {
      * @param list - Array of reaction objects
      * @returns Comma-separated string of manifestation texts
      */
-    static concatReactionManifestation(list?: any[] | null): string {
+    concatReactionManifestation(list?: any[] | null): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -324,7 +321,7 @@ export class TemplateUtilities {
      * @param list - Array of dose objects
      * @returns Comma-separated string of dose numbers
      */
-    static concatDoseNumber(list?: any[] | null): string {
+    concatDoseNumber(list?: any[] | null): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -345,7 +342,7 @@ export class TemplateUtilities {
      * @param list - Array of dosage objects
      * @returns Comma-separated string of route texts
      */
-    static concatDosageRoute(list?: any[] | null): string {
+    concatDosageRoute(list?: any[] | null): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -366,7 +363,7 @@ export class TemplateUtilities {
      * @param list - Array of CodeableConcept objects
      * @returns Display text from the first item
      */
-    static firstFromCodeableConceptList(list?: TCodeableConcept[] | null): string {
+    firstFromCodeableConceptList(list?: TCodeableConcept[] | null): string {
         if (list && Array.isArray(list) && list[0]) {
             return this.codeableConcept(list[0], 'display');
         }
@@ -379,7 +376,7 @@ export class TemplateUtilities {
      * @param list - Array of reference range objects
      * @returns Comma-separated string of texts
      */
-    static concatReferenceRange(list?: any[] | null): string {
+    concatReferenceRange(list?: any[] | null): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -400,7 +397,7 @@ export class TemplateUtilities {
      * @param list - Array of component objects
      * @returns Comma-separated string of code texts
      */
-    static renderComponent(list?: any[] | null): string {
+    renderComponent(list?: any[] | null): string {
         if (!list || !Array.isArray(list)) {
             return '';
         }
@@ -416,15 +413,10 @@ export class TemplateUtilities {
         return texts.join(', ');
     }
 
-    /**
-     * Extracts narrative link ID from extension or resource
-     * @param source - Extension object or resource with extensions array
-     * @returns Extracted ID or empty string
-     */
-    static narrativeLinkId(source: any): string {
+    narrativeLinkExtension(source: TResourceContainer | undefined): TExtension | undefined {
         // If source is undefined or null, return empty string
         if (!source) {
-            return '';
+            return undefined;
         }
 
         // Case 1: Source is a resource with an extensions array
@@ -434,13 +426,28 @@ export class TemplateUtilities {
             );
 
             if (extension) {
-                return this.extractIdFromExtension(extension);
+                return extension;
             }
-            return '';
+            return undefined;
         }
 
         // Case 2: Source is the extension itself
-        return this.extractIdFromExtension(source);
+        return source;
+    }
+
+    /**
+     * Extracts narrative link ID from extension or resource
+     * @param source - Extension object or resource with extensions array
+     * @returns Extracted ID or empty string
+     */
+    narrativeLinkId(source: any): string {
+        const extension = this.narrativeLinkExtension(source);
+        // If no extension found, return empty string
+        if (!extension) {
+            return '';
+        }
+        // Case 2: Source is the extension itself
+        return this.extractIdFromExtension(extension);
     }
 
     /**
@@ -448,7 +455,7 @@ export class TemplateUtilities {
      * @param extension - Extension object
      * @returns Extracted ID or empty string
      */
-    private static extractIdFromExtension(extension: any): string {
+    private extractIdFromExtension(extension: any): string {
         if (typeof extension === 'object' &&
             extension.value &&
             extension.value.value &&
@@ -460,8 +467,7 @@ export class TemplateUtilities {
     }
 
 
-
-    public static extractObservationValue(observation: TObservation | TObservationComponent): ObservationValueType | null {
+    public extractObservationValue(observation: TObservation | TObservationComponent): ObservationValueType | null {
         // Check all possible value fields in order
         const valueFields = [
             'valueString',
@@ -481,10 +487,10 @@ export class TemplateUtilities {
                 switch (field) {
                     case 'valueQuantity':
                         // For quantity, return a string representation
-                        return TemplateUtilities.formatQuantityValue(observationElement);
+                        return this.formatQuantityValue(observationElement);
                     case 'valueCodeableConcept':
                         // For codeable concept, return code or text
-                        return TemplateUtilities.formatCodeableConceptValue(observationElement);
+                        return this.formatCodeableConceptValue(observationElement);
                     default:
                         return observationElement;
                 }
@@ -492,9 +498,11 @@ export class TemplateUtilities {
         }
 
         // Check component values if no direct value found
+        // @ts-expect-error accessing dynamic field
         if (observation?.component && observation.component.length > 0) {
+            // @ts-expect-error accessing dynamic field
             for (const component of observation.component) {
-                const componentValue = TemplateUtilities.extractObservationValue(component);
+                const componentValue = this.extractObservationValue(component);
                 if (componentValue !== null) {
                     return componentValue;
                 }
@@ -503,13 +511,13 @@ export class TemplateUtilities {
 
         // Check for data absent reason if no value found
         if (observation.dataAbsentReason) {
-            return TemplateUtilities.formatCodeableConceptValue(observation.dataAbsentReason);
+            return this.formatCodeableConceptValue(observation.dataAbsentReason);
         }
 
         return null;
     }
 
-    private static formatQuantityValue(quantity: TQuantity): string {
+    private formatQuantityValue(quantity: TQuantity): string {
         if (!quantity) return '';
 
         const parts = [];
@@ -520,7 +528,7 @@ export class TemplateUtilities {
         return parts.join(' ').trim();
     }
 
-    private static formatCodeableConceptValue(concept: any): string {
+    private formatCodeableConceptValue(concept: any): string {
         if (!concept) return '';
 
         // Prefer text if available
@@ -534,14 +542,16 @@ export class TemplateUtilities {
         return '';
     }
 
-    public static extractObservationValueUnit(observation: TObservation | TObservationComponent): string {
+    public extractObservationValueUnit(observation: TObservation | TObservationComponent): string {
         // Check if the observation has a valueQuantity field
         if (observation.valueQuantity && observation.valueQuantity.unit) {
             return observation.valueQuantity.unit;
         }
 
         // If no valueQuantity, check components
+        // @ts-expect-error accessing dynamic field
         if (observation.component && observation.component.length > 0) {
+            // @ts-expect-error accessing dynamic field
             for (const component of observation.component) {
                 const unit = this.extractObservationValueUnit(component);
                 if (unit) {

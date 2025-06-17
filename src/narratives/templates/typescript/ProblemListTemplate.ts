@@ -14,6 +14,7 @@ export class ProblemListTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Problem List</h5>
@@ -40,15 +41,15 @@ export class ProblemListTemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(cond);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(cond);
 
         // Add a table row for this condition
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(cond.code)}</td>
-            <td>${TemplateUtilities.codeableConcept(cond.clinicalStatus)}</td>
-            <td>${TemplateUtilities.safeConcat(cond.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(cond.onsetDateTime)}</td>
+            <td>${templateUtilities.codeableConcept(cond.code)}</td>
+            <td>${templateUtilities.codeableConcept(cond.clinicalStatus)}</td>
+            <td>${templateUtilities.safeConcat(cond.note, 'text')}</td>
+            <td>${templateUtilities.renderTime(cond.onsetDateTime)}</td>
           </tr>`;
       }
     }

@@ -14,6 +14,7 @@ export class AllergyIntoleranceTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table for allergies and intolerances
     let html = `
       <h5>Allergies And Intolerances</h5>
@@ -43,19 +44,19 @@ export class AllergyIntoleranceTemplate {
           const extension = allergy.extension.find(ext =>
             ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
           );
-          narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
+          narrativeLinkId = templateUtilities.narrativeLinkId(extension);
         }
 
         // Add a table row for this allergy
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(allergy.code)}</td>
-            <td>${TemplateUtilities.codeableConcept(allergy.clinicalStatus)}</td>
-            <td>${TemplateUtilities.safeConcat(allergy.category, 'value')}</td>
-            <td>${TemplateUtilities.concatReactionManifestation(allergy.reaction)}</td>
-            <td>${TemplateUtilities.safeConcat(allergy.reaction, 'severity')}</td>
-            <td>${TemplateUtilities.safeConcat(allergy.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(allergy.onsetDateTime)}</td>
+            <td>${templateUtilities.codeableConcept(allergy.code)}</td>
+            <td>${templateUtilities.codeableConcept(allergy.clinicalStatus)}</td>
+            <td>${templateUtilities.safeConcat(allergy.category, 'value')}</td>
+            <td>${templateUtilities.concatReactionManifestation(allergy.reaction)}</td>
+            <td>${templateUtilities.safeConcat(allergy.reaction, 'severity')}</td>
+            <td>${templateUtilities.safeConcat(allergy.note, 'text')}</td>
+            <td>${templateUtilities.renderTime(allergy.onsetDateTime)}</td>
           </tr>`;
       }
     }

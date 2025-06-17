@@ -14,6 +14,7 @@ export class SocialHistoryTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Social History</h5>
@@ -41,16 +42,16 @@ export class SocialHistoryTemplate {
         }
 
         // Find the narrative link ID if it exists
-        const narrativeLinkId = TemplateUtilities.narrativeLinkId(obs);
+        const narrativeLinkId = templateUtilities.narrativeLinkId(obs);
 
         // Add a table row for this observation
         html += `
           <tr id="${narrativeLinkId}">
-            <td>${TemplateUtilities.codeableConcept(obs.code, 'display')}</td>
-            <td>${TemplateUtilities.extractObservationValue(obs)}</td>
-            <td>${TemplateUtilities.extractObservationValueUnit(obs)}</td>
-            <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(obs.effectiveDateTime)}</td>
+            <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
+            <td>${templateUtilities.extractObservationValue(obs)}</td>
+            <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
+            <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
+            <td>${templateUtilities.renderTime(obs.effectiveDateTime)}</td>
           </tr>`;
       }
     }

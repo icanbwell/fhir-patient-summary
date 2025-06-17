@@ -15,18 +15,19 @@ export class DiagnosticResultsTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+    const templateUtilities = new TemplateUtilities(resource);
     let html = '';
 
     // Generate Observations section if we have any Observation resources
     const observations = this.getObservations(resource);
     if (observations.length > 0) {
-      html += this.renderObservations(observations);
+      html += this.renderObservations(templateUtilities, observations);
     }
 
     // Generate DiagnosticReports section if we have any DiagnosticReport resources
     const diagnosticReports = this.getDiagnosticReports(resource);
     if (diagnosticReports.length > 0) {
-      html += this.renderDiagnosticReports(diagnosticReports);
+      html += this.renderDiagnosticReports(templateUtilities, diagnosticReports);
     }
 
     return html;
@@ -64,10 +65,11 @@ export class DiagnosticResultsTemplate {
 
   /**
    * Render HTML table for Observation resources
+   * @param templateUtilities - Instance of TemplateUtilities for utility functions
    * @param observations - Array of Observation resources
    * @returns HTML string for rendering
    */
-  private static renderObservations(observations: Array<TObservation>): string {
+  private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>): string {
     let html = `
       <h5>Diagnostic Results: Observations</h5>
       <table class="hapiPropertyTable">
@@ -86,18 +88,18 @@ export class DiagnosticResultsTemplate {
 
     for (const obs of observations) {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      const narrativeLinkId = TemplateUtilities.narrativeLinkId(obs);
+      const narrativeLinkId = templateUtilities.narrativeLinkId(obs);
 
       // Add table row
       html += `
         <tr id="${narrativeLinkId}">
-          <td>${TemplateUtilities.codeableConcept(obs.code)}</td>
-          <td>${TemplateUtilities.extractObservationValue(obs)}</td>
-          <td>${TemplateUtilities.extractObservationValueUnit(obs)}</td>
-          <td>${TemplateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
-          <td>${TemplateUtilities.concatReferenceRange(obs.referenceRange)}</td>
-          <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-          <td>${TemplateUtilities.renderTime(obs.effectiveDateTime)}</td>
+          <td>${templateUtilities.codeableConcept(obs.code)}</td>
+          <td>${templateUtilities.extractObservationValue(obs)}</td>
+          <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
+          <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
+          <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
+          <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
+          <td>${templateUtilities.renderTime(obs.effectiveDateTime)}</td>
         </tr>`;
     }
 
@@ -110,10 +112,11 @@ export class DiagnosticResultsTemplate {
 
   /**
    * Render HTML table for DiagnosticReport resources
+   * @param templateUtilities - Instance of TemplateUtilities for utility functions
    * @param reports - Array of DiagnosticReport resources
    * @returns HTML string for rendering
    */
-  private static renderDiagnosticReports(reports: Array<TDiagnosticReport>): string {
+  private static renderDiagnosticReports(templateUtilities: TemplateUtilities, reports: Array<TDiagnosticReport>): string {
     let html = `
       <h5>Diagnostic Results: Reports</h5>
       <table class="hapiPropertyTable">
@@ -130,7 +133,7 @@ export class DiagnosticResultsTemplate {
 
     for (const report of reports) {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      const narrativeLinkId = TemplateUtilities.narrativeLinkId(report);
+      const narrativeLinkId = templateUtilities.narrativeLinkId(report);
 
       // Format result count
       let resultCount = '';
@@ -141,9 +144,9 @@ export class DiagnosticResultsTemplate {
       // Add table row
       html += `
         <tr id="${narrativeLinkId}">
-          <td>${TemplateUtilities.codeableConcept(report.code)}</td>
+          <td>${templateUtilities.codeableConcept(report.code)}</td>
           <td>${report.status || ''}</td>
-          <td>${TemplateUtilities.firstFromCodeableConceptList(report.category)}</td>
+          <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
           <td>${resultCount}</td>
           <td>${report.issued || ''}</td>
         </tr>`;

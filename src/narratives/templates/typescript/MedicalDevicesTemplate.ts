@@ -14,6 +14,7 @@ export class MedicalDevicesTemplate {
    * @returns HTML string for rendering
    */
   static generateNarrative(resource: TBundle): string {
+        const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Medical Devices</h5>
@@ -36,15 +37,15 @@ export class MedicalDevicesTemplate {
           const dus = entry.resource as TDeviceUseStatement;
 
           // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-          const narrativeLinkId = TemplateUtilities.narrativeLinkId(dus);
+          const narrativeLinkId = templateUtilities.narrativeLinkId(dus);
 
           // Add a table row for this device use statement
           html += `
             <tr id="${narrativeLinkId}">
-              <td>${TemplateUtilities.renderDevice(dus.device)}</td>
+              <td>${templateUtilities.renderDevice(dus.device)}</td>
               <td>${dus.status || ''}</td>
-              <td>${TemplateUtilities.safeConcat(dus.note, 'text')}</td>
-              <td>${TemplateUtilities.renderRecorded(dus.recordedOn)}</td>
+              <td>${templateUtilities.safeConcat(dus.note, 'text')}</td>
+              <td>${templateUtilities.renderRecorded(dus.recordedOn)}</td>
             </tr>`;
         }
       }
