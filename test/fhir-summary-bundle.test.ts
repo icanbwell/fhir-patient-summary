@@ -3,6 +3,7 @@ import path from 'path';
 import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
 import {TCompositionSection} from "../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../src/types/partials/BundleEntry";
+import TurndownService from 'turndown';
 
 describe('FHIR Patient Summary Generation', () => {
     it('should generate the correct summary for the Aidbox bundle', () => {
@@ -124,18 +125,29 @@ describe('FHIR Patient Summary Generation', () => {
         // compare the div of each section
         expect(generatedSections).toBeDefined();
         expect(expectedSections).toBeDefined();
+        const turndownService = new TurndownService();
         // expect(generatedSections?.length).toBe(expectedSections?.length);
         if (generatedSections && expectedSections) {
             for (let i = 0; i < generatedSections.length; i++) {
                 console.info(`Comparing section ${i + 1}/${generatedSections.length}`);
-                console.info(`Generated: ${generatedSections[i].text?.div}`);
-                console.info(`Expected: ${expectedSections[i]?.text?.div}`);
-                // now clear out the div for comparison
-                if (generatedSections && generatedSections[i] && generatedSections[i].text && generatedSections[i]?.text?.div) {
-                    expect(generatedSections[i].text?.div).toBeDefined();
+                const generatedDiv: string | undefined = generatedSections[i].text?.div;
+                console.info(`Generated: ${generatedDiv}`);
+                const expectedDiv: string | undefined = expectedSections[i]?.text?.div;
+                console.info(`Expected: ${expectedDiv}`);
+                if (!generatedDiv || !expectedDiv) {
+                    console.warn(`Section ${i + 1} is missing div content.`);
+                    continue; // Skip comparison if div is missing
                 }
-                if (expectedSections && expectedSections[i] && expectedSections[i].text && expectedSections[i]?.text?.div) {
-                    expect(expectedSections[i].text?.div).toBeDefined();
+                // now clear out the div for comparison
+                if (generatedDiv && expectedDiv) {
+                    const generatedMarkdown = turndownService.turndown(generatedDiv);
+                    const expectedMarkdown = turndownService.turndown(expectedDiv);
+                    if (generatedMarkdown != expectedMarkdown) {
+                        console.warn('Markdown mismatch detected:');
+                        console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
+                        console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
+                    }
+                    expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
                 }
             }
         }

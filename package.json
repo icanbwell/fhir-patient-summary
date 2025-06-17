@@ -46,8 +46,8 @@
   },
   "homepage": "https://github.com/icanbwell/fhir-patient-summary#readme",
   "dependencies": {
-    "thymeleaf": "^0.22.0",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "turndown": "^7.2.0"
   },
   "devDependencies": {
     "commitizen": "^4.3.1",
@@ -68,7 +68,8 @@
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.1"
+    "typescript-eslint": "^8.31.1",
+    "@types/turndown": "^5.0.5"
   },
   "lint-staged": {
     "*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
