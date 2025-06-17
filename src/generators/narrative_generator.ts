@@ -53,6 +53,8 @@ export class NarrativeGenerator {
      * @returns FHIR Narrative object
      */
     static createNarrative(content: string): Narrative {
+        // remove extra whitespace and newlines
+        content = content.replace(/\s+/g, ' ').trim();
         return {
             status: 'generated',
             div: `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`
