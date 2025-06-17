@@ -39,14 +39,8 @@ export class PastHistoryOfIllnessTemplate {
           continue;
         }
 
-        // Find the narrative link extension if it exists
-        let narrativeLinkId = '';
-        if (cond.extension && Array.isArray(cond.extension)) {
-          const extension = cond.extension.find(ext =>
-            ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-          );
-          narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
-        }
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        const narrativeLinkId = TemplateUtilities.narrativeLinkId(cond);
 
         // Add a table row for this condition
         html += `
@@ -54,7 +48,7 @@ export class PastHistoryOfIllnessTemplate {
             <td>${TemplateUtilities.codeableConcept(cond.code, 'display')}</td>
             <td>${TemplateUtilities.codeableConcept(cond.clinicalStatus, 'code')}</td>
             <td>${TemplateUtilities.safeConcat(cond.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(cond.onsetDateTime)}</td>
+            <td>${TemplateUtilities.renderTime(cond.onset)}</td>
           </tr>`;
       }
     }

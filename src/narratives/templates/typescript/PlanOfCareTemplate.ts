@@ -40,24 +40,14 @@ export class PlanOfCareTemplate {
           continue;
         }
 
-        // Find the narrative link extension if it exists
-        let narrativeLinkId = '';
-        if (cp.extension && Array.isArray(cp.extension)) {
-          const extension = cp.extension.find(ext =>
-            ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-          );
-
-          if (extension && extension.value && extension.value.value &&
-              typeof extension.value.value === 'string' && extension.value.value.includes('#')) {
-            narrativeLinkId = extension.value.value.split('#')[1];
-          }
-        }
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        const narrativeLinkId = TemplateUtilities.narrativeLinkId(cp);
 
         // Add a table row for this care plan
         html += `
           <tr id="${narrativeLinkId}">
             <td>${cp.description || ''}</td>
-            <td>${cp.intent || ''}</td>
+            <td>${cp.intent?.code || cp.intent || ''}</td>
             <td>${TemplateUtilities.concat(cp.note, 'text')}</td>
             <td>${cp.period?.start || ''}</td>
             <td>${cp.period?.end || ''}</td>

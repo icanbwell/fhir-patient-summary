@@ -38,21 +38,15 @@ export class HistoryOfProceduresTemplate {
           continue;
         }
 
-        // Find the narrative link extension if it exists
-        let narrativeLinkId = '';
-        if (proc.extension && Array.isArray(proc.extension)) {
-          const extension = proc.extension.find(ext =>
-            ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-          );
-          narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
-        }
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        const narrativeLinkId = TemplateUtilities.narrativeLinkId(proc);
 
         // Add a table row for this procedure
         html += `
           <tr id="${narrativeLinkId}">
             <td>${TemplateUtilities.codeableConcept(proc.code, 'display')}</td>
             <td>${TemplateUtilities.safeConcat(proc.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(proc.performedDateTime)}</td>
+            <td>${TemplateUtilities.renderTime(proc.performed)}</td>
           </tr>`;
       }
     }

@@ -39,24 +39,14 @@ export class AdvanceDirectivesTemplate {
           continue;
         }
 
-        // Find the narrative link extension if it exists
-        let narrativeLinkId = '';
-        if (consent.extension && Array.isArray(consent.extension)) {
-          const extension = consent.extension.find(ext =>
-            ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-          );
-
-          if (extension && extension.value && extension.value.value &&
-              typeof extension.value.value === 'string' && extension.value.value.includes('#')) {
-            narrativeLinkId = extension.value.value.split('#')[1];
-          }
-        }
+        // Use the enhanced narrativeLinkId utility function to extract the ID
+        const narrativeLinkId = TemplateUtilities.narrativeLinkId(consent);
 
         // Add a table row for this consent
         html += `
           <tr id="${narrativeLinkId}">
             <td>${TemplateUtilities.codeableConcept(consent.scope, 'display')}</td>
-            <td>${consent.status?.display || ''}</td>
+            <td>${consent.status || ''}</td>
             <td>${consent.provision?.action ? TemplateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>
             <td>${consent.dateTime || ''}</td>
           </tr>`;

@@ -35,41 +35,31 @@ export class DiagnosticResultsTemplate {
   /**
    * Extract Observation resources from the bundle
    * @param resource - FHIR Bundle
-   * @returns Array of Observation resources with their extensions
+   * @returns Array of Observation resources
    */
-  private static getObservations(resource: TBundle): Array<{resource: TObservation, extension?: any}> {
+  private static getObservations(resource: TBundle): Array<TObservation> {
     if (!resource.entry || !Array.isArray(resource.entry)) {
       return [];
     }
 
     return resource.entry
       .filter(entry => entry.resource?.resourceType === 'Observation')
-      .map(entry => ({
-        resource: entry.resource as TObservation,
-        extension: entry.resource?.extension?.find(ext =>
-          ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-        )
-      }));
+      .map(entry => entry.resource as TObservation);
   }
 
   /**
    * Extract DiagnosticReport resources from the bundle
    * @param resource - FHIR Bundle
-   * @returns Array of DiagnosticReport resources with their extensions
+   * @returns Array of DiagnosticReport resources
    */
-  private static getDiagnosticReports(resource: TBundle): Array<{resource: TDiagnosticReport, extension?: any}> {
+  private static getDiagnosticReports(resource: TBundle): Array<TDiagnosticReport> {
     if (!resource.entry || !Array.isArray(resource.entry)) {
       return [];
     }
 
     return resource.entry
       .filter(entry => entry.resource?.resourceType === 'DiagnosticReport')
-      .map(entry => ({
-        resource: entry.resource as TDiagnosticReport,
-        extension: entry.resource?.extension?.find(ext =>
-          ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-        )
-      }));
+      .map(entry => entry.resource as TDiagnosticReport);
   }
 
   /**
@@ -77,7 +67,7 @@ export class DiagnosticResultsTemplate {
    * @param observations - Array of Observation resources
    * @returns HTML string for rendering
    */
-  private static renderObservations(observations: Array<{resource: TObservation, extension?: any}>): string {
+  private static renderObservations(observations: Array<TObservation>): string {
     let html = `
       <h5>Diagnostic Results: Observations</h5>
       <table class="hapiPropertyTable">
@@ -94,9 +84,9 @@ export class DiagnosticResultsTemplate {
         </thead>
         <tbody>`;
 
-    for (const { resource: obs, extension } of observations) {
-      // Find the narrative link ID if it exists
-      const narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
+    for (const obs of observations) {
+      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+      const narrativeLinkId = TemplateUtilities.narrativeLinkId(obs);
 
       // Add table row
       html += `
@@ -107,7 +97,7 @@ export class DiagnosticResultsTemplate {
           <td>${TemplateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
           <td>${TemplateUtilities.concatReferenceRange(obs.referenceRange)}</td>
           <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-          <td>${TemplateUtilities.renderTime(obs.effectiveDateTime)}</td>
+          <td>${TemplateUtilities.renderTime(obs.effective)}</td>
         </tr>`;
     }
 
@@ -123,7 +113,7 @@ export class DiagnosticResultsTemplate {
    * @param reports - Array of DiagnosticReport resources
    * @returns HTML string for rendering
    */
-  private static renderDiagnosticReports(reports: Array<{resource: TDiagnosticReport, extension?: any}>): string {
+  private static renderDiagnosticReports(reports: Array<TDiagnosticReport>): string {
     let html = `
       <h5>Diagnostic Results: Reports</h5>
       <table class="hapiPropertyTable">
@@ -138,9 +128,9 @@ export class DiagnosticResultsTemplate {
         </thead>
         <tbody>`;
 
-    for (const { resource: report, extension } of reports) {
-      // Find the narrative link ID if it exists
-      const narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
+    for (const report of reports) {
+      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+      const narrativeLinkId = TemplateUtilities.narrativeLinkId(report);
 
       // Format result count
       let resultCount = '';

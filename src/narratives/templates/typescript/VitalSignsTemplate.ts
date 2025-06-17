@@ -42,14 +42,8 @@ export class VitalSignsTemplate {
           continue;
         }
 
-        // Find the narrative link extension if it exists
-        let narrativeLinkId = '';
-        if (obs.extension && Array.isArray(obs.extension)) {
-          const extension = obs.extension.find(ext =>
-            ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-          );
-          narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
-        }
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        const narrativeLinkId = TemplateUtilities.narrativeLinkId(obs);
 
         // Add a table row for this observation
         html += `
@@ -60,7 +54,7 @@ export class VitalSignsTemplate {
             <td>${TemplateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
             <td>${TemplateUtilities.renderComponent(obs.component)}</td>
             <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${TemplateUtilities.renderEffective(obs.effectiveDateTime)}</td>
+            <td>${TemplateUtilities.renderEffective(obs.effective)}</td>
           </tr>`;
       }
     }

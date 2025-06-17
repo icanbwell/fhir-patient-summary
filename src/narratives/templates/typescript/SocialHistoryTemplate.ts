@@ -50,7 +50,7 @@ export class SocialHistoryTemplate {
             <td>${TemplateUtilities.renderValue(obs.value)}</td>
             <td>${TemplateUtilities.renderValueUnit(obs.value)}</td>
             <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(obs.effectiveDateTime)}</td>
+            <td>${TemplateUtilities.renderTime(obs.effective)}</td>
           </tr>`;
       }
     }

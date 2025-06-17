@@ -35,14 +35,8 @@ export class MedicalDevicesTemplate {
         if (entry.resource?.resourceType === 'DeviceUseStatement') {
           const dus = entry.resource as TDeviceUseStatement;
 
-          // Find the narrative link extension if it exists
-          let narrativeLinkId = '';
-          if (dus.extension && Array.isArray(dus.extension)) {
-            const extension = dus.extension.find(ext =>
-              ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-            );
-            narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
-          }
+          // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+          const narrativeLinkId = TemplateUtilities.narrativeLinkId(dus);
 
           // Add a table row for this device use statement
           html += `

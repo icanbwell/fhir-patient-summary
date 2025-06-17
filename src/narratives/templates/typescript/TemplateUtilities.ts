@@ -403,20 +403,45 @@ export class TemplateUtilities {
   }
 
   /**
-   * Extracts narrative link ID from extension
+   * Extracts narrative link ID from extension or resource
+   * @param source - Extension object or resource with extensions array
+   * @returns Extracted ID or empty string
+   */
+  static narrativeLinkId(source: any): string {
+    // If source is undefined or null, return empty string
+    if (!source) {
+      return '';
+    }
+
+    // Case 1: Source is a resource with an extensions array
+    if (source.extension && Array.isArray(source.extension)) {
+      const extension = source.extension.find((ext: any) =>
+        ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
+      );
+
+      if (extension) {
+        return this.extractIdFromExtension(extension);
+      }
+      return '';
+    }
+
+    // Case 2: Source is the extension itself
+    return this.extractIdFromExtension(source);
+  }
+
+  /**
+   * Helper method to extract ID from an extension object
    * @param extension - Extension object
    * @returns Extracted ID or empty string
    */
-  static narrativeLinkId(extension: any): string {
-    if (extension &&
-        typeof extension === 'object' &&
+  private static extractIdFromExtension(extension: any): string {
+    if (typeof extension === 'object' &&
         extension.value &&
         extension.value.value &&
         typeof extension.value.value === 'string' &&
         extension.value.value.includes('#')) {
       return extension.value.value.split('#')[1];
     }
-
     return '';
   }
 }

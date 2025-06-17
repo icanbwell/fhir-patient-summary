@@ -40,14 +40,8 @@ export class FunctionalStatusTemplate {
           continue;
         }
 
-        // Find the narrative link extension if it exists
-        let narrativeLinkId = '';
-        if (ci.extension && Array.isArray(ci.extension)) {
-          const extension = ci.extension.find(ext =>
-            ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-          );
-          narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
-        }
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        const narrativeLinkId = TemplateUtilities.narrativeLinkId(ci);
 
         // Add a table row for this clinical impression
         html += `
@@ -56,7 +50,7 @@ export class FunctionalStatusTemplate {
             <td>${ci.status || ''}</td>
             <td>${ci.summary || ''}</td>
             <td>${TemplateUtilities.safeConcat(ci.note, 'text')}</td>
-            <td>${TemplateUtilities.renderEffective(ci.effectiveDateTime)}</td>
+            <td>${TemplateUtilities.renderEffective(ci.effective)}</td>
           </tr>`;
       }
     }
