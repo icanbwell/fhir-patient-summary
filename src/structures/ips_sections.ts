@@ -21,5 +21,6 @@ export enum IPSSections {
     FUNCTIONAL_STATUS = 'FunctionalStatusSection',
     MEDICAL_HISTORY = 'MedicalHistorySection',
     CARE_PLAN = 'CarePlanSection',
-    CLINICAL_IMPRESSION = 'ClinicalImpressionSection'
+    CLINICAL_IMPRESSION = 'ClinicalImpressionSection',
+    ADVANCE_DIRECTIVES = 'AdvanceDirectivesSection'
 }

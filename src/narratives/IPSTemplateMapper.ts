@@ -20,6 +20,7 @@ export class IPSTemplateMapper {
         [IPSSections.MEDICAL_HISTORY]: 'pasthistoryofillness.j2', // No direct medical history template, using past history
         [IPSSections.CARE_PLAN]: 'planofcare.j2',
         [IPSSections.CLINICAL_IMPRESSION]: 'composition.j2', // No direct template, using composition
+        [IPSSections.ADVANCE_DIRECTIVES]: 'advancedirectives.j2'
     };
 
     static getTemplate(section: IPSSections): string | undefined {

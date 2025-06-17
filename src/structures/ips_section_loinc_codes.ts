@@ -21,7 +21,8 @@ const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
     [IPSSections.FUNCTIONAL_STATUS]: '47420-5',
     [IPSSections.MEDICAL_HISTORY]: '11348-0',
     [IPSSections.CARE_PLAN]: '18776-5',
-    [IPSSections.CLINICAL_IMPRESSION]: '51848-0'
+    [IPSSections.CLINICAL_IMPRESSION]: '51848-0',
+    [IPSSections.ADVANCE_DIRECTIVES]: '42348-3'
 };
 
 const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
@@ -41,7 +42,8 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
     [IPSSections.FUNCTIONAL_STATUS]: 'Functional status assessment note',
     [IPSSections.MEDICAL_HISTORY]: 'History of Past illness NarrativeHistory and physical note Document',
     [IPSSections.CARE_PLAN]: 'Plan of care note',
-    [IPSSections.CLINICAL_IMPRESSION]: 'Evaluation note'
+    [IPSSections.CLINICAL_IMPRESSION]: 'Evaluation note',
+    [IPSSections.ADVANCE_DIRECTIVES]: 'Advance directives Document'
 };
 
 export {IPS_SECTION_LOINC_CODES, IPS_SECTION_DISPLAY_NAMES};

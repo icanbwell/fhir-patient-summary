@@ -18,7 +18,8 @@ export const IPSSectionResourceMap: Record<IPSSections, string[]> = {
     [IPSSections.FUNCTIONAL_STATUS]: ['Observation'], // Functional status is often Observation
     [IPSSections.MEDICAL_HISTORY]: ['Condition'], // Medical history is often Condition
     [IPSSections.CARE_PLAN]: ['CarePlan'],
-    [IPSSections.CLINICAL_IMPRESSION]: ['ClinicalImpression']
+    [IPSSections.CLINICAL_IMPRESSION]: ['ClinicalImpression'],
+    [IPSSections.ADVANCE_DIRECTIVES]: ['DocumentReference'] // Advance directives are often stored as DocumentReference
 };
 
 // Optionally, define custom filter functions for each section
