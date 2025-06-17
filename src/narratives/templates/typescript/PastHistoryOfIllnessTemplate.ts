@@ -48,7 +48,7 @@ export class PastHistoryOfIllnessTemplate {
             <td>${TemplateUtilities.codeableConcept(cond.code, 'display')}</td>
             <td>${TemplateUtilities.codeableConcept(cond.clinicalStatus, 'code')}</td>
             <td>${TemplateUtilities.safeConcat(cond.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(cond.onset)}</td>
+            <td>${TemplateUtilities.renderTime(cond.onsetDateTime)}</td>
           </tr>`;
       }
     }

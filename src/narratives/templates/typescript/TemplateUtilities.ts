@@ -8,6 +8,8 @@ import {TImmunization} from "../../../types/resources/Immunization";
 import {TMedicationRequest} from "../../../types/resources/MedicationRequest";
 import {TMedicationStatement} from "../../../types/resources/MedicationStatement";
 import {TQuantity} from "../../../types/partials/Quantity";
+import {TObservation} from "../../../types/resources/Observation";
+import {TObservationComponent} from "../../../types/partials/ObservationComponent";
 
 type ObservationValueType =
   | string
@@ -459,7 +461,7 @@ export class TemplateUtilities {
 
 
 
-    public static extractObservationValue(observation: any): ObservationValueType | null {
+    public static extractObservationValue(observation: TObservation | TObservationComponent): ObservationValueType | null {
         // Check all possible value fields in order
         const valueFields = [
             'valueString',
@@ -473,22 +475,24 @@ export class TemplateUtilities {
         ];
 
         for (const field of valueFields) {
-            if (observation[field] !== undefined) {
+            // @ts-expect-error accessing dynamic field
+            const observationElement = observation[`${field}`];
+            if (observationElement !== undefined) {
                 switch (field) {
                     case 'valueQuantity':
                         // For quantity, return a string representation
-                        return TemplateUtilities.formatQuantityValue(observation[field]);
+                        return TemplateUtilities.formatQuantityValue(observationElement);
                     case 'valueCodeableConcept':
                         // For codeable concept, return code or text
-                        return TemplateUtilities.formatCodeableConceptValue(observation[field]);
+                        return TemplateUtilities.formatCodeableConceptValue(observationElement);
                     default:
-                        return observation[field];
+                        return observationElement;
                 }
             }
         }
 
         // Check component values if no direct value found
-        if (observation.component && observation.component.length > 0) {
+        if (observation?.component && observation.component.length > 0) {
             for (const component of observation.component) {
                 const componentValue = TemplateUtilities.extractObservationValue(component);
                 if (componentValue !== null) {
@@ -527,6 +531,26 @@ export class TemplateUtilities {
             return concept.coding[0].display || concept.coding[0].code || '';
         }
 
+        return '';
+    }
+
+    public static extractObservationValueUnit(observation: TObservation | TObservationComponent): string {
+        // Check if the observation has a valueQuantity field
+        if (observation.valueQuantity && observation.valueQuantity.unit) {
+            return observation.valueQuantity.unit;
+        }
+
+        // If no valueQuantity, check components
+        if (observation.component && observation.component.length > 0) {
+            for (const component of observation.component) {
+                const unit = this.extractObservationValueUnit(component);
+                if (unit) {
+                    return unit;
+                }
+            }
+        }
+
+        // If no unit found, return empty string
         return '';
     }
 }

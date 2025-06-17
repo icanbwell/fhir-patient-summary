@@ -50,7 +50,7 @@ export class ImmunizationsTemplate {
               <td>${TemplateUtilities.renderVaccineManufacturer(imm)}</td>
               <td>${imm.lotNumber || ''}</td>
               <td>${TemplateUtilities.safeConcat(imm.note, 'text')}</td>
-              <td>${TemplateUtilities.renderTime(imm.occurrence)}</td>
+              <td>${TemplateUtilities.renderTime(imm.occurrenceDateTime)}</td>
             </tr>`;
         }
       }

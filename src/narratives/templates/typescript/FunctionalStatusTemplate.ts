@@ -50,7 +50,7 @@ export class FunctionalStatusTemplate {
             <td>${ci.status || ''}</td>
             <td>${ci.summary || ''}</td>
             <td>${TemplateUtilities.safeConcat(ci.note, 'text')}</td>
-            <td>${TemplateUtilities.renderEffective(ci.effective)}</td>
+            <td>${TemplateUtilities.renderEffective(ci.effectiveDateTime)}</td>
           </tr>`;
       }
     }

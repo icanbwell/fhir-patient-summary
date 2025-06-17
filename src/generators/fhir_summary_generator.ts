@@ -5,10 +5,10 @@ import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
 import {TBundle} from "../types/resources/Bundle";
-import {Narrative, NarrativeGenerator} from "./narrative_generator";
 import {TComposition} from "../types/resources/Composition";
 import {TNarrative} from "../types/partials/Narrative";
 import {IPSSectionResourceHelper} from "../structures/ips_section_resource_map";
+import {TypeScriptNarrativeGenerator} from "./typescript_narrative_generator";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -72,7 +72,7 @@ export class ComprehensiveIPSCompositionBuilder {
         // Patient resource does not get a section, it is handled separately
         if (sectionType !== IPSSections.PATIENT) {
             // Create section entry
-            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(sectionType, validResources);
+            const narrative: TNarrative | undefined = TypeScriptNarrativeGenerator.generateNarrative(sectionType, validResources);
             const sectionEntry: TCompositionSection = {
                 title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
                 code: {
@@ -222,11 +222,11 @@ export class ComprehensiveIPSCompositionBuilder {
         return bundle;
     }
 
-    private createCompositionNarrative(): Narrative {
+    private createCompositionNarrative(): TNarrative {
         const patient = this.patient;
         let fullNarrativeContent: string = ";"
         // generate narrative for the patient
-        const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
+        const patientNarrative: string | undefined = TypeScriptNarrativeGenerator.generateNarrativeContent(
             IPSSections.PATIENT,
             [patient]
         );
@@ -240,14 +240,14 @@ export class ComprehensiveIPSCompositionBuilder {
                 .filter(r => resourceTypesForSection.includes(r.resourceType as string));
 
             if (resources.length > 0) {
-                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(sectionType, resources);
+                const sectionNarrative: string | undefined = TypeScriptNarrativeGenerator.generateNarrativeContent(sectionType, resources);
                 fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
             }
         }
 
         return {
             status: 'generated',
-            div: NarrativeGenerator.wrapInXhtml(fullNarrativeContent)
+            div: TypeScriptNarrativeGenerator.wrapInXhtml(fullNarrativeContent)
         }
     }
 }

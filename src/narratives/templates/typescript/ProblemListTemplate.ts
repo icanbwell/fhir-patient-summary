@@ -48,7 +48,7 @@ export class ProblemListTemplate {
             <td>${TemplateUtilities.codeableConcept(cond.code)}</td>
             <td>${TemplateUtilities.codeableConcept(cond.clinicalStatus)}</td>
             <td>${TemplateUtilities.safeConcat(cond.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(cond.onset)}</td>
+            <td>${TemplateUtilities.renderTime(cond.onsetDateTime)}</td>
           </tr>`;
       }
     }

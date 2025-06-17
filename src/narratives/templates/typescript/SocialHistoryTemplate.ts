@@ -47,10 +47,10 @@ export class SocialHistoryTemplate {
         html += `
           <tr id="${narrativeLinkId}">
             <td>${TemplateUtilities.codeableConcept(obs.code, 'display')}</td>
-            <td>${TemplateUtilities.renderValue(obs.value)}</td>
-            <td>${TemplateUtilities.renderValueUnit(obs.value)}</td>
+            <td>${TemplateUtilities.extractObservationValue(obs)}</td>
+            <td>${TemplateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(obs.effective)}</td>
+            <td>${TemplateUtilities.renderTime(obs.effectiveDateTime)}</td>
           </tr>`;
       }
     }

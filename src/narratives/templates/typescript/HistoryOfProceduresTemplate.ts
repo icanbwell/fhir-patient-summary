@@ -46,7 +46,7 @@ export class HistoryOfProceduresTemplate {
           <tr id="${narrativeLinkId}">
             <td>${TemplateUtilities.codeableConcept(proc.code, 'display')}</td>
             <td>${TemplateUtilities.safeConcat(proc.note, 'text')}</td>
-            <td>${TemplateUtilities.renderTime(proc.performed)}</td>
+            <td>${TemplateUtilities.renderTime(proc.performedDateTime)}</td>
           </tr>`;
       }
     }

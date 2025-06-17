@@ -94,26 +94,18 @@ export class MedicationSummaryTemplate {
         <tbody>`;
 
     for (const { resource: mr, extension } of medications) {
-      // Extract row ID from extension if present
-      let rowId = '';
-      if (extension && extension.value && extension.value.value &&
-          typeof extension.value.value === 'string' && extension.value.value.includes('#')) {
-        rowId = extension.value.value.split('#')[1];
-      }
+      // Use the narrativeLinkId utility function to extract the ID
+      const narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
 
       // Format status
       let status = '';
       if (mr.status) {
-        if (typeof mr.status === 'object' && mr.status.display) {
-          status = mr.status.display;
-        } else {
-          status = String(mr.status);
-        }
+        status = String(mr.status);
       }
 
       // Add table row
       html += `
-        <tr${rowId ? ` id="${rowId}"` : ''}>
+        <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
           <td>${TemplateUtilities.codeableConcept(mr.medicationCodeableConcept)}</td>
           <td>${status}</td>
           <td>${TemplateUtilities.concatDosageRoute(mr.dosageInstruction)}</td>
@@ -153,21 +145,13 @@ export class MedicationSummaryTemplate {
         <tbody>`;
 
     for (const { resource: ms, extension } of medications) {
-      // Extract row ID from extension if present
-      let rowId = '';
-      if (extension && extension.value && extension.value.value &&
-          typeof extension.value.value === 'string' && extension.value.value.includes('#')) {
-        rowId = extension.value.value.split('#')[1];
-      }
+      // Use the narrativeLinkId utility function to extract the ID
+      const narrativeLinkId = TemplateUtilities.narrativeLinkId(extension);
 
       // Format status
       let status = '';
       if (ms.status) {
-        if (typeof ms.status === 'object' && ms.status.display) {
-          status = ms.status.display;
-        } else {
-          status = String(ms.status);
-        }
+        status = String(ms.status);
       }
 
       // Format effective date/time
@@ -182,7 +166,7 @@ export class MedicationSummaryTemplate {
 
       // Add table row
       html += `
-        <tr${rowId ? ` id="${rowId}"` : ''}>
+        <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
           <td>${TemplateUtilities.renderMedication(ms)}</td>
           <td>${status}</td>
           <td>${TemplateUtilities.codeableConcept(ms.category)}</td>

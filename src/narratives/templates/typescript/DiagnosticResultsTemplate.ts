@@ -92,8 +92,8 @@ export class DiagnosticResultsTemplate {
       html += `
         <tr id="${narrativeLinkId}">
           <td>${TemplateUtilities.codeableConcept(obs.code)}</td>
-          <td>${obs.value ? TemplateUtilities.renderValue(obs.value) : ''}</td>
-          <td>${obs.value ? TemplateUtilities.renderValueUnit(obs.value) : ''}</td>
+          <td>${TemplateUtilities.extractObservationValue(obs)}</td>
+          <td>${TemplateUtilities.extractObservationValueUnit(obs)}</td>
           <td>${TemplateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
           <td>${TemplateUtilities.concatReferenceRange(obs.referenceRange)}</td>
           <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>

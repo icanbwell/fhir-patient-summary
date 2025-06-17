@@ -49,12 +49,12 @@ export class VitalSignsTemplate {
         html += `
           <tr id="${narrativeLinkId}">
             <td>${TemplateUtilities.codeableConcept(obs.code, 'display')}</td>
-            <td>${TemplateUtilities.renderValue(obs.value)}</td>
-            <td>${TemplateUtilities.renderValueUnit(obs.value)}</td>
+            <td>${TemplateUtilities.extractObservationValue(obs)}</td>
+            <td>${TemplateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${TemplateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
             <td>${TemplateUtilities.renderComponent(obs.component)}</td>
             <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${TemplateUtilities.renderEffective(obs.effective)}</td>
+            <td>${TemplateUtilities.renderEffective(obs.effectiveDateTime)}</td>
           </tr>`;
       }
     }
