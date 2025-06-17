@@ -97,7 +97,7 @@ export class DiagnosticResultsTemplate {
           <td>${TemplateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
           <td>${TemplateUtilities.concatReferenceRange(obs.referenceRange)}</td>
           <td>${TemplateUtilities.safeConcat(obs.note, 'text')}</td>
-          <td>${TemplateUtilities.renderTime(obs.effective)}</td>
+          <td>${TemplateUtilities.renderTime(obs.effectiveDateTime)}</td>
         </tr>`;
     }
 
