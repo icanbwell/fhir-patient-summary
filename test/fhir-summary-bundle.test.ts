@@ -3,8 +3,27 @@ import path from 'path';
 import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
 import {TCompositionSection} from "../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../src/types/partials/BundleEntry";
-import TurndownService from 'turndown';
 import {TBundle} from "../src/types/resources/Bundle";
+
+import prettier from 'prettier';
+
+/**
+ * Beautifies HTML using Prettier
+ * @param html - The input HTML string to be formatted
+ * @returns Beautifully formatted HTML string
+ */
+async function beautifyHtml(html: string): Promise<string> {
+    try {
+        return await prettier.format(html, {
+            parser: 'html',
+            tabWidth: 2,
+            useTabs: false,
+        });
+    } catch (error) {
+        console.error('Formatting Error:', error);
+        return html;
+    }
+}
 
 function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | null {
     // Convert the section title to a filename-friendly format
@@ -20,7 +39,7 @@ function readNarrativeFile(folder: string, codeValue: string, sectionTitle: stri
     }
 }
 
-function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundle) {
+async function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundle) {
     // remove the date from the bundle for comparison
     bundle.timestamp = expectedBundle.timestamp;
     if (bundle.entry && bundle.entry[0].resource?.date) {
@@ -39,7 +58,7 @@ function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundl
     // compare the div of each section
     expect(generatedSections).toBeDefined();
     expect(expectedSections).toBeDefined();
-    const turndownService = new TurndownService();
+    // const turndownService = new TurndownService();
     // expect(generatedSections?.length).toBe(expectedSections?.length);
     if (generatedSections && expectedSections) {
         for (let i = 0; i < generatedSections.length; i++) {
@@ -54,14 +73,13 @@ function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundl
             }
 
             // Read narrative from file
-            const expectedDiv = readNarrativeFile(folder,  codeValue as string, generatedSection.title || '');
+            const expectedDiv = readNarrativeFile(folder, codeValue as string, generatedSection.title || '');
 
             expect(expectedDiv?.length).toBeGreaterThan(0);
 
             // If narrative file doesn't exist, fall back to the bundle
 
             console.info(`Using narrative from file for ${generatedSection.title}`);
-
 
             console.info(`${generatedSection.title}\nGenerated:\n${generatedDiv}\nExpected:\n${expectedDiv}`);
 
@@ -72,14 +90,16 @@ function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundl
 
             // now clear out the div for comparison
             if (generatedDiv && expectedDiv) {
-                const generatedMarkdown = turndownService.turndown(generatedDiv);
-                const expectedMarkdown = turndownService.turndown(expectedDiv);
-                if (generatedMarkdown != expectedMarkdown) {
-                    // console.warn(`Markdown mismatch detected in ${generatedSection.title}:`);
-                    // console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
-                    // console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
-                }
-                expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
+                // const generatedMarkdown = turndownService.turndown(generatedDiv);
+                // const expectedMarkdown = turndownService.turndown(expectedDiv);
+                // if (generatedMarkdown != expectedMarkdown) {
+                //     console.warn(`Markdown mismatch detected in ${generatedSection.title}:`);
+                //     console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
+                //     console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
+                // }
+                const generatedFormattedHtml = await beautifyHtml(generatedDiv);
+                const expectedFormattedHtml = await beautifyHtml(expectedDiv);
+                expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);
             }
         }
     }
@@ -87,7 +107,7 @@ function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundl
 }
 
 describe('FHIR Patient Summary Generation', () => {
-    it('should generate the correct summary for the Aidbox bundle', () => {
+    it('should generate the correct summary for the Aidbox bundle', async () => {
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-bundle.json'), 'utf-8'));
         const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-bundle.json'), 'utf-8'));
@@ -119,9 +139,9 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
-        compare_bundles('aidbox', bundle, expectedBundle);
+        await compare_bundles('aidbox', bundle, expectedBundle);
     });
-    it('should generate the correct summary for the Epic bundle', () => {
+    it('should generate the correct summary for the Epic bundle', async () => {
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-epic-bundle.json'), 'utf-8'));
         const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-epic-bundle.json'), 'utf-8'));
@@ -153,6 +173,7 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
-        compare_bundles('epic', bundle, expectedBundle);
+        await compare_bundles('epic', bundle, expectedBundle);
     });
 });
+
