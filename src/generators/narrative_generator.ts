@@ -55,6 +55,11 @@ export class NarrativeGenerator {
     static createNarrative(content: string): Narrative {
         // remove extra whitespace and newlines
         content = content.replace(/\s+/g, ' ').trim();
+                // Strip outer <div> wrappers if present
+        const divMatch = content.match(/^<div[^>]*>(.*?)<\/div>$/);
+        if (divMatch) {
+            content = divMatch[1]; // Extract inner content
+        }
         return {
             status: 'generated',
             div: `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`
