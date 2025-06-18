@@ -2,19 +2,42 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TPatient } from '../../../types/resources/Patient';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Patient resources
  * This replaces the Jinja2 patient.j2 template
  */
-export class PatientTemplate {
+export class PatientTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Patient resource
    * @param resource - FHIR Bundle containing Patient resource
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return PatientTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Patient resource
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return PatientTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Patient resource
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     let html = '';
 
     // Loop through bundle entries to find Patient resources

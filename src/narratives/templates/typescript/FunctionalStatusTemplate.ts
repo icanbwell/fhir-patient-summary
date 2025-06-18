@@ -1,20 +1,43 @@
 // FunctionalStatusTemplate.ts - TypeScript replacement for Jinja2 functionalstatus.j2
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
-import { TClinicalImpression } from '../../../types/resources/ClinicalImpression';
+import { ITemplate } from './interfaces/ITemplate';
+import {TClinicalImpression} from "../../../types/resources/ClinicalImpression";
 
 /**
- * Class to generate HTML narrative for Functional Status (ClinicalImpression resources)
+ * Class to generate HTML narrative for Functional Status (Observation resources)
  * This replaces the Jinja2 functionalstatus.j2 template
  */
-export class FunctionalStatusTemplate {
+export class FunctionalStatusTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Functional Status
-   * @param resource - FHIR Bundle containing ClinicalImpression resources
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return FunctionalStatusTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return FunctionalStatusTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Functional Status</h5>

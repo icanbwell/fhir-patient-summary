@@ -17,59 +17,50 @@ import { PregnancyTemplate } from './PregnancyTemplate';
 import { AdvanceDirectivesTemplate } from './AdvanceDirectivesTemplate';
 import { CompositionTemplate } from './CompositionTemplate';
 import { TBundle } from '../../../types/resources/Bundle';
-
-/**
- * Interface for all template classes
- */
-interface ITemplate {
-  generateNarrative(resource: TBundle): string;
-}
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Maps IPS sections to their corresponding TypeScript template classes
  * Replaces the Jinja2 template mapping system
  */
 export class TypeScriptTemplateMapper {
-  private static sectionToTemplate: Partial<Record<IPSSections, { new(): ITemplate } | { generateNarrative(resource: TBundle): string }>> = {
-    [IPSSections.PATIENT]: PatientTemplate,
-    [IPSSections.ALLERGIES]: AllergyIntoleranceTemplate,
-    [IPSSections.MEDICATIONS]: MedicationSummaryTemplate,
-    [IPSSections.IMMUNIZATIONS]: ImmunizationsTemplate,
-    [IPSSections.PROBLEMS]: ProblemListTemplate,
-    [IPSSections.VITAL_SIGNS]: VitalSignsTemplate,
-    [IPSSections.MEDICAL_DEVICES]: MedicalDevicesTemplate,
-    [IPSSections.LABORATORY_RESULTS]: DiagnosticResultsTemplate,
-    [IPSSections.DIAGNOSTIC_REPORTS]: DiagnosticResultsTemplate,
-    [IPSSections.PROCEDURES]: HistoryOfProceduresTemplate,
-    [IPSSections.FAMILY_HISTORY]: PastHistoryOfIllnessTemplate,
-    [IPSSections.SOCIAL_HISTORY]: SocialHistoryTemplate,
-    [IPSSections.PREGNANCY_HISTORY]: PregnancyTemplate,
-    [IPSSections.FUNCTIONAL_STATUS]: FunctionalStatusTemplate,
-    [IPSSections.MEDICAL_HISTORY]: PastHistoryOfIllnessTemplate,
-    [IPSSections.CARE_PLAN]: PlanOfCareTemplate,
-    [IPSSections.CLINICAL_IMPRESSION]: CompositionTemplate,
-    [IPSSections.ADVANCE_DIRECTIVES]: AdvanceDirectivesTemplate
+  // Map of section types to their template classes
+  // Each template either needs to be instantiated or has a static generateNarrative method
+  private static sectionToTemplate = {
+    [IPSSections.PATIENT]: new PatientTemplate(),
+    [IPSSections.ALLERGIES]: new AllergyIntoleranceTemplate(),
+    [IPSSections.MEDICATIONS]: new MedicationSummaryTemplate(),
+    [IPSSections.IMMUNIZATIONS]: new ImmunizationsTemplate(),
+    [IPSSections.PROBLEMS]: new ProblemListTemplate(),
+    [IPSSections.VITAL_SIGNS]: new VitalSignsTemplate(),
+    [IPSSections.MEDICAL_DEVICES]: new MedicalDevicesTemplate(),
+    [IPSSections.LABORATORY_RESULTS]: new DiagnosticResultsTemplate(),
+    [IPSSections.DIAGNOSTIC_REPORTS]: new DiagnosticResultsTemplate(),
+    [IPSSections.PROCEDURES]: new HistoryOfProceduresTemplate(),
+    [IPSSections.FAMILY_HISTORY]: new PastHistoryOfIllnessTemplate(),
+    [IPSSections.SOCIAL_HISTORY]: new SocialHistoryTemplate(),
+    [IPSSections.PREGNANCY_HISTORY]: new PregnancyTemplate(),
+    [IPSSections.FUNCTIONAL_STATUS]: new FunctionalStatusTemplate(),
+    [IPSSections.MEDICAL_HISTORY]: new PastHistoryOfIllnessTemplate(),
+    [IPSSections.CARE_PLAN]: new PlanOfCareTemplate(),
+    [IPSSections.CLINICAL_IMPRESSION]: new CompositionTemplate(),
+    [IPSSections.ADVANCE_DIRECTIVES]: new AdvanceDirectivesTemplate()
   };
 
   /**
    * Generates HTML narrative for a specific IPS section
    * @param section - The IPS section
    * @param resource - FHIR Bundle containing resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(section: IPSSections, resource: TBundle): string {
-    const templateClass = this.sectionToTemplate[section];
+  static generateNarrative(section: IPSSections, resource: TBundle, timezone?: string): string {
+    const templateClass: ITemplate = this.sectionToTemplate[section];
 
     if (!templateClass) {
       throw new Error(`No template found for section: ${section}`);
     }
 
-    // Handle both static class and instantiable class
-    if ('generateNarrative' in templateClass) {
-      return templateClass.generateNarrative(resource);
-    } else {
-      const template = new templateClass();
-      return template.generateNarrative(resource);
-    }
+    return templateClass.generateNarrative(resource, timezone);
   }
 }

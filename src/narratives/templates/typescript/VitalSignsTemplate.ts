@@ -2,19 +2,41 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TObservation } from '../../../types/resources/Observation';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Vital Signs (Observation resources)
  * This replaces the Jinja2 vitalsigns.j2 template
  */
-export class VitalSignsTemplate {
+export class VitalSignsTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Vital Signs
    * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return VitalSignsTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return VitalSignsTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Vital Signs</h5>
@@ -55,7 +77,7 @@ export class VitalSignsTemplate {
             <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
             <td>${templateUtilities.renderComponent(obs.component)}</td>
             <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${templateUtilities.renderEffective(obs.effectiveDateTime)}</td>
+            <td>${templateUtilities.renderEffective(obs.effectiveDateTime, timezone)}</td>
           </tr>`;
       }
     }

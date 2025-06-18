@@ -2,19 +2,41 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TObservation } from '../../../types/resources/Observation';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Social History (Observation resources)
  * This replaces the Jinja2 socialhistory.j2 template
  */
-export class SocialHistoryTemplate {
+export class SocialHistoryTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Social History
    * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return SocialHistoryTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return SocialHistoryTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Observation resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Social History</h5>
@@ -51,7 +73,7 @@ export class SocialHistoryTemplate {
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${templateUtilities.renderTime(obs.effectiveDateTime)}</td>
+            <td>${templateUtilities.renderTime(obs.effectiveDateTime, timezone)}</td>
           </tr>`;
       }
     }

@@ -19,11 +19,13 @@ export class NarrativeGenerator {
      * Generates narrative HTML content for a section
      * @param section - IPS section type
      * @param resources - Array of domain resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Generated HTML content or undefined if no resources
      */
     static generateNarrativeContent<T extends TDomainResource>(
         section: IPSSections,
-        resources: T[]
+        resources: T[],
+        timezone?: string
     ): string | undefined {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
@@ -40,7 +42,7 @@ export class NarrativeGenerator {
             };
 
             // Use the TypeScript template mapper to generate HTML
-            return TypeScriptTemplateMapper.generateNarrative(section, bundle);
+            return TypeScriptTemplateMapper.generateNarrative(section, bundle, timezone);
         } catch (error) {
             console.error(`Error generating narrative for section ${section}:`, error);
             return `<div class="error">Error generating narrative: ${error instanceof Error ? error.message : String(error)}</div>`;
@@ -70,13 +72,15 @@ export class NarrativeGenerator {
      * Generates a complete FHIR Narrative object for a section
      * @param section - IPS section type
      * @param resources - Array of domain resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns FHIR Narrative object or undefined if no resources
      */
     static generateNarrative<T extends TDomainResource>(
         section: IPSSections,
-        resources: T[]
+        resources: T[],
+        timezone?: string
     ): Narrative | undefined {
-        const content = this.generateNarrativeContent(section, resources);
+        const content = this.generateNarrativeContent(section, resources, timezone);
         if (!content) {
             return undefined;
         }

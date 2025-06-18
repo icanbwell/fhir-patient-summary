@@ -2,18 +2,41 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TConsent } from '../../../types/resources/Consent';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Advance Directives (Consent resources)
  * This replaces the Jinja2 advancedirectives.j2 template
  */
-export class AdvanceDirectivesTemplate {
+export class AdvanceDirectivesTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Advance Directives
-   * @param resource - FHIR Bundle containing Consent resources
+   * @param resource - FHIR Bundle containing Advance Directive resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return AdvanceDirectivesTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Advance Directive resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return AdvanceDirectivesTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Advance Directive resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
 
     const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table

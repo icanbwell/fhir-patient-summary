@@ -2,18 +2,40 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TCondition } from '../../../types/resources/Condition';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Problem List (Condition resources)
  * This replaces the Jinja2 problemlist.j2 template
  */
-export class ProblemListTemplate {
+export class ProblemListTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Problem List
    * @param resource - FHIR Bundle containing Condition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return ProblemListTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Condition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return ProblemListTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Condition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
     const templateUtilities = new TemplateUtilities(resource);
 
     // Start building the HTML
@@ -69,7 +91,7 @@ export class ProblemListTemplate {
         html += `<tr id="${narrativeLinkId}">
           <td class="Name">
             <span class="ProblemName">${templateUtilities.codeableConcept(cond.code)}</span>
-            ${this.formatNotes(cond)}
+            ${this.formatNotes(cond, timezone)}
           </td>
           <td class="Priority">${severity}</td>
           <td class="NotedDate">${notedDate}</td>
@@ -113,7 +135,7 @@ export class ProblemListTemplate {
         html += `<tr id="${narrativeLinkId}">
           <td class="Name">
             <span class="ProblemName">${templateUtilities.codeableConcept(cond.code)}</span>
-            ${this.formatNotes(cond)}
+            ${this.formatNotes(cond, timezone)}
           </td>
           <td class="Priority">${severity}</td>
           <td class="NotedDate">${notedDate}</td>
@@ -136,9 +158,10 @@ export class ProblemListTemplate {
   /**
    * Format notes with detailed styling to match sample output
    * @param condition - The condition resource containing notes
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for formatted notes
    */
-  private static formatNotes(condition: TCondition): string {
+  private static formatNotes(condition: TCondition, timezone?: string): string {
     if (!condition.note || !Array.isArray(condition.note) || condition.note.length === 0) {
       return '';
     }
@@ -148,14 +171,23 @@ export class ProblemListTemplate {
     for (const note of condition.note) {
       if (note.text) {
         const noteDate = note.time ? new Date(note.time) : new Date();
-        const formattedDate = noteDate.toLocaleString('en-US', {
+
+        // Use Intl.DateTimeFormat with timezone if provided
+        const dateOptions: Intl.DateTimeFormatOptions = {
           month: 'numeric',
           day: 'numeric',
           year: 'numeric',
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
+        };
+
+        // Add timezone to options if it was provided
+        if (timezone) {
+          dateOptions.timeZone = timezone;
+        }
+
+        const formattedDate = new Intl.DateTimeFormat('en-US', dateOptions).format(noteDate);
 
         const noteType = note.authorString || 'Overview';
 

@@ -214,28 +214,103 @@ export class TemplateUtilities {
     /**
      * Renders an effective date
      * @param effective - Date value
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Formatted date string
      */
-    renderEffective(effective: any): string {
-        return effective ? effective.toString() : '';
+    renderEffective(effective: any, timezone?: string): string {
+        if (!effective) return '';
+
+        try {
+            const date = new Date(effective);
+            if (isNaN(date.getTime())) return effective.toString();
+
+            // Use Intl.DateTimeFormat with timezone if provided
+            const dateOptions: Intl.DateTimeFormatOptions = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            };
+
+            // Add timezone to options if it was provided
+            if (timezone) {
+                dateOptions.timeZone = timezone;
+            }
+
+            return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
+        } catch {
+            return effective.toString();
+        }
     }
 
     /**
      * Renders a time value
      * @param time - Time value
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Formatted time string
      */
-    renderTime(time: any): string {
-        return time ? time.toString() : '';
+    renderTime(time: any, timezone?: string): string {
+        if (!time) return '';
+
+        try {
+            const date = new Date(time);
+            if (isNaN(date.getTime())) return time.toString();
+
+            // Use Intl.DateTimeFormat with timezone if provided
+            const dateOptions: Intl.DateTimeFormatOptions = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            };
+
+            // Add timezone to options if it was provided
+            if (timezone) {
+                dateOptions.timeZone = timezone;
+            }
+
+            return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
+        } catch {
+            return time.toString();
+        }
     }
 
     /**
      * Renders a recorded date
      * @param recorded - Date value
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Formatted date string
      */
-    renderRecorded(recorded: any): string {
-        return recorded ? recorded.toString() : '';
+    renderRecorded(recorded: any, timezone?: string): string {
+        if (!recorded) return '';
+
+        try {
+            const date = new Date(recorded);
+            if (isNaN(date.getTime())) return recorded.toString();
+
+            // Use Intl.DateTimeFormat with timezone if provided
+            const dateOptions: Intl.DateTimeFormatOptions = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            };
+
+            // Add timezone to options if it was provided
+            if (timezone) {
+                dateOptions.timeZone = timezone;
+            }
+
+            return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
+        } catch {
+            return recorded.toString();
+        }
     }
 
     /**

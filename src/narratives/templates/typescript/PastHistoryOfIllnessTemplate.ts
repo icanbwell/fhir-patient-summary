@@ -2,18 +2,40 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TCondition } from '../../../types/resources/Condition';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Past History of Illness (Condition resources)
  * This replaces the Jinja2 pasthistoryofillness.j2 template
  */
-export class PastHistoryOfIllnessTemplate {
+export class PastHistoryOfIllnessTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Past History of Illnesses
    * @param resource - FHIR Bundle containing Condition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return PastHistoryOfIllnessTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Condition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return PastHistoryOfIllnessTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Condition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
         const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
@@ -49,7 +71,7 @@ export class PastHistoryOfIllnessTemplate {
             <td>${templateUtilities.codeableConcept(cond.code, 'display')}</td>
             <td>${templateUtilities.codeableConcept(cond.clinicalStatus, 'code')}</td>
             <td>${templateUtilities.safeConcat(cond.note, 'text')}</td>
-            <td>${templateUtilities.renderTime(cond.onsetDateTime)}</td>
+            <td>${templateUtilities.renderTime(cond.onsetDateTime, timezone)}</td>
           </tr>`;
       }
     }

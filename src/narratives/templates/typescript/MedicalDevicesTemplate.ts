@@ -1,20 +1,43 @@
 // MedicalDevicesTemplate.ts - TypeScript replacement for Jinja2 medicaldevices.j2
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
-import { TDeviceUseStatement } from '../../../types/resources/DeviceUseStatement';
+import { ITemplate } from './interfaces/ITemplate';
+import {TDeviceUseStatement} from "../../../types/resources/DeviceUseStatement";
 
 /**
- * Class to generate HTML narrative for Medical Devices (DeviceUseStatement resources)
+ * Class to generate HTML narrative for Medical Device resources
  * This replaces the Jinja2 medicaldevices.j2 template
  */
-export class MedicalDevicesTemplate {
+export class MedicalDevicesTemplate implements ITemplate {
   /**
-   * Generate HTML narrative for Medical Devices
-   * @param resource - FHIR Bundle containing DeviceUseStatement resources
+   * Generate HTML narrative for Medical Device resources
+   * @param resource - FHIR Bundle containing Device resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return MedicalDevicesTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Device resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return MedicalDevicesTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Device resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Medical Devices</h5>

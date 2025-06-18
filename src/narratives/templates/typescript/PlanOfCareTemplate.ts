@@ -2,19 +2,42 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TCarePlan } from '../../../types/resources/CarePlan';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
- * Class to generate HTML narrative for Care Plan resources
+ * Class to generate HTML narrative for Plan of Care (CarePlan resources)
  * This replaces the Jinja2 planofcare.j2 template
  */
-export class PlanOfCareTemplate {
+export class PlanOfCareTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Plan of Care
    * @param resource - FHIR Bundle containing CarePlan resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return PlanOfCareTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing CarePlan resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return PlanOfCareTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing CarePlan resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Plan of Care</h5>

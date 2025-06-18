@@ -3,18 +3,41 @@ import {TemplateUtilities} from './TemplateUtilities';
 import {TBundle} from '../../../types/resources/Bundle';
 import {TMedicationRequest} from '../../../types/resources/MedicationRequest';
 import {TMedicationStatement} from '../../../types/resources/MedicationStatement';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Medication resources
  * This replaces the Jinja2 medicationsummary.j2 template
  */
-export class MedicationSummaryTemplate {
+export class MedicationSummaryTemplate implements ITemplate {
     /**
      * Generate HTML narrative for Medication resources
      * @param resource - FHIR Bundle containing Medication resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns HTML string for rendering
      */
-    static generateNarrative(resource: TBundle): string {
+    generateNarrative(resource: TBundle, timezone?: string): string {
+        return MedicationSummaryTemplate.generateStaticNarrative(resource, timezone);
+    }
+
+    /**
+     * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+     * @param resource - FHIR Bundle containing Medication resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns HTML string for rendering
+     */
+    static generateNarrative(resource: TBundle, timezone?: string): string {
+        return MedicationSummaryTemplate.generateStaticNarrative(resource, timezone);
+    }
+
+    /**
+     * Internal static implementation that actually generates the narrative
+     * @param resource - FHIR Bundle containing Medication resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns HTML string for rendering
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
         const templateUtilities = new TemplateUtilities(resource);
         let html = '';
 

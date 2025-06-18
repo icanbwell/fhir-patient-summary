@@ -2,19 +2,41 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TImmunization } from '../../../types/resources/Immunization';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Immunization resources
  * This replaces the Jinja2 immunizations.j2 template
  */
-export class ImmunizationsTemplate {
+export class ImmunizationsTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Immunization resources
    * @param resource - FHIR Bundle containing Immunization resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return ImmunizationsTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Immunization resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return ImmunizationsTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Immunization resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>Immunizations</h5>
@@ -51,7 +73,7 @@ export class ImmunizationsTemplate {
               <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
               <td>${imm.lotNumber || ''}</td>
               <td>${templateUtilities.safeConcat(imm.note, 'text')}</td>
-              <td>${templateUtilities.renderTime(imm.occurrenceDateTime)}</td>
+              <td>${templateUtilities.renderTime(imm.occurrenceDateTime, timezone)}</td>
             </tr>`;
         }
       }

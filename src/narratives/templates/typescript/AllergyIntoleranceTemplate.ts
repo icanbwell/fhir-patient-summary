@@ -2,18 +2,41 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TAllergyIntolerance } from '../../../types/resources/AllergyIntolerance';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for AllergyIntolerance resources
  * This replaces the Jinja2 allergyintolerance.j2 template
  */
-export class AllergyIntoleranceTemplate {
+export class AllergyIntoleranceTemplate implements ITemplate {
   /**
    * Generate HTML narrative for AllergyIntolerance resources
    * @param resource - FHIR Bundle containing AllergyIntolerance resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  public static generateNarrative(resource: TBundle): string {
+  public generateNarrative(resource: TBundle, timezone?: string): string {
+    return AllergyIntoleranceTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing AllergyIntolerance resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  public static generateNarrative(resource: TBundle, timezone?: string): string {
+    return AllergyIntoleranceTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing AllergyIntolerance resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
     const templateUtilities = new TemplateUtilities(resource);
 
     // Group allergies by status (active vs resolved/inactive)

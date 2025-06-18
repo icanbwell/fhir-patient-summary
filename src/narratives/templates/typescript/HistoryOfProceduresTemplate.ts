@@ -2,19 +2,41 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TBundle } from '../../../types/resources/Bundle';
 import { TProcedure } from '../../../types/resources/Procedure';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Procedure resources
  * This replaces the Jinja2 historyofprocedures.j2 template
  */
-export class HistoryOfProceduresTemplate {
+export class HistoryOfProceduresTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Procedure resources
    * @param resource - FHIR Bundle containing Procedure resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(resource: TBundle): string {
-        const templateUtilities = new TemplateUtilities(resource);
+  generateNarrative(resource: TBundle, timezone?: string): string {
+    return HistoryOfProceduresTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
+   * @param resource - FHIR Bundle containing Procedure resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  static generateNarrative(resource: TBundle, timezone?: string): string {
+    return HistoryOfProceduresTemplate.generateStaticNarrative(resource, timezone);
+  }
+
+  /**
+   * Internal static implementation that actually generates the narrative
+   * @param resource - FHIR Bundle containing Procedure resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+    const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
       <h5>History Of Procedures</h5>
@@ -47,7 +69,7 @@ export class HistoryOfProceduresTemplate {
           <tr id="${narrativeLinkId}">
             <td>${templateUtilities.codeableConcept(proc.code, 'display')}</td>
             <td>${templateUtilities.safeConcat(proc.note, 'text')}</td>
-            <td>${templateUtilities.renderTime(proc.performedDateTime)}</td>
+            <td>${templateUtilities.renderTime(proc.performedDateTime, timezone)}</td>
           </tr>`;
       }
     }
