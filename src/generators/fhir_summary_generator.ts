@@ -224,7 +224,7 @@ export class ComprehensiveIPSCompositionBuilder {
 
     private createCompositionNarrative(): TNarrative {
         const patient = this.patient;
-        let fullNarrativeContent: string = ";"
+        let fullNarrativeContent: string = "";
         // generate narrative for the patient
         const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
             IPSSections.PATIENT,
