@@ -50,32 +50,18 @@ function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundl
             // Get LOINC code for the section
             const codeValue = generatedSection.code?.coding?.[0].code;
             if (!codeValue) {
-                console.warn(`Section ${generatedSection.title} has no LOINC code, skipping comparison.`);
-                continue;
+                expect(codeValue).toBeDefined();
             }
 
             // Read narrative from file
-            const expectedDivFromFile = readNarrativeFile(folder,  codeValue, generatedSection.title || '');
+            const expectedDiv = readNarrativeFile(folder,  codeValue as string, generatedSection.title || '');
+
+            expect(expectedDiv?.length).toBeGreaterThan(0);
 
             // If narrative file doesn't exist, fall back to the bundle
-            let expectedDiv: string | undefined;
-            if (expectedDivFromFile) {
-                expectedDiv = expectedDivFromFile;
-                console.info(`Using narrative from file for ${generatedSection.title}`);
-            } else {
-                // find expected section by code in the expectedBundle
-                const expectedSection = expectedSections.find(
-                    (s: TCompositionSection) => s.code?.coding?.[0].code === codeValue
-                );
 
-                if (!expectedSection) {
-                    console.warn(`Expected section with code "${codeValue}" not found in expected bundle.`);
-                    continue; // Skip comparison if expected section is not found
-                }
+            console.info(`Using narrative from file for ${generatedSection.title}`);
 
-                expectedDiv = expectedSection?.text?.div;
-                console.info(`Using narrative from bundle for ${generatedSection.title}`);
-            }
 
             console.info(`${generatedSection.title}\nGenerated:\n${generatedDiv}\nExpected:\n${expectedDiv}`);
 
