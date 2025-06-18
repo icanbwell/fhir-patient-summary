@@ -563,6 +563,35 @@ export class TemplateUtilities {
         // If no unit found, return empty string
         return '';
     }
+
+    /**
+     * Gets the medication name from various types of medication references or resources
+     * @param medicationSource - Can be a Reference to Medication, a CodeableConcept, or a Medication resource
+     * @returns The medication name as a string
+     */
+    getMedicationName(medicationSource: TReference | TCodeableConcept | TMedication | null | undefined): string {
+        if (!medicationSource) {
+            return '';
+        }
+
+        // Case 1: It's a Medication resource
+        if (typeof medicationSource === 'object' && 'resourceType' in medicationSource && medicationSource.resourceType === 'Medication') {
+            return this.renderMedicationCode(medicationSource);
+        }
+
+        // Case 2: It's a CodeableConcept (medicationCodeableConcept)
+        if (typeof medicationSource === 'object' && ('coding' in medicationSource || 'text' in medicationSource)) {
+            return this.codeableConcept(medicationSource as TCodeableConcept);
+        }
+
+        // Case 3: It's a Reference to a Medication resource (medicationReference)
+        if (typeof medicationSource === 'object' && 'reference' in medicationSource) {
+            const medication = this.resolveReference<TMedication>(medicationSource);
+            if (medication && medication.code) {
+                return this.codeableConcept(medication.code);
+            }
+        }
+
+        return '';
+    }
 }
-
-

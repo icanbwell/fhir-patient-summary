@@ -84,17 +84,17 @@ export class MedicationSummaryTemplate {
         resource: TMedicationRequest,
         extension?: any
     }>): string {
-        let html = `
-      <h5>Medication Summary: Medication Requests</h5>
-      <table class="hapiPropertyTable">
+        let html = `<div xmlns="http://www.w3.org/1999/xhtml">
+      <table>
         <thead>
           <tr>
             <th>Medication</th>
-            <th>Status</th>
-            <th>Route</th>
             <th>Sig</th>
-            <th>Comments</th>
-            <th>Authored Date</th>
+            <th>Dispense Quantity</th>
+            <th>Refills</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>`;
@@ -104,26 +104,55 @@ export class MedicationSummaryTemplate {
             const narrativeLinkId = templateUtilities.narrativeLinkId(extension);
 
             // Format status
-            let status = '';
-            if (mr.status) {
-                status = String(mr.status);
+            const status = mr.status ? String(mr.status) : '-';
+
+            // Get medication name using the new shared function
+            const medication = templateUtilities.getMedicationName(
+                mr.medicationReference || mr.medicationCodeableConcept
+            );
+
+            // Get Sig/dosage instructions
+            const sig = templateUtilities.concat(mr.dosageInstruction, 'text') || '-';
+
+            // Get dispense quantity
+            let dispenseQuantity = '-';
+            if (mr.dispenseRequest?.quantity) {
+                const quantity = mr.dispenseRequest.quantity;
+                if (quantity.value) {
+                    dispenseQuantity = `${quantity.value} ${quantity.unit || quantity.code || ''}`.trim();
+                }
+            }
+
+            // Get refills
+            const refills = mr.dispenseRequest?.numberOfRepeatsAllowed?.toString() || '-';
+
+            // Get dates
+            let startDate = '-';
+            let endDate = '-';
+            if (mr.dispenseRequest?.validityPeriod) {
+                startDate = mr.dispenseRequest.validityPeriod.start || '-';
+                endDate = mr.dispenseRequest.validityPeriod.end || '-';
+            } else {
+                // Use authored date as fallback for start date
+                startDate = mr.authoredOn || '-';
             }
 
             // Add table row
             html += `
         <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
-          <td>${templateUtilities.codeableConcept(mr.medicationCodeableConcept)}</td>
+          <td>${medication}<ul></ul></td>
+          <td>${sig}</td>
+          <td>${dispenseQuantity}</td>
+          <td>${refills}</td>
+          <td>${startDate}</td>
+          <td>${endDate}</td>
           <td>${status}</td>
-          <td>${templateUtilities.concatDosageRoute(mr.dosageInstruction)}</td>
-          <td>${templateUtilities.concat(mr.dosageInstruction, 'text')}</td>
-          <td>${templateUtilities.concat(mr.note, 'text')}</td>
-          <td>${mr.authoredOn || ''}</td>
         </tr>`;
         }
 
         html += `
         </tbody>
-      </table>`;
+      </table></div>`;
 
         return html;
     }
@@ -138,18 +167,17 @@ export class MedicationSummaryTemplate {
         resource: TMedicationStatement,
         extension?: any
     }>): string {
-        let html = `
-      <h5>Medication Summary: Medication Statements</h5>
-      <table class="hapiPropertyTable">
+        let html = `<div xmlns="http://www.w3.org/1999/xhtml">
+      <table>
         <thead>
           <tr>
             <th>Medication</th>
+            <th>Sig</th>
+            <th>Dispense Quantity</th>
+            <th>Refills</th>
+            <th>Start Date</th>
+            <th>End Date</th>
             <th>Status</th>
-            <th>Category</th>
-            <th>Route</th>
-            <th>Dosage</th>
-            <th>Effective</th>
-            <th>Date Asserted</th>
           </tr>
         </thead>
         <tbody>`;
@@ -159,37 +187,46 @@ export class MedicationSummaryTemplate {
             const narrativeLinkId = templateUtilities.narrativeLinkId(extension);
 
             // Format status
-            let status = '';
-            if (ms.status) {
-                status = String(ms.status);
-            }
+            const status = ms.status ? String(ms.status) : '-';
 
-            // Format effective date/time
-            let effectiveDate = '';
+            // Get medication name using the new shared function
+            const medication = templateUtilities.getMedicationName(
+                ms.medicationReference || ms.medicationCodeableConcept
+            );
+
+            // Get Sig/dosage instructions
+            const sig = templateUtilities.concat(ms.dosage, 'text') || '-';
+
+            // Dispense quantity and refills aren't typically in MedicationStatement
+            const dispenseQuantity = '-';
+            const refills = '-';
+
+            // Get dates
+            let startDate = '-';
+            let endDate = '-';
             if (ms.effectiveDateTime) {
-                effectiveDate = ms.effectiveDateTime;
+                startDate = ms.effectiveDateTime;
             } else if (ms.effectivePeriod) {
-                const start = ms.effectivePeriod.start || '';
-                const end = ms.effectivePeriod.end || '';
-                effectiveDate = start && end ? `${start} to ${end}` : (start || end);
+                startDate = ms.effectivePeriod.start || '-';
+                endDate = ms.effectivePeriod.end || '-';
             }
 
             // Add table row
             html += `
         <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
-          <td>${templateUtilities.renderMedicationStatement(ms)}</td>
+          <td>${medication}<ul></ul></td>
+          <td>${sig}</td>
+          <td>${dispenseQuantity}</td>
+          <td>${refills}</td>
+          <td>${startDate}</td>
+          <td>${endDate}</td>
           <td>${status}</td>
-          <td>${templateUtilities.codeableConcept(ms.category)}</td>
-          <td>${templateUtilities.concatDosageRoute(ms.dosage)}</td>
-          <td>${templateUtilities.concat(ms.dosage, 'text')}</td>
-          <td>${effectiveDate}</td>
-          <td>${ms.dateAsserted || ''}</td>
         </tr>`;
         }
 
         html += `
         </tbody>
-      </table>`;
+      </table></div>`;
 
         return html;
     }
