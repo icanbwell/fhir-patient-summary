@@ -4,6 +4,63 @@ import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary
 import {TCompositionSection} from "../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../src/types/partials/BundleEntry";
 import TurndownService from 'turndown';
+import {TBundle} from "../src/types/resources/Bundle";
+
+function compare_bundles(bundle: TBundle, expectedBundle: TBundle) {
+    // remove the date from the bundle for comparison
+    bundle.timestamp = expectedBundle.timestamp;
+    if (bundle.entry && bundle.entry[0].resource?.date) {
+        bundle.entry[0].resource.date = expectedBundle.entry?.[0].resource?.date;
+    }
+
+    // extract the div from each section and compare
+    const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
+        .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
+        .flat()
+        .filter((s: TCompositionSection) => s);
+    const expectedSections: TCompositionSection[] | undefined = expectedBundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
+        .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
+        .flat()
+        .filter((s: TCompositionSection) => s);
+    // compare the div of each section
+    expect(generatedSections).toBeDefined();
+    expect(expectedSections).toBeDefined();
+    const turndownService = new TurndownService();
+    // expect(generatedSections?.length).toBe(expectedSections?.length);
+    if (generatedSections && expectedSections) {
+        for (let i = 0; i < generatedSections.length; i++) {
+            const generatedSection = generatedSections[i];
+            console.info(`======= Comparing section ${generatedSection.title} ${i + 1}/${generatedSections.length} ====`);
+            const generatedDiv: string | undefined = generatedSection.text?.div;
+            // find expected section by title
+            const expectedSection = expectedSections.find(
+                (s: TCompositionSection) => s.code?.coding?.[0].code === generatedSection.code?.coding?.[0].code
+            );
+            if (!expectedSection) {
+                console.warn(`Expected section with title "${generatedSection.title}" not found in expected bundle.`);
+                continue; // Skip comparison if expected section is not found
+            }
+            const expectedDiv: string | undefined = expectedSection?.text?.div;
+            console.info(`${generatedSection.title}\nGenerated:\n${generatedDiv}\nExpected:\n${expectedDiv}`);
+            if (!generatedDiv || !expectedDiv) {
+                console.warn(`Section ${i + 1} is missing div content.`);
+                continue; // Skip comparison if div is missing
+            }
+            // now clear out the div for comparison
+            if (generatedDiv && expectedDiv) {
+                const generatedMarkdown = turndownService.turndown(generatedDiv);
+                const expectedMarkdown = turndownService.turndown(expectedDiv);
+                if (generatedMarkdown != expectedMarkdown) {
+                    // console.warn(`Markdown mismatch detected in ${generatedSection.title}:`);
+                    // console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
+                    // console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
+                }
+                // expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
+            }
+        }
+    }
+    // expect(bundle).toEqual(expectedBundle);
+}
 
 describe('FHIR Patient Summary Generation', () => {
     it('should generate the correct summary for the Aidbox bundle', () => {
@@ -38,52 +95,7 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
-        // remove the date from the bundle for comparison
-        bundle.timestamp = expectedBundle.timestamp;
-        if (bundle.entry && bundle.entry[0].resource?.date) {
-            bundle.entry[0].resource.date = expectedBundle.entry[0].resource.date;
-        }
-
-        // extract the div from each section and compare
-        const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
-            .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
-            .flat()
-            .filter((s: TCompositionSection) => s);
-        const expectedSections: TCompositionSection[] | undefined = expectedBundle.entry
-            .filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
-            .map((e: TBundleEntry) => e.resource?.section)
-            .flat()
-            .filter((s: TCompositionSection) => s);
-        // compare the div of each section
-        expect(generatedSections).toBeDefined();
-        expect(expectedSections).toBeDefined();
-        const turndownService = new TurndownService();
-        // expect(generatedSections?.length).toBe(expectedSections?.length);
-        if (generatedSections && expectedSections) {
-            for (let i = 0; i < generatedSections.length; i++) {
-                console.info(`Comparing section ${i + 1}/${generatedSections.length}`);
-                const generatedDiv: string | undefined = generatedSections[i].text?.div;
-                console.info(`Generated: ${generatedDiv}`);
-                const expectedDiv: string | undefined = expectedSections[i]?.text?.div;
-                console.info(`Expected: ${expectedDiv}`);
-                if (!generatedDiv || !expectedDiv) {
-                    console.warn(`Section ${i + 1} is missing div content.`);
-                    continue; // Skip comparison if div is missing
-                }
-                // now clear out the div for comparison
-                if (generatedDiv && expectedDiv) {
-                    const generatedMarkdown = turndownService.turndown(generatedDiv);
-                    const expectedMarkdown = turndownService.turndown(expectedDiv);
-                    if (generatedMarkdown != expectedMarkdown) {
-                        console.warn('Markdown mismatch detected:');
-                        console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
-                        console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
-                    }
-                    expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
-                }
-            }
-        }
-        expect(bundle).toEqual(expectedBundle);
+        compare_bundles(bundle, expectedBundle);
     });
     it('should generate the correct summary for the Epic bundle', () => {
         // Read the test bundle JSON
@@ -117,59 +129,6 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
-        // remove the date from the bundle for comparison
-        bundle.timestamp = expectedBundle.timestamp;
-        if (bundle.entry && bundle.entry[0].resource?.date) {
-            bundle.entry[0].resource.date = expectedBundle.entry[0].resource.date;
-        }
-
-        // extract the div from each section and compare
-        const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
-            .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
-            .flat()
-            .filter((s: TCompositionSection) => s);
-        const expectedSections: TCompositionSection[] | undefined = expectedBundle.entry
-            .filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
-            .map((e: TBundleEntry) => e.resource?.section)
-            .flat()
-            .filter((s: TCompositionSection) => s);
-        // compare the div of each section
-        expect(generatedSections).toBeDefined();
-        expect(expectedSections).toBeDefined();
-        const turndownService = new TurndownService();
-        // expect(generatedSections?.length).toBe(expectedSections?.length);
-        if (generatedSections && expectedSections) {
-            for (let i = 0; i < generatedSections.length; i++) {
-                const generatedSection = generatedSections[i];
-                console.info(`======= Comparing section ${generatedSection.title} ${i + 1}/${generatedSections.length} ====`);
-                const generatedDiv: string | undefined = generatedSection.text?.div;
-                // find expected section by title
-                const expectedSection = expectedSections.find(
-                    (s: TCompositionSection) => s.code?.coding?.[0].code === generatedSection.code?.coding?.[0].code
-                );
-                if (!expectedSection) {
-                    console.warn(`Expected section with title "${generatedSection.title}" not found in expected bundle.`);
-                    continue; // Skip comparison if expected section is not found
-                }
-                const expectedDiv: string | undefined = expectedSection?.text?.div;
-                console.info(`${generatedSection.title}\nGenerated:\n${generatedDiv}\nExpected:\n${expectedDiv}`);
-                if (!generatedDiv || !expectedDiv) {
-                    console.warn(`Section ${i + 1} is missing div content.`);
-                    continue; // Skip comparison if div is missing
-                }
-                // now clear out the div for comparison
-                if (generatedDiv && expectedDiv) {
-                    const generatedMarkdown = turndownService.turndown(generatedDiv);
-                    const expectedMarkdown = turndownService.turndown(expectedDiv);
-                    if (generatedMarkdown != expectedMarkdown) {
-                        // console.warn(`Markdown mismatch detected in ${generatedSection.title}:`);
-                        // console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
-                        // console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
-                    }
-                    // expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
-                }
-            }
-        }
-        // expect(bundle).toEqual(expectedBundle);
+        compare_bundles(bundle, expectedBundle);
     });
 });
