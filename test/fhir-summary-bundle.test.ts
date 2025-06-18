@@ -6,6 +6,20 @@ import {TBundleEntry} from "../src/types/partials/BundleEntry";
 import TurndownService from 'turndown';
 import {TBundle} from "../src/types/resources/Bundle";
 
+function readNarrativeFile(codeValue: string, sectionTitle: string): string | null {
+    // Convert the section title to a filename-friendly format
+    const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
+    const filename = `${codeValue}_${safeSectionTitle}.html`;
+    const filePath = path.join(__dirname, 'fixtures/narratives', filename);
+
+    try {
+        return fs.readFileSync(filePath, 'utf-8');
+    } catch (error) {
+        console.warn(`Narrative file not found: ${filePath}: ${error}`);
+        return null;
+    }
+}
+
 function compare_bundles(bundle: TBundle, expectedBundle: TBundle) {
     // remove the date from the bundle for comparison
     bundle.timestamp = expectedBundle.timestamp;
@@ -32,20 +46,44 @@ function compare_bundles(bundle: TBundle, expectedBundle: TBundle) {
             const generatedSection = generatedSections[i];
             console.info(`======= Comparing section ${generatedSection.title} ${i + 1}/${generatedSections.length} ====`);
             const generatedDiv: string | undefined = generatedSection.text?.div;
-            // find expected section by title
-            const expectedSection = expectedSections.find(
-                (s: TCompositionSection) => s.code?.coding?.[0].code === generatedSection.code?.coding?.[0].code
-            );
-            if (!expectedSection) {
-                console.warn(`Expected section with title "${generatedSection.title}" not found in expected bundle.`);
-                continue; // Skip comparison if expected section is not found
+
+            // Get LOINC code for the section
+            const codeValue = generatedSection.code?.coding?.[0].code;
+            if (!codeValue) {
+                console.warn(`Section ${generatedSection.title} has no LOINC code, skipping comparison.`);
+                continue;
             }
-            const expectedDiv: string | undefined = expectedSection?.text?.div;
+
+            // Read narrative from file
+            const expectedDivFromFile = readNarrativeFile(codeValue, generatedSection.title || '');
+
+            // If narrative file doesn't exist, fall back to the bundle
+            let expectedDiv: string | undefined;
+            if (expectedDivFromFile) {
+                expectedDiv = expectedDivFromFile;
+                console.info(`Using narrative from file for ${generatedSection.title}`);
+            } else {
+                // find expected section by code in the expectedBundle
+                const expectedSection = expectedSections.find(
+                    (s: TCompositionSection) => s.code?.coding?.[0].code === codeValue
+                );
+
+                if (!expectedSection) {
+                    console.warn(`Expected section with code "${codeValue}" not found in expected bundle.`);
+                    continue; // Skip comparison if expected section is not found
+                }
+
+                expectedDiv = expectedSection?.text?.div;
+                console.info(`Using narrative from bundle for ${generatedSection.title}`);
+            }
+
             console.info(`${generatedSection.title}\nGenerated:\n${generatedDiv}\nExpected:\n${expectedDiv}`);
+
             if (!generatedDiv || !expectedDiv) {
                 console.warn(`Section ${i + 1} is missing div content.`);
                 continue; // Skip comparison if div is missing
             }
+
             // now clear out the div for comparison
             if (generatedDiv && expectedDiv) {
                 const generatedMarkdown = turndownService.turndown(generatedDiv);
@@ -55,7 +93,7 @@ function compare_bundles(bundle: TBundle, expectedBundle: TBundle) {
                     // console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
                     // console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
                 }
-                // expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
+                expect(generatedMarkdown).toStrictEqual(expectedMarkdown);
             }
         }
     }
