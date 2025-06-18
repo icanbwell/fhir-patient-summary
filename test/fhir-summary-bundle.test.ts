@@ -140,10 +140,12 @@ describe('FHIR Patient Summary Generation', () => {
         // expect(generatedSections?.length).toBe(expectedSections?.length);
         if (generatedSections && expectedSections) {
             for (let i = 0; i < generatedSections.length; i++) {
-                console.info(`Comparing section ${i + 1}/${generatedSections.length}`);
-                const generatedDiv: string | undefined = generatedSections[i].text?.div;
+                const generatedSection = generatedSections[i];
+                console.info(`======= Comparing section ${generatedSection.title} ${i + 1}/${generatedSections.length} ====`);
+                const generatedDiv: string | undefined = generatedSection.text?.div;
                 console.info(`Generated: ${generatedDiv}`);
-                const expectedDiv: string | undefined = expectedSections[i]?.text?.div;
+                const expectedSection = expectedSections[i];
+                const expectedDiv: string | undefined = expectedSection?.text?.div;
                 console.info(`Expected: ${expectedDiv}`);
                 if (!generatedDiv || !expectedDiv) {
                     console.warn(`Section ${i + 1} is missing div content.`);
@@ -154,7 +156,7 @@ describe('FHIR Patient Summary Generation', () => {
                     const generatedMarkdown = turndownService.turndown(generatedDiv);
                     const expectedMarkdown = turndownService.turndown(expectedDiv);
                     if (generatedMarkdown != expectedMarkdown) {
-                        console.warn('Markdown mismatch detected:');
+                        console.warn(`Markdown mismatch detected in ${generatedSection.title}:`);
                         console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
                         console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
                     }
