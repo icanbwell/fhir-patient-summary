@@ -26,7 +26,7 @@ import { ITemplate } from './interfaces/ITemplate';
 export class TypeScriptTemplateMapper {
   // Map of section types to their template classes
   // Each template either needs to be instantiated or has a static generateNarrative method
-  private static sectionToTemplate = {
+  private static sectionToTemplate: Record<IPSSections, ITemplate> = {
     [IPSSections.PATIENT]: new PatientTemplate(),
     [IPSSections.ALLERGIES]: new AllergyIntoleranceTemplate(),
     [IPSSections.MEDICATIONS]: new MedicationSummaryTemplate(),
