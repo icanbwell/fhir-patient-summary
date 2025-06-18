@@ -51,6 +51,7 @@ export class AllergyIntoleranceTemplate {
               <th>Reaction</th>
               <th>Severity</th>
               <th>Onset Date</th>
+              <th>Comments</th>
             </tr>
           </thead>
           <tbody>`;
@@ -61,7 +62,7 @@ export class AllergyIntoleranceTemplate {
     } else {
       html += `
           <tr>
-            <td colspan="6">No active allergies recorded</td>
+            <td colspan="7">No active allergies recorded</td>
           </tr>`;
     }
 
@@ -87,6 +88,7 @@ export class AllergyIntoleranceTemplate {
               <th>Reaction</th>
               <th>Severity</th>
               <th>Onset Date</th>
+              <th>Comments</th>
               <th>Resolved Date</th>
             </tr>
           </thead>
@@ -98,7 +100,7 @@ export class AllergyIntoleranceTemplate {
     } else {
       html += `
           <tr>
-            <td colspan="7">No resolved allergies recorded</td>
+            <td colspan="8">No resolved allergies recorded</td>
           </tr>`;
     }
 
@@ -139,9 +141,15 @@ export class AllergyIntoleranceTemplate {
       // Add a table row for this allergy with appropriate classes
       html += `
         <tr id="${narrativeLinkId}">
-          <td class="Name"><span class="AllergenName">${templateUtilities.codeableConcept(allergy.code)}</span>`;
+          <td class="Name"><span class="AllergenName">${templateUtilities.codeableConcept(allergy.code)}</span></td>
+          <td class="Status">${templateUtilities.codeableConcept(allergy.clinicalStatus) || '-'}</td>
+          <td class="Category">${templateUtilities.safeConcat(allergy.category, 'value') || '-'}</td>
+          <td class="Reaction">${templateUtilities.concatReactionManifestation(allergy.reaction) || '-'}</td>
+          <td class="Severity">${templateUtilities.safeConcat(allergy.reaction, 'severity') || '-'}</td>
+          <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime) || '-'}</td>
+          <td class="Comments">`;
 
-      // Add notes as formatted lists if they exist
+      // Add notes to the Comments column
       if (allergy.note && allergy.note.length > 0) {
         html += `<ul>`;
         for (const note of allergy.note) {
@@ -154,14 +162,11 @@ export class AllergyIntoleranceTemplate {
             </li>`;
         }
         html += `</ul>`;
+      } else {
+        html += `-`;
       }
 
-      html += `</td>
-          <td class="Status">${templateUtilities.codeableConcept(allergy.clinicalStatus) || '-'}</td>
-          <td class="Category">${templateUtilities.safeConcat(allergy.category, 'value') || '-'}</td>
-          <td class="Reaction">${templateUtilities.concatReactionManifestation(allergy.reaction) || '-'}</td>
-          <td class="Severity">${templateUtilities.safeConcat(allergy.reaction, 'severity') || '-'}</td>
-          <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime) || '-'}</td>`;
+      html += `</td>`;
 
       // Add resolved date column for resolved allergies
       if (includeResolved) {
