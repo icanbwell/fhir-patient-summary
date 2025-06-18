@@ -231,7 +231,8 @@ export class TemplateUtilities {
                 day: 'numeric',
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: true,
+                timeZoneName: 'short' // Add timezone name to output
             };
 
             // Add timezone to options if it was provided
@@ -265,7 +266,8 @@ export class TemplateUtilities {
                 day: 'numeric',
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: true,
+                timeZoneName: 'short' // Add timezone name to output
             };
 
             // Add timezone to options if it was provided
@@ -299,7 +301,8 @@ export class TemplateUtilities {
                 day: 'numeric',
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: true,
+                timeZoneName: 'short' // Add timezone name to output
             };
 
             // Add timezone to options if it was provided

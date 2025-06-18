@@ -21,16 +21,6 @@ export class DiagnosticResultsTemplate implements ITemplate {
   }
 
   /**
-   * Static implementation of generateNarrative for use with TypeScriptTemplateMapper
-   * @param resource - FHIR Bundle containing Observation and DiagnosticReport resources
-   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
-   * @returns HTML string for rendering
-   */
-  static generateNarrative(resource: TBundle, timezone?: string): string {
-    return DiagnosticResultsTemplate.generateStaticNarrative(resource, timezone);
-  }
-
-  /**
    * Internal static implementation that actually generates the narrative
    * @param resource - FHIR Bundle containing Observation and DiagnosticReport resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
