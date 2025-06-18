@@ -5,7 +5,7 @@ import {TCompositionSection} from "../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../src/types/partials/BundleEntry";
 import {TBundle} from "../src/types/resources/Bundle";
 
-import { html as beautify } from 'js-beautify';
+import {html as beautify} from 'js-beautify';
 
 /**
  * Beautifies HTML using js-beautify
@@ -78,11 +78,7 @@ async function compare_bundles(folder: string, bundle: TBundle, expectedBundle: 
 
             expect(expectedDiv?.length).toBeGreaterThan(0);
 
-            // If narrative file doesn't exist, fall back to the bundle
-
             console.info(`Using narrative from file for ${generatedSection.title}`);
-
-            console.info(`${generatedSection.title}\nGenerated:\n${generatedDiv}\nExpected:\n${expectedDiv}`);
 
             if (!generatedDiv || !expectedDiv) {
                 console.warn(`Section ${i + 1} is missing div content.`);
@@ -91,15 +87,9 @@ async function compare_bundles(folder: string, bundle: TBundle, expectedBundle: 
 
             // now clear out the div for comparison
             if (generatedDiv && expectedDiv) {
-                // const generatedMarkdown = turndownService.turndown(generatedDiv);
-                // const expectedMarkdown = turndownService.turndown(expectedDiv);
-                // if (generatedMarkdown != expectedMarkdown) {
-                //     console.warn(`Markdown mismatch detected in ${generatedSection.title}:`);
-                //     console.warn(`------ Generated Markdown ----\n${generatedMarkdown}`);
-                //     console.warn(`------ Expected Markdown -----\n${expectedMarkdown}`);
-                // }
                 const generatedFormattedHtml = await beautifyHtml(generatedDiv);
                 const expectedFormattedHtml = await beautifyHtml(expectedDiv);
+                console.info(`${generatedSection.title}\nGenerated:\n${generatedFormattedHtml}\nExpected:\n${expectedFormattedHtml}`);
                 expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);
             }
         }
