@@ -6,11 +6,11 @@ import {TBundleEntry} from "../src/types/partials/BundleEntry";
 import TurndownService from 'turndown';
 import {TBundle} from "../src/types/resources/Bundle";
 
-function readNarrativeFile(codeValue: string, sectionTitle: string): string | null {
+function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | null {
     // Convert the section title to a filename-friendly format
     const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
     const filename = `${codeValue}_${safeSectionTitle}.html`;
-    const filePath = path.join(__dirname, 'fixtures/narratives', filename);
+    const filePath = path.join(__dirname, `fixtures/narratives/${folder}`, filename);
 
     try {
         return fs.readFileSync(filePath, 'utf-8');
@@ -20,7 +20,7 @@ function readNarrativeFile(codeValue: string, sectionTitle: string): string | nu
     }
 }
 
-function compare_bundles(bundle: TBundle, expectedBundle: TBundle) {
+function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundle) {
     // remove the date from the bundle for comparison
     bundle.timestamp = expectedBundle.timestamp;
     if (bundle.entry && bundle.entry[0].resource?.date) {
@@ -55,7 +55,7 @@ function compare_bundles(bundle: TBundle, expectedBundle: TBundle) {
             }
 
             // Read narrative from file
-            const expectedDivFromFile = readNarrativeFile(codeValue, generatedSection.title || '');
+            const expectedDivFromFile = readNarrativeFile(folder,  codeValue, generatedSection.title || '');
 
             // If narrative file doesn't exist, fall back to the bundle
             let expectedDiv: string | undefined;
@@ -133,7 +133,7 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
-        compare_bundles(bundle, expectedBundle);
+        compare_bundles('aidbox', bundle, expectedBundle);
     });
     it('should generate the correct summary for the Epic bundle', () => {
         // Read the test bundle JSON
@@ -167,6 +167,6 @@ describe('FHIR Patient Summary Generation', () => {
         // Compare the generated summary to the expected output in the bundle
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
-        compare_bundles(bundle, expectedBundle);
+        compare_bundles('epic', bundle, expectedBundle);
     });
 });
