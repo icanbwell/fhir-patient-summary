@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as path from 'path';
-import nunjucks from 'nunjucks';
 import {TPatient} from '../src/types/resources/Patient';
 import {TAllergyIntolerance} from '../src/types/resources/AllergyIntolerance';
 import {TMedicationStatement} from '../src/types/resources/MedicationStatement';
 import {TCondition} from '../src/types/resources/Condition';
 import {TImmunization} from '../src/types/resources/Immunization';
 import {TObservation} from '../src/types/resources/Observation';
-import {TBundle} from '../src/types/resources/Bundle';
 import { NarrativeGenerator } from '../src/generators/narrative_generator';
 import { IPSSections } from '../src/structures/ips_sections';
 
@@ -73,12 +71,6 @@ describe('Narrative Generator Tests', () => {
             valueQuantity: { value: 100, unit: 'mg/dL' }
         }
     ];
-
-    // Keep the nunjucks configuration for backward compatibility or comparison
-    const env = nunjucks.configure(path.join(__dirname, '../src/narratives/templates/jinja2'), {
-        autoescape: false,
-        noCache: true
-    });
 
     it('should generate narrative content for allergies using NarrativeGenerator', () => {
         const result = NarrativeGenerator.generateNarrativeContent(IPSSections.ALLERGIES, mockAllergies);
