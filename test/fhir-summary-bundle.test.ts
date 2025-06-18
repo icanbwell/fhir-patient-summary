@@ -5,19 +5,20 @@ import {TCompositionSection} from "../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../src/types/partials/BundleEntry";
 import {TBundle} from "../src/types/resources/Bundle";
 
-import prettier from 'prettier';
+import { html as beautify } from 'js-beautify';
 
 /**
- * Beautifies HTML using Prettier
+ * Beautifies HTML using js-beautify
  * @param html - The input HTML string to be formatted
  * @returns Beautifully formatted HTML string
  */
 async function beautifyHtml(html: string): Promise<string> {
     try {
-        return await prettier.format(html, {
-            parser: 'html',
-            tabWidth: 2,
-            useTabs: false,
+        return beautify(html, {
+            indent_size: 2,
+            indent_with_tabs: false,
+            wrap_line_length: 80,
+            preserve_newlines: true
         });
     } catch (error) {
         console.error('Formatting Error:', error);
@@ -176,4 +177,3 @@ describe('FHIR Patient Summary Generation', () => {
         await compare_bundles('epic', bundle, expectedBundle);
     });
 });
-

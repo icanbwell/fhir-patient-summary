@@ -14,8 +14,8 @@
     "lint": "eslint ./src/ --ext .ts --fix",
     "prepare": "husky",
     "semantic-release": "semantic-release",
-    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "jest --watch",
+    "test": "jest --coverage",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
@@ -50,26 +50,28 @@
     "turndown": "^7.2.0"
   },
   "devDependencies": {
-    "commitizen": "^4.3.1",
+    "@eslint/js": "^9.29.0",
     "@types/jest": "^30.0.0",
+    "@types/js-beautify": "^1.14.3",
     "@types/node": "^24.0.3",
+    "@types/prettier": "^3.0.0",
+    "@types/turndown": "^5.0.5",
+    "commitizen": "^4.3.1",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.29.0",
-    "@eslint/js": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.5.0",
     "husky": "^9.1.7",
     "jest": "^30.0.0",
+    "js-beautify": "^1.15.4",
     "lint-staged": "^16.1.2",
     "prettier": "^3.5.3",
     "semantic-release": "^24.2.5",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.1",
-    "@types/turndown": "^5.0.5",
-    "@types/prettier": "^3.0.0"
+    "typescript-eslint": "^8.34.1"
   },
   "lint-staged": {
     "*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
