@@ -1,8 +1,8 @@
 // HistoryOfProceduresTemplate.ts - TypeScript replacement for Jinja2 historyofprocedures.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TProcedure } from '../../../types/resources/Procedure';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TProcedure} from '../../../types/resources/Procedure';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Procedure resources
@@ -52,11 +52,9 @@ export class HistoryOfProceduresTemplate implements ITemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = templateUtilities.narrativeLinkId(proc);
-
         // Add a table row for this procedure
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(proc))}">
             <td>${templateUtilities.codeableConcept(proc.code, 'display')}</td>
             <td>${templateUtilities.safeConcat(proc.note, 'text')}</td>
             <td>${templateUtilities.renderTime(proc.performedDateTime, timezone)}</td>

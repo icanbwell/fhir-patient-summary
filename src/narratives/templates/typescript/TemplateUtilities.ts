@@ -13,6 +13,7 @@ import {TBundle} from "../../../types/resources/Bundle";
 import {TDomainResource} from "../../../types/resources/DomainResource";
 import {TExtension} from "../../../types/partials/Extension";
 import {TResourceContainer} from "../../../types/simpleTypes/ResourceContainer";
+import {TInstant} from "../../../types/simpleTypes/Instant";
 
 type ObservationValueType =
     | string
@@ -252,7 +253,7 @@ export class TemplateUtilities {
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Formatted time string
      */
-    renderTime(time: any, timezone?: string): string {
+    renderTime(time: TInstant | string | undefined, timezone: string | undefined): string {
         if (!time) return '';
 
         try {
@@ -279,6 +280,11 @@ export class TemplateUtilities {
         } catch {
             return time.toString();
         }
+    }
+
+    renderDate(date: string | undefined): string {
+        if (!date) return '';
+        return date.toString();
     }
 
     /**

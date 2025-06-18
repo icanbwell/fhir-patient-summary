@@ -1,8 +1,8 @@
 // AdvanceDirectivesTemplate.ts - TypeScript replacement for Jinja2 advancedirectives.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TConsent } from '../../../types/resources/Consent';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TConsent} from '../../../types/resources/Consent';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Advance Directives (Consent resources)
@@ -55,11 +55,9 @@ export class AdvanceDirectivesTemplate implements ITemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID
-        const narrativeLinkId = templateUtilities.narrativeLinkId(consent);
-
         // Add a table row for this consent
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(consent))}">
             <td>${templateUtilities.codeableConcept(consent.scope, 'display')}</td>
             <td>${consent.status || ''}</td>
             <td>${consent.provision?.action ? templateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>

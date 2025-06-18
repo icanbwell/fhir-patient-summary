@@ -1,8 +1,8 @@
 // ImmunizationsTemplate.ts - TypeScript replacement for Jinja2 immunizations.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TImmunization } from '../../../types/resources/Immunization';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TImmunization} from '../../../types/resources/Immunization';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Immunization resources
@@ -52,11 +52,9 @@ export class ImmunizationsTemplate implements ITemplate {
           const imm = entry.resource as TImmunization;
 
           // Find the narrative link extension if it exists
-          const narrativeLinkId = templateUtilities.narrativeLinkId(imm);
-
           // Add a table row for this immunization
           html += `
-            <tr id="${narrativeLinkId}">
+            <tr id="${(templateUtilities.narrativeLinkId(imm))}">
               <td>${templateUtilities.codeableConcept(imm.vaccineCode)}</td>
               <td>${imm.status || ''}</td>
               <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>

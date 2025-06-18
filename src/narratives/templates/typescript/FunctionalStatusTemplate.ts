@@ -1,7 +1,7 @@
 // FunctionalStatusTemplate.ts - TypeScript replacement for Jinja2 functionalstatus.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {ITemplate} from './interfaces/ITemplate';
 import {TClinicalImpression} from "../../../types/resources/ClinicalImpression";
 
 /**
@@ -55,11 +55,9 @@ export class FunctionalStatusTemplate implements ITemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = templateUtilities.narrativeLinkId(ci);
-
         // Add a table row for this clinical impression
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(ci))}">
             <td>${templateUtilities.codeableConcept(ci.code, 'display')}</td>
             <td>${ci.status || ''}</td>
             <td>${ci.summary || ''}</td>

@@ -89,7 +89,11 @@ async function compare_bundles(folder: string, bundle: TBundle, expectedBundle: 
             if (generatedDiv && expectedDiv) {
                 const generatedFormattedHtml = await beautifyHtml(generatedDiv);
                 const expectedFormattedHtml = await beautifyHtml(expectedDiv);
-                console.info(`${generatedSection.title}\nGenerated:\n${generatedFormattedHtml}\nExpected:\n${expectedFormattedHtml}`);
+                if (generatedFormattedHtml === expectedFormattedHtml) {
+                    console.info(`Section ${i + 1} matches for ${generatedSection.title}`);
+                } else {
+                    console.info(`${generatedSection.title}\nGenerated:\n${generatedFormattedHtml}\nExpected:\n${expectedFormattedHtml}`);
+                }
                 expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);
             }
         }

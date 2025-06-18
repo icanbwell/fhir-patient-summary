@@ -1,7 +1,7 @@
 // MedicalDevicesTemplate.ts - TypeScript replacement for Jinja2 medicaldevices.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {ITemplate} from './interfaces/ITemplate';
 import {TDeviceUseStatement} from "../../../types/resources/DeviceUseStatement";
 
 /**
@@ -50,11 +50,9 @@ export class MedicalDevicesTemplate implements ITemplate {
           const dus = entry.resource as TDeviceUseStatement;
 
           // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-          const narrativeLinkId = templateUtilities.narrativeLinkId(dus);
-
           // Add a table row for this device use statement
           html += `
-            <tr id="${narrativeLinkId}">
+            <tr id="${(templateUtilities.narrativeLinkId(dus))}">
               <td>${templateUtilities.renderDevice(dus.device)}</td>
               <td>${dus.status || ''}</td>
               <td>${templateUtilities.safeConcat(dus.note, 'text')}</td>

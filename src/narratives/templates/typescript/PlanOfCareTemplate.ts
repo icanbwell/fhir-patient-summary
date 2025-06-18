@@ -1,8 +1,8 @@
 // PlanOfCareTemplate.ts - TypeScript replacement for Jinja2 planofcare.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TCarePlan } from '../../../types/resources/CarePlan';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TCarePlan} from '../../../types/resources/CarePlan';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Plan of Care (CarePlan resources)
@@ -55,11 +55,9 @@ export class PlanOfCareTemplate implements ITemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = templateUtilities.narrativeLinkId(cp);
-
         // Add a table row for this care plan
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(cp))}">
             <td>${cp.description || ''}</td>
             <td>${cp.intent || cp.intent || ''}</td>
             <td>${templateUtilities.concat(cp.note, 'text')}</td>

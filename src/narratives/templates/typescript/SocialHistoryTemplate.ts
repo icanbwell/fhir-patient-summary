@@ -1,8 +1,8 @@
 // SocialHistoryTemplate.ts - TypeScript replacement for Jinja2 socialhistory.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TObservation } from '../../../types/resources/Observation';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TObservation} from '../../../types/resources/Observation';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Social History (Observation resources)
@@ -54,11 +54,9 @@ export class SocialHistoryTemplate implements ITemplate {
         }
 
         // Find the narrative link ID if it exists
-        const narrativeLinkId = templateUtilities.narrativeLinkId(obs);
-
         // Add a table row for this observation
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(obs))}">
             <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>

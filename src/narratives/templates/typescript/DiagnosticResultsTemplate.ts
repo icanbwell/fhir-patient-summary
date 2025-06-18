@@ -1,9 +1,9 @@
 // DiagnosticResultsTemplate.ts - TypeScript replacement for Jinja2 diagnosticresults.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TObservation } from '../../../types/resources/Observation';
-import { TDiagnosticReport } from '../../../types/resources/DiagnosticReport';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TObservation} from '../../../types/resources/Observation';
+import {TDiagnosticReport} from '../../../types/resources/DiagnosticReport';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Diagnostic Results (Observation resources)
@@ -101,11 +101,9 @@ export class DiagnosticResultsTemplate implements ITemplate {
 
     for (const obs of observations) {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      const narrativeLinkId = templateUtilities.narrativeLinkId(obs);
-
       // Add table row
       html += `
-        <tr id="${narrativeLinkId}">
+        <tr id="${(templateUtilities.narrativeLinkId(obs))}">
           <td>${templateUtilities.codeableConcept(obs.code)}</td>
           <td>${templateUtilities.extractObservationValue(obs)}</td>
           <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
@@ -147,8 +145,6 @@ export class DiagnosticResultsTemplate implements ITemplate {
 
     for (const report of reports) {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      const narrativeLinkId = templateUtilities.narrativeLinkId(report);
-
       // Format result count
       let resultCount = '';
       if (report.result && Array.isArray(report.result)) {
@@ -157,7 +153,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
 
       // Add table row
       html += `
-        <tr id="${narrativeLinkId}">
+        <tr id="${(templateUtilities.narrativeLinkId(report))}">
           <td>${templateUtilities.codeableConcept(report.code)}</td>
           <td>${report.status || ''}</td>
           <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>

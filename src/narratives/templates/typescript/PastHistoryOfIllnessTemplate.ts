@@ -1,8 +1,8 @@
 // PastHistoryOfIllnessTemplate.ts - TypeScript replacement for Jinja2 pasthistoryofillness.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TCondition } from '../../../types/resources/Condition';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TCondition} from '../../../types/resources/Condition';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Past History of Illness (Condition resources)
@@ -53,11 +53,9 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = templateUtilities.narrativeLinkId(cond);
-
         // Add a table row for this condition
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(cond))}">
             <td>${templateUtilities.codeableConcept(cond.code, 'display')}</td>
             <td>${templateUtilities.codeableConcept(cond.clinicalStatus, 'code')}</td>
             <td>${templateUtilities.safeConcat(cond.note, 'text')}</td>

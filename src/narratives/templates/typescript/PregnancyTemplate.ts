@@ -1,8 +1,8 @@
 // PregnancyTemplate.ts - TypeScript replacement for Jinja2 pregnancy.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TObservation } from '../../../types/resources/Observation';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TObservation} from '../../../types/resources/Observation';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Pregnancy (Observation resources)
@@ -54,11 +54,9 @@ export class PregnancyTemplate implements ITemplate {
         }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        const narrativeLinkId = templateUtilities.narrativeLinkId(obs);
-
         // Add a table row for this observation
         html += `
-          <tr id="${narrativeLinkId}">
+          <tr id="${(templateUtilities.narrativeLinkId(obs))}">
             <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>

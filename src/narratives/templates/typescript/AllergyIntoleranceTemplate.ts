@@ -25,7 +25,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
     const templateUtilities = new TemplateUtilities(resource);
 
@@ -71,7 +71,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
 
     // Process active allergies
     if (activeAllergies.length > 0) {
-      html += this.generateAllergyRows(activeAllergies, templateUtilities);
+      html += this.generateAllergyRows(activeAllergies, templateUtilities, timezone);
     } else {
       html += `
           <tr>
@@ -109,7 +109,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
 
     // Process resolved allergies
     if (resolvedAllergies.length > 0) {
-      html += this.generateAllergyRows(resolvedAllergies, templateUtilities, true);
+      html += this.generateAllergyRows(resolvedAllergies, templateUtilities, timezone, true);
     } else {
       html += `
           <tr>
@@ -132,11 +132,13 @@ export class AllergyIntoleranceTemplate implements ITemplate {
    * @param allergies - Array of allergy resources to process
    * @param templateUtilities - Utilities for formatting
    * @param includeResolved - Whether to include resolved date column
+   * @param timezone - Optional timezone to use for date formatting
    * @returns HTML string with table rows
    */
   private static generateAllergyRows(
     allergies: TAllergyIntolerance[],
     templateUtilities: TemplateUtilities,
+    timezone: string | undefined,
     includeResolved: boolean = false
   ): string {
     let html = '';
@@ -159,14 +161,14 @@ export class AllergyIntoleranceTemplate implements ITemplate {
           <td class="Category">${templateUtilities.safeConcat(allergy.category, 'value') || '-'}</td>
           <td class="Reaction">${templateUtilities.concatReactionManifestation(allergy.reaction) || '-'}</td>
           <td class="Severity">${templateUtilities.safeConcat(allergy.reaction, 'severity') || '-'}</td>
-          <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime) || '-'}</td>
+          <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime, timezone) || '-'}</td>
           <td class="Comments">`;
 
       // Add notes to the Comments column
       if (allergy.note && allergy.note.length > 0) {
         html += `<ul>`;
         for (const note of allergy.note) {
-          const noteDate = templateUtilities.renderTime(note.time) || 'Unknown Date';
+          const noteDate = templateUtilities.renderTime(note.time, timezone) || 'Unknown Date';
           html += `
             <li class="Note">
               <span class="NoteTitle">Comment (${noteDate}):</span><br />
@@ -190,7 +192,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
             ext.url === 'http://hl7.org/fhir/StructureDefinition/allergyintolerance-resolutionDate'
           );
           if (endDateExt && endDateExt.valueDateTime) {
-            endDate = templateUtilities.renderTime(endDateExt.valueDateTime);
+            endDate = templateUtilities.renderDate(endDateExt.valueDateTime);
           }
         }
 

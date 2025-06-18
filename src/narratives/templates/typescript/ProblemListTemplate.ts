@@ -1,8 +1,8 @@
 // ProblemListTemplate.ts - TypeScript replacement for Jinja2 problemlist.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TCondition } from '../../../types/resources/Condition';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TCondition} from '../../../types/resources/Condition';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Problem List (Condition resources)
@@ -73,19 +73,14 @@ export class ProblemListTemplate implements ITemplate {
           <tbody>`;
 
       for (const cond of activeConditions) {
-        const narrativeLinkId = templateUtilities.narrativeLinkId(cond);
-        const severity = cond.severity ? templateUtilities.codeableConcept(cond.severity) : '-';
-        const notedDate = cond.onsetDateTime ? templateUtilities.renderTime(cond.onsetDateTime) : '-';
-        const diagnosedDate = cond.recordedDate ? templateUtilities.renderTime(cond.recordedDate) : '-';
-
-        html += `<tr id="${narrativeLinkId}">
+        html += `<tr id="${(templateUtilities.narrativeLinkId(cond))}">
           <td class="Name">
             <span class="ProblemName">${templateUtilities.codeableConcept(cond.code)}</span>
-            ${this.formatNotes(cond, timezone)}
+            ${this.formatNotes(templateUtilities,  cond, timezone)}
           </td>
-          <td class="Priority">${severity}</td>
-          <td class="NotedDate">${notedDate}</td>
-          <td class="DiagnosedDate">${diagnosedDate}</td>
+          <td class="Priority">${(templateUtilities.codeableConcept(cond.severity))}</td>
+          <td class="NotedDate">${(templateUtilities.renderDate(cond.onsetDateTime))}</td>
+          <td class="DiagnosedDate">${(templateUtilities.renderDate(cond.recordedDate))}</td>
         </tr>`;
       }
 
@@ -116,21 +111,15 @@ export class ProblemListTemplate implements ITemplate {
           <tbody>`;
 
       for (const cond of resolvedConditions) {
-        const narrativeLinkId = templateUtilities.narrativeLinkId(cond);
-        const severity = cond.severity ? templateUtilities.codeableConcept(cond.severity) : '-';
-        const notedDate = cond.onsetDateTime ? templateUtilities.renderTime(cond.onsetDateTime) : '-';
-        const diagnosedDate = cond.recordedDate ? templateUtilities.renderTime(cond.recordedDate) : '-';
-        const resolvedDate = cond.abatementDateTime ? templateUtilities.renderTime(cond.abatementDateTime) : '-';
-
-        html += `<tr id="${narrativeLinkId}">
+        html += `<tr id="${(templateUtilities.narrativeLinkId(cond))}">
           <td class="Name">
             <span class="ProblemName">${templateUtilities.codeableConcept(cond.code)}</span>
-            ${this.formatNotes(cond, timezone)}
+            ${this.formatNotes(templateUtilities, cond, timezone)}
           </td>
-          <td class="Priority">${severity}</td>
-          <td class="NotedDate">${notedDate}</td>
-          <td class="DiagnosedDate">${diagnosedDate}</td>
-          <td class="ResolvedDate">${resolvedDate}</td>
+          <td class="Priority">${(templateUtilities.codeableConcept(cond.severity))}</td>
+          <td class="NotedDate">${(templateUtilities.renderDate(cond.onsetDateTime))}</td>
+          <td class="DiagnosedDate">${(templateUtilities.renderDate(cond.recordedDate))}</td>
+          <td class="ResolvedDate">${(templateUtilities.renderDate(cond.abatementDateTime))}</td>
         </tr>`;
       }
 
@@ -147,11 +136,12 @@ export class ProblemListTemplate implements ITemplate {
 
   /**
    * Format notes with detailed styling to match sample output
+   * @param templateUtilities - Instance of TemplateUtilities for rendering
    * @param condition - The condition resource containing notes
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for formatted notes
    */
-  private static formatNotes(condition: TCondition, timezone?: string): string {
+  private static formatNotes(templateUtilities: TemplateUtilities, condition: TCondition, timezone?: string): string {
     if (!condition.note || !Array.isArray(condition.note) || condition.note.length === 0) {
       return '';
     }
@@ -160,29 +150,10 @@ export class ProblemListTemplate implements ITemplate {
 
     for (const note of condition.note) {
       if (note.text) {
-        const noteDate = note.time ? new Date(note.time) : new Date();
-
-        // Use Intl.DateTimeFormat with timezone if provided
-        const dateOptions: Intl.DateTimeFormatOptions = {
-          month: 'numeric',
-          day: 'numeric',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true
-        };
-
-        // Add timezone to options if it was provided
-        if (timezone) {
-          dateOptions.timeZone = timezone;
-        }
-
-        const formattedDate = new Intl.DateTimeFormat('en-US', dateOptions).format(noteDate);
-
         const noteType = note.authorString || 'Overview';
 
         noteHtml += `<li class="Note">
-          <span class="NoteTitle">${noteType} (${formattedDate}):</span><br />
+          <span class="NoteTitle">${noteType} (${templateUtilities.renderTime(note.time, timezone)}):</span><br />
           <span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />
           <span class="NoteText">${note.text}<br /></span>
         </li>`;
