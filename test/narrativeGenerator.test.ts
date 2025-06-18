@@ -8,8 +8,10 @@ import {TCondition} from '../src/types/resources/Condition';
 import {TImmunization} from '../src/types/resources/Immunization';
 import {TObservation} from '../src/types/resources/Observation';
 import {TBundle} from '../src/types/resources/Bundle';
+import { NarrativeGenerator } from '../src/generators/narrative_generator';
+import { IPSSections } from '../src/structures/ips_sections';
 
-describe('Jinja2 Narrative Templates', () => {
+describe('Narrative Generator Tests', () => {
     // Mock Resources for Testing
     const mockPatient: TPatient = {
         resourceType: 'Patient',
@@ -72,67 +74,43 @@ describe('Jinja2 Narrative Templates', () => {
         }
     ];
 
+    // Keep the nunjucks configuration for backward compatibility or comparison
     const env = nunjucks.configure(path.join(__dirname, '../src/narratives/templates/jinja2'), {
         autoescape: false,
         noCache: true
     });
 
-    it('should render allergyintolerance.j2 with mock bundle', () => {
-        const templateName = 'allergyintolerance.j2';
-        const bundle: TBundle = {
-            resourceType: 'Bundle',
-            type: 'document',
-            entry: mockAllergies.map(allergy => ({ resource: allergy }))
-        };
-        const result = env.render(templateName, { resource: bundle });
-        expect(result).toContain('Allergies And Intolerances');
+    it('should generate narrative content for allergies using NarrativeGenerator', () => {
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.ALLERGIES, mockAllergies);
+        expect(result).toBeDefined();
+        expect(result).toContain('Allergies and Intolerances');
         expect(result).toContain('Penicillin');
     });
 
-    it('should render medicationsummary.j2 with mock bundle', () => {
-        const templateName = 'medicationsummary.j2';
-        const bundle: TBundle = {
-            resourceType: 'Bundle',
-            type: 'document',
-            entry: mockMedications.map(med => ({ resource: med }))
-        };
-        const result = env.render(templateName, { resource: bundle });
-        expect(result).toContain('Medication Summary');
+    it('should generate narrative content for medications using NarrativeGenerator', () => {
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.MEDICATIONS, mockMedications);
+        expect(result).toBeDefined();
+        expect(result).toContain('Medication');
         expect(result).toContain('Aspirin');
     });
 
-    it('should render problemlist.j2 with mock bundle', () => {
-        const templateName = 'problemlist.j2';
-        const bundle: TBundle = {
-            resourceType: 'Bundle',
-            type: 'document',
-            entry: mockConditions.map(cond => ({ resource: cond }))
-        };
-        const result = env.render(templateName, { resource: bundle });
-        expect(result).toContain('Problem List');
+    it('should generate narrative content for problem list using NarrativeGenerator', () => {
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.PROBLEMS, mockConditions);
+        expect(result).toBeDefined();
+        expect(result).toContain('Problems');
         expect(result).toContain('Hypertension');
     });
 
-    it('should render immunizations.j2 with mock bundle', () => {
-        const templateName = 'immunizations.j2';
-        const bundle: TBundle = {
-            resourceType: 'Bundle',
-            type: 'document',
-            entry: mockImmunizations.map(imm => ({ resource: imm }))
-        };
-        const result = env.render(templateName, { resource: bundle });
+    it('should generate narrative content for immunizations using NarrativeGenerator', () => {
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.IMMUNIZATIONS, mockImmunizations);
+        expect(result).toBeDefined();
         expect(result).toContain('Immunizations');
         expect(result).toContain('COVID-19 Vaccine');
     });
 
-    it('should render diagnosticresults.j2 with mock bundle', () => {
-        const templateName = 'diagnosticresults.j2';
-        const bundle: TBundle = {
-            resourceType: 'Bundle',
-            type: 'document',
-            entry: mockLaboratoryResults.map(obs => ({ resource: obs }))
-        };
-        const result = env.render(templateName, { resource: bundle });
+    it('should generate narrative content for diagnostic results using NarrativeGenerator', () => {
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults);
+        expect(result).toBeDefined();
         expect(result).toContain('Diagnostic Results');
         expect(result).toContain('Blood Glucose');
     });
