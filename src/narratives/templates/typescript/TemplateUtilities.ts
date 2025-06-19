@@ -257,19 +257,27 @@ export class TemplateUtilities {
         if (!time) return '';
 
         try {
-            const date = new Date(time);
-            if (isNaN(date.getTime())) return time.toString();
+            // Check if the time is a date-only string (YYYY-MM-DD format)
+            const isDateOnly = typeof time === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(time);
+            if (isDateOnly) {
+                return this.renderDate(time);
+            }
 
-            // Use Intl.DateTimeFormat with timezone if provided
+            const date = new Date(time);
+            if (isNaN(date.getTime())) {
+                return time.toString();
+            }
+
+            // Use different formatting options based on whether it's date-only or datetime
             const dateOptions: Intl.DateTimeFormatOptions = {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true,
-                timeZoneName: 'short' // Add timezone name to output
-            };
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true,
+                    timeZoneName: 'short'
+                };
 
             // Add timezone to options if it was provided
             if (timezone) {
