@@ -241,7 +241,8 @@ describe('Narrative Generator Tests', () => {
     ];
 
     it('should generate narrative content for allergies using NarrativeGenerator', async () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
+        const section = IPSSections.ALLERGIES;
+        const result: string | undefined = NarrativeGenerator.generateNarrativeContent(section, mockAllergies, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Allergies and Intolerances');
         expect(result).toContain('Penicillin');
@@ -252,17 +253,18 @@ describe('Narrative Generator Tests', () => {
         // Read narrative from file
         const expectedDiv = readNarrativeFile(
             path.join(__dirname, 'fixtures'),
-            IPS_SECTION_LOINC_CODES[IPSSections.ALLERGIES],
-            IPS_SECTION_DISPLAY_NAMES[IPSSections.ALLERGIES]
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
         );
         await compareNarratives(
-            result || '',
-            expectedDiv || ''
-        )
+            result,
+            expectedDiv
+        );
     });
 
-    it('should generate narrative content for medications using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.MEDICATIONS, mockMedications, 'America/New_York');
+    it('should generate narrative content for medications using NarrativeGenerator', async () => {
+        const section = IPSSections.MEDICATIONS;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockMedications, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Medication');
         expect(result).toContain('Aspirin');
@@ -270,30 +272,63 @@ describe('Narrative Generator Tests', () => {
         expect(result).toContain('10mg daily');
         expect(result).toContain('Amoxicillin');
         console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
     });
 
-    it('should generate narrative content for problem list using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.PROBLEMS, mockConditions, 'America/New_York');
+    it('should generate narrative content for problem list using NarrativeGenerator', async () => {
+        const section = IPSSections.PROBLEMS;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockConditions, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Problems');
         expect(result).toContain('Hypertension');
         expect(result).toContain('Type 2 Diabetes Mellitus');
         expect(result).toContain('Pneumonia');
         console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
     });
 
-    it('should generate narrative content for immunizations using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
+    it('should generate narrative content for immunizations using NarrativeGenerator', async () => {
+        const section = IPSSections.IMMUNIZATIONS;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockImmunizations, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Immunizations');
         expect(result).toContain('COVID-19 Vaccine');
         expect(result).toContain('Influenza Vaccine');
         expect(result).toContain('Tetanus Vaccine');
         console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
     });
 
-    it('should generate narrative content for diagnostic results using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults, 'America/New_York');
+    it('should generate narrative content for diagnostic results using NarrativeGenerator', async () => {
+        const section = IPSSections.LABORATORY_RESULTS;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockLaboratoryResults, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Diagnostic Results');
         expect(result).toContain('Blood Glucose');
@@ -301,5 +336,15 @@ describe('Narrative Generator Tests', () => {
         expect(result).toContain('Cholesterol Panel');
         expect(result).toContain('CBC with Differential');
         console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
     });
 });

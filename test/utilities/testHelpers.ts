@@ -28,7 +28,7 @@ async function beautifyHtml(html: string): Promise<string> {
  * @param codeValue - The LOINC code value to identify the narrative file
  * @param sectionTitle - The title of the section to create a filename-friendly format
  */
-export function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | null {
+export function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | undefined {
     // Convert the section title to a filename-friendly format
     const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
     const filename = `${codeValue}_${safeSectionTitle}.html`;
@@ -37,8 +37,7 @@ export function readNarrativeFile(folder: string, codeValue: string, sectionTitl
     try {
         return fs.readFileSync(filePath, 'utf-8');
     } catch (error) {
-        console.warn(`Narrative file not found: ${filePath}: ${error}`);
-        return null;
+        throw new Error(`Narrative file not found: ${filePath}: ${error}`);
     }
 }
 
@@ -47,7 +46,10 @@ export function readNarrativeFile(folder: string, codeValue: string, sectionTitl
  * @param generatedHtml - The generated HTML narrative string
  * @param expectedHtml - The expected HTML narrative string
  */
-export async function compareNarratives(generatedHtml: string, expectedHtml: string) {
+export async function compareNarratives(generatedHtml: string | undefined, expectedHtml: string | undefined) {
+    if (!generatedHtml || !expectedHtml) {
+        throw new Error('Both generated and expected HTML narratives must be provided for comparison.');
+    }
     // Beautify both HTML strings for comparison
     const generatedFormattedHtml = await beautifyHtml(generatedHtml);
     const expectedFormattedHtml = await beautifyHtml(expectedHtml);
