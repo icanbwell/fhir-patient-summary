@@ -611,6 +611,22 @@ export class TemplateUtilities {
     }
 
     /**
+     * Renders text as HTML, escaping special characters and replacing newlines with <br />
+     * @param text - The text to render
+     * @private
+     */
+    private renderTextAsHtml(text: string | undefined | null): string {
+        // Check for empty string
+        if (!text || text.trim() === '') {
+            return '';
+        }
+        // Escape
+        const escapedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // Replace newlines with <br />
+        return escapedText.replace(/\n/g, '<br />');
+    }
+
+    /**
      * Renders note elements from a FHIR resource in a standardized format
      * Can render as simple comma-separated text or as styled HTML with timestamps
      *
@@ -649,7 +665,7 @@ export class TemplateUtilities {
                     noteHtml += `<span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />`;
                 }
 
-                noteHtml += `<span class="NoteText">${note.text}<br /></span></li>`;
+                noteHtml += `<span class="NoteText">${this.renderTextAsHtml(note.text)}<br /></span></li>`;
             }
         }
 
