@@ -648,7 +648,7 @@ export class TemplateUtilities {
 
         // Simple text-only rendering (comma-separated)
         if (!options.styled) {
-            return this.safeConcat(notes, 'text');
+            return notes.map(n => this.renderTextAsHtml(n.text)).join('<br />');
         }
 
         // Styled HTML rendering with timestamps
