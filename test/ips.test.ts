@@ -47,6 +47,46 @@ describe('International Patient Summary (IPS) Implementation', () => {
             },
             code: {text: 'Penicillin'},
             patient: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'AllergyIntolerance',
+            id: 'allergy-02',
+            clinicalStatus: {
+                coding: [
+                    {
+                        code: 'active'
+                    }
+                ]
+            },
+            verificationStatus: {
+                coding: [
+                    {
+                        code: 'confirmed'
+                    }
+                ]
+            },
+            code: {text: 'Peanuts'},
+            patient: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'AllergyIntolerance',
+            id: 'allergy-03',
+            clinicalStatus: {
+                coding: [
+                    {
+                        code: 'inactive'
+                    }
+                ]
+            },
+            verificationStatus: {
+                coding: [
+                    {
+                        code: 'confirmed'
+                    }
+                ]
+            },
+            code: {text: 'Latex'},
+            patient: {reference: 'Patient/test-patient-01'}
         }
     ];
 
@@ -56,8 +96,21 @@ describe('International Patient Summary (IPS) Implementation', () => {
             id: 'med-01',
             status: 'active',
             medicationCodeableConcept: {text: 'Aspirin'},
+            subject: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'MedicationStatement',
+            id: 'med-02',
+            status: 'active',
+            medicationCodeableConcept: {text: 'Lisinopril'},
+            subject: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'MedicationStatement',
+            id: 'med-03',
+            status: 'completed',
+            medicationCodeableConcept: {text: 'Amoxicillin'},
             subject: {reference: 'Patient/test-patient-01'},
-            // taken: 'y'
         }
     ];
 
@@ -81,6 +134,46 @@ describe('International Patient Summary (IPS) Implementation', () => {
             },
             code: {text: 'Hypertension'},
             subject: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'Condition',
+            id: 'condition-02',
+            clinicalStatus: {
+                coding: [
+                    {
+                        code: 'active'
+                    }
+                ]
+            },
+            verificationStatus: {
+                coding: [
+                    {
+                        code: 'confirmed'
+                    }
+                ]
+            },
+            code: {text: 'Type 2 Diabetes'},
+            subject: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'Condition',
+            id: 'condition-03',
+            clinicalStatus: {
+                coding: [
+                    {
+                        code: 'resolved'
+                    }
+                ]
+            },
+            verificationStatus: {
+                coding: [
+                    {
+                        code: 'confirmed'
+                    }
+                ]
+            },
+            code: {text: 'Pneumonia'},
+            subject: {reference: 'Patient/test-patient-01'}
         }
     ];
 
@@ -93,6 +186,24 @@ describe('International Patient Summary (IPS) Implementation', () => {
             patient: {reference: 'Patient/test-patient-01'},
             primarySource: true,
             occurrenceDateTime: '2024-01-01'
+        },
+        {
+            resourceType: 'Immunization',
+            id: 'imm-02',
+            status: 'completed',
+            vaccineCode: {text: 'Influenza Vaccine'},
+            patient: {reference: 'Patient/test-patient-01'},
+            primarySource: true,
+            occurrenceDateTime: '2023-10-15'
+        },
+        {
+            resourceType: 'Immunization',
+            id: 'imm-03',
+            status: 'completed',
+            vaccineCode: {text: 'Tetanus Vaccine'},
+            patient: {reference: 'Patient/test-patient-01'},
+            primarySource: false,
+            occurrenceDateTime: '2022-05-20'
         }
     ];
 
@@ -109,6 +220,51 @@ describe('International Patient Summary (IPS) Implementation', () => {
             effectiveDateTime: '2023-01-01',
             valueQuantity: {
                 value: 100,
+                unit: 'mg/dL'
+            }
+        },
+        {
+            resourceType: 'Observation',
+            id: 'lab-02',
+            status: 'final',
+            category: [{
+                coding: [{code: 'laboratory'}]
+            }],
+            code: {text: 'Hemoglobin A1C'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-01',
+            valueQuantity: {
+                value: 6.5,
+                unit: '%'
+            }
+        },
+        {
+            resourceType: 'Observation',
+            id: 'lab-03',
+            status: 'preliminary',
+            category: [{
+                coding: [{code: 'laboratory'}]
+            }],
+            code: {text: 'Lipid Panel'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-02-15',
+            hasMember: [
+                {reference: 'Observation/lab-04'},
+                {reference: 'Observation/lab-05'}
+            ]
+        },
+        {
+            resourceType: 'Observation',
+            id: 'lab-04',
+            status: 'final',
+            category: [{
+                coding: [{code: 'laboratory'}]
+            }],
+            code: {text: 'LDL Cholesterol'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-02-15',
+            valueQuantity: {
+                value: 120,
                 unit: 'mg/dL'
             }
         }
