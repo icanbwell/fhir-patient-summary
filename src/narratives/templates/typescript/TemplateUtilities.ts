@@ -698,7 +698,7 @@ export class TemplateUtilities {
                 dateTime = DateTime.fromISO(dateValue);
 
                 // For date-only strings (YYYY-MM-DD), use date-only formatting
-                if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+                if (!dateValue.includes('T')) {
                     dateOnly = true;
                 }
             } else {
