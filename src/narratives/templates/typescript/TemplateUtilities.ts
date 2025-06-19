@@ -627,12 +627,12 @@ export class TemplateUtilities {
             if (dateValue instanceof Date) {
                 dateTime = DateTime.fromJSDate(dateValue);
             } else if (typeof dateValue === 'string') {
-                // Special handling for YYYY-MM-DD format to avoid timezone shifts
+                // Luxon can handle ISO format dates correctly
+                dateTime = DateTime.fromISO(dateValue);
+
+                // For date-only strings (YYYY-MM-DD), use date-only formatting
                 if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
-                    dateTime = DateTime.fromFormat(dateValue, 'yyyy-MM-dd');
-                    dateOnly = true; // Force date-only format for date strings
-                } else {
-                    dateTime = DateTime.fromISO(dateValue);
+                    dateOnly = true;
                 }
             } else {
                 dateTime = DateTime.fromISO(String(dateValue));
