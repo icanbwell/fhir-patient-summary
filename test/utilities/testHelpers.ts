@@ -13,8 +13,23 @@ import {TBundleEntry} from "../../src/types/partials/BundleEntry";
  */
 async function beautifyHtml(html: string): Promise<string> {
     try {
-        return beautify(html, {
-            preserve_newlines: true
+        // Preprocess HTML to fix specific cases
+        // Join empty <ul></ul> elements with their preceding text within table cells
+        const preprocessedHtml = html
+            .replace(/(<td>[^<]+?)[\s\r\n]+([ \t]*)<ul><\/ul>/g, '$1<ul></ul>')
+            .replace(/(<td>[^<]+?)<ul><\/ul>[\s\r\n]+([ \t]*)<\/td>/g, '$1<ul></ul></td>');
+
+        // Add configuration to prevent line breaks between text and adjacent elements
+        return beautify(preprocessedHtml, {
+            indent_size: 4,
+            wrap_line_length: 100,
+            preserve_newlines: true,
+            max_preserve_newlines: 1,
+            unformatted: ['ul', 'li', 'span', 'a'], // Keep these tags inline
+            inline: ['span', 'a', 'ul'], // Treat these tags as inline elements
+            content_unformatted: ['pre', 'textarea', 'td'], // Preserve content formatting in these tags
+            indent_inner_html: true,
+            extra_liners: ['body', 'html', 'head', 'table', 'tbody', 'thead', 'tr']
         });
     } catch (error) {
         console.error('Formatting Error:', error);
