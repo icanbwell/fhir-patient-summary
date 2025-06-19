@@ -61,7 +61,7 @@ export class FunctionalStatusTemplate implements ITemplate {
             <td>${templateUtilities.codeableConcept(ci.code, 'display')}</td>
             <td>${ci.status || ''}</td>
             <td>${ci.summary || ''}</td>
-            <td>${templateUtilities.safeConcat(ci.note, 'text')}</td>
+            <td>${templateUtilities.renderNotes(ci.note)}</td>
             <td>${templateUtilities.renderEffective(ci.effectiveDateTime, timezone)}</td>
           </tr>`;
       }

@@ -79,7 +79,7 @@ export class ProblemListTemplate implements ITemplate {
           <td class="Priority">${(templateUtilities.codeableConcept(cond.severity))}</td>
           <td class="NotedDate">${(templateUtilities.renderDate(cond.onsetDateTime))}</td>
           <td class="DiagnosedDate">${(templateUtilities.renderDate(cond.recordedDate))}</td>
-          <td class="Notes">${this.formatNotes(templateUtilities, cond, timezone)}</td>
+          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>
         </tr>`;
             }
 
@@ -117,7 +117,7 @@ export class ProblemListTemplate implements ITemplate {
           <td class="NotedDate">${(templateUtilities.renderDate(cond.onsetDateTime))}</td>
           <td class="DiagnosedDate">${(templateUtilities.renderDate(cond.recordedDate))}</td>
           <td class="ResolvedDate">${(templateUtilities.renderDate(cond.abatementDateTime))}</td>
-          <td class="Notes">${this.formatNotes(templateUtilities, cond, timezone)}</td>
+          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>
         </tr>`;
             }
 
@@ -130,35 +130,5 @@ export class ProblemListTemplate implements ITemplate {
         html += `</div>`;
 
         return html;
-    }
-
-    /**
-     * Format notes with detailed styling to match sample output
-     * @param templateUtilities - Instance of TemplateUtilities for rendering
-     * @param condition - The condition resource containing notes
-     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
-     * @returns HTML string for formatted notes
-     */
-    private static formatNotes(templateUtilities: TemplateUtilities, condition: TCondition, timezone: string | undefined): string {
-        if (!condition.note || !Array.isArray(condition.note) || condition.note.length === 0) {
-            return '';
-        }
-
-        let noteHtml = '<ul>';
-
-        for (const note of condition.note) {
-            if (note.text) {
-                const noteType = note.authorString || 'Overview';
-
-                noteHtml += `<li class="Note">
-          <span class="NoteTitle">${noteType} (${templateUtilities.renderTime(note.time, timezone)}):</span><br />
-          <span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />
-          <span class="NoteText">${note.text}<br /></span>
-        </li>`;
-            }
-        }
-
-        noteHtml += '</ul>';
-        return noteHtml;
     }
 }

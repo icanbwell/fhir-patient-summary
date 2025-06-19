@@ -64,7 +64,7 @@ export class VitalSignsTemplate implements ITemplate {
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
             <td>${templateUtilities.renderComponent(obs.component)}</td>
-            <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
+            <td>${templateUtilities.renderNotes(obs.note)}</td>
             <td>${templateUtilities.renderEffective(obs.effectiveDateTime, timezone)}</td>
           </tr>`;
       }

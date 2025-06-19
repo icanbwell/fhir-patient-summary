@@ -610,6 +610,55 @@ export class TemplateUtilities {
     }
 
     /**
+     * Renders note elements from a FHIR resource in a standardized format
+     * Can render as simple comma-separated text or as styled HTML with timestamps
+     *
+     * @param notes - Array of note objects (or undefined/null)
+     * @param timezone - Optional timezone to use for date formatting
+     * @param options - Rendering options
+     * @returns Formatted string representation of notes
+     */
+    renderNotes(notes?: Array<{ text?: string; time?: string; authorString?: string }> | null,
+                timezone?: string,
+                options: {
+                    styled?: boolean;
+                    warning?: boolean;
+                } = {}): string {
+
+        if (!notes || !Array.isArray(notes) || notes.length === 0) {
+            return '';
+        }
+
+        // Simple text-only rendering (comma-separated)
+        if (!options.styled) {
+            return this.safeConcat(notes, 'text');
+        }
+
+        // Styled HTML rendering with timestamps
+        let noteHtml = '<ul>';
+
+        for (const note of notes) {
+            if (note.text) {
+                const noteType = note.authorString || 'Overview';
+
+                noteHtml += `<li class="Note">
+                    <span class="NoteTitle">${noteType} (${this.renderTime(note.time, timezone)}):</span><br />`;
+
+                // Optional warning message about formatting
+                if (options.warning) {
+                    noteHtml += `<span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />`;
+                }
+
+                noteHtml += `<span class="NoteText">${note.text}<br /></span>
+                </li>`;
+            }
+        }
+
+        noteHtml += '</ul>';
+        return noteHtml;
+    }
+
+    /**
      * Helper method to format dates with Luxon
      * @param dateValue - The date value to format
      * @param timezone - Optional timezone

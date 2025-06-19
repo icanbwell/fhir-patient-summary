@@ -60,7 +60,7 @@ export class ImmunizationsTemplate implements ITemplate {
               <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
               <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
               <td>${imm.lotNumber || ''}</td>
-              <td>${templateUtilities.safeConcat(imm.note, 'text')}</td>
+              <td>${templateUtilities.renderNotes(imm.note)}</td>
               <td>${templateUtilities.renderTime(imm.occurrenceDateTime, timezone)}</td>
             </tr>`;
         }
