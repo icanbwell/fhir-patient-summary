@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as path from 'path';
 import {TPatient} from '../../src/types/resources/Patient';
 import {TAllergyIntolerance} from '../../src/types/resources/AllergyIntolerance';
@@ -10,6 +9,13 @@ import {NarrativeGenerator} from '../../src/generators/narrative_generator';
 import {IPSSections} from '../../src/structures/ips_sections';
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../../src/structures/ips_section_loinc_codes";
 import {compareNarratives, readNarrativeFile} from "../utilities/testHelpers";
+import {TDevice} from '../../src/types/resources/Device';
+import {TDiagnosticReport} from '../../src/types/resources/DiagnosticReport';
+import {TProcedure} from '../../src/types/resources/Procedure';
+import {TFamilyMemberHistory} from '../../src/types/resources/FamilyMemberHistory';
+import {TCarePlan} from '../../src/types/resources/CarePlan';
+import {TClinicalImpression} from '../../src/types/resources/ClinicalImpression';
+import {TConsent} from '../../src/types/resources/Consent';
 
 describe('Narrative Generator Tests', () => {
     // Mock Resources for Testing
@@ -240,6 +246,264 @@ describe('Narrative Generator Tests', () => {
         }
     ];
 
+    // Additional mock resources for other sections
+    const mockVitalSigns: TObservation[] = [
+        {
+            resourceType: 'Observation',
+            id: 'vital-01',
+            status: 'final',
+            category: [{coding: [{code: 'vital-signs'}]}],
+            code: {text: 'Blood Pressure'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-01',
+            component: [
+                {
+                    code: {text: 'Systolic'},
+                    valueQuantity: {value: 120, unit: 'mmHg'}
+                },
+                {
+                    code: {text: 'Diastolic'},
+                    valueQuantity: {value: 80, unit: 'mmHg'}
+                }
+            ]
+        },
+        {
+            resourceType: 'Observation',
+            id: 'vital-02',
+            status: 'final',
+            category: [{coding: [{code: 'vital-signs'}]}],
+            code: {text: 'Heart Rate'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-01',
+            valueQuantity: {value: 72, unit: 'bpm'}
+        },
+        {
+            resourceType: 'Observation',
+            id: 'vital-03',
+            status: 'final',
+            category: [{coding: [{code: 'vital-signs'}]}],
+            code: {text: 'Body Temperature'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-01',
+            valueQuantity: {value: 37.0, unit: '°C'}
+        }
+    ];
+
+    const mockMedicalDevices: TDevice[] = [
+        {
+            resourceType: 'Device',
+            id: 'device-01',
+            status: 'active',
+            deviceName: [{name: 'Pacemaker', type: 'user-friendly-name'}],
+            patient: {reference: 'Patient/test-patient-01'}
+        },
+        {
+            resourceType: 'Device',
+            id: 'device-02',
+            status: 'active',
+            deviceName: [{name: 'Insulin Pump', type: 'user-friendly-name'}],
+            patient: {reference: 'Patient/test-patient-01'},
+            manufacturer: 'MedTech Inc.',
+            modelNumber: 'IP-2023',
+            manufactureDate: '2023-01-01'
+        },
+        {
+            resourceType: 'Device',
+            id: 'device-03',
+            status: 'inactive',
+            deviceName: [{name: 'Stent', type: 'user-friendly-name'}],
+            patient: {reference: 'Patient/test-patient-01'},
+            note: [{text: 'Removed due to infection'}]
+        }
+    ];
+
+    const mockDiagnosticReports: TDiagnosticReport[] = [
+        {
+            resourceType: 'DiagnosticReport',
+            id: 'report-01',
+            status: 'final',
+            code: {text: 'Chest X-Ray'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-15',
+            conclusion: 'No acute cardiopulmonary process'
+        },
+        {
+            resourceType: 'DiagnosticReport',
+            id: 'report-02',
+            status: 'final',
+            code: {text: 'MRI Brain'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-02-01',
+            conclusion: 'Normal brain MRI',
+            presentedForm: [
+                {
+                    contentType: 'application/pdf',
+                    title: 'Brain MRI Report'
+                }
+            ]
+        }
+    ];
+
+    const mockProcedures: TProcedure[] = [
+        {
+            resourceType: 'Procedure',
+            id: 'proc-01',
+            status: 'completed',
+            code: {text: 'Appendectomy'},
+            subject: {reference: 'Patient/test-patient-01'},
+            performedDateTime: '2022-05-10'
+        },
+        {
+            resourceType: 'Procedure',
+            id: 'proc-02',
+            status: 'completed',
+            code: {text: 'Colonoscopy'},
+            subject: {reference: 'Patient/test-patient-01'},
+            performedDateTime: '2023-03-15',
+            note: [{text: 'No polyps found'}]
+        }
+    ];
+
+    const mockFamilyHistory: TFamilyMemberHistory[] = [
+        {
+            resourceType: 'FamilyMemberHistory',
+            id: 'fam-01',
+            status: 'completed',
+            patient: {reference: 'Patient/test-patient-01'},
+            relationship: {text: 'Father'},
+            condition: [
+                {
+                    code: {text: 'Heart Disease'},
+                    onsetAge: {value: 60, unit: 'years'}
+                }
+            ]
+        },
+        {
+            resourceType: 'FamilyMemberHistory',
+            id: 'fam-02',
+            status: 'completed',
+            patient: {reference: 'Patient/test-patient-01'},
+            relationship: {text: 'Mother'},
+            condition: [
+                {
+                    code: {text: 'Type 2 Diabetes'},
+                    onsetAge: {value: 55, unit: 'years'}
+                }
+            ]
+        }
+    ];
+
+    const mockSocialHistory: TObservation[] = [
+        {
+            resourceType: 'Observation',
+            id: 'social-01',
+            status: 'final',
+            category: [{coding: [{code: 'social-history'}]}],
+            code: {text: 'Tobacco Use'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-01',
+            valueCodeableConcept: {text: 'Former smoker'}
+        },
+        {
+            resourceType: 'Observation',
+            id: 'social-02',
+            status: 'final',
+            category: [{coding: [{code: 'social-history'}]}],
+            code: {text: 'Alcohol Use'},
+            subject: {reference: 'Patient/test-patient-01'},
+            effectiveDateTime: '2023-01-01',
+            valueCodeableConcept: {text: 'Social drinker'}
+        }
+    ];
+
+    const mockAdvanceDirectives: TConsent[] = [
+        {
+            resourceType: 'Consent',
+            id: 'adv-01',
+            status: 'active',
+            category: [{text: 'Advance Directive'}],
+            patient: {reference: 'Patient/test-patient-01'},
+            dateTime: '2023-01-01',
+            provision: {
+                type: 'permit',
+                period: {
+                    start: '2023-01-01'
+                }
+            },
+            scope: {
+                coding: [{
+                    system: 'http://terminology.hl7.org/CodeSystem/consentscope',
+                    code: 'advance-directive',
+                    display: 'Advance Directive'
+                }]
+            }
+        }
+    ];
+
+    const mockCarePlans: TCarePlan[] = [
+        {
+            resourceType: 'CarePlan',
+            id: 'care-01',
+            status: 'active',
+            intent: 'plan',
+            title: 'Diabetes Management Plan',
+            subject: {reference: 'Patient/test-patient-01'},
+            period: {
+                start: '2023-01-01'
+            },
+            activity: [
+                {
+                    detail: {
+                        status: 'in-progress',
+                        description: 'Monitor blood glucose daily'
+                    }
+                },
+                {
+                    detail: {
+                        status: 'in-progress',
+                        description: 'Low-carbohydrate diet'
+                    }
+                }
+            ]
+        }
+    ];
+
+    const mockClinicalImpressions: TClinicalImpression[] = [
+        {
+            resourceType: 'ClinicalImpression',
+            id: 'imp-01',
+            status: 'completed',
+            subject: {reference: 'Patient/test-patient-01'},
+            date: '2023-01-15',
+            summary: 'Patient presents with symptoms consistent with Type 2 Diabetes',
+            finding: [
+                {
+                    itemCodeableConcept: {text: 'Elevated blood glucose'}
+                },
+                {
+                    itemCodeableConcept: {text: 'Polydipsia'}
+                }
+            ]
+        }
+    ];
+
+    it('should generate narrative content for patient using NarrativeGenerator', async () => {
+        const section = IPSSections.PATIENT;
+        const result: string | undefined = NarrativeGenerator.generateNarrativeContent(section, [mockPatient], 'America/New_York');
+        expect(result).toBeDefined();
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
     it('should generate narrative content for allergies using NarrativeGenerator', async () => {
         const section = IPSSections.ALLERGIES;
         const result: string | undefined = NarrativeGenerator.generateNarrativeContent(section, mockAllergies, 'America/New_York');
@@ -335,6 +599,184 @@ describe('Narrative Generator Tests', () => {
         expect(result).toContain('Hemoglobin A1c');
         expect(result).toContain('Cholesterol Panel');
         expect(result).toContain('CBC with Differential');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for vital signs using NarrativeGenerator', async () => {
+        const section = IPSSections.VITAL_SIGNS;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockVitalSigns, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Vital Signs');
+        expect(result).toContain('Blood Pressure');
+        expect(result).toContain('Heart Rate');
+        expect(result).toContain('Body Temperature');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for medical devices using NarrativeGenerator', async () => {
+        const section = IPSSections.MEDICAL_DEVICES;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockMedicalDevices, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Medical Devices');
+        expect(result).toContain('Pacemaker');
+        expect(result).toContain('Insulin Pump');
+        expect(result).toContain('Stent');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for diagnostic reports using NarrativeGenerator', async () => {
+        const section = IPSSections.DIAGNOSTIC_REPORTS;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockDiagnosticReports, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Diagnostic Reports');
+        expect(result).toContain('Chest X-Ray');
+        expect(result).toContain('MRI Brain');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for procedures using NarrativeGenerator', async () => {
+        const section = IPSSections.PROCEDURES;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockProcedures, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Procedures');
+        expect(result).toContain('Appendectomy');
+        expect(result).toContain('Colonoscopy');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for family history using NarrativeGenerator', async () => {
+        const section = IPSSections.FAMILY_HISTORY;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockFamilyHistory, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Family History');
+        expect(result).toContain('Heart Disease');
+        expect(result).toContain('Type 2 Diabetes');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for social history using NarrativeGenerator', async () => {
+        const section = IPSSections.SOCIAL_HISTORY;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockSocialHistory, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Social History');
+        expect(result).toContain('Tobacco Use');
+        expect(result).toContain('Alcohol Use');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for advance directives using NarrativeGenerator', async () => {
+        const section = IPSSections.ADVANCE_DIRECTIVES;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockAdvanceDirectives, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Advance Directives');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for care plans using NarrativeGenerator', async () => {
+        const section = IPSSections.CARE_PLAN;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockCarePlans, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Care Plans');
+        expect(result).toContain('Diabetes Management Plan');
+        console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for clinical impressions using NarrativeGenerator', async () => {
+        const section = IPSSections.CLINICAL_IMPRESSION;
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockClinicalImpressions, 'America/New_York');
+        expect(result).toBeDefined();
+        expect(result).toContain('Clinical Impressions');
+        expect(result).toContain('Type 2 Diabetes');
         console.info(result);
         // Read narrative from file
         const expectedDiv = readNarrativeFile(
