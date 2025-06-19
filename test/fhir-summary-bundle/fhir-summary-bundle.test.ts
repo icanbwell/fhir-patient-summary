@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
-import {compare_bundles} from "./utilities/testHelpers";
+import {ComprehensiveIPSCompositionBuilder} from "../../src/generators/fhir_summary_generator";
+import {compare_bundles} from "../utilities/testHelpers";
 
 describe('FHIR Patient Summary Generation', () => {
     it('should generate the correct summary for the Aidbox bundle', async () => {
