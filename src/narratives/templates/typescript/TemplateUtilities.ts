@@ -17,6 +17,8 @@ import {TInstant} from "../../../types/simpleTypes/Instant";
 import {DateTime, DateTimeFormatOptions} from "luxon";
 import {TAnnotation} from "../../../types/partials/Annotation";
 import {TPeriod} from "../../../types/partials/Period";
+import {TRange} from "../../../types/partials/Range";
+import {TRatio} from "../../../types/partials/Ratio";
 
 type ObservationValueType =
     | string
@@ -788,5 +790,45 @@ export class TemplateUtilities {
                 }
             }
         }
+    }
+
+    /**
+     * Formats a range of values in a human-readable format
+     * @param valueRange - The range object containing low and high values
+     */
+    formatRange(valueRange: TRange) {
+        if (!valueRange || !valueRange.low || !valueRange.high) {
+            return '';
+        }
+
+        // Format low and high values
+        const low = valueRange.low.value !== undefined ? valueRange.low.value.toString() : '';
+        const high = valueRange.high.value !== undefined ? valueRange.high.value.toString() : '';
+
+        // Include units if available
+        const lowUnit = valueRange.low.unit ? ` ${valueRange.low.unit}` : '';
+        const highUnit = valueRange.high.unit ? ` ${valueRange.high.unit}` : '';
+
+        return `${low}${lowUnit} - ${high}${highUnit}`;
+    }
+
+    /**
+     * Formats a ratio value in a human-readable format
+     * @param valueRatio - The ratio object containing numerator and denominator values
+     */
+    formatRatio(valueRatio: TRatio) {
+        if (!valueRatio || !valueRatio.numerator || !valueRatio.denominator) {
+            return '';
+        }
+
+        // Format numerator and denominator values
+        const numerator = valueRatio.numerator.value !== undefined ? valueRatio.numerator.value.toString() : '';
+        const denominator = valueRatio.denominator.value !== undefined ? valueRatio.denominator.value.toString() : '';
+
+        // Include units if available
+        const numeratorUnit = valueRatio.numerator.unit ? ` ${valueRatio.numerator.unit}` : '';
+        const denominatorUnit = valueRatio.denominator.unit ? ` ${valueRatio.denominator.unit}` : '';
+
+        return `${numerator}${numeratorUnit} / ${denominator}${denominatorUnit}`;
     }
 }
