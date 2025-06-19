@@ -38,39 +38,16 @@ export class PatientTemplate implements ITemplate {
         html += `
         <div>
           <h2>Patient Summary</h2>
-          <p>Gender: ${patient.gender || ''}</p>
           <ul>
-            <li><strong>Name(s):</strong>
-              <ul>
-                ${this.renderNames(patient)}
-              </ul>
-            </li>
-            <li><strong>Gender:</strong> ${patient.gender ? this.capitalize(patient.gender) : ''}</li>
-            <li><strong>Date of Birth:</strong> ${patient.birthDate || ''}</li>
-            <li><strong>Identifier(s):</strong>
-              <ul>
-                ${this.renderIdentifiers(patient)}
-              </ul>
-            </li>
-            <li><strong>Telecom:</strong>
-              <ul>
-                ${this.renderTelecom(patient)}
-              </ul>
-            </li>
-            <li><strong>Address(es):</strong>
-              <ul>
-                ${this.renderAddresses(patient)}
-              </ul>
-            </li>
+            <li><strong>Name(s):</strong>${this.renderNames(patient)}</li>
+            <li><strong>Gender:</strong>${patient.gender ? this.capitalize(patient.gender) : ''}</li>
+            <li><strong>Date of Birth:</strong>${patient.birthDate || ''}</li>
+            <li><strong>Identifier(s):</strong>${this.renderIdentifiers(patient)}</li>
+            <li><strong>Telecom:</strong>${this.renderTelecom(patient)}</li>
+            <li><strong>Address(es):</strong>${this.renderAddresses(patient)}</li>
             <li><strong>Marital Status:</strong> ${patient.maritalStatus?.text || ''}</li>
-            <li><strong>Deceased:</strong>
-              ${this.renderDeceased(patient)}
-            </li>
-            <li><strong>Language(s):</strong>
-              <ul>
-                ${this.renderCommunication(templateUtilities, patient)}
-              </ul>
-            </li>
+            <li><strong>Deceased:</strong>${this.renderDeceased(patient)}</li>
+            <li><strong>Language(s):</strong>${this.renderCommunication(templateUtilities, patient)}</li>
           </ul>
         </div>`;
       }
@@ -92,7 +69,7 @@ export class PatientTemplate implements ITemplate {
     return patient.name.map(name => {
       const nameText = name.text ||
         ((name.given || []).join(' ') + ' ' + (name.family || '')).trim();
-      return `<li>${nameText}</li>`;
+      return `<ul><li>${nameText}</li></ul>`;
     }).join('');
   }
 
@@ -109,7 +86,7 @@ export class PatientTemplate implements ITemplate {
     return patient.identifier.map(id => {
       const system = id.system || '';
       const value = id.value || '';
-      return `<li>${system}: ${value}</li>`;
+      return `<ul><li>${system}: ${value}</li></ul>`;
     }).join('');
   }
 
@@ -127,7 +104,7 @@ export class PatientTemplate implements ITemplate {
       const system = telecom.system ? this.capitalize(telecom.system) : '';
       const value = telecom.value || '';
       const use = telecom.use ? ` (${telecom.use})` : '';
-      return `<li>${system}: ${value}${use}</li>`;
+      return `<ul><li>${system}: ${value}${use}</li></ul>`;
     }).join('');
   }
 
@@ -144,7 +121,7 @@ export class PatientTemplate implements ITemplate {
     return patient.address.map(address => {
       const addressText = address.text ||
         ((address.line || []).join(', ') + ', ' + (address.city || '') + ', ' + (address.country || '')).trim();
-      return `<li>${addressText}</li>`;
+      return `<ul><li>${addressText}</li></ul>`;
     }).join('');
   }
 
@@ -179,7 +156,7 @@ export class PatientTemplate implements ITemplate {
 
       const language = templateUtilities.codeableConcept(comm.language);
       const preferred = comm.preferred ? ' (preferred)' : '';
-      return `<li>${language}${preferred}</li>`;
+      return `<ul><li>${language}${preferred}</li></ul>`;
     }).join('');
   }
 

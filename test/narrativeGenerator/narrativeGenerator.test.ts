@@ -637,10 +637,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.MEDICAL_DEVICES;
         const result = NarrativeGenerator.generateNarrativeContent(section, mockMedicalDevices, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Medical Devices');
-        expect(result).toContain('Pacemaker');
-        expect(result).toContain('Insulin Pump');
-        expect(result).toContain('Stent');
         console.info(result);
         // Read narrative from file
         const expectedDiv = readNarrativeFile(
