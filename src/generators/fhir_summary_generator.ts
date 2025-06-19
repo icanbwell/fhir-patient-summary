@@ -48,6 +48,7 @@ export class ComprehensiveIPSCompositionBuilder {
     addSection<T extends TDomainResource>(
         sectionType: IPSSections,
         resources: T[],
+        timezone: string | undefined,
         options?: {
             isOptional?: boolean;
             customLoincCode?: string;
@@ -72,7 +73,7 @@ export class ComprehensiveIPSCompositionBuilder {
         // Patient resource does not get a section, it is handled separately
         if (sectionType !== IPSSections.PATIENT) {
             // Create section entry
-            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(sectionType, validResources);
+            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(sectionType, validResources, timezone);
             const sectionEntry: TCompositionSection = {
                 title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
                 code: {
@@ -100,7 +101,12 @@ export class ComprehensiveIPSCompositionBuilder {
         return this;
     }
 
-    read_bundle(bundle: TBundle): this {
+    /**
+     * Reads a FHIR Bundle and extracts resources for each section defined in IPSSections.
+     * @param bundle - FHIR Bundle containing resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    read_bundle(bundle: TBundle, timezone: string | undefined): this {
         if (!bundle.entry) {
             return this;
         }
@@ -115,14 +121,18 @@ export class ComprehensiveIPSCompositionBuilder {
                 resources = resources.filter(customFilter);
             }
             if (resources.length > 0) {
-                this.addSection(sectionType, resources as TDomainResource[], {isOptional: true});
+                this.addSection(sectionType, resources as TDomainResource[], timezone, {isOptional: true});
             }
         }
         return this;
     }
 
-    // Comprehensive build method with validation
-    build(): TCompositionSection[] {
+    /**
+     * Builds the final Composition sections, ensuring all mandatory sections are present.
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    build(timezone: string | undefined): TCompositionSection[] {
         // Ensure all mandatory sections are present
         const mandatorySections = [
             IPSSections.ALLERGIES,
@@ -144,7 +154,14 @@ export class ComprehensiveIPSCompositionBuilder {
         return this.sections;
     }
 
-    build_bundle(authorOrganizationId: string, authorOrganizationName: string, baseUrl: string): TBundle {
+    /**
+     * Builds a complete FHIR Bundle containing the Composition and all resources.
+     * @param authorOrganizationId - ID of the authoring organization (e.g., hospital or clinic)
+     * @param authorOrganizationName - Name of the authoring organization
+     * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    build_bundle(authorOrganizationId: string, authorOrganizationName: string, baseUrl: string,timezone: string | undefined): TBundle {
         if (baseUrl.endsWith('/')) {
             baseUrl = baseUrl.slice(0, -1); // Remove trailing slash if present
         }
@@ -170,7 +187,7 @@ export class ComprehensiveIPSCompositionBuilder {
             date: new Date().toISOString(),
             title: 'International Patient Summary',
             section: this.sections,
-            text: this.createCompositionNarrative()
+            text: this.createCompositionNarrative(timezone)
         };
 
         // Create the bundle with proper document type
@@ -222,13 +239,19 @@ export class ComprehensiveIPSCompositionBuilder {
         return bundle;
     }
 
-    private createCompositionNarrative(): TNarrative {
+    /**
+     * Creates a narrative for the composition based on the patient and sections.
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @private
+     */
+    private createCompositionNarrative(timezone: string | undefined): TNarrative {
         const patient = this.patient;
         let fullNarrativeContent: string = "";
         // generate narrative for the patient
         const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
             IPSSections.PATIENT,
-            [patient]
+            [patient],
+            timezone
         );
         fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');
 
@@ -240,7 +263,7 @@ export class ComprehensiveIPSCompositionBuilder {
                 .filter(r => resourceTypesForSection.includes(r.resourceType as string));
 
             if (resources.length > 0) {
-                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(sectionType, resources);
+                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(sectionType, resources, timezone);
                 fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
             }
         }

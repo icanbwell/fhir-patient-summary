@@ -15,7 +15,7 @@ export class PregnancyTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone?: string): string {
+  generateNarrative(resource: TBundle, timezone: string | undefined): string {
     return PregnancyTemplate.generateStaticNarrative(resource, timezone);
   }
 
@@ -25,8 +25,8 @@ export class PregnancyTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+   
+  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
@@ -60,7 +60,7 @@ export class PregnancyTemplate implements ITemplate {
             <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
-            <td>${templateUtilities.renderEffective(obs.effectiveDateTime)}</td>
+            <td>${templateUtilities.renderEffective(obs.effectiveDateTime, timezone)}</td>
           </tr>`;
       }
     }

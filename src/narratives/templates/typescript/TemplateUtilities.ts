@@ -218,7 +218,7 @@ export class TemplateUtilities {
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Formatted date string
      */
-    renderEffective(effective: any, timezone?: string): string {
+    renderEffective(effective: any, timezone: string | undefined): string {
         if (!effective) return '';
 
         try {
@@ -293,7 +293,7 @@ export class TemplateUtilities {
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns Formatted date string
      */
-    renderRecorded(recorded: any, timezone?: string): string {
+    renderRecorded(recorded: any, timezone: string | undefined): string {
         if (!recorded) return '';
 
         try {

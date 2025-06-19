@@ -11,5 +11,5 @@ export interface ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone?: string): string;
+  generateNarrative(resource: TBundle, timezone: string | undefined): string;
 }

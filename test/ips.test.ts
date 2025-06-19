@@ -160,7 +160,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
     // Narrative Generation Tests
     describe('Narrative Generation', () => {
         test('Patient narrative should be generated', () => {
-            const narrative = NarrativeGenerator.generateNarrative(IPSSections.PATIENT, [mockPatient]);
+            const narrative = NarrativeGenerator.generateNarrative(IPSSections.PATIENT, [mockPatient], 'America/New_York');
 
             expect(narrative).toBeDefined();
             expect(narrative?.status).toBe('generated');
@@ -170,7 +170,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
         });
 
         test('Allergy narrative should be generated', () => {
-            const narrative = NarrativeGenerator.generateNarrative(IPSSections.ALLERGIES, [mockAllergies[0]]);
+            const narrative = NarrativeGenerator.generateNarrative(IPSSections.ALLERGIES, [mockAllergies[0]], 'America/New_York');
 
             expect(narrative).toBeDefined();
             expect(narrative?.status).toBe('generated');
@@ -184,13 +184,14 @@ describe('International Patient Summary (IPS) Implementation', () => {
             const ipsBuilder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             const buildIPS = () => {
+                const timezone = 'America/New_York';
                 ipsBuilder
-                    .addSection(IPSSections.ALLERGIES, mockAllergies)
-                    .addSection(IPSSections.MEDICATIONS, mockMedications)
-                    .addSection(IPSSections.PROBLEMS, mockConditions)
-                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
-                    .addSection(IPSSections.PATIENT, [mockPatient])
-                    .build();
+                    .addSection(IPSSections.ALLERGIES, mockAllergies, timezone)
+                    .addSection(IPSSections.MEDICATIONS, mockMedications, timezone)
+                    .addSection(IPSSections.PROBLEMS, mockConditions, timezone)
+                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone)
+                    .addSection(IPSSections.PATIENT, [mockPatient], timezone)
+                    .build('America/New_York');
             };
 
             expect(buildIPS).not.toThrow();
@@ -200,7 +201,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
             const ipsBuilder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             const buildInvalidIPS = () => {
-                ipsBuilder.build();
+                ipsBuilder.build('America/New_York');
             };
 
             expect(buildInvalidIPS).toThrow('Missing mandatory IPS sections');
@@ -211,13 +212,13 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildFullIPS = () => {
                 ipsBuilder
-                    .addSection(IPSSections.PATIENT, [mockPatient])
-                    .addSection(IPSSections.ALLERGIES, mockAllergies)
-                    .addSection(IPSSections.MEDICATIONS, mockMedications)
-                    .addSection(IPSSections.PROBLEMS, mockConditions)
-                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
-                    .addSection(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults)
-                    .build();
+                    .addSection(IPSSections.PATIENT, [mockPatient], 'America/New_York')
+                    .addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York')
+                    .addSection(IPSSections.MEDICATIONS, mockMedications, 'America/New_York')
+                    .addSection(IPSSections.PROBLEMS, mockConditions, 'America/New_York')
+                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York')
+                    .addSection(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults, 'America/New_York')
+                    .build('America/New_York');
             };
 
             expect(buildFullIPS).not.toThrow();
@@ -276,12 +277,12 @@ describe('International Patient Summary (IPS) Implementation', () => {
 
             const buildLargeIPS = () => {
                 ipsBuilder
-                    .addSection(IPSSections.PATIENT, [mockPatient])
-                    .addSection(IPSSections.MEDICATIONS, largeMedicationList)
-                    .addSection(IPSSections.ALLERGIES, mockAllergies)
-                    .addSection(IPSSections.PROBLEMS, mockConditions)
-                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
-                    .build();
+                    .addSection(IPSSections.PATIENT, [mockPatient], 'America/New_York')
+                    .addSection(IPSSections.MEDICATIONS, largeMedicationList, 'America/New_York')
+                    .addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York')
+                    .addSection(IPSSections.PROBLEMS, mockConditions, 'America/New_York')
+                    .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York')
+                    .build('America/New_York');
             };
 
             const start = performance.now();

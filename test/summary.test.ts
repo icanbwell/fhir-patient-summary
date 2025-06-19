@@ -346,41 +346,34 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         it('should add a section with valid resources', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
-            const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies);
+            const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
 
             expect(result).toBe(builder);
-            // expect(mockValidateResource).toHaveBeenCalledWith(mockAllergies[0], IPSSections.ALLERGIES);
         });
 
         it('should filter out invalid resources', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
-            // mockValidateResource.mockReturnValueOnce(false);
-
-            // expect(() => {
-            //     const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies);
-            //     expect(result).toBe(builder);
-            // }).toThrow(/No valid resources for mandatory section: AllergyIntoleranceSection/);
-
             // Should throw error when trying to build with no valid sections
             expect(() => {
-                builder.build();
+                builder.build('America/New_York');
             }).toThrow(/Missing mandatory IPS sections/);
         });
     });
 
     describe('build', () => {
+        const timezone = 'America/New_York';
         it('should build a composition with all mandatory sections', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             builder
-                .addSection(IPSSections.ALLERGIES, mockAllergies)
-                .addSection(IPSSections.MEDICATIONS, mockMedications)
-                .addSection(IPSSections.PROBLEMS, mockConditions)
-                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations)
+                .addSection(IPSSections.ALLERGIES, mockAllergies, timezone)
+                .addSection(IPSSections.MEDICATIONS, mockMedications, timezone)
+                .addSection(IPSSections.PROBLEMS, mockConditions, timezone)
+                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone)
             ;
 
-            const sections = builder.build();
+            const sections = builder.build(timezone);
 
             for (const section of sections) {
                 console.info(section.code?.coding?.[0]?.display);
@@ -397,10 +390,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             // Not adding all mandatory sections
-            builder.addSection(IPSSections.ALLERGIES, mockAllergies);
+            builder.addSection(IPSSections.ALLERGIES, mockAllergies, timezone);
 
             expect(() => {
-                builder.build();
+                builder.build('America/New_York');
             }).toThrow(/Missing mandatory IPS sections/);
         });
     });
@@ -409,23 +402,24 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         it('should create a complete IPS composition', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
+            const timezone = 'America/New_York';
             builder
-                .addSection(IPSSections.ALLERGIES, mockAllergies)
-                .addSection(IPSSections.MEDICATIONS, mockMedications)
+                .addSection(IPSSections.ALLERGIES, mockAllergies, timezone)
+                .addSection(IPSSections.MEDICATIONS, mockMedications, timezone)
                 .addSection(IPSSections.PROBLEMS, [{
                     resourceType: 'Condition',
                     id: 'condition1',
                     clinicalStatus: {coding: [{code: 'active'}]},
                     code: {coding: [{code: 'hypertension'}]}
-                }])
+                }], timezone)
                 .addSection(IPSSections.IMMUNIZATIONS, [{
                     resourceType: 'Immunization',
                     id: 'immunization1',
                     status: 'completed',
                     vaccineCode: {coding: [{code: 'MMR'}]}
-                }]);
+                }], timezone);
 
-            const sections = builder.build();
+            const sections = builder.build(timezone);
 
             expect(sections.length).toBe(4);
             sections.forEach(section => {
@@ -440,15 +434,16 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
 
             builder
-                .addSection(IPSSections.ALLERGIES, mockAllergies)
-                .addSection(IPSSections.MEDICATIONS, mockMedications)
-                .addSection(IPSSections.PROBLEMS, mockConditions)
-                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations);
+                .addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York')
+                .addSection(IPSSections.MEDICATIONS, mockMedications, 'America/New_York')
+                .addSection(IPSSections.PROBLEMS, mockConditions, 'America/New_York')
+                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
 
             const bundle = builder.build_bundle(
                 'example-organization',
                 'Example Organization',
-                'https://fhir.icanbwell.com/4_0_0/'
+                'https://fhir.icanbwell.com/4_0_0/',
+                'America/New_York'
             );
             console.info('---- Bundle ----');
             console.info(JSON.stringify(bundle, (key, value) => {

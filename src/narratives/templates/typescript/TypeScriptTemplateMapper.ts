@@ -54,7 +54,7 @@ export class TypeScriptTemplateMapper {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  static generateNarrative(section: IPSSections, resource: TBundle, timezone?: string): string {
+  static generateNarrative(section: IPSSections, resource: TBundle, timezone: string | undefined): string {
     const templateClass: ITemplate = this.sectionToTemplate[section];
 
     if (!templateClass) {

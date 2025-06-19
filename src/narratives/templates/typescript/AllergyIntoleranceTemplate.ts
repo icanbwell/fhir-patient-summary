@@ -15,7 +15,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  public generateNarrative(resource: TBundle, timezone?: string): string {
+  public generateNarrative(resource: TBundle, timezone: string | undefined): string {
     return AllergyIntoleranceTemplate.generateStaticNarrative(resource, timezone);
   }
 
@@ -26,7 +26,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
    * @returns HTML string for rendering
    */
    
-  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resource);
 
     // Group allergies by status (active vs resolved/inactive)

@@ -16,7 +16,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone?: string): string {
+  generateNarrative(resource: TBundle, timezone: string | undefined): string {
     return DiagnosticResultsTemplate.generateStaticNarrative(resource, timezone);
   }
 
@@ -26,7 +26,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resource);
     let html = '';
 
@@ -82,7 +82,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting
    * @returns HTML string for rendering
    */
-  private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone?: string): string {
+  private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone: string | undefined): string {
     let html = `
       <h5>Diagnostic Results: Observations</h5>
       <table class="hapiPropertyTable">
@@ -128,7 +128,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting
    * @returns HTML string for rendering
    */
-  private static renderDiagnosticReports(templateUtilities: TemplateUtilities, reports: Array<TDiagnosticReport>, timezone?: string): string {
+  private static renderDiagnosticReports(templateUtilities: TemplateUtilities, reports: Array<TDiagnosticReport>, timezone: string | undefined): string {
     let html = `
       <h5>Diagnostic Results: Reports</h5>
       <table class="hapiPropertyTable">

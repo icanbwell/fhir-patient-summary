@@ -25,7 +25,7 @@ export class NarrativeGenerator {
     static generateNarrativeContent<T extends TDomainResource>(
         section: IPSSections,
         resources: T[],
-        timezone?: string
+        timezone: string | undefined
     ): string | undefined {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
@@ -78,7 +78,7 @@ export class NarrativeGenerator {
     static generateNarrative<T extends TDomainResource>(
         section: IPSSections,
         resources: T[],
-        timezone?: string
+        timezone: string | undefined
     ): Narrative | undefined {
         const content = this.generateNarrativeContent(section, resources, timezone);
         if (!content) {

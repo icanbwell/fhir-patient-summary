@@ -15,7 +15,7 @@ export class ProblemListTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone?: string): string {
+  generateNarrative(resource: TBundle, timezone: string | undefined): string {
     return ProblemListTemplate.generateStaticNarrative(resource, timezone);
   }
 
@@ -25,7 +25,7 @@ export class ProblemListTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  private static generateStaticNarrative(resource: TBundle, timezone?: string): string {
+  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resource);
 
     // Start building the HTML
@@ -141,7 +141,7 @@ export class ProblemListTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for formatted notes
    */
-  private static formatNotes(templateUtilities: TemplateUtilities, condition: TCondition, timezone?: string): string {
+  private static formatNotes(templateUtilities: TemplateUtilities, condition: TCondition, timezone: string | undefined): string {
     if (!condition.note || !Array.isArray(condition.note) || condition.note.length === 0) {
       return '';
     }

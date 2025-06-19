@@ -73,35 +73,35 @@ describe('Narrative Generator Tests', () => {
     ];
 
     it('should generate narrative content for allergies using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.ALLERGIES, mockAllergies);
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Allergies and Intolerances');
         expect(result).toContain('Penicillin');
     });
 
     it('should generate narrative content for medications using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.MEDICATIONS, mockMedications);
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.MEDICATIONS, mockMedications, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Medication');
         expect(result).toContain('Aspirin');
     });
 
     it('should generate narrative content for problem list using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.PROBLEMS, mockConditions);
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.PROBLEMS, mockConditions, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Problems');
         expect(result).toContain('Hypertension');
     });
 
     it('should generate narrative content for immunizations using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.IMMUNIZATIONS, mockImmunizations);
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Immunizations');
         expect(result).toContain('COVID-19 Vaccine');
     });
 
     it('should generate narrative content for diagnostic results using NarrativeGenerator', () => {
-        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults);
+        const result = NarrativeGenerator.generateNarrativeContent(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Diagnostic Results');
         expect(result).toContain('Blood Glucose');
