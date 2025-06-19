@@ -14,7 +14,7 @@ import {TDomainResource} from "../../../types/resources/DomainResource";
 import {TExtension} from "../../../types/partials/Extension";
 import {TResourceContainer} from "../../../types/simpleTypes/ResourceContainer";
 import {TInstant} from "../../../types/simpleTypes/Instant";
-import { DateTime } from "luxon";
+import {DateTime, DateTimeFormatOptions} from "luxon";
 
 type ObservationValueType =
     | string
@@ -220,34 +220,7 @@ export class TemplateUtilities {
      * @returns Formatted date string
      */
     renderEffective(effective: any, timezone: string | undefined): string {
-        if (!effective) return '';
-
-        try {
-            // Use Luxon's DateTime to parse and format the date
-            let dateTime = DateTime.fromISO(effective.toString());
-
-            if (!dateTime.isValid) {
-                return effective.toString();
-            }
-
-            // Set timezone if provided
-            if (timezone) {
-                dateTime = dateTime.setZone(timezone);
-            }
-
-            // Format with both date and time components
-            return dateTime.toLocaleString({
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true,
-                timeZoneName: 'short'
-            });
-        } catch {
-            return effective.toString();
-        }
+        return this.formatDateTime(effective, timezone);
     }
 
     /**
@@ -257,84 +230,16 @@ export class TemplateUtilities {
      * @returns Formatted time string
      */
     renderTime(time: TInstant | string | undefined, timezone: string | undefined): string {
-        if (!time) return '';
-
-        try {
-            // Check if the time is a date-only string (YYYY-MM-DD format)
-            const isDateOnly = typeof time === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(time);
-            if (isDateOnly) {
-                return this.renderDate(time);
-            }
-
-            // Use Luxon to parse and format the date
-            let dateTime = DateTime.fromISO(time.toString());
-
-            if (!dateTime.isValid) {
-                return time.toString();
-            }
-
-            // Set timezone if provided
-            if (timezone) {
-                dateTime = dateTime.setZone(timezone);
-            }
-
-            // Format with both date and time components
-            return dateTime.toLocaleString({
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true,
-                timeZoneName: 'short'
-            });
-        } catch {
-            return time.toString();
-        }
+        return this.formatDateTime(time, timezone);
     }
 
+    /**
+     * Renders a date value
+     * @param date - Date value
+     * @returns Formatted date string (date only, no time component)
+     */
     renderDate(date: string | Date | undefined): string {
-        if (!date) return '';
-
-        try {
-            // Handle date strings in YYYY-MM-DD format to avoid timezone issues
-            if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
-                // Parse directly with Luxon using local timezone (no timezone conversion)
-                const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd');
-
-                if (!dateTime.isValid) {
-                    return date;
-                }
-
-                // Format as MM/DD/YYYY
-                return dateTime.toLocaleString({
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                });
-            }
-
-            // Try parsing with Luxon fromISO for other formats
-            let dateTime: DateTime;
-            if (date instanceof Date) {
-                dateTime = DateTime.fromJSDate(date);
-            } else {
-                dateTime = DateTime.fromISO(String(date));
-            }
-
-            if (!dateTime.isValid) {
-                return String(date);
-            }
-
-            // Format date component only (no time)
-            return dateTime.toLocaleString({
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            });
-        } catch {
-            return String(date);
-        }
+        return this.formatDateTime(date, undefined, true);
     }
 
     /**
@@ -344,34 +249,7 @@ export class TemplateUtilities {
      * @returns Formatted date string
      */
     renderRecorded(recorded: any, timezone: string | undefined): string {
-        if (!recorded) return '';
-
-        try {
-            // Use Luxon's DateTime to parse and format the date
-            let dateTime = DateTime.fromISO(recorded.toString());
-
-            if (!dateTime.isValid) {
-                return recorded.toString();
-            }
-
-            // Set timezone if provided
-            if (timezone) {
-                dateTime = dateTime.setZone(timezone);
-            }
-
-            // Format with both date and time components
-            return dateTime.toLocaleString({
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true,
-                timeZoneName: 'short'
-            });
-        } catch {
-            return recorded.toString();
-        }
+        return this.formatDateTime(recorded, timezone);
     }
 
     /**
@@ -729,5 +607,62 @@ export class TemplateUtilities {
         }
 
         return '';
+    }
+
+    /**
+     * Helper method to format dates with Luxon
+     * @param dateValue - The date value to format
+     * @param timezone - Optional timezone
+     * @param dateOnly - Whether to format as date only (without time)
+     * @returns Formatted date string
+     * @private
+     */
+    private formatDateTime(dateValue: any, timezone?: string, dateOnly = false): string {
+        if (!dateValue) return '';
+
+        try {
+            let dateTime: DateTime;
+
+            // Handle different input types
+            if (dateValue instanceof Date) {
+                dateTime = DateTime.fromJSDate(dateValue);
+            } else if (typeof dateValue === 'string') {
+                // Special handling for YYYY-MM-DD format to avoid timezone shifts
+                if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+                    dateTime = DateTime.fromFormat(dateValue, 'yyyy-MM-dd');
+                    dateOnly = true; // Force date-only format for date strings
+                } else {
+                    dateTime = DateTime.fromISO(dateValue);
+                }
+            } else {
+                dateTime = DateTime.fromISO(String(dateValue));
+            }
+
+            if (!dateTime.isValid) {
+                return String(dateValue);
+            }
+
+            // Set timezone if provided
+            if (timezone) {
+                dateTime = dateTime.setZone(timezone);
+            }
+
+            // Format options
+            const formatOptions: DateTimeFormatOptions = dateOnly ?
+                { year: 'numeric', month: '2-digit', day: '2-digit' } :
+                {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true,
+                    timeZoneName: 'short'
+                };
+
+            return dateTime.toLocaleString(formatOptions);
+        } catch {
+            return String(dateValue);
+        }
     }
 }
