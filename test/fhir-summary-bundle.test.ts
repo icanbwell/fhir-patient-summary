@@ -148,7 +148,7 @@ describe('FHIR Patient Summary Generation', () => {
 
         // Generate the summary
         const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
-        const timezone = 'American/New_York';
+        const timezone = 'America/New_York';
         builder.read_bundle(inputBundle, timezone);
 
         const bundle = builder.build_bundle(

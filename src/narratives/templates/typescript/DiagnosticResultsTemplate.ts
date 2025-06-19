@@ -109,7 +109,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
           <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
           <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
           <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
-          <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
+          <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
           <td>${templateUtilities.renderTime(obs.effectiveDateTime, timezone)}</td>
         </tr>`;
     }

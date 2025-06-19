@@ -15,6 +15,7 @@ import {TExtension} from "../../../types/partials/Extension";
 import {TResourceContainer} from "../../../types/simpleTypes/ResourceContainer";
 import {TInstant} from "../../../types/simpleTypes/Instant";
 import {DateTime, DateTimeFormatOptions} from "luxon";
+import {TAnnotation} from "../../../types/partials/Annotation";
 
 type ObservationValueType =
     | string
@@ -618,8 +619,8 @@ export class TemplateUtilities {
      * @param options - Rendering options
      * @returns Formatted string representation of notes
      */
-    renderNotes(notes?: Array<{ text?: string; time?: string; authorString?: string }> | null,
-                timezone?: string,
+    renderNotes(notes: Array<TAnnotation> | null | undefined,
+                timezone: string | undefined,
                 options: {
                     styled?: boolean;
                     warning?: boolean;

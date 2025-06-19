@@ -55,7 +55,7 @@ export class MedicalDevicesTemplate implements ITemplate {
             <tr id="${(templateUtilities.narrativeLinkId(dus))}">
               <td>${templateUtilities.renderDevice(dus.device)}</td>
               <td>${dus.status || ''}</td>
-              <td>${templateUtilities.renderNotes(dus.note)}</td>
+              <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
               <td>${templateUtilities.renderRecorded(dus.recordedOn, timezone)}</td>
             </tr>`;
         }

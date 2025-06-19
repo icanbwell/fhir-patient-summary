@@ -59,7 +59,7 @@ export class PregnancyTemplate implements ITemplate {
           <tr id="${(templateUtilities.narrativeLinkId(obs))}">
             <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
-            <td>${templateUtilities.safeConcat(obs.note, 'text')}</td>
+            <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${templateUtilities.renderEffective(obs.effectiveDateTime, timezone)}</td>
           </tr>`;
       }

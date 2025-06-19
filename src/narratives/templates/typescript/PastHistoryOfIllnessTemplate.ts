@@ -58,7 +58,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
           <tr id="${(templateUtilities.narrativeLinkId(cond))}">
             <td>${templateUtilities.codeableConcept(cond.code, 'display')}</td>
             <td>${templateUtilities.codeableConcept(cond.clinicalStatus, 'code')}</td>
-            <td>${templateUtilities.safeConcat(cond.note, 'text')}</td>
+            <td>${templateUtilities.renderNotes(cond.note, timezone)}</td>
             <td>${templateUtilities.renderTime(cond.onsetDateTime, timezone)}</td>
           </tr>`;
       }

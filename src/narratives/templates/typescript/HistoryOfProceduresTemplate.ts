@@ -56,7 +56,7 @@ export class HistoryOfProceduresTemplate implements ITemplate {
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(proc))}">
             <td>${templateUtilities.codeableConcept(proc.code, 'display')}</td>
-            <td>${templateUtilities.safeConcat(proc.note, 'text')}</td>
+            <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
             <td>${templateUtilities.renderTime(proc.performedDateTime, timezone)}</td>
           </tr>`;
       }

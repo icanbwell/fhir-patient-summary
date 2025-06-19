@@ -79,7 +79,7 @@ export class ProblemListTemplate implements ITemplate {
           <td class="Priority">${(templateUtilities.codeableConcept(cond.severity))}</td>
           <td class="NotedDate">${(templateUtilities.renderDate(cond.onsetDateTime))}</td>
           <td class="DiagnosedDate">${(templateUtilities.renderDate(cond.recordedDate))}</td>
-          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>
+          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, {styled: true, warning: true})}</td>
         </tr>`;
             }
 
@@ -117,7 +117,7 @@ export class ProblemListTemplate implements ITemplate {
           <td class="NotedDate">${(templateUtilities.renderDate(cond.onsetDateTime))}</td>
           <td class="DiagnosedDate">${(templateUtilities.renderDate(cond.recordedDate))}</td>
           <td class="ResolvedDate">${(templateUtilities.renderDate(cond.abatementDateTime))}</td>
-          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>
+          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, {styled: true, warning: true})}</td>
         </tr>`;
             }
 

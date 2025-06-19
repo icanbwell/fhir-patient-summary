@@ -60,7 +60,7 @@ export class SocialHistoryTemplate implements ITemplate {
             <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
-            <td>${templateUtilities.renderNotes(obs.note)}</td>
+            <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${templateUtilities.renderTime(obs.effectiveDateTime, timezone)}</td>
           </tr>`;
       }
