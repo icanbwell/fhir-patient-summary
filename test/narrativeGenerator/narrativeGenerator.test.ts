@@ -27,6 +27,38 @@ describe('Narrative Generator Tests', () => {
             verificationStatus: { coding: [{ code: 'confirmed' }] },
             code: { text: 'Penicillin' },
             patient: { reference: 'Patient/test-patient-01' }
+        },
+        {
+            resourceType: 'AllergyIntolerance',
+            id: 'allergy-02',
+            clinicalStatus: { coding: [{ code: 'active' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Peanuts' },
+            patient: { reference: 'Patient/test-patient-01' },
+            reaction: [
+                {
+                    manifestation: [
+                        { text: 'Anaphylaxis' }
+                    ],
+                    severity: 'severe'
+                }
+            ]
+        },
+        {
+            resourceType: 'AllergyIntolerance',
+            id: 'allergy-03',
+            clinicalStatus: { coding: [{ code: 'inactive' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Latex' },
+            patient: { reference: 'Patient/test-patient-01' },
+            reaction: [
+                {
+                    manifestation: [
+                        { text: 'Skin rash' }
+                    ],
+                    severity: 'moderate'
+                }
+            ]
         }
     ];
     const mockMedications: TMedicationStatement[] = [
@@ -36,6 +68,48 @@ describe('Narrative Generator Tests', () => {
             status: 'active',
             medicationCodeableConcept: { text: 'Aspirin' },
             subject: { reference: 'Patient/test-patient-01' }
+        },
+        {
+            resourceType: 'MedicationStatement',
+            id: 'med-02',
+            status: 'active',
+            medicationCodeableConcept: { text: 'Lisinopril' },
+            subject: { reference: 'Patient/test-patient-01' },
+            dosage: [
+                {
+                    text: '10mg daily',
+                    timing: {
+                        repeat: {
+                            frequency: 1,
+                            period: 1,
+                            periodUnit: 'd'
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            resourceType: 'MedicationStatement',
+            id: 'med-03',
+            status: 'completed',
+            medicationCodeableConcept: { text: 'Amoxicillin' },
+            subject: { reference: 'Patient/test-patient-01' },
+            dosage: [
+                {
+                    text: '500mg three times daily',
+                    timing: {
+                        repeat: {
+                            frequency: 3,
+                            period: 1,
+                            periodUnit: 'd'
+                        }
+                    }
+                }
+            ],
+            effectivePeriod: {
+                start: '2023-12-01',
+                end: '2023-12-10'
+            }
         }
     ];
     const mockConditions: TCondition[] = [
@@ -46,6 +120,25 @@ describe('Narrative Generator Tests', () => {
             verificationStatus: { coding: [{ code: 'confirmed' }] },
             code: { text: 'Hypertension' },
             subject: { reference: 'Patient/test-patient-01' }
+        },
+        {
+            resourceType: 'Condition',
+            id: 'condition-02',
+            clinicalStatus: { coding: [{ code: 'active' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Type 2 Diabetes Mellitus' },
+            subject: { reference: 'Patient/test-patient-01' },
+            onsetDateTime: '2020-03-15'
+        },
+        {
+            resourceType: 'Condition',
+            id: 'condition-03',
+            clinicalStatus: { coding: [{ code: 'resolved' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Pneumonia' },
+            subject: { reference: 'Patient/test-patient-01' },
+            onsetDateTime: '2022-11-01',
+            abatementDateTime: '2022-11-30'
         }
     ];
     const mockImmunizations: TImmunization[] = [
@@ -57,6 +150,29 @@ describe('Narrative Generator Tests', () => {
             patient: { reference: 'Patient/test-patient-01' },
             primarySource: true,
             occurrenceDateTime: '2024-01-01'
+        },
+        {
+            resourceType: 'Immunization',
+            id: 'imm-02',
+            status: 'completed',
+            vaccineCode: { text: 'Influenza Vaccine' },
+            patient: { reference: 'Patient/test-patient-01' },
+            primarySource: true,
+            occurrenceDateTime: '2023-10-15',
+            lotNumber: 'FLUVAX20231015'
+        },
+        {
+            resourceType: 'Immunization',
+            id: 'imm-03',
+            status: 'completed',
+            vaccineCode: { text: 'Tetanus Vaccine' },
+            patient: { reference: 'Patient/test-patient-01' },
+            primarySource: true,
+            occurrenceDateTime: '2020-05-22',
+            doseQuantity: {
+                value: 0.5,
+                unit: 'mL'
+            }
         }
     ];
     const mockLaboratoryResults: TObservation[] = [
@@ -69,6 +185,56 @@ describe('Narrative Generator Tests', () => {
             subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-01',
             valueQuantity: { value: 100, unit: 'mg/dL' }
+        },
+        {
+            resourceType: 'Observation',
+            id: 'lab-02',
+            status: 'final',
+            category: [{ coding: [{ code: 'laboratory' }] }],
+            code: { text: 'Hemoglobin A1c' },
+            subject: { reference: 'Patient/test-patient-01' },
+            effectiveDateTime: '2023-01-01',
+            valueQuantity: { value: 6.5, unit: '%' },
+            interpretation: [{
+                coding: [{
+                    system: 'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation',
+                    code: 'H',
+                    display: 'High'
+                }]
+            }]
+        },
+        {
+            resourceType: 'Observation',
+            id: 'lab-03',
+            status: 'final',
+            category: [{ coding: [{ code: 'laboratory' }] }],
+            code: { text: 'Cholesterol Panel' },
+            subject: { reference: 'Patient/test-patient-01' },
+            effectiveDateTime: '2023-01-01',
+            hasMember: [
+                { reference: 'Observation/ldl-01' },
+                { reference: 'Observation/hdl-01' },
+                { reference: 'Observation/triglycerides-01' }
+            ]
+        },
+        {
+            resourceType: 'Observation',
+            id: 'lab-04',
+            status: 'final',
+            category: [{ coding: [{ code: 'laboratory' }] }],
+            code: { text: 'CBC with Differential' },
+            subject: { reference: 'Patient/test-patient-01' },
+            effectiveDateTime: '2023-01-15',
+            component: [
+                {
+                    code: { text: 'WBC' },
+                    valueQuantity: { value: 7.5, unit: '10^9/L' }
+                },
+                {
+                    code: { text: 'RBC' },
+                    valueQuantity: { value: 4.9, unit: '10^12/L' }
+                }
+            ]
         }
     ];
 
@@ -77,6 +243,9 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         expect(result).toContain('Allergies and Intolerances');
         expect(result).toContain('Penicillin');
+        expect(result).toContain('Peanuts');
+        expect(result).toContain('Latex');
+        expect(result).toContain('Anaphylaxis');
     });
 
     it('should generate narrative content for medications using NarrativeGenerator', () => {
@@ -84,6 +253,9 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         expect(result).toContain('Medication');
         expect(result).toContain('Aspirin');
+        expect(result).toContain('Lisinopril');
+        expect(result).toContain('10mg daily');
+        expect(result).toContain('Amoxicillin');
     });
 
     it('should generate narrative content for problem list using NarrativeGenerator', () => {
@@ -91,6 +263,8 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         expect(result).toContain('Problems');
         expect(result).toContain('Hypertension');
+        expect(result).toContain('Type 2 Diabetes Mellitus');
+        expect(result).toContain('Pneumonia');
     });
 
     it('should generate narrative content for immunizations using NarrativeGenerator', () => {
@@ -98,6 +272,8 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         expect(result).toContain('Immunizations');
         expect(result).toContain('COVID-19 Vaccine');
+        expect(result).toContain('Influenza Vaccine');
+        expect(result).toContain('Tetanus Vaccine');
     });
 
     it('should generate narrative content for diagnostic results using NarrativeGenerator', () => {
@@ -105,5 +281,8 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         expect(result).toContain('Diagnostic Results');
         expect(result).toContain('Blood Glucose');
+        expect(result).toContain('Hemoglobin A1c');
+        expect(result).toContain('Cholesterol Panel');
+        expect(result).toContain('CBC with Differential');
     });
 });
