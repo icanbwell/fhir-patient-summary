@@ -22,6 +22,12 @@ async function beautifyHtml(html: string): Promise<string> {
     }
 }
 
+/**
+ * Reads a narrative file based on the provided folder, code value, and section title.
+ * @param folder - The folder where narrative files are stored
+ * @param codeValue - The LOINC code value to identify the narrative file
+ * @param sectionTitle - The title of the section to create a filename-friendly format
+ */
 function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | null {
     // Convert the section title to a filename-friendly format
     const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
@@ -36,6 +42,34 @@ function readNarrativeFile(folder: string, codeValue: string, sectionTitle: stri
     }
 }
 
+/**
+ * Compares generated HTML narratives with expected narratives.
+ * @param generatedHtml - The generated HTML narrative string
+ * @param expectedHtml - The expected HTML narrative string
+ */
+export async function compareNarratives(generatedHtml: string, expectedHtml: string) {
+    // Beautify both HTML strings for comparison
+    const generatedFormattedHtml = await beautifyHtml(generatedHtml);
+    const expectedFormattedHtml = await beautifyHtml(expectedHtml);
+
+    // Compare the formatted HTML strings
+    if (generatedFormattedHtml === expectedFormattedHtml) {
+        console.info('Narrative matches expected output.');
+    } else {
+        console.info('Narrative does not match expected output.');
+        console.info(`Generated:\n${generatedFormattedHtml}`);
+        console.info(`Expected:\n${expectedFormattedHtml}`);
+    }
+
+    expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);
+}
+
+/**
+ * Compares two FHIR bundles by checking their sections and narratives.
+ * @param folder - The folder where narrative files are stored
+ * @param bundle - The generated FHIR bundle to compare
+ * @param expectedBundle - The expected FHIR bundle to compare against
+ */
 export async function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundle) {
     // remove the date from the bundle for comparison
     bundle.timestamp = expectedBundle.timestamp;
@@ -76,22 +110,10 @@ export async function compare_bundles(folder: string, bundle: TBundle, expectedB
 
             console.info(`Using narrative from file for ${generatedSection.title}`);
 
-            if (!generatedDiv || !expectedDiv) {
-                console.warn(`Section ${i + 1} is missing div content.`);
-                continue; // Skip comparison if div is missing
-            }
-
-            // now clear out the div for comparison
-            if (generatedDiv && expectedDiv) {
-                const generatedFormattedHtml = await beautifyHtml(generatedDiv);
-                const expectedFormattedHtml = await beautifyHtml(expectedDiv);
-                if (generatedFormattedHtml === expectedFormattedHtml) {
-                    console.info(`Section ${i + 1} matches for ${generatedSection.title}`);
-                } else {
-                    console.info(`${generatedSection.title}\nGenerated:\n${generatedFormattedHtml}\nExpected:\n${expectedFormattedHtml}`);
-                }
-                expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);
-            }
+            await compareNarratives(
+                generatedDiv || '',
+                expectedDiv || ''
+            )
         }
     }
     // expect(bundle).toEqual(expectedBundle);
