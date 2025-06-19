@@ -16,6 +16,7 @@ import {TResourceContainer} from "../../../types/simpleTypes/ResourceContainer";
 import {TInstant} from "../../../types/simpleTypes/Instant";
 import {DateTime, DateTimeFormatOptions} from "luxon";
 import {TAnnotation} from "../../../types/partials/Annotation";
+import {TPeriod} from "../../../types/partials/Period";
 
 type ObservationValueType =
     | string
@@ -748,5 +749,44 @@ export class TemplateUtilities {
         }
 
         return '';
+    }
+
+    /**
+     * Renders a period of time in a human-readable format
+     * @param effectivePeriod - The effective period object containing start and end dates
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    renderPeriod(effectivePeriod: TPeriod, timezone: string | undefined) {
+        if (!effectivePeriod || !effectivePeriod.start || !effectivePeriod.end) {
+            return '';
+        }
+
+        // Format start and end dates using the renderTime method
+        const start = this.renderTime(effectivePeriod.start, timezone);
+        const end = this.renderTime(effectivePeriod.end, timezone);
+
+        // Return the formatted period string
+        return `${start} - ${end}`;
+    }
+
+    /**
+     * Renders a reference to a FHIR resource
+     * @param itemReference - The reference object containing the resource type and ID
+     */
+    renderReference(itemReference: TReference) {
+        // check if the type of reference is Condition, Observation
+        if (itemReference && itemReference.reference) {
+            const parts = itemReference.reference.split('/');
+            if (parts.length === 2) {
+                const resourceType = parts[0];
+                const resourceId = parts[1];
+
+                // Find the resource in the bundle
+                const resource = this.bundle.entry?.find(entry => entry.resource?.resourceType === resourceType && entry.resource?.id === resourceId);
+                if (resource) {
+                    return `${resourceType}/${resourceId}`;
+                }
+            }
+        }
     }
 }
