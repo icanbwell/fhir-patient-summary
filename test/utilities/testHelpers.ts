@@ -28,7 +28,7 @@ async function beautifyHtml(html: string): Promise<string> {
  * @param codeValue - The LOINC code value to identify the narrative file
  * @param sectionTitle - The title of the section to create a filename-friendly format
  */
-function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | null {
+export function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | null {
     // Convert the section title to a filename-friendly format
     const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
     const filename = `${codeValue}_${safeSectionTitle}.html`;
