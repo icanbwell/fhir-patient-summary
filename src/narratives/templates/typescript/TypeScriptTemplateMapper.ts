@@ -16,6 +16,7 @@ import { FunctionalStatusTemplate } from './FunctionalStatusTemplate';
 import { PregnancyTemplate } from './PregnancyTemplate';
 import { AdvanceDirectivesTemplate } from './AdvanceDirectivesTemplate';
 import { CompositionTemplate } from './CompositionTemplate';
+import { FamilyHistoryTemplate } from './FamilyHistoryTemplate';
 import { TBundle } from '../../../types/resources/Bundle';
 import { ITemplate } from './interfaces/ITemplate';
 
@@ -37,7 +38,7 @@ export class TypeScriptTemplateMapper {
     [IPSSections.LABORATORY_RESULTS]: new DiagnosticResultsTemplate(),
     [IPSSections.DIAGNOSTIC_REPORTS]: new DiagnosticResultsTemplate(),
     [IPSSections.PROCEDURES]: new HistoryOfProceduresTemplate(),
-    [IPSSections.FAMILY_HISTORY]: new PastHistoryOfIllnessTemplate(),
+    [IPSSections.FAMILY_HISTORY]: new FamilyHistoryTemplate(),
     [IPSSections.SOCIAL_HISTORY]: new SocialHistoryTemplate(),
     [IPSSections.PREGNANCY_HISTORY]: new PregnancyTemplate(),
     [IPSSections.FUNCTIONAL_STATUS]: new FunctionalStatusTemplate(),

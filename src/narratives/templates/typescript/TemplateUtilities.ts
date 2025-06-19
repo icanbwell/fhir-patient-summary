@@ -729,4 +729,24 @@ export class TemplateUtilities {
             return String(dateValue);
         }
     }
+
+    /**
+     * Renders the onset age in a human-readable format
+     * @param onsetAge - The onset age value, which can be a string, number, or an object with value and unit
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    renderOnset(onsetAge: TQuantity, timezone: string | undefined) {
+        if (!onsetAge) {
+            return '';
+        }
+
+        // Check if onsetAge is a valid object with value and unit
+        if (typeof onsetAge === 'object' && 'value' in onsetAge && 'unit' in onsetAge) {
+            // Format the value and unit
+            return `${onsetAge.value} ${onsetAge.unit}`;
+        }
+
+        return '';
+    }
 }
