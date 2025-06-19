@@ -1,14 +1,14 @@
-import {IPSResourceProfileRegistry} from "../src/profiles/ips_resource_profile_registry";
-import {IPSMandatorySections} from "../src/structures/ips_mandatory_sections";
-import {ComprehensiveIPSCompositionBuilder} from "../src/generators/fhir_summary_generator";
-import {NarrativeGenerator} from "../src/generators/narrative_generator";
-import {TPatient} from "../src/types/resources/Patient";
-import {TAllergyIntolerance} from "../src/types/resources/AllergyIntolerance";
-import {TMedicationStatement} from "../src/types/resources/MedicationStatement";
-import {TCondition} from "../src/types/resources/Condition";
-import {TImmunization} from "../src/types/resources/Immunization";
-import {TObservation} from "../src/types/resources/Observation";
-import {IPSSections} from "../src/structures/ips_sections";
+import {IPSResourceProfileRegistry} from "../../src/profiles/ips_resource_profile_registry";
+import {IPSMandatorySections} from "../../src/structures/ips_mandatory_sections";
+import {ComprehensiveIPSCompositionBuilder} from "../../src/generators/fhir_summary_generator";
+import {NarrativeGenerator} from "../../src/generators/narrative_generator";
+import {TPatient} from "../../src/types/resources/Patient";
+import {TAllergyIntolerance} from "../../src/types/resources/AllergyIntolerance";
+import {TMedicationStatement} from "../../src/types/resources/MedicationStatement";
+import {TCondition} from "../../src/types/resources/Condition";
+import {TImmunization} from "../../src/types/resources/Immunization";
+import {TObservation} from "../../src/types/resources/Observation";
+import {IPSSections} from "../../src/structures/ips_sections";
 
 describe('International Patient Summary (IPS) Implementation', () => {
     // Mock Resources for Testing

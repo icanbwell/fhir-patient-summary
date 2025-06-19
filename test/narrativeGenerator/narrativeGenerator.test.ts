@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as path from 'path';
-import {TPatient} from '../src/types/resources/Patient';
-import {TAllergyIntolerance} from '../src/types/resources/AllergyIntolerance';
-import {TMedicationStatement} from '../src/types/resources/MedicationStatement';
-import {TCondition} from '../src/types/resources/Condition';
-import {TImmunization} from '../src/types/resources/Immunization';
-import {TObservation} from '../src/types/resources/Observation';
-import { NarrativeGenerator } from '../src/generators/narrative_generator';
-import { IPSSections } from '../src/structures/ips_sections';
+import {TPatient} from '../../src/types/resources/Patient';
+import {TAllergyIntolerance} from '../../src/types/resources/AllergyIntolerance';
+import {TMedicationStatement} from '../../src/types/resources/MedicationStatement';
+import {TCondition} from '../../src/types/resources/Condition';
+import {TImmunization} from '../../src/types/resources/Immunization';
+import {TObservation} from '../../src/types/resources/Observation';
+import { NarrativeGenerator } from '../../src/generators/narrative_generator';
+import { IPSSections } from '../../src/structures/ips_sections';
 
 describe('Narrative Generator Tests', () => {
     // Mock Resources for Testing
