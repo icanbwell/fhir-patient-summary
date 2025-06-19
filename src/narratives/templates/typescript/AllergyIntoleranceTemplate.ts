@@ -1,8 +1,8 @@
 // AllergyIntoleranceTemplate.ts - TypeScript replacement for Jinja2 allergyintolerance.j2
-import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
-import { TAllergyIntolerance } from '../../../types/resources/AllergyIntolerance';
-import { ITemplate } from './interfaces/ITemplate';
+import {TemplateUtilities} from './TemplateUtilities';
+import {TBundle} from '../../../types/resources/Bundle';
+import {TAllergyIntolerance} from '../../../types/resources/AllergyIntolerance';
+import {ITemplate} from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for AllergyIntolerance resources
@@ -142,40 +142,16 @@ export class AllergyIntoleranceTemplate implements ITemplate {
 
     for (const allergy of allergies) {
       // Find the narrative link extension if it exists
-      let narrativeLinkId = '';
-      if (allergy.extension && Array.isArray(allergy.extension)) {
-        narrativeLinkId = templateUtilities.narrativeLinkId(allergy.extension);
-      }
-
       // Add a table row for this allergy with appropriate classes
       html += `
-        <tr id="${narrativeLinkId}">
+        <tr id="${(templateUtilities.narrativeLinkId(allergy.extension))}">
           <td class="Name"><span class="AllergenName">${templateUtilities.codeableConcept(allergy.code)}</span></td>
           <td class="Status">${templateUtilities.codeableConcept(allergy.clinicalStatus) || '-'}</td>
           <td class="Category">${templateUtilities.safeConcat(allergy.category, 'value') || '-'}</td>
           <td class="Reaction">${templateUtilities.concatReactionManifestation(allergy.reaction) || '-'}</td>
           <td class="Severity">${templateUtilities.safeConcat(allergy.reaction, 'severity') || '-'}</td>
           <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime, timezone) || '-'}</td>
-          <td class="Comments">`;
-
-      // Add notes to the Comments column
-      if (allergy.note && allergy.note.length > 0) {
-        html += `<ul>`;
-        for (const note of allergy.note) {
-          const noteDate = templateUtilities.renderTime(note.time, timezone) || 'Unknown Date';
-          html += `
-            <li class="Note">
-              <span class="NoteTitle">Comment (${noteDate}):</span><br />
-              <span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />
-              <span class="NoteText">${note.text || ''}<br /></span>
-            </li>`;
-        }
-        html += `</ul>`;
-      } else {
-        html += `-`;
-      }
-
-      html += `</td>`;
+          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>`;
 
       // Add resolved date column for resolved allergies
       if (includeResolved) {

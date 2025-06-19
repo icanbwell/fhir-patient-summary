@@ -641,16 +641,14 @@ export class TemplateUtilities {
             if (note.text) {
                 const noteType = note.authorString || 'Overview';
 
-                noteHtml += `<li class="Note">
-                    <span class="NoteTitle">${noteType} (${this.renderTime(note.time, timezone)}):</span><br />`;
+                noteHtml += `<li class="Note"><span class="NoteTitle">${noteType} (${this.renderTime(note.time, timezone)}):</span><br />`;
 
                 // Optional warning message about formatting
                 if (options.warning) {
                     noteHtml += `<span class="WarningMsg"><em>Formatting of this note might be different from the original.</em></span><br />`;
                 }
 
-                noteHtml += `<span class="NoteText">${note.text}<br /></span>
-                </li>`;
+                noteHtml += `<span class="NoteText">${note.text}<br /></span></li>`;
             }
         }
 
@@ -693,7 +691,7 @@ export class TemplateUtilities {
 
             // Set timezone if provided
             if (timezone && !dateOnly) {
-                dateTime = dateTime.setZone(timezone);
+                dateTime = dateTime.toUTC().setZone(timezone);
             }
 
             // Format options
