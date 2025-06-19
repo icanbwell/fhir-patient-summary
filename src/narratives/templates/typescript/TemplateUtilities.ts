@@ -643,7 +643,7 @@ export class TemplateUtilities {
             }
 
             // Set timezone if provided
-            if (timezone) {
+            if (timezone && !dateOnly) {
                 dateTime = dateTime.setZone(timezone);
             }
 

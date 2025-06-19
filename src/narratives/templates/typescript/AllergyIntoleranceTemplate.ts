@@ -85,9 +85,6 @@ export class AllergyIntoleranceTemplate implements ITemplate {
         </table>
       </div>`;
 
-    // Add spacing between tables
-    html += `<br />`;
-
     // Resolved Allergies section
     html += `
       <div class="ResolvedAllergies">
@@ -147,10 +144,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
       // Find the narrative link extension if it exists
       let narrativeLinkId = '';
       if (allergy.extension && Array.isArray(allergy.extension)) {
-        const extension = allergy.extension.find(ext =>
-          ext.url === 'http://hl7.org/fhir/StructureDefinition/narrativeLink'
-        );
-        narrativeLinkId = templateUtilities.narrativeLinkId(extension);
+        narrativeLinkId = templateUtilities.narrativeLinkId(allergy.extension);
       }
 
       // Add a table row for this allergy with appropriate classes

@@ -15,9 +15,6 @@ import {html as beautify} from 'js-beautify';
 async function beautifyHtml(html: string): Promise<string> {
     try {
         return beautify(html, {
-            indent_size: 2,
-            indent_with_tabs: false,
-            wrap_line_length: 80,
             preserve_newlines: true
         });
     } catch (error) {
