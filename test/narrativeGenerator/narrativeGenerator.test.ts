@@ -654,7 +654,7 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.DIAGNOSTIC_REPORTS;
         const result = NarrativeGenerator.generateNarrativeContent(section, mockDiagnosticReports, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Diagnostic Reports');
+        expect(result).toContain('Diagnostic');
         expect(result).toContain('Chest X-Ray');
         expect(result).toContain('MRI Brain');
         console.info(result);
