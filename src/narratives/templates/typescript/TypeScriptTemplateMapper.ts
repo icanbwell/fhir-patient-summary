@@ -8,7 +8,6 @@ import { ProblemListTemplate } from './ProblemListTemplate';
 import { VitalSignsTemplate } from './VitalSignsTemplate';
 import { MedicalDevicesTemplate } from './MedicalDevicesTemplate';
 import { DiagnosticResultsTemplate } from './DiagnosticResultsTemplate';
-import { LaboratoryResultsTemplate } from './LaboratoryResultsTemplate';
 import { HistoryOfProceduresTemplate } from './HistoryOfProceduresTemplate';
 import { SocialHistoryTemplate } from './SocialHistoryTemplate';
 import { PastHistoryOfIllnessTemplate } from './PastHistoryOfIllnessTemplate';
@@ -36,7 +35,6 @@ export class TypeScriptTemplateMapper {
     [IPSSections.PROBLEMS]: new ProblemListTemplate(),
     [IPSSections.VITAL_SIGNS]: new VitalSignsTemplate(),
     [IPSSections.MEDICAL_DEVICES]: new MedicalDevicesTemplate(),
-    [IPSSections.LABORATORY_RESULTS]: new LaboratoryResultsTemplate(),
     [IPSSections.DIAGNOSTIC_REPORTS]: new DiagnosticResultsTemplate(),
     [IPSSections.PROCEDURES]: new HistoryOfProceduresTemplate(),
     [IPSSections.FAMILY_HISTORY]: new FamilyHistoryTemplate(),

@@ -12,7 +12,6 @@ export enum IPSSections {
     MEDICAL_DEVICES = 'MedicalDeviceSection',
 
     // Additional Recommended Sections
-    LABORATORY_RESULTS = 'LaboratoryResultsSection',
     DIAGNOSTIC_REPORTS = 'DiagnosticReportSection',
     PROCEDURES = 'ProcedureSection',
     FAMILY_HISTORY = 'FamilyHistorySection',

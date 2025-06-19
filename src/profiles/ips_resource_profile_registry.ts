@@ -90,7 +90,7 @@ export class IPSResourceProfileRegistry {
 
     // Additional Recommended Sections
     static readonly RECOMMENDED_PROFILES: Record<string, IPSResourceProfile> = {
-        [IPSRecommendedSections.LABORATORY_RESULTS]: {
+        [IPSRecommendedSections.DIAGNOSTIC_REPORTS]: {
             resourceType: 'Observation',
             mandatoryFields: [
                 'status',

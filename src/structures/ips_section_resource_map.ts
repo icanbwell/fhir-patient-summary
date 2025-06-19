@@ -9,8 +9,7 @@ export const IPSSectionResourceMap: Record<IPSSections, string[]> = {
     [IPSSections.IMMUNIZATIONS]: ['Immunization'],
     [IPSSections.VITAL_SIGNS]: ['Observation'],
     [IPSSections.MEDICAL_DEVICES]: ['Device'],
-    [IPSSections.LABORATORY_RESULTS]: ['Observation'],
-    [IPSSections.DIAGNOSTIC_REPORTS]: ['DiagnosticReport'],
+    [IPSSections.DIAGNOSTIC_REPORTS]: ['DiagnosticReport', 'Observation'], // Diagnostic reports can include Observations
     [IPSSections.PROCEDURES]: ['Procedure'],
     [IPSSections.FAMILY_HISTORY]: ['FamilyMemberHistory'],
     [IPSSections.SOCIAL_HISTORY]: ['Observation'], // Social history is often Observation
@@ -40,10 +39,8 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => c.code === 'vital-signs')),
     // Only include active devices
     [IPSSections.MEDICAL_DEVICES]: (resource) => resource.resourceType === 'Device' && resource.status === 'active',
-    // Only include lab Observations (category.coding contains 'laboratory')
-    [IPSSections.LABORATORY_RESULTS]: (resource) => resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => c.code === 'laboratory')),
     // Only include finalized diagnostic reports
-    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'DiagnosticReport' && resource.status === 'final',
+    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => ["DiagnosticReport", "Observation"].includes(resource.resourceType) && resource.status === 'final',
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
     // Only include family history resources

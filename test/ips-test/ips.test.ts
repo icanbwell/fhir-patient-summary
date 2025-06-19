@@ -373,7 +373,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
                     .addSection(IPSSections.MEDICATIONS, mockMedications, 'America/New_York')
                     .addSection(IPSSections.PROBLEMS, mockConditions, 'America/New_York')
                     .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York')
-                    .addSection(IPSSections.LABORATORY_RESULTS, mockLaboratoryResults, 'America/New_York')
+                    .addSection(IPSSections.DIAGNOSTIC_REPORTS, mockLaboratoryResults, 'America/New_York')
                     .build('America/New_York');
             };
 

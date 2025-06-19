@@ -590,28 +590,6 @@ describe('Narrative Generator Tests', () => {
         );
     });
 
-    it('should generate narrative content for diagnostic results using NarrativeGenerator', async () => {
-        const section = IPSSections.LABORATORY_RESULTS;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockLaboratoryResults, 'America/New_York');
-        expect(result).toBeDefined();
-        expect(result).toContain('Diagnostic Results');
-        expect(result).toContain('Blood Glucose');
-        expect(result).toContain('Hemoglobin A1c');
-        expect(result).toContain('Cholesterol Panel');
-        expect(result).toContain('CBC with Differential');
-        console.info(result);
-        // Read narrative from file
-        const expectedDiv = readNarrativeFile(
-            path.join(__dirname, 'fixtures'),
-            IPS_SECTION_LOINC_CODES[section],
-            IPS_SECTION_DISPLAY_NAMES[section]
-        );
-        await compareNarratives(
-            result,
-            expectedDiv
-        );
-    });
-
     it('should generate narrative content for vital signs using NarrativeGenerator', async () => {
         const section = IPSSections.VITAL_SIGNS;
         const result = NarrativeGenerator.generateNarrativeContent(section, mockVitalSigns, 'America/New_York');
@@ -652,7 +630,8 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for diagnostic reports using NarrativeGenerator', async () => {
         const section = IPSSections.DIAGNOSTIC_REPORTS;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockDiagnosticReports, 'America/New_York');
+        const mockDiagnosticReportsAndLaboratoryResults = [...mockDiagnosticReports, ...mockLaboratoryResults];
+        const result = NarrativeGenerator.generateNarrativeContent(section, mockDiagnosticReportsAndLaboratoryResults, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Diagnostic');
         expect(result).toContain('Chest X-Ray');
