@@ -2,13 +2,21 @@
   "name": "@imranq2/fhirpatientsummary",
   "version": "x.x.x",
   "description": "A template for creating npm packages using TypeScript and VSCode",
-  "main": "./lib/index.js",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "exports": {
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js"
+  },
+  "types": "./lib/cjs/index.d.ts",
   "files": [
     "lib/**/*"
   ],
   "type": "module",
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build": "npm run build:cjs && npm run build:esm",
     "clean": "rm -rf ./lib/",
     "cm": "cz",
     "lint": "eslint ./src/ --ext .ts --fix",
