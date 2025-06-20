@@ -337,7 +337,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
     // Composition Builder Tests
     describe('IPS Composition Builder', () => {
         test('Should create composition with all mandatory sections', () => {
-            const ipsBuilder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const ipsBuilder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const buildIPS = () => {
                 const timezone = 'America/New_York';
@@ -354,7 +354,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
         });
 
         test('Should throw error if mandatory sections are missing', () => {
-            const ipsBuilder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const ipsBuilder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const buildInvalidIPS = () => {
                 ipsBuilder.build('America/New_York');
@@ -364,7 +364,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
         });
 
         test('Should support optional sections', () => {
-            const ipsBuilder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const ipsBuilder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const buildFullIPS = () => {
                 ipsBuilder
@@ -429,7 +429,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
                 })
             );
 
-            const ipsBuilder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const ipsBuilder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const buildLargeIPS = () => {
                 ipsBuilder
