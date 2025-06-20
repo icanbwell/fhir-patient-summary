@@ -12,35 +12,21 @@ import {NarrativeGenerator} from "./narrative_generator";
 
 
 export class ComprehensiveIPSCompositionBuilder {
-    private readonly patient: TPatient;
+    private patient: TPatient | undefined;
     private sections: TCompositionSection[] = [];
     private mandatorySectionsAdded: Set<IPSSections> = new Set();
     private resources: Set<TDomainResource> = new Set();
 
-    constructor(patient: TPatient) {
+    /**
+     * sets the patient resource for the IPS Composition.
+     * This is not needed if you are calling read_bundle, but can be used to set the patient resource directly.
+     * @param patient - FHIR Patient resource to set
+     */
+    setPatient(patient: TPatient): this {
+        if (!patient || patient.resourceType !== 'Patient') {
+            throw new Error('Invalid Patient resource');
+        }
         this.patient = patient;
-
-        // Add patient section by default
-        this.addPatientSection();
-    }
-
-    // Add patient section with standard LOINC code
-    private addPatientSection(): this {
-        // this.sections.push({
-        //     title: 'Patient Demographics',
-        //     code: {
-        //         coding: [{
-        //             system: 'http://loinc.org',
-        //             code: IPS_SECTION_LOINC_CODES[IPSSections.PATIENT],
-        //             display: 'Patient Demographics'
-        //         }]
-        //     },
-        //     entry: [{
-        //         reference: `Patient/${this.patient.id}`,
-        //         display: 'Patient Details'
-        //     }]
-        // });
-        // this.mandatorySectionsAdded.add(IPSSections.PATIENT);
         return this;
     }
 
@@ -110,6 +96,13 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!bundle.entry) {
             return this;
         }
+        // find the patient resource in the bundle
+        const patientEntry = bundle.entry.find(e => e.resource?.resourceType === 'Patient');
+        if (!patientEntry || !patientEntry.resource) {
+            throw new Error('Patient resource not found in the bundle');
+        }
+        this.patient = patientEntry.resource as TPatient;
+
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
             const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
@@ -164,6 +157,9 @@ export class ComprehensiveIPSCompositionBuilder {
     build_bundle(authorOrganizationId: string, authorOrganizationName: string, baseUrl: string,timezone: string | undefined): TBundle {
         if (baseUrl.endsWith('/')) {
             baseUrl = baseUrl.slice(0, -1); // Remove trailing slash if present
+        }
+        if (!this.patient) {
+            throw new Error('Patient resource must be set before building the bundle');
         }
         // Create the Composition resource
         const composition: TComposition = {
@@ -250,7 +246,7 @@ export class ComprehensiveIPSCompositionBuilder {
         // generate narrative for the patient
         const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
             IPSSections.PATIENT,
-            [patient],
+            [patient as TDomainResource],
             timezone
         );
         fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');

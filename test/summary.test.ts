@@ -329,7 +329,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
     describe('constructor', () => {
         it('should create an instance with a valid patient', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
             expect(builder).toBeTruthy();
         });
 
@@ -337,14 +337,14 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             // mockValidateResource.mockReturnValueOnce(false);
 
             // expect(() => {
-            //     new ComprehensiveIPSCompositionBuilder(mockPatient);
+            //     new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
             // }).toThrow('Patient resource does not meet IPS requirements');
         });
     });
 
     describe('addSection', () => {
         it('should add a section with valid resources', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
 
@@ -352,7 +352,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         });
 
         it('should filter out invalid resources', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             // Should throw error when trying to build with no valid sections
             expect(() => {
@@ -364,7 +364,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
     describe('build', () => {
         const timezone = 'America/New_York';
         it('should build a composition with all mandatory sections', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             builder
                 .addSection(IPSSections.ALLERGIES, mockAllergies, timezone)
@@ -387,7 +387,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         });
 
         it('should throw an error if mandatory sections are missing', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             // Not adding all mandatory sections
             builder.addSection(IPSSections.ALLERGIES, mockAllergies, timezone);
@@ -400,7 +400,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
     describe('integration', () => {
         it('should create a complete IPS composition', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const timezone = 'America/New_York';
             builder
@@ -431,7 +431,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
     });
     describe('integration_bundle', () => {
         it('should create a complete IPS composition bundle', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             builder
                 .addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York')

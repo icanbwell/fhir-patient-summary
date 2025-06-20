@@ -16,7 +16,7 @@ describe('FHIR Patient Summary Generation', () => {
         const mockPatient = resources.find((r: any) => r.resourceType === 'Patient');
 
         // Generate the summary
-        const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+        const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
         const timezone = 'America/New_York';
         builder.read_bundle(inputBundle, timezone);
 
@@ -52,7 +52,7 @@ describe('FHIR Patient Summary Generation', () => {
         const mockPatient = resources.find((r: any) => r.resourceType === 'Patient');
 
         // Generate the summary
-        const builder = new ComprehensiveIPSCompositionBuilder(mockPatient);
+        const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
         const timezone = 'America/New_York';
         builder.read_bundle(inputBundle, timezone);
 
