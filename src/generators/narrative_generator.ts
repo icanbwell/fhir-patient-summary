@@ -1,68 +1,90 @@
-import {TDomainResource} from "../types/resources/DomainResource";
-import {TObservation} from "../types/resources/Observation";
-import {TCodeableConcept} from "../types/partials/CodeableConcept";
-import {BaseNarrativeGenerator} from "../narratives/baseNarrative";
-import {PatientNarrativeGenerator} from "../narratives/patient";
-import {AllergyIntoleranceNarrativeGenerator} from "../narratives/allergyIntolerance";
-import {MedicationStatementNarrativeGenerator} from "../narratives/medicationStatement";
-import {ConditionNarrativeGenerator} from "../narratives/condition";
-import {ImmunizationNarrativeGenerator} from "../narratives/immunization";
-import {ObservationNarrativeGenerator} from "../narratives/observation";
-import {DeviceNarrativeGenerator} from "../narratives/device";
-import {DiagnosticReportNarrativeGenerator} from "../narratives/diagnosticReport";
-import {ProcedureNarrativeGenerator} from "../narratives/procedure";
-import {FamilyMemberHistoryNarrativeGenerator} from "../narratives/familyMemberHistory";
-import {CarePlanNarrativeGenerator} from "../narratives/carePlan";
-import {ClinicalImpressionNarrativeGenerator} from "../narratives/clinicalImpression";
-import {DefaultNarrativeGenerator} from "../narratives/default";
+// TypeScriptNarrativeGenerator.ts - TypeScript replacement for narrative_generator.ts using TypeScript templates
 
-interface Narrative {
+import {TDomainResource} from "../types/resources/DomainResource";
+import {IPSSections} from "../structures/ips_sections";
+import {TypeScriptTemplateMapper} from "../narratives/templates/typescript/TypeScriptTemplateMapper";
+import {TBundle} from "../types/resources/Bundle";
+
+export interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
     div: string; // XHTML div content
 }
 
-class NarrativeGenerator {
+/**
+ * Generates narrative content for FHIR resources using TypeScript templates
+ * Replaces the Nunjucks-based narrative generator
+ */
+export class NarrativeGenerator {
     /**
-     * Generate a narrative for any FHIR resource
-     * @param resources - FHIR resources
-     * @returns Narrative representation
+     * Generates narrative HTML content for a section
+     * @param section - IPS section type
+     * @param resources - Array of domain resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns Generated HTML content or undefined if no resources
      */
-    static generateNarrative<T extends TDomainResource>(
-        resources: T[]
-    ): Narrative | undefined {
-
+    static generateNarrativeContent<T extends TDomainResource>(
+        section: IPSSections,
+        resources: T[],
+        timezone: string | undefined
+    ): string | undefined {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
         }
 
-        // HAPI example templates: https://github.com/hapifhir/hapi-fhir/tree/master/hapi-fhir-jpaserver-ips/src/main/resources/ca/uhn/fhir/jpa/ips/narrative
-        // Expanded resource type generators
-        const generators: Record<string, BaseNarrativeGenerator<TDomainResource>> = {
-            Patient: new PatientNarrativeGenerator(),
-            AllergyIntolerance: new AllergyIntoleranceNarrativeGenerator(),
-            MedicationStatement: new MedicationStatementNarrativeGenerator(),
-            Condition: new ConditionNarrativeGenerator(),
-            Immunization: new ImmunizationNarrativeGenerator(),
-            Observation: new ObservationNarrativeGenerator(),
-            Device: new DeviceNarrativeGenerator(),
-            DiagnosticReport: new DiagnosticReportNarrativeGenerator(),
-            Procedure: new ProcedureNarrativeGenerator(),
-            FamilyMemberHistory: new FamilyMemberHistoryNarrativeGenerator(),
-            CarePlan: new CarePlanNarrativeGenerator(),
-            ClinicalImpression: new ClinicalImpressionNarrativeGenerator(),
-        };
+        try {
+            // Create a bundle-like structure for the template
+            const bundle: TBundle = {
+                resourceType: 'Bundle',
+                type: 'collection',
+                entry: resources.map(resource => ({
+                    resource
+                }))
+            };
 
-        const resourceType = resources[0]?.resourceType;
+            // Use the TypeScript template mapper to generate HTML
+            return TypeScriptTemplateMapper.generateNarrative(section, bundle, timezone);
+        } catch (error) {
+            console.error(`Error generating narrative for section ${section}:`, error);
+            return `<div class="error">Error generating narrative: ${error instanceof Error ? error.message : String(error)}</div>`;
+        }
+    }
 
-        // Select generator or use default
-        const generator = generators[`${resourceType}`] ||
-            new DefaultNarrativeGenerator();
-
-        const content = generator.generateNarrative(resources).replace(/\n/g, '');
+    /**
+     * Creates a complete FHIR Narrative object
+     * @param content - HTML content
+     * @returns FHIR Narrative object
+     */
+    static createNarrative(content: string): Narrative {
+        // remove extra whitespace and newlines
+        content = content.replace(/\s+/g, ' ').trim();
+                // Strip outer <div> wrappers if present
+        const divMatch = content.match(/^<div[^>]*>(.*?)<\/div>$/);
+        if (divMatch) {
+            content = divMatch[1]; // Extract inner content
+        }
         return {
             status: 'generated',
-            div: NarrativeGenerator.wrapInXhtml(content)
+            div: `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`
         };
+    }
+
+    /**
+     * Generates a complete FHIR Narrative object for a section
+     * @param section - IPS section type
+     * @param resources - Array of domain resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns FHIR Narrative object or undefined if no resources
+     */
+    static generateNarrative<T extends TDomainResource>(
+        section: IPSSections,
+        resources: T[],
+        timezone: string | undefined
+    ): Narrative | undefined {
+        const content = this.generateNarrativeContent(section, resources, timezone);
+        if (!content) {
+            return undefined;
+        }
+        return this.createNarrative(content);
     }
 
     /**
@@ -70,84 +92,7 @@ class NarrativeGenerator {
      * @param content - HTML content to wrap
      * @returns XHTML div string
      */
-    private static wrapInXhtml(content: string): string {
+    static wrapInXhtml(content: string): string {
         return `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`;
     }
-
-
-    /**
-     * Format identifiers
-     * @param identifiers - Array of identifiers
-     * @returns Formatted identifier string
-     */
-    private static formatIdentifiers(
-        identifiers?: Array<{
-            system?: string;
-            value?: string;
-        }>
-    ): string {
-        if (!identifiers || identifiers.length === 0) return '';
-
-        return identifiers
-            .map(id => `${id.system || 'Unknown'}: ${id.value || 'N/A'}`)
-            .join(', ');
-    }
-
-    /**
-     * Format CodeableConcept
-     * @param concept - CodeableConcept
-     * @returns Formatted concept string
-     */
-    private static formatCodeableConcept(
-        concept?: TCodeableConcept
-    ): string {
-        if (!concept) return 'Not specified';
-
-        return concept.text ||
-            concept.coding?.[0]?.display ||
-            concept.coding?.[0]?.code ||
-            'Unknown';
-    }
-
-    /**
-     * Format observation value
-     * @param observation - Observation resource
-     * @returns Formatted value string
-     */
-    private static formatObservationValue(
-        observation: TObservation
-    ): string {
-        if (observation.valueQuantity) {
-            const {value, unit} = observation.valueQuantity;
-            return value ? `${value} ${unit || ''}`.trim() : 'No value';
-        }
-
-        return 'Not specified';
-    }
-
-    /**
-     * Format allergy reactions
-     * @param reactions - Allergy reactions
-     * @returns Formatted reactions string
-     */
-    private static formatReactions(
-        reactions?: Array<{
-            manifestation?: TCodeableConcept[];
-            severity?: string;
-        }>
-    ): string {
-        if (!reactions || reactions.length === 0) return '';
-
-        return reactions
-            .map(reaction => {
-                const manifestations = reaction.manifestation
-                    ?.map(m => NarrativeGenerator.formatCodeableConcept(m))
-                    .join(', ') || 'Unknown';
-
-                return `${manifestations} (${reaction.severity || 'Unknown Severity'})`;
-            })
-            .join('; ');
-    }
 }
-
-export {NarrativeGenerator, Narrative};

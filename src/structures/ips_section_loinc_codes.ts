@@ -12,7 +12,6 @@ const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
     [IPSSections.IMMUNIZATIONS]: '11369-6',
     [IPSSections.VITAL_SIGNS]: '8716-3',
     [IPSSections.MEDICAL_DEVICES]: '46264-8',
-    [IPSSections.LABORATORY_RESULTS]: '30954-2',
     [IPSSections.DIAGNOSTIC_REPORTS]: '30954-2',
     [IPSSections.PROCEDURES]: '47519-4',
     [IPSSections.FAMILY_HISTORY]: '10157-6',
@@ -21,7 +20,8 @@ const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
     [IPSSections.FUNCTIONAL_STATUS]: '47420-5',
     [IPSSections.MEDICAL_HISTORY]: '11348-0',
     [IPSSections.CARE_PLAN]: '18776-5',
-    [IPSSections.CLINICAL_IMPRESSION]: '51848-0'
+    [IPSSections.CLINICAL_IMPRESSION]: '51848-0',
+    [IPSSections.ADVANCE_DIRECTIVES]: '42348-3'
 };
 
 const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
@@ -32,7 +32,6 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
     [IPSSections.IMMUNIZATIONS]: 'History of Immunization Narrative',
     [IPSSections.VITAL_SIGNS]: 'Vital signs',
     [IPSSections.MEDICAL_DEVICES]: 'History of medical device use',
-    [IPSSections.LABORATORY_RESULTS]: 'Relevant diagnostic tests/laboratory data Narrative',
     [IPSSections.DIAGNOSTIC_REPORTS]: 'Relevant diagnostic tests/laboratory data Narrative',
     [IPSSections.PROCEDURES]: 'History of Procedures Document',
     [IPSSections.FAMILY_HISTORY]: 'History of family member diseases Narrative',
@@ -41,7 +40,8 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
     [IPSSections.FUNCTIONAL_STATUS]: 'Functional status assessment note',
     [IPSSections.MEDICAL_HISTORY]: 'History of Past illness NarrativeHistory and physical note Document',
     [IPSSections.CARE_PLAN]: 'Plan of care note',
-    [IPSSections.CLINICAL_IMPRESSION]: 'Evaluation note'
+    [IPSSections.CLINICAL_IMPRESSION]: 'Evaluation note',
+    [IPSSections.ADVANCE_DIRECTIVES]: 'Advance directives Document'
 };
 
 export {IPS_SECTION_LOINC_CODES, IPS_SECTION_DISPLAY_NAMES};

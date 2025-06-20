@@ -6,6 +6,6 @@ export enum IPSRecommendedSections {
     PREGNANCY_STATUS = 'PregnancyStatus',
     FUNCTIONAL_STATUS = 'FunctionalStatus',
     ADVANCED_DIRECTIVES = 'Consent',
-    LABORATORY_RESULTS = IPSSections.LABORATORY_RESULTS,
+    DIAGNOSTIC_REPORTS = IPSSections.DIAGNOSTIC_REPORTS,
     VITAL_SIGNS =IPSSections.VITAL_SIGNS
 }

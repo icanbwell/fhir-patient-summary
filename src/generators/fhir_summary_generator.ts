@@ -1,14 +1,14 @@
 // Comprehensive IPS Resource Mapping
-import {IPSResourceProfileRegistry} from "../profiles/ips_resource_profile_registry";
 import {TPatient} from "../types/resources/Patient";
 import {TCompositionSection} from "../types/partials/CompositionSection";
 import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
 import {TBundle} from "../types/resources/Bundle";
-import {NarrativeGenerator} from "./narrative_generator";
 import {TComposition} from "../types/resources/Composition";
 import {TNarrative} from "../types/partials/Narrative";
+import {IPSSectionResourceHelper} from "../structures/ips_section_resource_map";
+import {NarrativeGenerator} from "./narrative_generator";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -18,13 +18,6 @@ export class ComprehensiveIPSCompositionBuilder {
     private resources: Set<TDomainResource> = new Set();
 
     constructor(patient: TPatient) {
-        // Validate patient resource
-        if (!IPSResourceProfileRegistry.validateResource(
-            patient,
-            IPSSections.PATIENT
-        )) {
-            throw new Error('Patient resource does not meet IPS requirements');
-        }
         this.patient = patient;
 
         // Add patient section by default
@@ -55,15 +48,14 @@ export class ComprehensiveIPSCompositionBuilder {
     addSection<T extends TDomainResource>(
         sectionType: IPSSections,
         resources: T[],
+        timezone: string | undefined,
         options?: {
             isOptional?: boolean;
             customLoincCode?: string;
         }
     ): this {
         // Validate resources
-        const validResources = resources.filter(resource =>
-            IPSResourceProfileRegistry.validateResource(resource, sectionType)
-        );
+        const validResources = resources;
 
         for (const resource of validResources) {
             // Add resource to the internal set
@@ -78,36 +70,69 @@ export class ComprehensiveIPSCompositionBuilder {
             return this;
         }
 
-        // Create section entry
-        const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(validResources);
-        const sectionEntry: TCompositionSection = {
-            title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
-            code: {
-                coding: [{
-                    system: 'http://loinc.org',
-                    code: options?.customLoincCode || IPS_SECTION_LOINC_CODES[sectionType],
-                    display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
-                }],
-                text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
-            },
-            text: narrative,
-            entry: validResources.map(resource => ({
-                reference: `${resource.resourceType}/${resource.id}`,
-                display: resource.resourceType
-            }))
-        };
+        // Patient resource does not get a section, it is handled separately
+        if (sectionType !== IPSSections.PATIENT) {
+            // Create section entry
+            const narrative: TNarrative | undefined = NarrativeGenerator.generateNarrative(sectionType, validResources, timezone);
+            const sectionEntry: TCompositionSection = {
+                title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
+                code: {
+                    coding: [{
+                        system: 'http://loinc.org',
+                        code: options?.customLoincCode || IPS_SECTION_LOINC_CODES[sectionType],
+                        display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+                    }],
+                    text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+                },
+                text: narrative,
+                entry: validResources.map(resource => ({
+                    reference: `${resource.resourceType}/${resource.id}`,
+                    display: resource.resourceType
+                }))
+            };
 
-        // Track mandatory sections
-        if (!options?.isOptional) {
-            this.mandatorySectionsAdded.add(sectionType);
+            // Track mandatory sections
+            if (!options?.isOptional) {
+                this.mandatorySectionsAdded.add(sectionType);
+            }
+
+            this.sections.push(sectionEntry);
         }
-
-        this.sections.push(sectionEntry);
         return this;
     }
 
-    // Comprehensive build method with validation
-    build(): TCompositionSection[] {
+    /**
+     * Reads a FHIR Bundle and extracts resources for each section defined in IPSSections.
+     * @param bundle - FHIR Bundle containing resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    read_bundle(bundle: TBundle, timezone: string | undefined): this {
+        if (!bundle.entry) {
+            return this;
+        }
+        // find resources for each section in IPSSections and add the section
+        for (const sectionType of Object.values(IPSSections)) {
+            const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
+            const customFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
+            let resources = bundle.entry
+                .map(e => e.resource)
+                .filter(r => typeof r?.resourceType === 'string' && resourceTypesForSection.includes(r.resourceType as string));
+            if (customFilter) {
+                resources = resources.filter(customFilter);
+            }
+            if (resources.length > 0) {
+                this.addSection(sectionType, resources as TDomainResource[], timezone, {isOptional: true});
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Builds the final Composition sections, ensuring all mandatory sections are present.
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    build(timezone: string | undefined): TCompositionSection[] {
         // Ensure all mandatory sections are present
         const mandatorySections = [
             IPSSections.ALLERGIES,
@@ -129,7 +154,14 @@ export class ComprehensiveIPSCompositionBuilder {
         return this.sections;
     }
 
-    build_bundle(authorOrganizationId: string, authorOrganizationName: string, baseUrl: string): TBundle {
+    /**
+     * Builds a complete FHIR Bundle containing the Composition and all resources.
+     * @param authorOrganizationId - ID of the authoring organization (e.g., hospital or clinic)
+     * @param authorOrganizationName - Name of the authoring organization
+     * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     */
+    build_bundle(authorOrganizationId: string, authorOrganizationName: string, baseUrl: string,timezone: string | undefined): TBundle {
         if (baseUrl.endsWith('/')) {
             baseUrl = baseUrl.slice(0, -1); // Remove trailing slash if present
         }
@@ -154,7 +186,8 @@ export class ComprehensiveIPSCompositionBuilder {
             }],
             date: new Date().toISOString(),
             title: 'International Patient Summary',
-            section: this.sections
+            section: this.sections,
+            text: this.createCompositionNarrative(timezone)
         };
 
         // Create the bundle with proper document type
@@ -183,12 +216,14 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // Extract and add all resources referenced in sections
         this.resources.forEach(resource => {
-            bundle.entry?.push(
-                {
-                    fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
-                    resource: resource
-                }
-            )
+            if (resource.resourceType !== "Patient") {
+                bundle.entry?.push(
+                    {
+                        fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
+                        resource: resource
+                    }
+                );
+            }
         });
 
         // add a bundle entry for Organization
@@ -202,5 +237,40 @@ export class ComprehensiveIPSCompositionBuilder {
         });
 
         return bundle;
+    }
+
+    /**
+     * Creates a narrative for the composition based on the patient and sections.
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @private
+     */
+    private createCompositionNarrative(timezone: string | undefined): TNarrative {
+        const patient = this.patient;
+        let fullNarrativeContent: string = "";
+        // generate narrative for the patient
+        const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
+            IPSSections.PATIENT,
+            [patient],
+            timezone
+        );
+        fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');
+
+        // now generate narrative for the sections and add to this narrative
+        for (const sectionType of Object.values(IPSSections)) {
+            const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
+            const allResources = Array.from(this.resources);
+            const resources = allResources
+                .filter(r => resourceTypesForSection.includes(r.resourceType as string));
+
+            if (resources.length > 0) {
+                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(sectionType, resources, timezone);
+                fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
+            }
+        }
+
+        return {
+            status: 'generated',
+            div: NarrativeGenerator.wrapInXhtml(fullNarrativeContent)
+        }
     }
 }
