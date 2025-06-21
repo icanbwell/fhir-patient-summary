@@ -3,9 +3,9 @@
   "version": "x.x.x",
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/src/index.js",
+  "module": "./lib/esm/index.js",
   "exports": {
-    "import": "./lib/esm/src/index.js",
+    "import": "./lib/esm/index.js",
     "require": "./lib/cjs/index.js"
   },
   "types": "./lib/cjs/index.d.ts",
