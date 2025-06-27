@@ -1,7 +1,7 @@
 // This script checks if the ESM build can be imported successfully.
 // It should be run after the build step.
 
-import('../../dist/index.mjs')
+import('../../dist/index.js')
   .then((pkg) => {
     if (!pkg || typeof pkg !== 'object') {
       throw new Error('ESM import did not return an object');

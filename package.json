@@ -12,11 +12,12 @@
       "import": "./dist/index.mjs"
     }
   },
+  "type": "module",
   "files": [
     "dist/**/*"
   ],
   "scripts": {
-    "build": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts && npm run check:cjs-import && npm run check:esm-import",
+    "build": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts && npm run check:cjs-import && npm run check:esm-import && npm run check:ts-import",
     "build:watch": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts --watch",
     "clean": "npm run clean:all",
     "clean:all": "npm run clean:dist && npm run clean:coverage && npm run clean:deps",
@@ -33,8 +34,9 @@
     "test:watch": "jest --watch",
     "test": "jest --coverage",
     "typecheck": "tsc --noEmit",
-    "check:cjs-import": "node test/build/cjs-import-check.js",
-    "check:esm-import": "node --experimental-vm-modules test/build/esm-import-check.mjs"
+    "check:cjs-import": "node test/build/cjs-import-check.cjs",
+    "check:esm-import": "node --experimental-vm-modules test/build/esm-import-check.mjs",
+    "check:ts-import": "ts-node --project tsconfig.json test/build/ts-import-check.ts"
   },
   "repository": {
     "type": "git",
