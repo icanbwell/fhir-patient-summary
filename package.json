@@ -16,7 +16,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts",
+    "build": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts && npm run check:cjs-import && npm run check:esm-import",
     "build:watch": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts --watch",
     "clean": "npm run clean:all",
     "clean:all": "npm run clean:dist && npm run clean:coverage && npm run clean:deps",
@@ -32,7 +32,9 @@
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
     "test": "jest --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:cjs-import": "node test/build/cjs-import-check.js",
+    "check:esm-import": "node --experimental-vm-modules test/build/esm-import-check.mjs"
   },
   "repository": {
     "type": "git",
@@ -92,7 +94,8 @@
     "tsup": "^8.5.0"
   },
   "lint-staged": {
-    "*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
+    "src/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix",
+    "test/!(build)/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
   },
   "release": {
     "branches": [
