@@ -15,7 +15,6 @@
   "files": [
     "dist/**/*"
   ],
-  "type": "module",
   "scripts": {
     "build": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts",
     "build:watch": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts --watch",
