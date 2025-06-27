@@ -5,7 +5,10 @@ export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {
-    ignores: ['src/types/global.d.ts'],
+    ignores: [
+      'src/types/global.d.ts',
+      '**/test/build/**'
+    ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
     }

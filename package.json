@@ -2,31 +2,41 @@
   "name": "@imranq2/fhirpatientsummary",
   "version": "x.x.x",
   "description": "A template for creating npm packages using TypeScript and VSCode",
-  "main": "./lib/cjs/index.cjs",
-  "module": "./lib/esm/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.cjs"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
   },
-  "types": "./lib/cjs/index.d.ts",
-  "files": [
-    "lib/**/*"
-  ],
   "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "build:cjs": "tsc --project tsconfig.cjs.json && npm run rename-cjs && npm run create-cjs-package",
-    "build:esm": "tsc --project tsconfig.esm.json",
-    "build": "npm run build:cjs && npm run build:esm",
-    "rename-cjs": "find ./lib/cjs -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.cjs\"' _ {} \\;",
-    "create-cjs-package": "echo '{\"type\":\"commonjs\"}' > ./lib/cjs/package.json",
-    "clean": "rm -rf ./lib/",
+    "build": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts && npm run check:cjs-import && npm run check:esm-import && npm run check:ts-import",
+    "build:watch": "npm run clean:dist && tsup src/index.ts --format cjs,esm --dts --watch",
+    "clean": "npm run clean:all",
+    "clean:all": "npm run clean:dist && npm run clean:coverage && npm run clean:deps",
+    "clean:dist": "rm -rf ./dist/",
+    "clean:coverage": "rm -rf ./coverage/",
+    "clean:deps": "rm -rf ./node_modules/",
+    "clean:cache": "npm cache clean --force",
+    "prebuild": "npm run clean:dist",
+    "pretest": "npm run clean:coverage",
     "cm": "cz",
     "lint": "eslint ./src/ --ext .ts --fix",
     "prepare": "husky",
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
     "test": "jest --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:cjs-import": "node test/build/cjs-import-check.cjs",
+    "check:esm-import": "node --experimental-vm-modules test/build/esm-import-check.mjs",
+    "check:ts-import": "ts-node --project tsconfig.json test/build/ts-import-check.ts"
   },
   "repository": {
     "type": "git",
@@ -66,7 +76,6 @@
     "@types/js-beautify": "^1.14.3",
     "@types/luxon": "^3.6.2",
     "@types/node": "^24.0.3",
-    "@types/prettier": "^3.0.0",
     "@types/turndown": "^5.0.5",
     "commitizen": "^4.3.1",
     "conventional-changelog-conventionalcommits": "^8.0.0",
@@ -83,10 +92,12 @@
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.1"
+    "typescript-eslint": "^8.34.1",
+    "tsup": "^8.5.0"
   },
   "lint-staged": {
-    "*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
+    "src/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix",
+    "test/!(build)/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
   },
   "release": {
     "branches": [
