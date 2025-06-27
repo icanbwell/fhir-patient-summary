@@ -2,11 +2,11 @@
   "name": "@imranq2/fhirpatientsummary",
   "version": "x.x.x",
   "description": "A template for creating npm packages using TypeScript and VSCode",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.js",
   "exports": {
     "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js"
+    "require": "./lib/cjs/index.cjs"
   },
   "types": "./lib/cjs/index.d.ts",
   "files": [
@@ -14,9 +14,11 @@
   ],
   "type": "module",
   "scripts": {
-    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json && npm run rename-cjs && npm run create-cjs-package",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build": "npm run build:cjs && npm run build:esm",
+    "rename-cjs": "find ./lib/cjs -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.cjs\"' _ {} \\;",
+    "create-cjs-package": "echo '{\"type\":\"commonjs\"}' > ./lib/cjs/package.json",
     "clean": "rm -rf ./lib/",
     "cm": "cz",
     "lint": "eslint ./src/ --ext .ts --fix",
