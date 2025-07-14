@@ -98,12 +98,8 @@ export class NarrativeGenerator {
             const options = aggressive ? AGGRESSIVE_MINIFY_OPTIONS : DEFAULT_MINIFY_OPTIONS;
             return await htmlMinify(html, options);
         } catch (error) {
-            console.warn('HTML minification failed, falling back to basic minification', error);
-            // Basic fallback minification
-            return html
-                .replace(/<!--[\s\S]*?-->/g, '') // Remove comments
-                .replace(/\s+/g, ' ') // Collapse whitespace
-                .trim();
+            console.warn('HTML minification failed', error);
+            return html;
         }
     }
 
