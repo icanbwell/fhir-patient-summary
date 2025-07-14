@@ -5,6 +5,7 @@ import {html as beautify} from 'js-beautify';
 import {TBundle} from "../../src/types/resources/Bundle";
 import {TCompositionSection} from "../../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../../src/types/partials/BundleEntry";
+import {TComposition} from "../../src/types/resources/Composition";
 
 /**
  * Beautifies HTML using js-beautify
@@ -92,6 +93,18 @@ export async function compare_bundles(folder: string, bundle: TBundle, expectedB
     bundle.timestamp = expectedBundle.timestamp;
     if (bundle.entry && bundle.entry[0].resource?.date) {
         bundle.entry[0].resource.date = expectedBundle.entry?.[0].resource?.date;
+    }
+
+    // Compare the text.div of the first Composition resource if available
+    const generatedComposition: TComposition = <TComposition>bundle.entry?.find((e: TBundleEntry) => e.resource?.resourceType === 'Composition')?.resource;
+    const expectedComposition: TComposition = <TComposition>expectedBundle.entry?.find((e: TBundleEntry) => e.resource?.resourceType === 'Composition')?.resource;
+
+    if (generatedComposition?.text?.div && expectedComposition?.text?.div) {
+        console.info('======= Comparing Composition narrative ======');
+        await compareNarratives(
+            generatedComposition.text.div,
+            expectedComposition.text.div
+        );
     }
 
     // extract the div from each section and compare

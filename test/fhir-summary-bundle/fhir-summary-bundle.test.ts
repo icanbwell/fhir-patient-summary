@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {ComprehensiveIPSCompositionBuilder} from "../../src/generators/fhir_summary_generator";
+import {ComprehensiveIPSCompositionBuilder} from "../../src";
 import {compare_bundles} from "../utilities/testHelpers";
 
 describe('FHIR Patient Summary Generation', () => {

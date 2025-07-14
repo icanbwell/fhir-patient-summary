@@ -253,6 +253,10 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // now generate narrative for the sections and add to this narrative
         for (const sectionType of Object.values(IPSSections)) {
+            // skip the patient section, it is already included above
+            if (sectionType === IPSSections.PATIENT) {
+                continue;
+            }
             const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
             const allResources = Array.from(this.resources);
             const resources = allResources
