@@ -97,13 +97,15 @@ export async function compare_bundles(folder: string, bundle: TBundle, expectedB
 
     // Compare the text.div of the first Composition resource if available
     const generatedComposition: TComposition = <TComposition>bundle.entry?.find((e: TBundleEntry) => e.resource?.resourceType === 'Composition')?.resource;
-    const expectedComposition: TComposition = <TComposition>expectedBundle.entry?.find((e: TBundleEntry) => e.resource?.resourceType === 'Composition')?.resource;
 
-    if (generatedComposition?.text?.div && expectedComposition?.text?.div) {
+    const expectedCompositionDiv = readNarrativeFile(folder, '', 'Composition');
+
+    expect(expectedCompositionDiv?.length).toBeGreaterThan(0);
+    if (generatedComposition?.text?.div && expectedCompositionDiv) {
         console.info('======= Comparing Composition narrative ======');
         await compareNarratives(
             generatedComposition.text.div,
-            expectedComposition.text.div
+            expectedCompositionDiv
         );
     }
 
