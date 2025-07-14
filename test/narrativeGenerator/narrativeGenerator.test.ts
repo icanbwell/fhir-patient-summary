@@ -489,7 +489,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for patient using NarrativeGenerator', async () => {
         const section = IPSSections.PATIENT;
-        const result: string | undefined = NarrativeGenerator.generateNarrativeContent(section, [mockPatient], 'America/New_York');
+        const result: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(section, [mockPatient], 'America/New_York');
         expect(result).toBeDefined();
         console.info(result);
         // Read narrative from file
@@ -506,7 +506,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for allergies using NarrativeGenerator', async () => {
         const section = IPSSections.ALLERGIES;
-        const result: string | undefined = NarrativeGenerator.generateNarrativeContent(section, mockAllergies, 'America/New_York');
+        const result: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(section, mockAllergies, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Allergies and Intolerances');
         expect(result).toContain('Penicillin');
@@ -528,7 +528,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for medications using NarrativeGenerator', async () => {
         const section = IPSSections.MEDICATIONS;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockMedications, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockMedications, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Medication');
         expect(result).toContain('Aspirin');
@@ -550,7 +550,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for problem list using NarrativeGenerator', async () => {
         const section = IPSSections.PROBLEMS;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockConditions, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockConditions, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Problems');
         expect(result).toContain('Hypertension');
@@ -571,7 +571,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for immunizations using NarrativeGenerator', async () => {
         const section = IPSSections.IMMUNIZATIONS;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockImmunizations, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockImmunizations, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Immunizations');
         expect(result).toContain('COVID-19 Vaccine');
@@ -592,7 +592,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for vital signs using NarrativeGenerator', async () => {
         const section = IPSSections.VITAL_SIGNS;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockVitalSigns, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockVitalSigns, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Vital Signs');
         expect(result).toContain('Blood Pressure');
@@ -613,7 +613,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for medical devices using NarrativeGenerator', async () => {
         const section = IPSSections.MEDICAL_DEVICES;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockMedicalDevices, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockMedicalDevices, 'America/New_York');
         expect(result).toBeDefined();
         console.info(result);
         // Read narrative from file
@@ -631,7 +631,7 @@ describe('Narrative Generator Tests', () => {
     it('should generate narrative content for diagnostic reports using NarrativeGenerator', async () => {
         const section = IPSSections.DIAGNOSTIC_REPORTS;
         const mockDiagnosticReportsAndLaboratoryResults = [...mockDiagnosticReports, ...mockLaboratoryResults];
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockDiagnosticReportsAndLaboratoryResults, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockDiagnosticReportsAndLaboratoryResults, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Diagnostic');
         expect(result).toContain('Chest X-Ray');
@@ -651,7 +651,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for procedures using NarrativeGenerator', async () => {
         const section = IPSSections.PROCEDURES;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockProcedures, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockProcedures, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Procedures');
         expect(result).toContain('Appendectomy');
@@ -671,7 +671,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for family history using NarrativeGenerator', async () => {
         const section = IPSSections.FAMILY_HISTORY;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockFamilyHistory, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockFamilyHistory, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Family History');
         expect(result).toContain('Heart Disease');
@@ -691,7 +691,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for social history using NarrativeGenerator', async () => {
         const section = IPSSections.SOCIAL_HISTORY;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockSocialHistory, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockSocialHistory, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Social History');
         expect(result).toContain('Tobacco Use');
@@ -711,7 +711,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for advance directives using NarrativeGenerator', async () => {
         const section = IPSSections.ADVANCE_DIRECTIVES;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockAdvanceDirectives, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockAdvanceDirectives, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Advance Directives');
         console.info(result);
@@ -729,7 +729,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for care plans using NarrativeGenerator', async () => {
         const section = IPSSections.CARE_PLAN;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockCarePlans, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockCarePlans, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Care');
         // expect(result).toContain('Diabetes Management Plan');
@@ -748,7 +748,7 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for clinical impressions using NarrativeGenerator', async () => {
         const section = IPSSections.CLINICAL_IMPRESSION;
-        const result = NarrativeGenerator.generateNarrativeContent(section, mockClinicalImpressions, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockClinicalImpressions, 'America/New_York');
         expect(result).toBeDefined();
         expect(result).toContain('Clinical Impressions');
         expect(result).toContain('Type 2 Diabetes');

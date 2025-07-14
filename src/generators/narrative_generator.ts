@@ -45,13 +45,15 @@ export class NarrativeGenerator {
      * @param section - IPS section type
      * @param resources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param wrapInXhtml - Whether to wrap the content in XHTML div
      * @returns Generated HTML content or undefined if no resources
      */
-    static generateNarrativeContent<T extends TDomainResource>(
+    static async generateNarrativeContentAsync<T extends TDomainResource>(
         section: IPSSections,
         resources: T[],
-        timezone: string | undefined
-    ): string | undefined {
+        timezone: string | undefined,
+        wrapInXhtml: boolean = true
+    ): Promise<string | undefined> {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
         }
@@ -67,7 +69,16 @@ export class NarrativeGenerator {
             };
 
             // Use the TypeScript template mapper to generate HTML
-            return TypeScriptTemplateMapper.generateNarrative(section, bundle, timezone);
+            const content: string = TypeScriptTemplateMapper.generateNarrative(section, bundle, timezone);
+            if (!content) {
+                return undefined; // No content generated
+            }
+            if (wrapInXhtml) {
+                // If wrapping in XHTML, ensure the content is properly formatted
+                return await this.wrapInXhtmlAsync(content);
+            } else {
+                return await this.minifyHtmlAsync(content);
+            }
         } catch (error) {
             console.error(`Error generating narrative for section ${section}:`, error);
             return `<div class="error">Error generating narrative: ${error instanceof Error ? error.message : String(error)}</div>`;
@@ -126,6 +137,7 @@ export class NarrativeGenerator {
      * @param resources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting
      * @param minify - Whether to minify the HTML content (default: true)
+     * @param wrapInXhtml - Whether to wrap the content in XHTML div
      * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
     static async generateNarrativeAsync<T extends TDomainResource>(
@@ -133,8 +145,9 @@ export class NarrativeGenerator {
         resources: T[],
         timezone: string | undefined,
         minify: boolean = true,
+        wrapInXhtml: boolean
     ): Promise<Narrative | undefined> {
-        const content = this.generateNarrativeContent(section, resources, timezone);
+        const content = await this.generateNarrativeContentAsync(section, resources, timezone, wrapInXhtml);
         if (!content) {
             return undefined;
         }

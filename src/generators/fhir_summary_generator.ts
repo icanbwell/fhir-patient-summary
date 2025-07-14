@@ -69,7 +69,8 @@ export class ComprehensiveIPSCompositionBuilder {
                 sectionType,
                 validResources,
                 timezone,
-                true
+                true,
+                false
             );
 
             const sectionEntry: TCompositionSection = {
@@ -267,10 +268,11 @@ export class ComprehensiveIPSCompositionBuilder {
         let fullNarrativeContent: string = "";
 
         // Generate narrative for the patient
-        const patientNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
+        const patientNarrative: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(
             IPSSections.PATIENT,
             [patient as TDomainResource],
-            timezone
+            timezone,
+            false
         );
         fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');
 
@@ -286,10 +288,11 @@ export class ComprehensiveIPSCompositionBuilder {
                 .filter(r => resourceTypesForSection.includes(r.resourceType as string));
 
             if (resources.length > 0) {
-                const sectionNarrative: string | undefined = NarrativeGenerator.generateNarrativeContent(
+                const sectionNarrative: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(
                     sectionType,
                     resources,
-                    timezone
+                    timezone,
+                    false
                 );
                 fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
             }
