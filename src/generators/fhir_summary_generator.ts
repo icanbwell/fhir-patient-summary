@@ -44,7 +44,6 @@ export class ComprehensiveIPSCompositionBuilder {
         options?: {
             isOptional?: boolean;
             customLoincCode?: string;
-            aggressiveMinify?: boolean;
         }
     ): Promise<this> {
         // Validate resources
@@ -70,8 +69,7 @@ export class ComprehensiveIPSCompositionBuilder {
                 sectionType,
                 validResources,
                 timezone,
-                true,
-                options?.aggressiveMinify ?? false
+                true
             );
 
             const sectionEntry: TCompositionSection = {
@@ -105,12 +103,10 @@ export class ComprehensiveIPSCompositionBuilder {
      * Reads a FHIR Bundle and extracts resources for each section defined in IPSSections.
      * @param bundle - FHIR Bundle containing resources
      * @param timezone - Optional timezone to use for date formatting
-     * @param aggressiveMinify - Whether to use aggressive HTML minification
      */
     async readBundleAsync(
         bundle: TBundle,
         timezone: string | undefined,
-        aggressiveMinify: boolean = false
     ): Promise<this> {
         if (!bundle.entry) {
             return this;
@@ -135,7 +131,6 @@ export class ComprehensiveIPSCompositionBuilder {
             if (resources.length > 0) {
                 await this.addSectionAsync(sectionType, resources as TDomainResource[], timezone, {
                     isOptional: true,
-                    aggressiveMinify
                 });
             }
         }

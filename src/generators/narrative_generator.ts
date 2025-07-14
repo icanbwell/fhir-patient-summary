@@ -100,10 +100,9 @@ export class NarrativeGenerator {
      * Creates a complete FHIR Narrative object asynchronously
      * @param content - HTML content
      * @param minify - Whether to minify the HTML content (default: true)
-     * @param aggressiveMinify - Whether to use aggressive minification (default: false)
      * @returns Promise that resolves to a FHIR Narrative object
      */
-    static async createNarrativeAsync(content: string, minify: boolean = true, aggressiveMinify: boolean = false): Promise<Narrative> {
+    static async createNarrativeAsync(content: string, minify: boolean = true): Promise<Narrative> {
         // Strip outer <div> wrappers if present
         const divMatch = content.match(/^<div[^>]*>(.*?)<\/div>$/);
         if (divMatch) {
@@ -112,7 +111,7 @@ export class NarrativeGenerator {
 
         // Apply minification if requested
         if (minify) {
-            content = await this.minifyHtmlAsync(content, aggressiveMinify);
+            content = await this.minifyHtmlAsync(content);
         }
 
         return {
@@ -127,7 +126,6 @@ export class NarrativeGenerator {
      * @param resources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting
      * @param minify - Whether to minify the HTML content (default: true)
-     * @param aggressiveMinify - Whether to use aggressive minification (default: false)
      * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
     static async generateNarrativeAsync<T extends TDomainResource>(
@@ -135,25 +133,23 @@ export class NarrativeGenerator {
         resources: T[],
         timezone: string | undefined,
         minify: boolean = true,
-        aggressiveMinify: boolean = false
     ): Promise<Narrative | undefined> {
         const content = this.generateNarrativeContent(section, resources, timezone);
         if (!content) {
             return undefined;
         }
-        return await this.createNarrativeAsync(content, minify, aggressiveMinify);
+        return await this.createNarrativeAsync(content, minify);
     }
 
     /**
      * Wrap content in XHTML div with FHIR namespace asynchronously
      * @param content - HTML content to wrap
      * @param minify - Whether to minify the HTML content before wrapping (default: false)
-     * @param aggressiveMinify - Whether to use aggressive minification (default: false)
      * @returns Promise that resolves to XHTML div string
      */
-    static async wrapInXhtmlAsync(content: string, minify: boolean = false, aggressiveMinify: boolean = false): Promise<string> {
+    static async wrapInXhtmlAsync(content: string, minify: boolean = false): Promise<string> {
         if (minify) {
-            content = await this.minifyHtmlAsync(content, aggressiveMinify);
+            content = await this.minifyHtmlAsync(content);
         }
         return `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`;
     }
