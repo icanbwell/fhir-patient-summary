@@ -20,7 +20,7 @@ export class ClinicalImpressionTemplate implements ITemplate {
         // Start building the HTML table
         let html = `
       <h5>Clinical Impressions</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Date</th>

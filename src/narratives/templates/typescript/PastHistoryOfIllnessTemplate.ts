@@ -20,7 +20,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
         // Start building the HTML table
         let html = `
       <h5>Past History of Illnesses</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Medical Problems</th>

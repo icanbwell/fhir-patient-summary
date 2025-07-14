@@ -30,7 +30,7 @@ export class HistoryOfProceduresTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>History Of Procedures</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Procedure</th>

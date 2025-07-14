@@ -31,7 +31,7 @@ export class FunctionalStatusTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>Functional Status</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Assessment</th>

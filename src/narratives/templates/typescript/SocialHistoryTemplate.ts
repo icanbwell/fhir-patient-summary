@@ -30,7 +30,7 @@ export class SocialHistoryTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>Social History</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Code</th>

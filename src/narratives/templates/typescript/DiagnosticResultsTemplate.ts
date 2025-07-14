@@ -85,7 +85,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
   private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone: string | undefined): string {
     let html = `
       <h5>Diagnostic Results: Observations</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Code</th>
@@ -131,7 +131,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
   private static renderDiagnosticReports(templateUtilities: TemplateUtilities, reports: Array<TDiagnosticReport>, timezone: string | undefined): string {
     let html = `
       <h5>Diagnostic Results: Reports</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Report</th>

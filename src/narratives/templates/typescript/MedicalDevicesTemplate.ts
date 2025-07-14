@@ -31,7 +31,7 @@ export class MedicalDevicesTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>Medical Devices</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Device</th>
