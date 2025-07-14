@@ -49,7 +49,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
     }
 
     // Start building the HTML with proper XHTML namespace
-    let html = `<div xmlns="http://www.w3.org/1999/xhtml">`;
+    let html = '';
 
     // Active Allergies section
     html += `
@@ -118,8 +118,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
     html += `
           </tbody>
         </table>
-      </div>
-    </div>`;
+      </div>`;
 
     return html;
   }

@@ -97,7 +97,7 @@ export class MedicationSummaryTemplate implements ITemplate {
         resource: TMedicationRequest,
         extension?: any
     }>): string {
-        let html = `<div xmlns="http://www.w3.org/1999/xhtml">
+        let html = `
       <table>
         <thead>
           <tr>
@@ -165,7 +165,7 @@ export class MedicationSummaryTemplate implements ITemplate {
 
         html += `
         </tbody>
-      </table></div>`;
+      </table>`;
 
         return html;
     }
@@ -180,7 +180,7 @@ export class MedicationSummaryTemplate implements ITemplate {
         resource: TMedicationStatement,
         extension?: any
     }>): string {
-        let html = `<div xmlns="http://www.w3.org/1999/xhtml">
+        let html = `
       <table>
         <thead>
           <tr>
@@ -239,7 +239,7 @@ export class MedicationSummaryTemplate implements ITemplate {
 
         html += `
         </tbody>
-      </table></div>`;
+      </table>`;
 
         return html;
     }
