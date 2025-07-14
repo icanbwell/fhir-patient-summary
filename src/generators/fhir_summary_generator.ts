@@ -107,7 +107,7 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param timezone - Optional timezone to use for date formatting
      * @param aggressiveMinify - Whether to use aggressive HTML minification
      */
-    async read_bundleAsync(
+    async readBundleAsync(
         bundle: TBundle,
         timezone: string | undefined,
         aggressiveMinify: boolean = false
@@ -176,7 +176,7 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      */
-    async build_bundleAsync(
+    async buildBundleAsync(
         authorOrganizationId: string,
         authorOrganizationName: string,
         baseUrl: string,

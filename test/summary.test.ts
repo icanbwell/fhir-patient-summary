@@ -438,7 +438,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             await builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, 'America/New_York');
             await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
 
-            const bundle = await builder.build_bundleAsync(
+            const bundle = await builder.buildBundleAsync(
                 'example-organization',
                 'Example Organization',
                 'https://fhir.icanbwell.com/4_0_0/',
