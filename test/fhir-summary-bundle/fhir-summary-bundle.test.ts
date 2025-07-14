@@ -18,9 +18,9 @@ describe('FHIR Patient Summary Generation', () => {
         // Generate the summary
         const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
         const timezone = 'America/New_York';
-        builder.read_bundle(inputBundle, timezone);
+        await builder.read_bundleAsync(inputBundle, timezone);
 
-        const bundle = builder.build_bundle(
+        const bundle = await builder.build_bundleAsync(
             'example-organization',
             'Example Organization',
             'https://fhir.icanbwell.com/4_0_0/',
@@ -54,9 +54,9 @@ describe('FHIR Patient Summary Generation', () => {
         // Generate the summary
         const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
         const timezone = 'America/New_York';
-        builder.read_bundle(inputBundle, timezone);
+        await builder.read_bundleAsync(inputBundle, timezone);
 
-        const bundle = builder.build_bundle(
+        const bundle = await builder.build_bundleAsync(
             'example-organization',
             'Example Organization',
             'https://fhir.icanbwell.com/4_0_0/',

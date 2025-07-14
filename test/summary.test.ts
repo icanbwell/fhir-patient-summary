@@ -343,10 +343,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
     });
 
     describe('addSection', () => {
-        it('should add a section with valid resources', () => {
+        it('should add a section with valid resources', async () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
-            const result = builder.addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
+            const result = await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
 
             expect(result).toBe(builder);
         });
@@ -363,15 +363,14 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
     describe('build', () => {
         const timezone = 'America/New_York';
-        it('should build a composition with all mandatory sections', () => {
+        it('should build a composition with all mandatory sections', async () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
-            builder
-                .addSection(IPSSections.ALLERGIES, mockAllergies, timezone)
-                .addSection(IPSSections.MEDICATIONS, mockMedications, timezone)
-                .addSection(IPSSections.PROBLEMS, mockConditions, timezone)
-                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone)
-            ;
+            // Properly await each async call in sequence
+            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
+            await builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone);
+            await builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone);
+            await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone);
 
             const sections = builder.build(timezone);
 
@@ -386,11 +385,11 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             expect(sections[3].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ImmunizationSection);
         });
 
-        it('should throw an error if mandatory sections are missing', () => {
+        it('should throw an error if mandatory sections are missing', async () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             // Not adding all mandatory sections
-            builder.addSection(IPSSections.ALLERGIES, mockAllergies, timezone);
+            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
 
             expect(() => {
                 builder.build('America/New_York');
@@ -399,25 +398,25 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
     });
 
     describe('integration', () => {
-        it('should create a complete IPS composition', () => {
+        it('should create a complete IPS composition', async () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             const timezone = 'America/New_York';
-            builder
-                .addSection(IPSSections.ALLERGIES, mockAllergies, timezone)
-                .addSection(IPSSections.MEDICATIONS, mockMedications, timezone)
-                .addSection(IPSSections.PROBLEMS, [{
-                    resourceType: 'Condition',
-                    id: 'condition1',
-                    clinicalStatus: {coding: [{code: 'active'}]},
-                    code: {coding: [{code: 'hypertension'}]}
-                }], timezone)
-                .addSection(IPSSections.IMMUNIZATIONS, [{
-                    resourceType: 'Immunization',
-                    id: 'immunization1',
-                    status: 'completed',
-                    vaccineCode: {coding: [{code: 'MMR'}]}
-                }], timezone);
+            // Use the async version for consistency
+            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
+            await builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone);
+            await builder.addSectionAsync(IPSSections.PROBLEMS, [{
+                resourceType: 'Condition',
+                id: 'condition1',
+                clinicalStatus: {coding: [{code: 'active'}]},
+                code: {coding: [{code: 'hypertension'}]}
+            }], timezone);
+            await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, [{
+                resourceType: 'Immunization',
+                id: 'immunization1',
+                status: 'completed',
+                vaccineCode: {coding: [{code: 'MMR'}]}
+            }], timezone);
 
             const sections = builder.build(timezone);
 
@@ -430,16 +429,16 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         });
     });
     describe('integration_bundle', () => {
-        it('should create a complete IPS composition bundle', () => {
+        it('should create a complete IPS composition bundle', async () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
-            builder
-                .addSection(IPSSections.ALLERGIES, mockAllergies, 'America/New_York')
-                .addSection(IPSSections.MEDICATIONS, mockMedications, 'America/New_York')
-                .addSection(IPSSections.PROBLEMS, mockConditions, 'America/New_York')
-                .addSection(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
+            // Use async section addition for consistency
+            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
+            await builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, 'America/New_York');
+            await builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, 'America/New_York');
+            await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
 
-            const bundle = builder.build_bundle(
+            const bundle = await builder.build_bundleAsync(
                 'example-organization',
                 'Example Organization',
                 'https://fhir.icanbwell.com/4_0_0/',

@@ -4,11 +4,36 @@ import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {TypeScriptTemplateMapper} from "../narratives/templates/typescript/TypeScriptTemplateMapper";
 import {TBundle} from "../types/resources/Bundle";
+import { minify as htmlMinify } from 'html-minifier-terser';
 
 export interface Narrative {
     status: 'generated' | 'extensions' | 'additional' | 'empty';
     div: string; // XHTML div content
 }
+
+// Default minification options
+const DEFAULT_MINIFY_OPTIONS = {
+    collapseWhitespace: true,
+    conservativeCollapse: true, // Preserves one whitespace
+    removeComments: true,
+    caseSensitive: true, // Important for XML/XHTML
+    minifyCSS: true,
+    minifyJS: false,
+    decodeEntities: true,
+    keepClosingSlash: true, // Important for XML/XHTML
+    removeEmptyAttributes: true
+};
+
+// Aggressive minification options
+const AGGRESSIVE_MINIFY_OPTIONS = {
+    ...DEFAULT_MINIFY_OPTIONS,
+    collapseWhitespace: true,
+    conservativeCollapse: false, // Don't preserve whitespace
+    removeAttributeQuotes: true,
+    removeRedundantAttributes: true,
+    removeEmptyElements: false, // Don't remove empty elements as they may be semantically important
+    removeOptionalTags: true
+};
 
 /**
  * Generates narrative content for FHIR resources using TypeScript templates
@@ -50,18 +75,46 @@ export class NarrativeGenerator {
     }
 
     /**
-     * Creates a complete FHIR Narrative object
-     * @param content - HTML content
-     * @returns FHIR Narrative object
+     * Minifies HTML content asynchronously using html-minifier-terser
+     * @param html - HTML content to minify
+     * @param aggressive - Whether to use more aggressive minification
+     * @returns Promise that resolves to minified HTML content
      */
-    static createNarrative(content: string): Narrative {
-        // remove extra whitespace and newlines
-        content = content.replace(/\s+/g, ' ').trim();
-                // Strip outer <div> wrappers if present
+    static async minifyHtmlAsync(html: string, aggressive: boolean = false): Promise<string> {
+        if (!html) return html;
+
+        try {
+            const options = aggressive ? AGGRESSIVE_MINIFY_OPTIONS : DEFAULT_MINIFY_OPTIONS;
+            return await htmlMinify(html, options);
+        } catch (error) {
+            console.warn('HTML minification failed, falling back to basic minification', error);
+            // Basic fallback minification
+            return html
+                .replace(/<!--[\s\S]*?-->/g, '') // Remove comments
+                .replace(/\s+/g, ' ') // Collapse whitespace
+                .trim();
+        }
+    }
+
+    /**
+     * Creates a complete FHIR Narrative object asynchronously
+     * @param content - HTML content
+     * @param minify - Whether to minify the HTML content (default: true)
+     * @param aggressiveMinify - Whether to use aggressive minification (default: false)
+     * @returns Promise that resolves to a FHIR Narrative object
+     */
+    static async createNarrativeAsync(content: string, minify: boolean = true, aggressiveMinify: boolean = false): Promise<Narrative> {
+        // Strip outer <div> wrappers if present
         const divMatch = content.match(/^<div[^>]*>(.*?)<\/div>$/);
         if (divMatch) {
             content = divMatch[1]; // Extract inner content
         }
+
+        // Apply minification if requested
+        if (minify) {
+            content = await this.minifyHtmlAsync(content, aggressiveMinify);
+        }
+
         return {
             status: 'generated',
             div: `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`
@@ -69,30 +122,39 @@ export class NarrativeGenerator {
     }
 
     /**
-     * Generates a complete FHIR Narrative object for a section
+     * Generates a complete FHIR Narrative object for a section asynchronously
      * @param section - IPS section type
      * @param resources - Array of domain resources
-     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
-     * @returns FHIR Narrative object or undefined if no resources
+     * @param timezone - Optional timezone to use for date formatting
+     * @param minify - Whether to minify the HTML content (default: true)
+     * @param aggressiveMinify - Whether to use aggressive minification (default: false)
+     * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
-    static generateNarrative<T extends TDomainResource>(
+    static async generateNarrativeAsync<T extends TDomainResource>(
         section: IPSSections,
         resources: T[],
-        timezone: string | undefined
-    ): Narrative | undefined {
+        timezone: string | undefined,
+        minify: boolean = true,
+        aggressiveMinify: boolean = false
+    ): Promise<Narrative | undefined> {
         const content = this.generateNarrativeContent(section, resources, timezone);
         if (!content) {
             return undefined;
         }
-        return this.createNarrative(content);
+        return await this.createNarrativeAsync(content, minify, aggressiveMinify);
     }
 
     /**
-     * Wrap content in XHTML div with FHIR namespace
+     * Wrap content in XHTML div with FHIR namespace asynchronously
      * @param content - HTML content to wrap
-     * @returns XHTML div string
+     * @param minify - Whether to minify the HTML content before wrapping (default: false)
+     * @param aggressiveMinify - Whether to use aggressive minification (default: false)
+     * @returns Promise that resolves to XHTML div string
      */
-    static wrapInXhtml(content: string): string {
+    static async wrapInXhtmlAsync(content: string, minify: boolean = false, aggressiveMinify: boolean = false): Promise<string> {
+        if (minify) {
+            content = await this.minifyHtmlAsync(content, aggressiveMinify);
+        }
         return `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`;
     }
 }
