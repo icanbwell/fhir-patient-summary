@@ -3,9 +3,9 @@ import path from 'path';
 
 import {html as beautify} from 'js-beautify';
 import {TBundle} from "../../src/types/resources/Bundle";
-import {TCompositionSection} from "../../src/types/partials/CompositionSection";
 import {TBundleEntry} from "../../src/types/partials/BundleEntry";
 import {TComposition} from "../../src/types/resources/Composition";
+import {TCompositionSection} from "../../src/types/partials/CompositionSection";
 
 /**
  * Beautifies HTML using js-beautify
