@@ -34,9 +34,9 @@
     "test:watch": "jest --watch",
     "test": "jest --coverage",
     "typecheck": "tsc --noEmit",
-    "check:cjs-import": "node test/build/cjs-import-check.cjs",
-    "check:esm-import": "node --experimental-vm-modules test/build/esm-import-check.mjs",
-    "check:ts-import": "ts-node --project tsconfig.json test/build/ts-import-check.ts"
+    "check:cjs-import": "node tests/build/cjs-import-check.cjs",
+    "check:esm-import": "node --experimental-vm-modules tests/build/esm-import-check.mjs",
+    "check:ts-import": "ts-node --project tsconfig.json tests/build/ts-import-check.ts"
   },
   "repository": {
     "type": "git",
@@ -68,10 +68,12 @@
   "homepage": "https://github.com/icanbwell/fhir-patient-summary#readme",
   "dependencies": {
     "turndown": "^7.2.0",
-    "luxon": "^3.6.1"
+    "luxon": "^3.6.1",
+    "html-minifier-terser": "^7.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@types/html-minifier-terser": "^7.0.2",
     "@types/jest": "^30.0.0",
     "@types/js-beautify": "^1.14.3",
     "@types/luxon": "^3.6.2",

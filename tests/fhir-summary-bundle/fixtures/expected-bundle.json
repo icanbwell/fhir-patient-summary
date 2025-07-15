@@ -1,0 +1,450 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "timestamp": "2025-06-16T22:30:09.606Z",
+  "identifier": {
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:4dcfd353-49fd-4ab0-b521-c8d57ced74d6"
+  },
+  "entry": [
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Composition/Composition-example-patient",
+      "resource": {
+        "id": "Composition-example-patient",
+        "resourceType": "Composition",
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "60591-5",
+              "display": "Patient summary Document"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/example-patient"
+        },
+        "author": [
+          {
+            "reference": "Organization/example-organization",
+            "display": "Example Organization"
+          }
+        ],
+        "date": "2025-06-16T22:30:09.577Z",
+        "title": "International Patient Summary",
+        "section": [
+          {
+            "title": "Allergies and adverse reactions Document",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "48765-2",
+                  "display": "Allergies and adverse reactions Document"
+                }
+              ],
+              "text": "Allergies and adverse reactions Document"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h5>Allergies And Intolerances</h5><table class=\"hapiPropertyTable\">  <thead>    <tr>      <th>Allergen</th>      <th>Status</th>      <th>Category</th>      <th>Reaction</th>      <th>Severity</th>      <th>Comments</th>      <th>Onset</th>    </tr>  </thead>  <tbody>                                    <tr id=\"\">        <td>                      Penicillin G            </td>        <td>                      active            </td>        <td>  </td>        <td>  </td>        <td>  </td>        <td>  </td>        <td>  </td>      </tr>      </tbody></table></div>"
+            },
+            "entry": [
+              {
+                "reference": "AllergyIntolerance/allergy1",
+                "display": "AllergyIntolerance"
+              }
+            ]
+          },
+          {
+            "title": "History of Medication use Narrative",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "10160-0",
+                  "display": "History of Medication use Narrative"
+                }
+              ],
+              "text": "History of Medication use Narrative"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">    <h5>Medication Summary: Medication Requests</h5>    <table class=\"hapiPropertyTable\">        <thead>        <tr>            <th>Medication</th>            <th>Status</th>            <th>Route</th>            <th>Sig</th>            <th>Comments</th>            <th>Authored Date</th>        </tr>        </thead>        <tbody>                                                                                                                    <tr>                    <td>  </td>                    <td>                                                    active                                            </td>                    <td>  </td>                    <td>  </td>                    <td>  </td>                    <td></td>                </tr>                            </tbody>    </table>    <h5>Medication Summary: Medication Statements</h5>    <table class=\"hapiPropertyTable\">        <thead>        <tr>            <th>Medication</th>            <th>Status</th>            <th>Route</th>            <th>Sig</th>            <th>Date</th>        </tr>        </thead>        <tbody>                                                </tbody>    </table></div>"
+            },
+            "entry": [
+              {
+                "reference": "MedicationRequest/med1",
+                "display": "MedicationRequest"
+              }
+            ]
+          },
+          {
+            "title": "Problem list - Reported",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11450-4",
+                  "display": "Problem list - Reported"
+                }
+              ],
+              "text": "Problem list - Reported"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h5>Problem List</h5><table class=\"hapiPropertyTable\">  <thead>    <tr>      <th>Medical Problems</th>      <th>Status</th>      <th>Comments</th>      <th>Onset Date</th>    </tr>  </thead>  <tbody>                                                  <tr id=\"\">          <td>                      Essential hypertension            </td>          <td>                      Active            </td>          <td>  </td>          <td>  </td>        </tr>            </tbody></table></div>"
+            },
+            "entry": [
+              {
+                "reference": "Condition/eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+                "display": "Condition"
+              }
+            ]
+          },
+          {
+            "title": "History of Immunization Narrative",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11369-6",
+                  "display": "History of Immunization Narrative"
+                }
+              ],
+              "text": "History of Immunization Narrative"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h5>Immunizations</h5><table class=\"hapiPropertyTable\">  <thead>    <tr>      <th>Immunization</th>      <th>Status</th>      <th>Dose Number</th>      <th>Manufacturer</th>      <th>Lot Number</th>      <th>Comments</th>      <th>Date</th>    </tr>  </thead>  <tbody>                                                  <tr id=\"\">          <td>                      MMR            </td>          <td>completed</td>          <td>  </td>          <td></td>          <td></td>          <td>    </td>          <td>  </td>        </tr>                                                        <tr id=\"\">          <td>                      DTaP, Unspecified Formulation (IST) Imm-rx            </td>          <td>completed</td>          <td>  </td>          <td></td>          <td>486745</td>          <td>    </td>          <td>  </td>        </tr>            </tbody></table></div>"
+            },
+            "entry": [
+              {
+                "reference": "Immunization/emAKcOP2creGzeLlEt5R4MBF6oYm0wzxJ9aWwOTiOqHI3",
+                "display": "Immunization"
+              },
+              {
+                "reference": "Immunization/emAKcOP2creGzeLlEt5R4MFyM.TLHisGiY2OL7vh-KKI3",
+                "display": "Immunization"
+              }
+            ]
+          },
+          {
+            "title": "History of Past illness NarrativeHistory and physical note Document",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11348-0",
+                  "display": "History of Past illness NarrativeHistory and physical note Document"
+                }
+              ],
+              "text": "History of Past illness NarrativeHistory and physical note Document"
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h5>Past History of Illnesses</h5><table class=\"hapiPropertyTable\">  <thead>    <tr>      <th>Medical Problems</th>      <th>Status</th>      <th>Comments</th>      <th>Date</th>    </tr>  </thead>  <tbody>                                                  <tr id=\"\">          <td>                Essential (primary) hypertension            </td>          <td>                active            </td>          <td>  </td>          <td>  </td>        </tr>            </tbody></table></div>"
+            },
+            "entry": [
+              {
+                "reference": "Condition/eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+                "display": "Condition"
+              }
+            ]
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <div>\n        <h2>Patient Summary</h2> <ul> <li><strong>Name(s):</strong><ul><li>John Doe</li></ul></li>\n        <li><strong>Gender:</strong>Male</li> <li><strong>Date of Birth:</strong>1980-01-01</li>\n        <li><strong>Identifier(s):</strong><ul><li>http://icanbwell.com: 12345</li></ul></li>\n        <li><strong>Telecom:</strong></li> <li><strong>Address(es):</strong></li>\n        <li><strong>Marital Status:</strong> </li> <li><strong>Deceased:</strong></li>\n        <li><strong>Language(s):</strong></li> </ul>\n    </div>\n    <div class=\"ActiveAllergies\">\n        <h3>Active Allergies and Intolerances</h3>\n\n        <table class=\"ActiveAllergyTable\">\n\n            <thead>\n\n                <tr>\n                    <th>Allergen</th>\n                    <th>Status</th>\n                    <th>Category</th>\n                    <th>Reaction</th>\n                    <th>Severity</th>\n                    <th>Onset Date</th>\n                    <th>Comments</th>\n                </tr>\n            </thead>\n\n            <tbody>\n\n                <tr>\n                    <td class=\"Name\"><span class=\"AllergenName\">Penicillin G</span></td>\n                    <td class=\"Status\">active</td>\n                    <td class=\"Category\">-</td>\n                    <td class=\"Reaction\">-</td>\n                    <td class=\"Severity\">-</td>\n                    <td class=\"OnsetDate\">-</td>\n                    <td class=\"Comments\"></td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n    <div class=\"ResolvedAllergies\">\n        <h3>Resolved Allergies and Intolerances</h3>\n\n        <table class=\"ResolvedAllergyTable\">\n\n            <thead>\n\n                <tr>\n                    <th>Allergen</th>\n                    <th>Status</th>\n                    <th>Category</th>\n                    <th>Reaction</th>\n                    <th>Severity</th>\n                    <th>Onset Date</th>\n                    <th>Comments</th>\n                    <th>Resolved Date</th>\n                </tr>\n            </thead>\n\n            <tbody>\n\n                <tr>\n                    <td colspan=\"8\">No resolved allergies recorded</td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n\n    <table>\n\n        <thead>\n\n            <tr>\n                <th>Medication</th>\n                <th>Sig</th>\n                <th>Dispense Quantity</th>\n                <th>Refills</th>\n                <th>Start Date</th>\n                <th>End Date</th>\n                <th>Status</th>\n            </tr>\n        </thead>\n\n        <tbody>\n\n            <tr>\n                <td><ul></ul></td>\n                <td>-</td>\n                <td>-</td>\n                <td>-</td>\n                <td>-</td>\n                <td>-</td>\n                <td>active</td>\n            </tr>\n        </tbody>\n    </table>\n    <div class=\"ActiveProblems\">\n        <h3>Active Problems</h3>\n\n        <table class=\"ActiveProblemTable\">\n\n            <thead>\n\n                <tr>\n                    <th>Problem</th>\n                    <th>Priority</th>\n                    <th>Noted Date</th>\n                    <th>Diagnosed Date</th>\n                    <th>Notes</th>\n                </tr>\n            </thead>\n\n            <tbody>\n\n                <tr>\n                    <td class=\"Name\">Essential hypertension</td>\n                    <td class=\"Priority\">Med</td>\n                    <td class=\"NotedDate\">03/04/2020</td>\n                    <td class=\"DiagnosedDate\">03/04/2020</td>\n                    <td class=\"Notes\"></td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n    <h5>Immunizations</h5>\n\n    <table class=\"hapiPropertyTable\">\n\n        <thead>\n\n            <tr>\n                <th>Immunization</th>\n                <th>Status</th>\n                <th>Dose Number</th>\n                <th>Manufacturer</th>\n                <th>Lot Number</th>\n                <th>Comments</th>\n                <th>Date</th>\n            </tr>\n        </thead>\n\n        <tbody>\n\n            <tr>\n                <td>MMR</td>\n                <td>completed</td>\n                <td></td>\n                <td></td>\n                <td></td>\n                <td>comment on MMR</td>\n                <td>03/04/2000</td>\n            </tr>\n\n            <tr>\n                <td>DTaP, Unspecified Formulation (IST) Imm-rx</td>\n                <td>completed</td>\n                <td></td>\n                <td></td>\n                <td>486745</td>\n                <td>comment on DTAP</td>\n                <td>3/4/2020, 1:56 PM EST</td>\n            </tr>\n        </tbody>\n    </table>\n    <h5>Past History of Illnesses</h5>\n\n    <table class=\"hapiPropertyTable\">\n\n        <thead>\n\n            <tr>\n                <th>Medical Problems</th>\n                <th>Status</th>\n                <th>Comments</th>\n                <th>Date</th>\n            </tr>\n        </thead>\n\n        <tbody>\n\n            <tr>\n                <td>Essential (primary) hypertension</td>\n                <td>active</td>\n                <td></td>\n                <td>03/04/2020</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Patient/example-patient",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "example-patient",
+        "identifier": [
+          {
+            "system": "http://icanbwell.com",
+            "value": "12345"
+          }
+        ],
+        "name": [
+          {
+            "family": "Doe",
+            "given": [
+              "John"
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1980-01-01"
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/AllergyIntolerance/allergy1",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergy1",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "7980",
+              "display": "Penicillin G"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/example-patient"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/MedicationRequest/med1",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med1",
+        "status": "active",
+        "medicationReference": {
+          "display": "Test Medication"
+        },
+        "subject": {
+          "reference": "Patient/example-patient"
+        },
+        "intent": "order"
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Condition/eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "eK.v1ndIFKTZm1ve0TRFa2byekZbTkS0xnsoQOqN-o5I3",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ],
+          "text": "Active"
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ],
+          "text": "Confirmed"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ],
+            "text": "Problem List Item"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "I10",
+              "display": "Essential (primary) hypertension"
+            }
+          ],
+          "text": "Essential hypertension"
+        },
+        "subject": {
+          "reference": "Patient/example-patient",
+          "display": "FHIR, Automation"
+        },
+        "onsetDateTime": "2020-03-04",
+        "recordedDate": "2020-03-04",
+        "severity": {
+          "text": "Med"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Immunization/emAKcOP2creGzeLlEt5R4MBF6oYm0wzxJ9aWwOTiOqHI3",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "emAKcOP2creGzeLlEt5R4MBF6oYm0wzxJ9aWwOTiOqHI3",
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:1.2.840.114350.1.13.1.1.7.2.768076",
+            "value": "1000000246"
+          }
+        ],
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "03"
+            }
+          ],
+          "text": "MMR"
+        },
+        "patient": {
+          "reference": "Patient/example-patient",
+          "display": "FHIR, Automation"
+        },
+        "occurrenceDateTime": "2000-03-04",
+        "primarySource": false,
+        "reportOrigin": {
+          "coding": [
+            {
+              "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4082",
+              "code": "1",
+              "display": "Patient reported"
+            }
+          ],
+          "text": "Patient reported"
+        },
+        "location": {
+          "display": "right arm"
+        },
+        "performer": [
+          {
+            "function_": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                  "code": "AP",
+                  "display": "Administering Provider"
+                }
+              ],
+              "text": "Administering Provider"
+            },
+            "actor": {
+              "reference": "Practitioner/example-practitioner",
+              "type": "Practitioner",
+              "display": "Starter Provider"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "comment on MMR"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Immunization/emAKcOP2creGzeLlEt5R4MFyM.TLHisGiY2OL7vh-KKI3",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "emAKcOP2creGzeLlEt5R4MFyM.TLHisGiY2OL7vh-KKI3",
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:1.2.840.114350.1.13.1.1.7.2.768076",
+            "value": "1000000244"
+          }
+        ],
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "107"
+            }
+          ],
+          "text": "DTaP, Unspecified Formulation (IST) Imm-rx"
+        },
+        "patient": {
+          "reference": "Patient/example-patient",
+          "display": "FHIR, Automation"
+        },
+        "occurrenceDateTime": "2020-03-04T18:56:00Z",
+        "primarySource": true,
+        "location": {
+          "display": "connectathon-testing for EpicConnect and Pulsar testing only"
+        },
+        "manufacturer": {
+          "display": "Merck, Sharp, Dohme"
+        },
+        "lotNumber": "486745",
+        "expirationDate": "2030-03-04",
+        "site": {
+          "coding": [
+            {
+              "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4040",
+              "code": "14",
+              "display": "Left arm"
+            }
+          ],
+          "text": "Left arm"
+        },
+        "route": {
+          "coding": [
+            {
+              "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4030",
+              "code": "2",
+              "display": "Intramuscular"
+            }
+          ],
+          "text": "Intramuscular"
+        },
+        "doseQuantity": {
+          "value": 0.5,
+          "unit": "mL",
+          "system": "urn:oid:1.2.840.114350.1.13.1.1.7.10.768076.4019",
+          "code": "1"
+        },
+        "performer": [
+          {
+            "function_": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                  "code": "AP",
+                  "display": "Administering Provider"
+                }
+              ],
+              "text": "Administering Provider"
+            },
+            "actor": {
+              "reference": "Practitioner/example-practitioner",
+              "type": "Practitioner",
+              "display": "Emily Williams, MD"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "comment on DTAP"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Organization/example-organization",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "example-organization",
+        "name": "Example Organization"
+      }
+    }
+  ]
+}

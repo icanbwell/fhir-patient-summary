@@ -20,7 +20,7 @@ export class FamilyHistoryTemplate implements ITemplate {
         // Start building the HTML table
         let html = `
       <h5>Family History</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Relationship</th>

@@ -21,7 +21,7 @@ export class PlanOfCareTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>Plan of Care</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Activity</th>

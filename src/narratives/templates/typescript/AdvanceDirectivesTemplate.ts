@@ -32,7 +32,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>Advance Directives</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Scope</th>

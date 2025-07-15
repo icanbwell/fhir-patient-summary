@@ -30,7 +30,7 @@ export class ImmunizationsTemplate implements ITemplate {
     // Start building the HTML table
     let html = `
       <h5>Immunizations</h5>
-      <table class="hapiPropertyTable">
+      <table>
         <thead>
           <tr>
             <th>Immunization</th>

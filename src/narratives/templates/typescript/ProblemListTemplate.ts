@@ -29,7 +29,7 @@ export class ProblemListTemplate implements ITemplate {
         const templateUtilities = new TemplateUtilities(resource);
 
         // Start building the HTML
-        let html = `<div xmlns="http://www.w3.org/1999/xhtml">`;
+        let html = ``;
 
         // Split conditions into active and resolved
         const activeConditions: TCondition[] = [];
@@ -125,9 +125,6 @@ export class ProblemListTemplate implements ITemplate {
         </table>
       </div>`;
         }
-
-        // Close the HTML
-        html += `</div>`;
 
         return html;
     }
