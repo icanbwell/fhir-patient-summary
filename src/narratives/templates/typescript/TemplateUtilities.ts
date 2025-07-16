@@ -539,7 +539,8 @@ export class TemplateUtilities {
         if (!quantity) return '';
 
         const parts = [];
-        if (quantity.comparator) parts.push(quantity.comparator);
+        // Escape special characters in comparator for Minify HTML
+        if (quantity.comparator) parts.push(`${quantity.comparator}`.replace("<", "&lt;").replace(">", "&gt;"));
         if (quantity.value !== undefined) parts.push(quantity.value.toString());
         if (quantity.unit) parts.push(quantity.unit);
 
