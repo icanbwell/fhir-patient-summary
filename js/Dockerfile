@@ -11,8 +11,8 @@ ARG NODE_ENV=production
 # RUN npm install -g npm@latest && npm upgrade --global yarn && yarn set version berry
 
 RUN mkdir /srv/src
-COPY js/package.json /srv/src/package.json
-COPY js/yarn.lock /srv/src/yarn.lock
+COPY package.json /srv/src/package.json
+COPY yarn.lock /srv/src/yarn.lock
 
 RUN echo "$NODE_ENV"
 RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000; fi
@@ -36,14 +36,14 @@ WORKDIR /srv/src
 
 # Copy our package.json & install our dependencies
 USER node
-COPY --chown=node:node js/package.json /srv/src/package.json
-COPY --chown=node:node js/yarn.lock /srv/src/yarn.lock
+COPY --chown=node:node package.json /srv/src/package.json
+COPY --chown=node:node yarn.lock /srv/src/yarn.lock
 
 # Copy code from multi-stage build above
 COPY --from=build /srv/src/node_modules /srv/src/node_modules
 
 # Copy the remaining application code.
-COPY --chown=node:node . /srv/src
+COPY --chown=node:node .. /srv/src
 
 #COPY --from=build /srv/src/rds-combined-ca-bundle.pem /srv/src/rds-combined-ca-bundle.pem
 
