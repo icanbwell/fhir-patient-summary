@@ -1,0 +1,149 @@
+{
+  "name": "@imranq2/fhirpatientsummary",
+  "version": "x.x.x",
+  "description": "A template for creating npm packages using TypeScript and VSCode",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "../node_modules/.bin/npm run clean:dist && tsup js/src/index.ts --format cjs,esm --dts && npm run check:cjs-import && npm run check:esm-import && npm run check:ts-import",
+    "build:watch": "../node_modules/.bin/npm run clean:dist && tsup js/src/index.ts --format cjs,esm --dts --watch",
+    "clean": "../node_modules/.bin/npm run clean:all",
+    "clean:all": "../node_modules/.bin/npm run clean:dist && npm run clean:coverage && npm run clean:deps",
+    "clean:dist": "rm -rf ./dist/",
+    "clean:coverage": "rm -rf ../coverage",
+    "clean:deps": "rm -rf ../node_modules",
+    "clean:cache": "../node_modules/.bin/npm cache clean --force",
+    "prebuild": "../node_modules/.bin/npm run clean:dist",
+    "pretest": "../node_modules/.bin/npm run clean:coverage",
+    "cm": "../node_modules/.bin/cz",
+    "lint": "../node_modules/.bin/eslint js/src/ --ext .ts --fix",
+    "prepare": "../node_modules/.bin/husky",
+    "semantic-release": "../node_modules/.bin/semantic-release",
+    "test:watch": "../node_modules/.bin/jest --watch",
+    "test": "../node_modules/.bin/jest --coverage",
+    "typecheck": "../node_modules/.bin/tsc --noEmit",
+    "check:cjs-import": "node tests/build/cjs-import-check.cjs",
+    "check:esm-import": "node --experimental-vm-modules tests/build/esm-import-check.mjs",
+    "check:ts-import": "../node_modules/.bin/ts-node --project tsconfig.json js/tests/build/ts-import-check.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icanbwell/fhir-patient-summary.git"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Imran Qureshi",
+    "email": "imranq2@users.noreply.github.com",
+    "url": "https://github.com/icanbwell/fhir-patient-summary"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "boilerplate",
+    "template",
+    "typescript",
+    "vscode",
+    "jest",
+    "husky",
+    "commitizen",
+    "semantic-release",
+    "codecov"
+  ],
+  "bugs": {
+    "url": "https://github.com/icanbwell/fhir-patient-summary/issues"
+  },
+  "homepage": "https://github.com/icanbwell/fhir-patient-summary#readme",
+  "dependencies": {
+    "turndown": "^7.2.0",
+    "luxon": "^3.6.1",
+    "html-minifier-terser": "^7.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/html-minifier-terser": "^7.0.2",
+    "@types/jest": "^30.0.0",
+    "@types/js-beautify": "^1.14.3",
+    "@types/luxon": "^3.6.2",
+    "@types/node": "^24.0.3",
+    "@types/turndown": "^5.0.5",
+    "commitizen": "^4.3.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.5.0",
+    "husky": "^9.1.7",
+    "jest": "^30.0.0",
+    "js-beautify": "^1.15.4",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.5.3",
+    "semantic-release": "^24.2.5",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "tsup": "^8.5.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix",
+    "test/!(build)/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits",
+          "releaseRules": [
+            {
+              "type": "build",
+              "scope": "deps",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "build",
+                "section": "Dependencies and Other Build Updates",
+                "hidden": false
+              }
+            ]
+          }
+        }
+      ],
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  }
+}
