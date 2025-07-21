@@ -14,12 +14,12 @@ from typing import List
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, current_dir)
 
-from python.python_src.profiles.ips_resource_profile_registry import IPSResourceProfileRegistry
-from python.python_src.structures.ips_mandatory_sections import IPSMandatorySections
-from python.python_src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
-from python.python_src.generators.narrative_generator import NarrativeGenerator
-from python.python_src.types.fhir_types import TPatient, TAllergyIntolerance, TMedicationStatement, TCondition, TImmunization, TObservation
-from python.python_src.structures.ips_sections import IPSSections
+from python.src.profiles.ips_resource_profile_registry import IPSResourceProfileRegistry
+from python.src.structures.ips_mandatory_sections import IPSMandatorySections
+from python.src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
+from python.src.generators.narrative_generator import NarrativeGenerator
+from python.src.types.fhir_types import TPatient, TAllergyIntolerance, TMedicationStatement, TCondition, TImmunization, TObservation
+from python.src.structures.ips_sections import IPSSections
 
 
 class TestInternationalPatientSummary:

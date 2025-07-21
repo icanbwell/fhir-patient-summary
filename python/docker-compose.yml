@@ -1,0 +1,17 @@
+services:
+  dev:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: fhir_patient_summary
+    ports:
+      - '5050:5000'
+    volumes:
+    - ./:/usr/src/fhir_patient_summary/:cached
+      # uncomment this for testing AWS models and the docker.env above (need the AWS_CREDENTIALS_PROFILE env var)
+    - ~/.aws/:/etc/appuser/.aws/
+    healthcheck:
+      test: curl --fail -s http://localhost:5000/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3

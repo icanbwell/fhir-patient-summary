@@ -11,7 +11,7 @@ import os
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, current_dir)
 
-from python.python_src import my_package
+from python.src import my_package
 
 
 def test_my_package():

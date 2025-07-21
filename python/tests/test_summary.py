@@ -13,10 +13,10 @@ from typing import List, Dict, Any
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, current_dir)
 
-from python.python_src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
-from python.python_src.structures.ips_sections import IPSSections
-from python.python_src.structures.ips_section_loinc_codes import IPS_SECTION_LOINC_CODES
-from python.python_src.types.fhir_types import TPatient
+from python.src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
+from python.src.structures.ips_sections import IPSSections
+from python.src.structures.ips_section_loinc_codes import IPS_SECTION_LOINC_CODES
+from python.src.types.fhir_types import TPatient
 
 
 class TestComprehensiveIPSCompositionBuilder:

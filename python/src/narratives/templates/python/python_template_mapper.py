@@ -12,7 +12,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
-from python.python_src.structures.ips_sections import IPSSections
+from python.src.structures.ips_sections import IPSSections
 
 
 class PythonTemplateMapper:

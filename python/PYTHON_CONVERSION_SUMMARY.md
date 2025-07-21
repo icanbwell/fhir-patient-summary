@@ -90,36 +90,36 @@ The converted code uses these Python packages:
 ## 🚀 Usage Example
 
 ```python
-from python.python_src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
-from python.python_src.structures.ips_sections import IPSSections
+from python.src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
+from python.src.structures.ips_sections import IPSSections
 
 # Create builder
 builder = ComprehensiveIPSCompositionBuilder()
 
 # Set patient
 patient = {
-    'resourceType': 'Patient',
-    'id': 'patient-123',
-    'name': [{'given': ['John'], 'family': 'Doe'}],
-    'gender': 'male',
-    'birthDate': '1980-01-01'
+  'resourceType': 'Patient',
+  'id': 'patient-123',
+  'name': [{'given': ['John'], 'family': 'Doe'}],
+  'gender': 'male',
+  'birthDate': '1980-01-01'
 }
 builder.set_patient(patient)
 
 # Add sections (example with allergies)
 allergies = [{
-    'resourceType': 'AllergyIntolerance',
-    'id': 'allergy-1',
-    'code': {'text': 'Penicillin allergy'},
-    'criticality': 'high'
+  'resourceType': 'AllergyIntolerance',
+  'id': 'allergy-1',
+  'code': {'text': 'Penicillin allergy'},
+  'criticality': 'high'
 }]
 await builder.add_section_async(IPSSections.ALLERGIES, allergies)
 
 # Build complete bundle
 bundle = await builder.build_bundle_async(
-    'org-1',
-    'Test Hospital',
-    'https://example.com/fhir'
+  'org-1',
+  'Test Hospital',
+  'https://example.com/fhir'
 )
 ```
 

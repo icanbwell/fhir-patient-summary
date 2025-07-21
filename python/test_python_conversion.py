@@ -170,10 +170,10 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Use hyphens to underscores for imports
-from python.python_src.structures.ips_sections import IPSSections
-from python.python_src.structures.ips_section_loinc_codes import IPS_SECTION_LOINC_CODES, IPS_SECTION_DISPLAY_NAMES
-from python.python_src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
-from python.python_src.generators.narrative_generator import NarrativeGenerator
+from python.src.structures.ips_sections import IPSSections
+from python.src.structures.ips_section_loinc_codes import IPS_SECTION_LOINC_CODES, IPS_SECTION_DISPLAY_NAMES
+from python.src.generators.fhir_summary_generator import ComprehensiveIPSCompositionBuilder
+from python.src.generators.narrative_generator import NarrativeGenerator
 
 
 def test_ips_sections():

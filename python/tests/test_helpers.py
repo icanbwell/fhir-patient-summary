@@ -8,7 +8,7 @@ import os
 import re
 from typing import Optional, List
 from bs4 import BeautifulSoup
-from python.python_src.types.fhir_types import TBundle, TComposition, TCompositionSection
+from python.src.types.fhir_types import TBundle, TComposition, TCompositionSection
 
 
 def beautify_html(html: str) -> str:
