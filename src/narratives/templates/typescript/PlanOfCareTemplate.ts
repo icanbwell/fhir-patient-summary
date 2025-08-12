@@ -1,8 +1,8 @@
 // PlanOfCareTemplate.ts - TypeScript replacement for Jinja2 planofcare.j2
-import {TemplateUtilities} from './TemplateUtilities';
-import {TBundle} from '../../../types/resources/Bundle';
-import {TCarePlan} from '../../../types/resources/CarePlan';
-import {ITemplate} from './interfaces/ITemplate';
+import { TemplateUtilities } from './TemplateUtilities';
+import { TBundle } from '../../../types/resources/Bundle';
+import { TCarePlan } from '../../../types/resources/CarePlan';
+import { ITemplate } from './interfaces/ITemplate';
 
 /**
  * Class to generate HTML narrative for Plan of Care (CarePlan resources)
@@ -15,16 +15,24 @@ export class PlanOfCareTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   generateNarrative(resource: TBundle, timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resource);
+
+    const carePlans = resource.entry?.map(entry => entry.resource as TCarePlan) || [];
+
+    // sort care plans by period end date, if available in descending order
+    carePlans.sort((a, b) => {
+      const endA = a.period?.end ? new Date(a.period?.end).getTime() : 0;
+      const endB = b.period?.end ? new Date(b.period?.end).getTime() : 0;
+      return endB - endA;
+    });
+
     // Start building the HTML table
     let html = `
-      <h5>Plan of Care</h5>
       <table>
         <thead>
           <tr>
-            <th>Activity</th>
+            <th>Description</th>
             <th>Intent</th>
             <th>Comments</th>
             <th>Planned Start</th>
@@ -33,28 +41,18 @@ export class PlanOfCareTemplate implements ITemplate {
         </thead>
         <tbody>`;
 
-    // Check if we have entries in the bundle
-    if (resource.entry && Array.isArray(resource.entry)) {
-      // Loop through entries in the bundle
-      for (const entry of resource.entry) {
-        const cp = entry.resource as TCarePlan;
-
-        // Skip Composition resources
-        if (cp.resourceType === 'Composition') {
-          continue;
-        }
-
-        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        // Add a table row for this care plan
-        html += `
-          <tr id="${(templateUtilities.narrativeLinkId(cp))}">
-            <td>${cp.description || ''}</td>
-            <td>${cp.intent || cp.intent || ''}</td>
+    // Loop through entries in the bundle
+    for (const cp of carePlans) {
+      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+      // Add a table row for this care plan
+      html += `
+          <tr id="${templateUtilities.narrativeLinkId(cp)}">
+            <td>${cp.description || cp.title || ''}</td>
+            <td>${cp.intent || ''}</td>
             <td>${templateUtilities.concat(cp.note, 'text')}</td>
-            <td>${cp.period?.start || ''}</td>
-            <td>${cp.period?.end || ''}</td>
+            <td>${cp.period?.start ? templateUtilities.renderTime(cp.period?.start, timezone) : ''}</td>
+            <td>${cp.period?.end ? templateUtilities.renderTime(cp.period?.end, timezone) : ''}</td>
           </tr>`;
-      }
     }
 
     // Close the HTML table

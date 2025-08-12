@@ -16,6 +16,15 @@ export class AdvanceDirectivesTemplate implements ITemplate {
    * @returns HTML string for rendering
    */
   generateNarrative(resource: TBundle, timezone: string | undefined): string {
+    // sort the entries by date in descending order
+    if (resource.entry && Array.isArray(resource.entry)) {
+      resource.entry.sort((a, b) => {
+        const dateA = new Date((a.resource as TConsent).dateTime || 0);
+        const dateB = new Date((b.resource as TConsent).dateTime || 0);
+        return dateB.getTime() - dateA.getTime(); // Sort in descending order
+      });
+    }
+
     return AdvanceDirectivesTemplate.generateStaticNarrative(resource, timezone);
   }
 
@@ -31,7 +40,6 @@ export class AdvanceDirectivesTemplate implements ITemplate {
     const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
-      <h5>Advance Directives</h5>
       <table>
         <thead>
           <tr>
@@ -48,11 +56,6 @@ export class AdvanceDirectivesTemplate implements ITemplate {
       // Loop through entries in the bundle
       for (const entry of resource.entry) {
         const consent = entry.resource as TConsent;
-
-        // Skip Composition resources
-        if (consent.resourceType === 'Composition') {
-          continue;
-        }
 
         // Use the enhanced narrativeLinkId utility function to extract the ID
         // Add a table row for this consent

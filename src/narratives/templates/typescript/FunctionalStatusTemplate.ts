@@ -1,8 +1,9 @@
 // FunctionalStatusTemplate.ts - TypeScript replacement for Jinja2 functionalstatus.j2
-import {TemplateUtilities} from './TemplateUtilities';
-import {TBundle} from '../../../types/resources/Bundle';
-import {ITemplate} from './interfaces/ITemplate';
-import {TClinicalImpression} from "../../../types/resources/ClinicalImpression";
+import { TemplateUtilities } from './TemplateUtilities';
+import { TBundle } from '../../../types/resources/Bundle';
+import { ITemplate } from './interfaces/ITemplate';
+import { TClinicalImpression } from '../../../types/resources/ClinicalImpression';
+import { TCondition } from '../../../types/resources/Condition';
 
 /**
  * Class to generate HTML narrative for Functional Status (Observation resources)
@@ -25,52 +26,167 @@ export class FunctionalStatusTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-   
-  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
+
+  private static generateStaticNarrative(
+    resource: TBundle,
+    timezone: string | undefined
+  ): string {
     const templateUtilities = new TemplateUtilities(resource);
-    // Start building the HTML table
-    let html = `
-      <h5>Functional Status</h5>
+    // Start building the HTML
+    let html = ``;
+
+    // identify active conditions
+    const activeConditions: TCondition[] = [];
+    const clinicalImpressions: TClinicalImpression[] = [];
+
+    if (resource.entry && Array.isArray(resource.entry)) {
+      // Loop through entries in the bundle
+      for (const entry of resource.entry) {
+        if (entry.resource?.resourceType === 'Condition') {
+          const cond = entry.resource as TCondition;
+
+          // Determine if condition is active or resolved
+          const isResolved = cond.clinicalStatus?.coding?.some(
+            c =>
+              c.code === 'resolved' ||
+              c.code === 'inactive' ||
+              c.display?.toLowerCase().includes('resolved')
+          );
+
+          if (!isResolved) {
+            activeConditions.push(cond);
+          }
+        } else if (entry.resource?.resourceType === 'ClinicalImpression') {
+          clinicalImpressions.push(entry.resource as TClinicalImpression);
+        }
+      }
+    }
+
+    // sort conditions by onset date in descending order
+    activeConditions.sort((a, b) => {
+      const dateA = a.onsetDateTime ? new Date(a.onsetDateTime).getTime() : 0;
+      const dateB = b.onsetDateTime ? new Date(b.onsetDateTime).getTime() : 0;
+      return dateB - dateA;
+    });
+
+    // sort clinical impressions by dateTime, period or date in descending order
+    clinicalImpressions.sort((a, b) => {
+      const dateA = a.effectiveDateTime
+        ? new Date(a.effectiveDateTime).getTime()
+        : a.effectivePeriod?.start
+          ? new Date(a.effectivePeriod.start).getTime()
+          : a.date
+            ? new Date(a.date).getTime()
+            : 0;
+      const dateB = b.effectiveDateTime
+        ? new Date(b.effectiveDateTime).getTime()
+        : b.effectivePeriod?.start
+          ? new Date(b.effectivePeriod.start).getTime()
+          : b.date
+            ? new Date(b.date).getTime()
+            : 0;
+      return dateB - dateA;
+    });
+
+    // Generate active conditions section
+    if (activeConditions.length > 0) {
+      html += `<h3>Conditions</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Problem</th>
+              <th>Severity</th>
+              <th>Onset Date</th>
+              <th>Recorded Date</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+      for (const cond of activeConditions) {
+        html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+          <td class="Name">${templateUtilities.codeableConcept(cond.code)}</td>
+          <td class="Severity">${templateUtilities.codeableConcept(cond.severity)}</td>
+          <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
+          <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
+          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>
+        </tr>`;
+      }
+
+      html += `</tbody>
+        </table>
+      </div>`;
+    }
+
+    if (clinicalImpressions.length > 0) {
+      html += `<h3>Clinical Impressions</h3>
       <table>
         <thead>
           <tr>
-            <th>Assessment</th>
-            <th>Status</th>
-            <th>Finding</th>
-            <th>Comments</th>
             <th>Date</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Summary</th>
+            <th>Findings</th>
+            <th>Notes</th>
           </tr>
         </thead>
         <tbody>`;
 
-    // Check if we have entries in the bundle
-    if (resource.entry && Array.isArray(resource.entry)) {
-      // Loop through entries in the bundle
-      for (const entry of resource.entry) {
-        const ci = entry.resource as TClinicalImpression;
-
-        // Skip Composition resources
-        if (ci.resourceType === 'Composition') {
-          continue;
+      // Loop through clinical impressions
+      for (const impression of clinicalImpressions) {
+        // Format date (could be effectiveDateTime, effectivePeriod, or date)
+        let formattedDate = '';
+        if (impression.effectiveDateTime) {
+          formattedDate = templateUtilities.renderTime(
+            impression.effectiveDateTime,
+            timezone
+          );
+        } else if (impression.effectivePeriod) {
+          formattedDate = templateUtilities.renderPeriod(
+            impression.effectivePeriod,
+            timezone
+          );
+        } else if (impression.date) {
+          formattedDate = templateUtilities.renderDate(impression.date);
         }
 
-        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-        // Add a table row for this clinical impression
+        // Format findings
+        let findingsHtml = '';
+        if (impression.finding && impression.finding.length > 0) {
+          findingsHtml = '<ul>';
+          for (const finding of impression.finding) {
+            // Each finding has an itemCodeableConcept and/or itemReference
+            const findingText = finding.itemCodeableConcept
+              ? templateUtilities.codeableConcept(finding.itemCodeableConcept)
+              : finding.itemReference
+                ? templateUtilities.renderReference(finding.itemReference)
+                : '';
+
+            // Add cause if present
+            const cause = finding.basis || '';
+
+            findingsHtml += `<li>${findingText}${cause ? ` - ${cause}` : ''}</li>`;
+          }
+          findingsHtml += '</ul>';
+        }
+
+  
+
+        // Format notes
+        const notes = templateUtilities.renderNotes(impression.note, timezone);
+
         html += `
-          <tr id="${(templateUtilities.narrativeLinkId(ci))}">
-            <td>${templateUtilities.codeableConcept(ci.code, 'display')}</td>
-            <td>${ci.status || ''}</td>
-            <td>${ci.summary || ''}</td>
-            <td>${templateUtilities.renderNotes(ci.note, timezone)}</td>
-            <td>${templateUtilities.renderEffective(ci.effectiveDateTime, timezone)}</td>
+          <tr id="${templateUtilities.narrativeLinkId(impression)}">
+            <td>${formattedDate}</td>
+            <td>${impression.status || ''}</td>
+            <td>${impression.description || ''}</td>
+            <td>${impression.summary || ''}</td>
+            <td>${findingsHtml}</td>
+            <td>${notes}</td>
           </tr>`;
       }
     }
-
-    // Close the HTML table
-    html += `
-        </tbody>
-      </table>`;
 
     return html;
   }

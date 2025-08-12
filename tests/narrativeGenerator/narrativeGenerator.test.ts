@@ -14,7 +14,6 @@ import {TDiagnosticReport} from '../../src/types/resources/DiagnosticReport';
 import {TProcedure} from '../../src/types/resources/Procedure';
 import {TFamilyMemberHistory} from '../../src/types/resources/FamilyMemberHistory';
 import {TCarePlan} from '../../src/types/resources/CarePlan';
-import {TClinicalImpression} from '../../src/types/resources/ClinicalImpression';
 import {TConsent} from '../../src/types/resources/Consent';
 
 describe('Narrative Generator Tests', () => {
@@ -468,25 +467,6 @@ describe('Narrative Generator Tests', () => {
         }
     ];
 
-    const mockClinicalImpressions: TClinicalImpression[] = [
-        {
-            resourceType: 'ClinicalImpression',
-            id: 'imp-01',
-            status: 'completed',
-            subject: {reference: 'Patient/test-patient-01'},
-            date: '2023-01-15',
-            summary: 'Patient presents with symptoms consistent with Type 2 Diabetes',
-            finding: [
-                {
-                    itemCodeableConcept: {text: 'Elevated blood glucose'}
-                },
-                {
-                    itemCodeableConcept: {text: 'Polydipsia'}
-                }
-            ]
-        }
-    ];
-
     it('should generate narrative content for patient using NarrativeGenerator', async () => {
         const section = IPSSections.PATIENT;
         const result: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(section, [mockPatient], 'America/New_York');
@@ -733,25 +713,6 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         expect(result).toContain('Care');
         // expect(result).toContain('Diabetes Management Plan');
-        console.info(result);
-        // Read narrative from file
-        const expectedDiv = readNarrativeFile(
-            path.join(__dirname, 'fixtures'),
-            IPS_SECTION_LOINC_CODES[section],
-            IPS_SECTION_DISPLAY_NAMES[section]
-        );
-        await compareNarratives(
-            result,
-            expectedDiv
-        );
-    });
-
-    it('should generate narrative content for clinical impressions using NarrativeGenerator', async () => {
-        const section = IPSSections.CLINICAL_IMPRESSION;
-        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockClinicalImpressions, 'America/New_York');
-        expect(result).toBeDefined();
-        expect(result).toContain('Clinical Impressions');
-        expect(result).toContain('Type 2 Diabetes');
         console.info(result);
         // Read narrative from file
         const expectedDiv = readNarrativeFile(

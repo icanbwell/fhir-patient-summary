@@ -2,6 +2,7 @@ import {IPSResourceProfile} from "../structures/ips_resource_profile";
 import {IPSMandatorySections} from "../structures/ips_mandatory_sections";
 import {IPSRecommendedSections} from "../structures/ips_recommended_sections";
 import {TDomainResource} from "../types/resources/DomainResource";
+import { IPSSections } from "../structures/ips_sections";
 
 export class IPSResourceProfileRegistry {
     // Comprehensive resource profiles aligned with IPS specification
@@ -70,7 +71,7 @@ export class IPSResourceProfileRegistry {
             loincCode: '11450-4',
             profileUrl: 'http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips'
         },
-        [IPSMandatorySections.IMMUNIZATIONS]: {
+        [IPSRecommendedSections.IMMUNIZATIONS]: {
             resourceType: 'Immunization',
             mandatoryFields: [
                 'status',
@@ -107,7 +108,7 @@ export class IPSResourceProfileRegistry {
             loincCode: '26436-6',
             profileUrl: 'http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-results-uv-ips'
         },
-        [IPSRecommendedSections.VITAL_SIGNS]: {
+        [IPSSections.VITAL_SIGNS]: {
             resourceType: 'Observation',
             mandatoryFields: [
                 'status',

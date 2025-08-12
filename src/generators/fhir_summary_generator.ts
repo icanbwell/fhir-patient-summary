@@ -9,12 +9,12 @@ import {TComposition} from "../types/resources/Composition";
 import {TNarrative} from "../types/partials/Narrative";
 import {IPSSectionResourceHelper} from "../structures/ips_section_resource_map";
 import {NarrativeGenerator} from "./narrative_generator";
+import { IPSMandatorySections, IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
 
 
 export class ComprehensiveIPSCompositionBuilder {
     private patient: TPatient | undefined;
     private sections: TCompositionSection[] = [];
-    private mandatorySectionsAdded: Set<IPSSections> = new Set();
     private resources: Set<TDomainResource> = new Set();
 
     /**
@@ -33,52 +33,47 @@ export class ComprehensiveIPSCompositionBuilder {
     /**
      * Adds a section to the composition with async HTML minification
      * @param sectionType - IPS section type
-     * @param resources - Array of domain resources
+     * @param validResources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting
-     * @param options - Optional configuration options
      */
     async addSectionAsync<T extends TDomainResource>(
         sectionType: IPSSections,
-        resources: T[],
-        timezone: string | undefined,
-        options?: {
-            isOptional?: boolean;
-            customLoincCode?: string;
-        }
+        validResources: T[],
+        timezone: string | undefined
     ): Promise<this> {
-        // Validate resources
-        const validResources = resources;
-
         for (const resource of validResources) {
             // Add resource to the internal set
             this.resources.add(resource);
         }
 
-        // Skip if no valid resources and not mandatory
-        if (validResources.length === 0) {
-            if (!options?.isOptional) {
-                throw new Error(`No valid resources for mandatory section: ${sectionType}`);
-            }
-            return this;
-        }
-
         // Patient resource does not get a section, it is handled separately
         if (sectionType !== IPSSections.PATIENT) {
+            let narrative: TNarrative | undefined = undefined;
+
             // Create section entry with HTML minification
-            const narrative: TNarrative | undefined = await NarrativeGenerator.generateNarrativeAsync(
+            if (validResources.length > 0) {
+              narrative = await NarrativeGenerator.generateNarrativeAsync(
                 sectionType,
                 validResources,
                 timezone,
-                true,
-                false
-            );
+                true
+              );
+            } else if (sectionType in IPSMandatorySections) {
+              narrative = await NarrativeGenerator.createNarrativeAsync(
+                IPSMissingMandatorySectionContent[
+                  sectionType as keyof typeof IPSMissingMandatorySectionContent
+                ]
+              );
+            } else {
+                return this; // Skip empty sections
+            }
 
             const sectionEntry: TCompositionSection = {
                 title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
                 code: {
                     coding: [{
                         system: 'http://loinc.org',
-                        code: options?.customLoincCode || IPS_SECTION_LOINC_CODES[sectionType],
+                        code: IPS_SECTION_LOINC_CODES[sectionType],
                         display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
                     }],
                     text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
@@ -89,11 +84,6 @@ export class ComprehensiveIPSCompositionBuilder {
                     display: resource.resourceType
                 }))
             };
-
-            // Track mandatory sections
-            if (!options?.isOptional) {
-                this.mandatorySectionsAdded.add(sectionType);
-            }
 
             this.sections.push(sectionEntry);
         }
@@ -119,50 +109,28 @@ export class ComprehensiveIPSCompositionBuilder {
         }
         this.patient = patientEntry.resource as TPatient;
 
+        const resources = bundle.entry.map(e => e.resource);
+
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
             const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
             const customFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
-            let resources = bundle.entry
-                .map(e => e.resource)
-                .filter(r => typeof r?.resourceType === 'string' && resourceTypesForSection.includes(r.resourceType as string));
+            
+            // Filter resources by resource type first            
+            let sectionResources = resources.filter(
+              r =>
+                r &&
+                typeof r.resourceType === 'string' &&
+                resourceTypesForSection.includes(r.resourceType)
+            );
+
+            // Apply custom filter if it exists
             if (customFilter) {
-                resources = resources.filter(customFilter);
+                sectionResources = sectionResources.filter(resource => resource && customFilter(resource));
             }
-            if (resources.length > 0) {
-                await this.addSectionAsync(sectionType, resources as TDomainResource[], timezone, {
-                    isOptional: true,
-                });
-            }
+            await this.addSectionAsync(sectionType, sectionResources as TDomainResource[], timezone);
         }
         return this;
-    }
-
-    /**
-     * Builds the final Composition sections, ensuring all mandatory sections are present.
-     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    build(timezone: string | undefined): TCompositionSection[] {
-        // Ensure all mandatory sections are present
-        const mandatorySections = [
-            IPSSections.ALLERGIES,
-            IPSSections.MEDICATIONS,
-            IPSSections.PROBLEMS,
-            IPSSections.IMMUNIZATIONS
-        ];
-
-        const missingMandatorySections = mandatorySections.filter(
-            section => !this.mandatorySectionsAdded.has(section)
-        );
-
-        if (missingMandatorySections.length > 0) {
-            throw new Error(
-                `Missing mandatory IPS sections: ${missingMandatorySections.join(', ')}`
-            );
-        }
-
-        return this.sections;
     }
 
     /**
@@ -206,7 +174,12 @@ export class ComprehensiveIPSCompositionBuilder {
             date: new Date().toISOString(),
             title: 'International Patient Summary',
             section: this.sections,
-            text: await this.createCompositionNarrativeAsync(timezone)
+            text: await NarrativeGenerator.generateNarrativeAsync(
+                IPSSections.PATIENT,
+                [this.patient as TDomainResource],
+                timezone,
+                false
+            )
         };
 
         // Create the bundle with proper document type
@@ -256,51 +229,5 @@ export class ComprehensiveIPSCompositionBuilder {
         });
 
         return bundle;
-    }
-
-    /**
-     * Creates a narrative for the composition based on the patient and sections.
-     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
-     * @private
-     */
-    private async createCompositionNarrativeAsync(timezone: string | undefined): Promise<TNarrative> {
-        const patient = this.patient;
-        let fullNarrativeContent: string = "";
-
-        // Generate narrative for the patient
-        const patientNarrative: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(
-            IPSSections.PATIENT,
-            [patient as TDomainResource],
-            timezone,
-            false
-        );
-        fullNarrativeContent = fullNarrativeContent.concat(patientNarrative || '');
-
-        // Generate narrative for the sections and add to this narrative
-        for (const sectionType of Object.values(IPSSections)) {
-            // Skip the patient section, it is already included above
-            if (sectionType === IPSSections.PATIENT) {
-                continue;
-            }
-            const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
-            const allResources = Array.from(this.resources);
-            const resources = allResources
-                .filter(r => resourceTypesForSection.includes(r.resourceType as string));
-
-            if (resources.length > 0) {
-                const sectionNarrative: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(
-                    sectionType,
-                    resources,
-                    timezone,
-                    false
-                );
-                fullNarrativeContent = fullNarrativeContent.concat(sectionNarrative || '');
-            }
-        }
-
-        return {
-            status: 'generated',
-            div: await NarrativeGenerator.wrapInXhtmlAsync(fullNarrativeContent, true)
-        };
     }
 }

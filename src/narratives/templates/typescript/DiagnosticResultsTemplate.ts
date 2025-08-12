@@ -33,12 +33,24 @@ export class DiagnosticResultsTemplate implements ITemplate {
     // Generate Observations section if we have any Observation resources
     const observations = this.getObservations(resource);
     if (observations.length > 0) {
+      // sort observations by date descending
+      observations.sort((a, b) => {
+        const dateA = a.effectiveDateTime || a.effectivePeriod?.start;
+        const dateB = b.effectiveDateTime || b.effectivePeriod?.start;
+        return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+      });
       html += this.renderObservations(templateUtilities, observations, timezone);
     }
 
     // Generate DiagnosticReports section if we have any DiagnosticReport resources
     const diagnosticReports = this.getDiagnosticReports(resource);
     if (diagnosticReports.length > 0) {
+      // sort diagnostic reports by date descending
+      diagnosticReports.sort((a, b) => {
+        const dateA = a.issued;
+        const dateB = b.issued;
+        return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+      });
       html += this.renderDiagnosticReports(templateUtilities, diagnosticReports, timezone);
     }
 
@@ -84,7 +96,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    */
   private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone: string | undefined): string {
     let html = `
-      <h5>Diagnostic Results: Observations</h5>
+      <h5>Observations</h5>
       <table>
         <thead>
           <tr>
@@ -103,14 +115,14 @@ export class DiagnosticResultsTemplate implements ITemplate {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
       // Add table row
       html += `
-        <tr id="${(templateUtilities.narrativeLinkId(obs))}">
+        <tr id="${templateUtilities.narrativeLinkId(obs)}">
           <td>${templateUtilities.codeableConcept(obs.code)}</td>
           <td>${templateUtilities.extractObservationValue(obs)}</td>
           <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
           <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
           <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
           <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
-          <td>${templateUtilities.renderTime(obs.effectiveDateTime, timezone)}</td>
+          <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
         </tr>`;
     }
 
@@ -130,7 +142,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    */
   private static renderDiagnosticReports(templateUtilities: TemplateUtilities, reports: Array<TDiagnosticReport>, timezone: string | undefined): string {
     let html = `
-      <h5>Diagnostic Results: Reports</h5>
+      <h5>Diagnostic Reports</h5>
       <table>
         <thead>
           <tr>

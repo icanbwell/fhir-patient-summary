@@ -19,6 +19,8 @@ import {TAnnotation} from "../../../types/partials/Annotation";
 import {TPeriod} from "../../../types/partials/Period";
 import {TRange} from "../../../types/partials/Range";
 import {TRatio} from "../../../types/partials/Ratio";
+import { PREGNANCY_LONIC_CODES } from '../../../structures/ips_section_loinc_codes';
+import { TCoding } from '../../../types/partials/Coding';
 
 type ObservationValueType =
     | string
@@ -63,11 +65,9 @@ export class TemplateUtilities {
             }
         }
 
-        // Default order: text, display, code, coding[0].display, coding[0].code
+        // Default order: text, coding[0].display, coding[0].code
         if (cc.text) {
             return cc.text;
-        } else if ('display' in cc && cc.display) {
-            return cc.display as string;
         } else if (cc.coding && cc.coding[0]) {
             if (cc.coding[0].display) {
                 return cc.coding[0].display;
@@ -107,8 +107,8 @@ export class TemplateUtilities {
     renderDevice(deviceRef: TReference): string {
         const device: TDevice | undefined = deviceRef && this.resolveReference(deviceRef) as TDevice;
 
-        if (device && device.resourceType === 'Device' && device.type) {
-            return this.codeableConcept(device.type, 'display');
+        if (device && device.resourceType === 'Device' && device.deviceName && device.deviceName.length > 0) {
+            return this.safeConcat(device.deviceName, 'name');
         }
 
         return '';
@@ -326,8 +326,15 @@ export class TemplateUtilities {
         const texts: string[] = [];
 
         for (const item of list) {
-            if (item && item.manifestation && item.manifestation[0] && item.manifestation[0].text) {
-                texts.push(item.manifestation[0].text);
+            if (item && item.manifestation && item.manifestation[0]){ 
+                if (item.manifestation[0].text) {
+                  texts.push(item.manifestation[0].text);
+                } else if (
+                  item.manifestation[0].coding &&
+                  item.manifestation[0].coding[0]?.display
+                ) {
+                  texts.push(item.manifestation[0].coding[0].display);
+                }
             }
         }
 
@@ -533,6 +540,29 @@ export class TemplateUtilities {
         }
 
         return null;
+    }
+
+    public extractPregnancyStatus(observation: TObservation): string {
+        let status = '';
+        // extract pregnancy status from the observation
+        observation.code?.coding?.forEach((c: TCoding) => {
+            if (c.code && Object.keys(PREGNANCY_LONIC_CODES.PREGNANCY_STATUS).includes(c.code)) {
+                status = PREGNANCY_LONIC_CODES.PREGNANCY_STATUS[c.code as keyof typeof PREGNANCY_LONIC_CODES.PREGNANCY_STATUS];
+            }
+        });
+
+        // check valueCodeableConcept for outcome codes
+        if (observation.valueCodeableConcept) {
+            observation.valueCodeableConcept.coding?.forEach((c: TCoding) => {
+                if (c.code && Object.keys(PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME).includes(c.code)) {
+                    if (status) {
+                        status += ' - ';
+                    }
+                    status += PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME[c.code as keyof typeof PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME];
+                }
+            });
+        }
+        return status;
     }
 
     private formatQuantityValue(quantity: TQuantity): string {
