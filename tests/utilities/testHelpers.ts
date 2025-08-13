@@ -50,6 +50,8 @@ export function readNarrativeFile(folder: string, codeValue: string, sectionTitl
     const filename = `${codeValue}_${safeSectionTitle}.html`;
     const filePath = path.join(folder, filename);
 
+    console.log("FilePath created: ", filePath);
+
     try {
         return fs.readFileSync(filePath, 'utf-8');
     } catch (error) {
