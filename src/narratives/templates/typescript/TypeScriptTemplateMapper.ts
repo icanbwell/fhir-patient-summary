@@ -15,7 +15,6 @@ import { PlanOfCareTemplate } from './PlanOfCareTemplate';
 import { FunctionalStatusTemplate } from './FunctionalStatusTemplate';
 import { PregnancyTemplate } from './PregnancyTemplate';
 import { AdvanceDirectivesTemplate } from './AdvanceDirectivesTemplate';
-import { FamilyHistoryTemplate } from './FamilyHistoryTemplate';
 import { TBundle } from '../../../types/resources/Bundle';
 import { ITemplate } from './interfaces/ITemplate';
 
@@ -36,7 +35,6 @@ export class TypeScriptTemplateMapper {
     [IPSSections.MEDICAL_DEVICES]: new MedicalDevicesTemplate(),
     [IPSSections.DIAGNOSTIC_REPORTS]: new DiagnosticResultsTemplate(),
     [IPSSections.PROCEDURES]: new HistoryOfProceduresTemplate(),
-    [IPSSections.FAMILY_HISTORY]: new FamilyHistoryTemplate(),
     [IPSSections.SOCIAL_HISTORY]: new SocialHistoryTemplate(),
     [IPSSections.PREGNANCY_HISTORY]: new PregnancyTemplate(),
     [IPSSections.FUNCTIONAL_STATUS]: new FunctionalStatusTemplate(),

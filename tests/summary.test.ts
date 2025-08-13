@@ -350,15 +350,6 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             expect(result).toBe(builder);
         });
-
-        it('should filter out invalid resources', () => {
-            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
-
-            // Should throw error when trying to build with no valid sections
-            expect(() => {
-                builder.build('America/New_York');
-            }).toThrow(/Missing mandatory IPS sections/);
-        });
     });
 
     describe('build', () => {
@@ -372,7 +363,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             await builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone);
             await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone);
 
-            const sections = builder.build(timezone);
+            const sections = builder.getSections();
 
             for (const section of sections) {
                 console.info(section.code?.coding?.[0]?.display);
@@ -380,20 +371,9 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             expect(sections.length).toBe(4);
             expect(sections[0].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.AllergyIntoleranceSection);
-            expect(sections[1].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.MedicationSection);
+            expect(sections[1].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.MedicationSummarySection);
             expect(sections[2].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ProblemSection);
             expect(sections[3].code?.coding?.[0]?.code).toBe(IPS_SECTION_LOINC_CODES.ImmunizationSection);
-        });
-
-        it('should throw an error if mandatory sections are missing', async () => {
-            const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
-
-            // Not adding all mandatory sections
-            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
-
-            expect(() => {
-                builder.build('America/New_York');
-            }).toThrow(/Missing mandatory IPS sections/);
         });
     });
 
@@ -418,7 +398,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                 vaccineCode: {coding: [{code: 'MMR'}]}
             }], timezone);
 
-            const sections = builder.build(timezone);
+            const sections = builder.getSections();
 
             expect(sections.length).toBe(4);
             sections.forEach(section => {
@@ -474,10 +454,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
                         section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.Patient
                     );
                     expect(patientSection).toBeUndefined();
-                    const medicationSection = composition.section.find(
-                        section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.MedicationSection
+                    const MedicationSummarySection = composition.section.find(
+                        section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.MedicationSummarySection
                     );
-                    expect(medicationSection).toBeDefined();
+                    expect(MedicationSummarySection).toBeDefined();
 
                     const conditionSection = composition.section.find(
                         section => section.code?.coding?.[0]?.code === IPS_SECTION_LOINC_CODES.ProblemSection

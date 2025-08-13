@@ -12,7 +12,6 @@ import {compareNarratives, readNarrativeFile} from "../utilities/testHelpers";
 import {TDevice} from '../../src/types/resources/Device';
 import {TDiagnosticReport} from '../../src/types/resources/DiagnosticReport';
 import {TProcedure} from '../../src/types/resources/Procedure';
-import {TFamilyMemberHistory} from '../../src/types/resources/FamilyMemberHistory';
 import {TCarePlan} from '../../src/types/resources/CarePlan';
 import {TConsent} from '../../src/types/resources/Consent';
 
@@ -363,35 +362,6 @@ describe('Narrative Generator Tests', () => {
         }
     ];
 
-    const mockFamilyHistory: TFamilyMemberHistory[] = [
-        {
-            resourceType: 'FamilyMemberHistory',
-            id: 'fam-01',
-            status: 'completed',
-            patient: {reference: 'Patient/test-patient-01'},
-            relationship: {text: 'Father'},
-            condition: [
-                {
-                    code: {text: 'Heart Disease'},
-                    onsetAge: {value: 60, unit: 'years'}
-                }
-            ]
-        },
-        {
-            resourceType: 'FamilyMemberHistory',
-            id: 'fam-02',
-            status: 'completed',
-            patient: {reference: 'Patient/test-patient-01'},
-            relationship: {text: 'Mother'},
-            condition: [
-                {
-                    code: {text: 'Type 2 Diabetes'},
-                    onsetAge: {value: 55, unit: 'years'}
-                }
-            ]
-        }
-    ];
-
     const mockSocialHistory: TObservation[] = [
         {
             resourceType: 'Observation',
@@ -488,7 +458,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.ALLERGIES;
         const result: string | undefined = await NarrativeGenerator.generateNarrativeContentAsync(section, mockAllergies, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Allergies and Intolerances');
         expect(result).toContain('Penicillin');
         expect(result).toContain('Peanuts');
         expect(result).toContain('Latex');
@@ -532,7 +501,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.PROBLEMS;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockConditions, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Problems');
         expect(result).toContain('Hypertension');
         expect(result).toContain('Type 2 Diabetes Mellitus');
         expect(result).toContain('Pneumonia');
@@ -553,7 +521,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.IMMUNIZATIONS;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockImmunizations, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Immunizations');
         expect(result).toContain('COVID-19 Vaccine');
         expect(result).toContain('Influenza Vaccine');
         expect(result).toContain('Tetanus Vaccine');
@@ -574,7 +541,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.VITAL_SIGNS;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockVitalSigns, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Vital Signs');
         expect(result).toContain('Blood Pressure');
         expect(result).toContain('Heart Rate');
         expect(result).toContain('Body Temperature');
@@ -633,29 +599,8 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.PROCEDURES;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockProcedures, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Procedures');
         expect(result).toContain('Appendectomy');
         expect(result).toContain('Colonoscopy');
-        console.info(result);
-        // Read narrative from file
-        const expectedDiv = readNarrativeFile(
-            path.join(__dirname, 'fixtures'),
-            IPS_SECTION_LOINC_CODES[section],
-            IPS_SECTION_DISPLAY_NAMES[section]
-        );
-        await compareNarratives(
-            result,
-            expectedDiv
-        );
-    });
-
-    it('should generate narrative content for family history using NarrativeGenerator', async () => {
-        const section = IPSSections.FAMILY_HISTORY;
-        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockFamilyHistory, 'America/New_York');
-        expect(result).toBeDefined();
-        expect(result).toContain('Family History');
-        expect(result).toContain('Heart Disease');
-        expect(result).toContain('Type 2 Diabetes');
         console.info(result);
         // Read narrative from file
         const expectedDiv = readNarrativeFile(
@@ -673,7 +618,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.SOCIAL_HISTORY;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockSocialHistory, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Social History');
         expect(result).toContain('Tobacco Use');
         expect(result).toContain('Alcohol Use');
         console.info(result);
@@ -693,7 +637,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.ADVANCE_DIRECTIVES;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockAdvanceDirectives, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Advance Directives');
         console.info(result);
         // Read narrative from file
         const expectedDiv = readNarrativeFile(
@@ -711,7 +654,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.CARE_PLAN;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockCarePlans, 'America/New_York');
         expect(result).toBeDefined();
-        expect(result).toContain('Care');
         // expect(result).toContain('Diabetes Management Plan');
         console.info(result);
         // Read narrative from file

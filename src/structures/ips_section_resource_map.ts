@@ -12,7 +12,6 @@ export const IPSSectionResourceMap: Record<IPSSections, string[]> = {
     [IPSSections.MEDICAL_DEVICES]: ['DeviceUseStatement', 'Device'], // Device resource is used for medical devices name
     [IPSSections.DIAGNOSTIC_REPORTS]: ['DiagnosticReport', 'Observation'],
     [IPSSections.PROCEDURES]: ['Procedure'],
-    [IPSSections.FAMILY_HISTORY]: ['FamilyMemberHistory'],
     [IPSSections.SOCIAL_HISTORY]: ['Observation'],
     [IPSSections.PREGNANCY_HISTORY]: ['Observation'],
     [IPSSections.FUNCTIONAL_STATUS]: ['Condition', 'ClinicalImpression'],
@@ -37,8 +36,6 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => ["DiagnosticReport", "Observation"].includes(resource.resourceType) && resource.status === 'final',
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
-    // Only include family history resources
-    [IPSSections.FAMILY_HISTORY]: (resource) => resource.resourceType === 'FamilyMemberHistory',
     // Only include social history Observations (category.coding contains 'social-history')
     [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && resource.code?.coding?.some((c: any) => Object.keys(SOCIAL_HISTORY_LONIC_CODES).includes(c.code)),
     // Only include pregnancy history Observations (category.coding contains 'pregnancy')

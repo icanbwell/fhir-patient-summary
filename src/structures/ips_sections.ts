@@ -25,7 +25,4 @@ export enum IPSSections {
     // missing IPS Sections
     // ALERTS = 'AlertsSection',
     // PATIENT_STORY = 'PatientStorySection',
-
-    // additional Non-IPS Sections
-    FAMILY_HISTORY = 'FamilyHistorySection',
 }

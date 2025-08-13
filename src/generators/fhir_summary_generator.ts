@@ -178,7 +178,7 @@ export class ComprehensiveIPSCompositionBuilder {
                 IPSSections.PATIENT,
                 [this.patient as TDomainResource],
                 timezone,
-                false
+                true
             )
         };
 
@@ -229,5 +229,13 @@ export class ComprehensiveIPSCompositionBuilder {
         });
 
         return bundle;
+    }
+
+    /**
+     * Returns the Composition sections without creating a full bundle.
+     * @returns Array of TCompositionSection
+     */
+    getSections(): TCompositionSection[] {
+        return this.sections;
     }
 }
