@@ -114,8 +114,7 @@ export class FunctionalStatusTemplate implements ITemplate {
       }
 
       html += `</tbody>
-        </table>
-      </div>`;
+        </table>`;
     }
 
     if (clinicalImpressions.length > 0) {
@@ -186,6 +185,9 @@ export class FunctionalStatusTemplate implements ITemplate {
             <td>${notes}</td>
           </tr>`;
       }
+
+      html += `</tbody>
+        </table>`;
     }
 
     return html;

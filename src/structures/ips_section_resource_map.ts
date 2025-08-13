@@ -1,4 +1,4 @@
-import { PREGNANCY_LONIC_CODES, SOCIAL_HISTORY_LONIC_CODES } from "./ips_section_loinc_codes";
+import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 
 // Mapping of IPSSections to FHIR resource types
@@ -37,9 +37,9 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
     // Only include social history Observations (category.coding contains 'social-history')
-    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && resource.code?.coding?.some((c: any) => Object.keys(SOCIAL_HISTORY_LONIC_CODES).includes(c.code)),
+    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && resource.code?.coding?.some((c: any) => Object.keys(SOCIAL_HISTORY_LOINC_CODES).includes(c.code)),
     // Only include pregnancy history Observations (category.coding contains 'pregnancy')
-    [IPSSections.PREGNANCY_HISTORY]: (resource) => resource.resourceType === 'Observation' && (resource.code?.coding?.some((c: any) => Object.keys(PREGNANCY_LONIC_CODES.PREGNANCY_STATUS).includes(c.code)) || resource.valueCodeableConcept?.coding?.some((c: any) => Object.keys(PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME).includes(c.code))),
+    [IPSSections.PREGNANCY_HISTORY]: (resource) => resource.resourceType === 'Observation' && (resource.code?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code)) || resource.valueCodeableConcept?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code))),
     // Only include active functional status Conditions or ClinicalImpressions
     [IPSSections.FUNCTIONAL_STATUS]: (resource) => (resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => typeof c.code === 'string')) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
     // Only include resolved medical history Conditions

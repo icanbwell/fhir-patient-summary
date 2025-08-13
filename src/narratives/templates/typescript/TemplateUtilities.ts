@@ -19,7 +19,7 @@ import {TAnnotation} from "../../../types/partials/Annotation";
 import {TPeriod} from "../../../types/partials/Period";
 import {TRange} from "../../../types/partials/Range";
 import {TRatio} from "../../../types/partials/Ratio";
-import { PREGNANCY_LONIC_CODES } from '../../../structures/ips_section_loinc_codes';
+import { PREGNANCY_LOINC_CODES } from '../../../structures/ips_section_loinc_codes';
 import { TCoding } from '../../../types/partials/Coding';
 
 type ObservationValueType =
@@ -546,19 +546,19 @@ export class TemplateUtilities {
         let status = '';
         // extract pregnancy status from the observation
         observation.code?.coding?.forEach((c: TCoding) => {
-            if (c.code && Object.keys(PREGNANCY_LONIC_CODES.PREGNANCY_STATUS).includes(c.code)) {
-                status = PREGNANCY_LONIC_CODES.PREGNANCY_STATUS[c.code as keyof typeof PREGNANCY_LONIC_CODES.PREGNANCY_STATUS];
+            if (c.code && Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code)) {
+                status = PREGNANCY_LOINC_CODES.PREGNANCY_STATUS[c.code as keyof typeof PREGNANCY_LOINC_CODES.PREGNANCY_STATUS];
             }
         });
 
         // check valueCodeableConcept for outcome codes
         if (observation.valueCodeableConcept) {
             observation.valueCodeableConcept.coding?.forEach((c: TCoding) => {
-                if (c.code && Object.keys(PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME).includes(c.code)) {
+                if (c.code && Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code)) {
                     if (status) {
                         status += ' - ';
                     }
-                    status += PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME[c.code as keyof typeof PREGNANCY_LONIC_CODES.PREGNANCY_OUTCOME];
+                    status += PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME[c.code as keyof typeof PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME];
                 }
             });
         }

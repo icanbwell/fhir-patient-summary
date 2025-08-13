@@ -40,7 +40,7 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
   [IPSSections.SOCIAL_HISTORY]: 'Social History',
 };
 
-const PREGNANCY_LONIC_CODES = {
+const PREGNANCY_LOINC_CODES = {
   PREGNANCY_STATUS: {
     'LA15173-0': 'Pregnant',
     'LA26683-5': 'Not pregnant',
@@ -59,7 +59,7 @@ const PREGNANCY_LONIC_CODES = {
   },
 };
 
-const SOCIAL_HISTORY_LONIC_CODES = {
+const SOCIAL_HISTORY_LOINC_CODES = {
   '72166-2': 'Tobacco Use',
   '74013-4': 'Alcohol Use',
 };
@@ -67,6 +67,6 @@ const SOCIAL_HISTORY_LONIC_CODES = {
 export {
   IPS_SECTION_LOINC_CODES,
   IPS_SECTION_DISPLAY_NAMES,
-  PREGNANCY_LONIC_CODES,
-  SOCIAL_HISTORY_LONIC_CODES,
+  PREGNANCY_LOINC_CODES,
+  SOCIAL_HISTORY_LOINC_CODES,
 };
