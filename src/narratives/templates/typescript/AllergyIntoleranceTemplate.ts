@@ -48,13 +48,25 @@ export class AllergyIntoleranceTemplate implements ITemplate {
       }
     }
 
+    // Sort allergies by onsetDateTime (if available) in descending order for both active and resolved
+    activeAllergies.sort((a, b) => {
+      const dateA = a.onsetDateTime;
+      const dateB = b.onsetDateTime;
+      return (dateA && dateB) ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+    });
+    resolvedAllergies.sort((a, b) => {
+      const dateA = a.onsetDateTime;
+      const dateB = b.onsetDateTime;
+      return (dateA && dateB) ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+    });
+
     // Start building the HTML with proper XHTML namespace
     let html = '';
 
     // Active Allergies section
     html += `
       <div class="ActiveAllergies">
-        <h3>Active Allergies and Intolerances</h3>
+        <h3>Active</h3>
         <table class="ActiveAllergyTable">
           <thead>
             <tr>
@@ -88,7 +100,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
     // Resolved Allergies section
     html += `
       <div class="ResolvedAllergies">
-        <h3>Resolved Allergies and Intolerances</h3>
+        <h3>Resolved</h3>
         <table class="ResolvedAllergyTable">
           <thead>
             <tr>
@@ -146,7 +158,7 @@ export class AllergyIntoleranceTemplate implements ITemplate {
         <tr id="${(templateUtilities.narrativeLinkId(allergy.extension))}">
           <td class="Name"><span class="AllergenName">${templateUtilities.codeableConcept(allergy.code)}</span></td>
           <td class="Status">${templateUtilities.codeableConcept(allergy.clinicalStatus) || '-'}</td>
-          <td class="Category">${templateUtilities.safeConcat(allergy.category, 'value') || '-'}</td>
+          <td class="Category">${templateUtilities.safeConcat(allergy.category) || '-'}</td>
           <td class="Reaction">${templateUtilities.concatReactionManifestation(allergy.reaction) || '-'}</td>
           <td class="Severity">${templateUtilities.safeConcat(allergy.reaction, 'severity') || '-'}</td>
           <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime, timezone) || '-'}</td>

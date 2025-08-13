@@ -37,7 +37,6 @@ export class PatientTemplate implements ITemplate {
 
         html += `
         <div>
-          <h2>Patient Summary</h2>
           <ul>
             <li><strong>Name(s):</strong>${this.renderNames(patient)}</li>
             <li><strong>Gender:</strong>${patient.gender ? this.capitalize(patient.gender) : ''}</li>

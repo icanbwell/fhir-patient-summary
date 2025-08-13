@@ -16,6 +16,17 @@ export class ImmunizationsTemplate implements ITemplate {
    * @returns HTML string for rendering
    */
   generateNarrative(resource: TBundle, timezone: string | undefined): string {
+    // sort the immunizations by date in descending order
+    if (resource.entry && Array.isArray(resource.entry)) {
+      resource.entry.sort((a, b) => {
+        const dateA = a.resource?.occurrenceDateTime;
+        const dateB = b.resource?.occurrenceDateTime;
+        return (typeof dateA === 'string' && typeof dateB === 'string')
+          ? new Date(dateB).getTime() - new Date(dateA).getTime()
+          : 0;
+      });
+    }
+
     return ImmunizationsTemplate.generateStaticNarrative(resource, timezone);
   }
 
@@ -29,7 +40,6 @@ export class ImmunizationsTemplate implements ITemplate {
     const templateUtilities = new TemplateUtilities(resource);
     // Start building the HTML table
     let html = `
-      <h5>Immunizations</h5>
       <table>
         <thead>
           <tr>

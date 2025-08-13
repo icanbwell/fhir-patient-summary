@@ -68,7 +68,7 @@ export async function compareNarratives(generatedHtml: string | undefined, expec
     }
     // Beautify both HTML strings for comparison
     const generatedFormattedHtml = await beautifyHtml(generatedHtml);
-    const expectedFormattedHtml = await beautifyHtml(expectedHtml);
+    const expectedFormattedHtml = expectedHtml;
 
     // Compare the formatted HTML strings
     if (generatedFormattedHtml === expectedFormattedHtml) {

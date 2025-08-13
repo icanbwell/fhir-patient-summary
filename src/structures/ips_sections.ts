@@ -1,25 +1,28 @@
 // Enum for all possible IPS sections
 export enum IPSSections {
-    // Mandatory Sections
     PATIENT = 'Patient',
-    ALLERGIES = 'AllergyIntoleranceSection',
-    MEDICATIONS = 'MedicationSection',
-    PROBLEMS = 'ProblemSection',
-    IMMUNIZATIONS = 'ImmunizationSection',
 
-    // Optional Sections
-    VITAL_SIGNS = 'VitalSignsSection',
-    MEDICAL_DEVICES = 'MedicalDeviceSection',
+    // Mandatory Sections
+    PROBLEMS = 'ProblemSection',
+    ALLERGIES = 'AllergyIntoleranceSection',
+    MEDICATIONS = 'MedicationSummarySection',
 
     // Additional Recommended Sections
-    DIAGNOSTIC_REPORTS = 'DiagnosticReportSection',
-    PROCEDURES = 'ProcedureSection',
-    FAMILY_HISTORY = 'FamilyHistorySection',
-    SOCIAL_HISTORY = 'SocialHistorySection',
-    PREGNANCY_HISTORY = 'PregnancyHistorySection',
+    IMMUNIZATIONS = 'ImmunizationSection',
+    DIAGNOSTIC_REPORTS = 'ResultsSection',
+    PROCEDURES = 'HistoryOfProceduresSection',
+    MEDICAL_DEVICES = 'MedicalDeviceSection',
+    
+    // Optional Sections
+    ADVANCE_DIRECTIVES = 'AdvanceDirectivesSection',
     FUNCTIONAL_STATUS = 'FunctionalStatusSection',
-    MEDICAL_HISTORY = 'MedicalHistorySection',
-    CARE_PLAN = 'CarePlanSection',
-    CLINICAL_IMPRESSION = 'ClinicalImpressionSection',
-    ADVANCE_DIRECTIVES = 'AdvanceDirectivesSection'
+    PREGNANCY_HISTORY = 'HistoryOfPregnancySection',
+    CARE_PLAN = 'PlanOfCareSection',
+    MEDICAL_HISTORY = 'HistoryOfPastIllnessSection',
+    SOCIAL_HISTORY = 'SocialHistorySection',
+    VITAL_SIGNS = 'VitalSignsSection',
+    
+    // missing IPS Sections
+    // ALERTS = 'AlertsSection',
+    // PATIENT_STORY = 'PatientStorySection',
 }

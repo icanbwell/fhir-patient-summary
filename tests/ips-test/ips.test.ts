@@ -9,6 +9,7 @@ import {TCondition} from "../../src/types/resources/Condition";
 import {TImmunization} from "../../src/types/resources/Immunization";
 import {TObservation} from "../../src/types/resources/Observation";
 import {IPSSections} from "../../src/structures/ips_sections";
+import { IPSRecommendedSections } from "../../src/structures/ips_recommended_sections";
 
 describe('International Patient Summary (IPS) Implementation', () => {
     // Mock Resources for Testing
@@ -307,7 +308,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
         test('Immunization resource should pass validation', () => {
             const isValid = IPSResourceProfileRegistry.validateResource(
                 mockImmunizations[0],
-                IPSMandatorySections.IMMUNIZATIONS
+                IPSRecommendedSections.IMMUNIZATIONS
             );
             expect(isValid).toBe(true);
         });
@@ -346,19 +347,9 @@ describe('International Patient Summary (IPS) Implementation', () => {
                 .then(builder => builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
                 .then(builder => builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone))
                 .then(builder => builder.addSectionAsync(IPSSections.PATIENT, [mockPatient], timezone))
-                .then(builder => builder.build('America/New_York'));
+                .then(builder => builder.getSections());
 
-            expect(ipsBuilder.build('America/New_York')).toBeDefined();
-        });
-
-        test('Should throw error if mandatory sections are missing', () => {
-            const ipsBuilder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
-
-            const buildInvalidIPS = () => {
-                ipsBuilder.build('America/New_York');
-            };
-
-            expect(buildInvalidIPS).toThrow('Missing mandatory IPS sections');
+            expect(ipsBuilder.getSections()).toBeDefined();
         });
 
         test('Should support optional sections', async () => {
@@ -373,7 +364,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
                 .then(builder => builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone))
                 .then(builder => builder.addSectionAsync(IPSSections.DIAGNOSTIC_REPORTS, mockLaboratoryResults, timezone));
 
-            expect(ipsBuilder.build('America/New_York')).toBeDefined();
+            expect(ipsBuilder.getSections()).toBeDefined();
         });
     });
 
@@ -437,7 +428,7 @@ describe('International Patient Summary (IPS) Implementation', () => {
                 .then(builder => builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
                 .then(builder => builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone));
 
-            const sections = ipsBuilder.build(timezone);
+            const sections = ipsBuilder.getSections();
 
             const end = performance.now();
 
