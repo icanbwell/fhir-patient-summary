@@ -42,7 +42,7 @@ export class PatientTemplate implements ITemplate {
             <li><strong>Gender:</strong>${patient.gender ? this.capitalize(patient.gender) : ''}</li>
             <li><strong>Date of Birth:</strong>${patient.birthDate || ''}</li>
             <li><strong>Identifier(s):</strong>${this.renderIdentifiers(patient)}</li>
-            <li><strong>Telecom:</strong>${this.renderTelecom(patient)}</li>
+            <li><strong>Telecom:</strong><ul>${this.renderTelecom(patient)}</ul></li>
             <li><strong>Address(es):</strong>${this.renderAddresses(patient)}</li>
             <li><strong>Marital Status:</strong> ${patient.maritalStatus?.text || ''}</li>
             <li><strong>Deceased:</strong>${this.renderDeceased(patient)}</li>
@@ -65,11 +65,19 @@ export class PatientTemplate implements ITemplate {
       return '';
     }
 
-    return patient.name.map(name => {
-      const nameText = name.text ||
-        ((name.given || []).join(' ') + ' ' + (name.family || '')).trim();
-      return `<ul><li>${nameText}</li></ul>`;
-    }).join('');
+    const uniqueNames = new Set<string>();
+
+    patient.name.forEach(name => {
+      if (name.use !== 'old') {
+        const nameText = name.text ||
+          ((name.given || []).join(' ') + ' ' + (name.family || '')).trim();
+        uniqueNames.add(nameText);
+      }
+    });
+
+    return Array.from(uniqueNames)
+        .map(nameText => `<ul><li>${nameText}</li></ul>`)
+        .join('');
   }
 
   /**
@@ -90,21 +98,53 @@ export class PatientTemplate implements ITemplate {
   }
 
   /**
-   * Renders patient telecom information as HTML list items
+   * Renders patient telecom information grouped by system
    * @param patient - Patient resource
-   * @returns HTML string of list items
+   * @returns HTML string grouped by system
    */
   private static renderTelecom(patient: TPatient): string {
     if (!patient.telecom || patient.telecom.length === 0) {
       return '';
     }
 
-    return patient.telecom.map(telecom => {
-      const system = telecom.system ? this.capitalize(telecom.system) : '';
-      const value = telecom.value || '';
-      const use = telecom.use ? ` (${telecom.use})` : '';
-      return `<ul><li>${system}: ${value}${use}</li></ul>`;
-    }).join('');
+    const systemPriority = ['email', 'phone', 'pager', 'sms', 'fax', 'url', 'other'];
+    const telecomBySystem = new Map<string, Set<string>>();
+
+    // Group unique values by system
+    patient.telecom.forEach(telecom => {
+      if (telecom.system && telecom.value) {
+        const system = telecom.system.toLowerCase();
+        if (!telecomBySystem.has(system)) {
+          telecomBySystem.set(system, new Set<string>());
+        }
+        telecomBySystem.get(system)!.add(telecom.value);
+      }
+    });
+
+    // Sort systems by priority and render
+    return Array.from(telecomBySystem.entries())
+      .sort(([systemA], [systemB]) => {
+        const priorityA = systemPriority.indexOf(systemA);
+        const priorityB = systemPriority.indexOf(systemB);
+        
+        // If both are in priority list, sort by priority
+        if (priorityA !== -1 && priorityB !== -1) {
+          return priorityA - priorityB;
+        }
+        // If only one is in priority list, prioritize it
+        if (priorityA !== -1) return -1;
+        if (priorityB !== -1) return 1;
+        // If neither is in priority list, sort alphabetically
+        return systemA.localeCompare(systemB);
+      })
+      .map(([system, values]) => {
+        const systemLabel = this.capitalize(system);
+        const valueList = Array.from(values)
+          .map(value => `<li>${value}</li>`)
+          .join('');
+        return `<li><strong>${systemLabel}:</strong><ul>${valueList}</ul></li>`;
+      })
+      .join('');
   }
 
   /**
@@ -117,11 +157,20 @@ export class PatientTemplate implements ITemplate {
       return '';
     }
 
-    return patient.address.map(address => {
+    const uniqueAddresses = new Set<string>();
+
+    patient.address.forEach(address => {
       const addressText = address.text ||
         ((address.line || []).join(', ') + ', ' + (address.city || '') + ', ' + (address.country || '')).trim();
-      return `<ul><li>${addressText}</li></ul>`;
-    }).join('');
+      
+      if (addressText) {
+        uniqueAddresses.add(addressText);
+      }
+    });
+
+    return Array.from(uniqueAddresses)
+      .map(addressText => `<ul><li>${addressText}</li></ul>`)
+      .join('');
   }
 
   /**
