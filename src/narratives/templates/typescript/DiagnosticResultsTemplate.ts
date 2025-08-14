@@ -96,7 +96,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    */
   private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone: string | undefined): string {
     let html = `
-      <h5>Observations</h5>
+      <h3>Observations</h3>
       <table>
         <thead>
           <tr>
@@ -142,7 +142,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
    */
   private static renderDiagnosticReports(templateUtilities: TemplateUtilities, reports: Array<TDiagnosticReport>, timezone: string | undefined): string {
     let html = `
-      <h5>Diagnostic Reports</h5>
+      <h3>Diagnostic Reports</h3>
       <table>
         <thead>
           <tr>
