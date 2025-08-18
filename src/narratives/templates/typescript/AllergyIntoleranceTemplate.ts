@@ -38,9 +38,9 @@ export class AllergyIntoleranceTemplate implements ITemplate {
         const allergy = entry.resource as TAllergyIntolerance;
 
         // Check clinical status to determine if active or resolved
-        const status = allergy.clinicalStatus?.coding?.[0]?.code || '';
+        const isResolved = allergy.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code));
 
-        if (status === 'inactive' || status === 'resolved') {
+        if (isResolved) {
           resolvedAllergies.push(allergy);
         } else {
           activeAllergies.push(allergy);

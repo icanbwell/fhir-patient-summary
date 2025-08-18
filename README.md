@@ -2,6 +2,8 @@
 
 This project provides utilities to generate patient summaries from FHIR Bundles, including narrative generation and section extraction, following the International Patient Summary (IPS) specification.
 
+Detailed explanation of content of each section of IPS is [here](./sections.md)
+
 ## Installation
 
 Clone the repository and install dependencies:
