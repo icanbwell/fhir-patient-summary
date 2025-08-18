@@ -24,9 +24,7 @@ export const IPSSectionResourceMap: Record<IPSSections, string[]> = {
 export type IPSSectionResourceFilter = (resource: any) => boolean;
 
 export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
-    // Only include active allergies
-    [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'AllergyIntolerance' && resource.clinicalStatus?.coding?.some((c: any) => typeof c.code === 'string'),
-    // Only include active problems/conditions
+    // Only include active conditions
     [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition'  && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
     // Only include completed immunizations
     [IPSSections.IMMUNIZATIONS]: (resource) => (resource.resourceType === 'Immunization' && resource.status === 'completed') || (resource.resourceType === 'Organization'),
@@ -36,12 +34,12 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => ["DiagnosticReport", "Observation"].includes(resource.resourceType) && resource.status === 'final',
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
-    // Only include social history Observations (category.coding contains 'social-history')
+    // Only include social history Observations
     [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && resource.code?.coding?.some((c: any) => Object.keys(SOCIAL_HISTORY_LOINC_CODES).includes(c.code)),
-    // Only include pregnancy history Observations (category.coding contains 'pregnancy')
+    // Only include pregnancy history Observations
     [IPSSections.PREGNANCY_HISTORY]: (resource) => resource.resourceType === 'Observation' && (resource.code?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code)) || resource.valueCodeableConcept?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code))),
-    // Only include active functional status Conditions or ClinicalImpressions
-    [IPSSections.FUNCTIONAL_STATUS]: (resource) => (resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => typeof c.code === 'string')) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
+    // Only include Conditions or completed ClinicalImpressions
+    [IPSSections.FUNCTIONAL_STATUS]: (resource) => (resource.resourceType === 'Condition') || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
     // Only include resolved medical history Conditions
     [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code)),
     // Only include active care plans
