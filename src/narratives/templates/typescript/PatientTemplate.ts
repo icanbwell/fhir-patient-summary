@@ -200,7 +200,7 @@ export class PatientTemplate implements ITemplate {
       if (address.use === 'old') {
         return;
       }
-      const addressArray = []
+      const addressArray = [];
       if (address.text) {
         addressArray.push(address.text);
       } else {
