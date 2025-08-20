@@ -37,7 +37,6 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
           <thead>
             <tr>
               <th>Problem</th>
-              <th>Severity</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
               <th>Resolved Date</th>
@@ -49,7 +48,6 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
     for (const cond of resolvedConditions) {
       html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
           <td class="Name">${templateUtilities.codeableConcept(cond.code)}</td>
-          <td class="Severity">${templateUtilities.codeableConcept(cond.severity)}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
           <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
