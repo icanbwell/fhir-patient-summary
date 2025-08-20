@@ -19,7 +19,7 @@ import {TAnnotation} from "../../../types/partials/Annotation";
 import {TPeriod} from "../../../types/partials/Period";
 import {TRange} from "../../../types/partials/Range";
 import {TRatio} from "../../../types/partials/Ratio";
-import { PREGNANCY_LOINC_CODES } from '../../../structures/ips_section_loinc_codes';
+import { BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES } from '../../../structures/ips_section_loinc_codes';
 import { TCoding } from '../../../types/partials/Coding';
 
 type ObservationValueType =
@@ -493,6 +493,41 @@ export class TemplateUtilities {
 
 
     public extractObservationValue(observation: TObservation | TObservationComponent): ObservationValueType | null {
+        // additional handling for extracting blood pressure
+        if (
+          observation.code &&
+          observation.code.coding &&
+          'component' in observation &&
+          Array.isArray((observation as TObservation).component)
+        ) {
+          const bpCode = observation.code.coding.find(
+            (c: TCoding) => c.code === BLOOD_PRESSURE_LOINC_CODES.OBSERVATION
+          );
+          if (bpCode) {
+            // If blood pressure code is found, extract systolic and diastolic values
+            const systolicComponent = (
+              observation as TObservation
+            ).component?.find(c =>
+              c.code?.coding?.some(
+                cc => cc.code === BLOOD_PRESSURE_LOINC_CODES.SYSTOLIC
+              )
+            );
+            const diastolicComponent = (
+              observation as TObservation
+            ).component?.find(c =>
+              c.code?.coding?.some(
+                cc => cc.code === BLOOD_PRESSURE_LOINC_CODES.DIASTOLIC
+              )
+            );
+            if (systolicComponent && diastolicComponent) {
+              const systolic = this.extractObservationValue(systolicComponent);
+              const diastolic =
+                this.extractObservationValue(diastolicComponent);
+              return `${systolic}/${diastolic}`;
+            }
+          }
+        }
+
         // Check all possible value fields in order
         const valueFields = [
             'valueString',

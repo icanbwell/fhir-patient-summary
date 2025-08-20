@@ -71,7 +71,9 @@ export class PatientTemplate implements ITemplate {
       if (name.use !== 'old') {
         const nameText = name.text ||
           ((name.given || []).join(' ') + ' ' + (name.family || '')).trim();
-        uniqueNames.add(nameText);
+        if (nameText) {
+          uniqueNames.add(nameText);
+        }
       }
     });
 
@@ -108,11 +110,12 @@ export class PatientTemplate implements ITemplate {
     }
 
     const systemPriority = ['email', 'phone', 'pager', 'sms', 'fax', 'url', 'other'];
+    const numberSystems = ['phone', 'pager', 'sms', 'fax'];
     const telecomBySystem = new Map<string, Set<string>>();
 
     // Group unique values by system
     patient.telecom.forEach(telecom => {
-      if (telecom.system && telecom.value) {
+      if (telecom.system && telecom.value && telecom.use !== 'old') {
         const system = telecom.system.toLowerCase();
         if (!telecomBySystem.has(system)) {
           telecomBySystem.set(system, new Set<string>());
@@ -120,6 +123,40 @@ export class PatientTemplate implements ITemplate {
         telecomBySystem.get(system)!.add(telecom.value);
       }
     });
+    
+    // Remove duplicate numbers with country code
+    for (const system of numberSystems) {
+      const currentNumbers = Array.from(telecomBySystem.get(system) || []);
+      if (currentNumbers.length <= 1) continue;
+
+      // Extract only digits from numbers and create mapping
+      const numbersWithCleaned = currentNumbers.map(num => ({
+        original: num,
+        cleaned: num.replace(/\D/g, ''),
+      }));
+
+      // Find duplicates where one number is a suffix of another (indicating country code difference)
+      const toRemove = new Set<string>();
+
+      for (let i = 0; i < numbersWithCleaned.length; i++) {
+        for (let j = i + 1; j < numbersWithCleaned.length; j++) {
+          const num1 = numbersWithCleaned[i];
+          const num2 = numbersWithCleaned[j];
+
+          // If one cleaned number ends with the other, keep the longer one (with country code)
+          if (num1.cleaned.endsWith(num2.cleaned)) {
+            toRemove.add(num2.original);
+          } else if (num2.cleaned.endsWith(num1.cleaned)) {
+            toRemove.add(num1.original);
+          }
+        }
+      }
+
+      // Remove duplicates from the set
+      toRemove.forEach(numberToRemove => {
+        telecomBySystem.get(system)?.delete(numberToRemove);
+      });
+    }
 
     // Sort systems by priority and render
     return Array.from(telecomBySystem.entries())
@@ -160,9 +197,25 @@ export class PatientTemplate implements ITemplate {
     const uniqueAddresses = new Set<string>();
 
     patient.address.forEach(address => {
-      const addressText = address.text ||
-        ((address.line || []).join(', ') + ', ' + (address.city || '') + ', ' + (address.country || '')).trim();
-      
+      if (address.use === 'old') {
+        return;
+      }
+      const addressArray = []
+      if (address.text) {
+        addressArray.push(address.text);
+      } else {
+        if (address.line) {
+          addressArray.push(...address.line);
+        }
+        if (address.city) {
+          addressArray.push(address.city);
+        }
+        if (address.country) {
+          addressArray.push(address.country);
+        }
+      }
+      const addressText = addressArray.join(', ').trim();
+
       if (addressText) {
         uniqueAddresses.add(addressText);
       }
@@ -198,14 +251,22 @@ export class PatientTemplate implements ITemplate {
     if (!patient.communication || patient.communication.length === 0) {
       return '';
     }
+    const uniqueLanguages = new Set<string>();
+    const preferredLanguages = new Set<string>();
 
-    return patient.communication.map(comm => {
-      if (!comm.language) return '';
-
+    patient.communication.forEach(comm => {
       const language = templateUtilities.codeableConcept(comm.language);
-      const preferred = comm.preferred ? ' (preferred)' : '';
-      return `<ul><li>${language}${preferred}</li></ul>`;
-    }).join('');
+      if (language) {
+        if (comm.preferred) {
+          preferredLanguages.add(language);
+        }
+        uniqueLanguages.add(language);
+      }
+    });
+
+    return Array.from(uniqueLanguages)
+      .map(language => `<ul><li>${language}${preferredLanguages.has(language) ? ' (preferred)' : ''}</li></ul>`)
+      .join('');
   }
 
   /**
