@@ -95,7 +95,6 @@ export class FunctionalStatusTemplate implements ITemplate {
           <thead>
             <tr>
               <th>Problem</th>
-              <th>Severity</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
               <th>Notes</th>
@@ -106,7 +105,6 @@ export class FunctionalStatusTemplate implements ITemplate {
       for (const cond of activeConditions) {
         html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
           <td class="Name">${templateUtilities.codeableConcept(cond.code)}</td>
-          <td class="Severity">${templateUtilities.codeableConcept(cond.severity)}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
           <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>

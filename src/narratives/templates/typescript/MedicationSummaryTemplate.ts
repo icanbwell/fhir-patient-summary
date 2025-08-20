@@ -182,13 +182,13 @@ export class MedicationSummaryTemplate implements ITemplate {
         // Render active medications section
         if (allActiveMedications.length > 0) {
             sortMedications(allActiveMedications);
-            html += this.renderCombinedMedications(templateUtilities, allActiveMedications, 'Active Medications');
+            html += this.renderCombinedMedications(templateUtilities, allActiveMedications, true);
         }
 
         // Render inactive medications section
         if (allInactiveMedications.length > 0) {
             sortMedications(allInactiveMedications);
-            html += this.renderCombinedMedications(templateUtilities, allInactiveMedications, 'Inactive Medications');
+            html += this.renderCombinedMedications(templateUtilities, allInactiveMedications, false);
         }
 
         return html;
@@ -249,10 +249,10 @@ export class MedicationSummaryTemplate implements ITemplate {
             resource: TMedicationRequest | TMedicationStatement,
             extension?: any
         }>,
-        sectionTitle: string
+        isActiveSection: boolean
     ): string {
         let html = `
-    <h3>${sectionTitle}</h3>
+    <h3>${isActiveSection ? 'Active Medications' : 'Inactive Medications'}</h3>
       <table>
         <thead>
           <tr>
@@ -261,8 +261,8 @@ export class MedicationSummaryTemplate implements ITemplate {
             <th>Sig</th>
             <th>Dispense Quantity</th>
             <th>Refills</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+            <th>Start Date</th>${isActiveSection ? '' : `
+            <th>End Date</th>`}
             <th>Status</th>
           </tr>
         </thead>
@@ -345,8 +345,8 @@ export class MedicationSummaryTemplate implements ITemplate {
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>
           <td>${refills}</td>
-          <td>${startDate}</td>
-          <td>${endDate}</td>
+          <td>${startDate}</td>${isActiveSection ? '' : `
+          <td>${endDate}</td>`}
           <td>${status}</td>
         </tr>`;
         }

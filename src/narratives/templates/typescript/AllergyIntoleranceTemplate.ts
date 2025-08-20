@@ -74,7 +74,6 @@ export class AllergyIntoleranceTemplate implements ITemplate {
               <th>Status</th>
               <th>Category</th>
               <th>Reaction</th>
-              <th>Severity</th>
               <th>Onset Date</th>
               <th>Comments</th>
             </tr>
@@ -108,7 +107,6 @@ export class AllergyIntoleranceTemplate implements ITemplate {
               <th>Status</th>
               <th>Category</th>
               <th>Reaction</th>
-              <th>Severity</th>
               <th>Onset Date</th>
               <th>Comments</th>
               <th>Resolved Date</th>
@@ -160,7 +158,6 @@ export class AllergyIntoleranceTemplate implements ITemplate {
           <td class="Status">${templateUtilities.codeableConcept(allergy.clinicalStatus) || '-'}</td>
           <td class="Category">${templateUtilities.safeConcat(allergy.category) || '-'}</td>
           <td class="Reaction">${templateUtilities.concatReactionManifestation(allergy.reaction) || '-'}</td>
-          <td class="Severity">${templateUtilities.safeConcat(allergy.reaction, 'severity') || '-'}</td>
           <td class="OnsetDate">${templateUtilities.renderTime(allergy.onsetDateTime, timezone) || '-'}</td>
           <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>`;
 

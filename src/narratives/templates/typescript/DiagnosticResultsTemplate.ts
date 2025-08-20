@@ -147,7 +147,6 @@ export class DiagnosticResultsTemplate implements ITemplate {
         <thead>
           <tr>
             <th>Report</th>
-            <th>Status</th>
             <th>Category</th>
             <th>Result</th>
             <th>Issued</th>
@@ -167,7 +166,6 @@ export class DiagnosticResultsTemplate implements ITemplate {
       html += `
         <tr id="${(templateUtilities.narrativeLinkId(report))}">
           <td>${templateUtilities.codeableConcept(report.code)}</td>
-          <td>${report.status || ''}</td>
           <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
           <td>${resultCount}</td>
           <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>

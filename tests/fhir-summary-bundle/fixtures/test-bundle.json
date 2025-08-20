@@ -158,7 +158,58 @@
                         "given": [
                             "John"
                         ]
+                    },
+                    {}
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "1234567890",
+                        "use": "home"
+                    },
+                    {
+                        "system": "phone",
+                        "value": "123 4567 890",
+                        "use": "home"
+                    },
+                    {
+                        "system": "phone",
+                        "value": "+11234567890",
+                        "use": "home"
+                    },
+                    {
+                        "system": "phone",
+                        "value": "+1 1234-567-890",
+                        "use": "home"
+                    },
+                    {
+                        "system": "phone",
+                        "value": "+1 (1234)-567-890",
+                        "use": "home"
+                    },
+                    {
+                        "system": "phone",
+                        "value": "9090909090",
+                        "use": "old"
                     }
+                ],
+                "communication": [
+                    {
+                        "language": {
+                            "text": "English"
+                        }
+                    },
+                    {
+                        "language": {
+                            "text": "Spanish"
+                        }
+                    },
+                    {
+                        "language": {
+                            "text": "English"
+                        }
+                    },
+                    {}
                 ],
                 "gender": "male",
                 "birthDate": "1980-01-01"
@@ -535,6 +586,100 @@
                     "system": "http://unitsofmeasure.org",
                     "code": "mg/dL"
                 }
+            }
+        },
+        {
+            "fullUrl": "https://fhir.icanbwell.com/4_0_0/Observation/emAKcOP2creGzeLlEt5R4MFyM-KKI4",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "emAKcOP2creGzeLlEt5R4MFyM-KKI4",
+              "meta": {
+                "versionId": "2",
+                "lastUpdated": "2021-12-15T15:30:30+00:00",
+                "source": "/patients",
+                "security": [
+                  {
+                    "system": "https://www.icanbwell.com/owner",
+                    "code": "healthsystem1"
+                  },
+                  {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "healthsystem1"
+                  },
+                  {
+                    "system": "https://www.icanbwell.com/vendor",
+                    "code": "B"
+                  },
+                  {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "B"
+                  }
+                ]
+              },
+              "status": "final",
+              "subject": {
+                "reference": "Patient/example-patient"
+              },
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "code": "vital-signs",
+                      "display": "Vital Signs",
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                    }
+                  ]
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "code": "85354-9",
+                    "display": "Blood pressure panel",
+                    "system": "http://loinc.org"
+                  }
+                ],
+                "text": "Blood Pressure"
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "8480-6",
+                        "display": "Systolic blood pressure",
+                        "system": "http://loinc.org"
+                      }
+                    ],
+                    "text": "Systolic Blood Pressure"
+                  },
+                  "valueQuantity": {
+                    "code": "mm[Hg]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "mmHg",
+                    "value": 120
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "8462-4",
+                        "display": "Diastolic blood pressure",
+                        "system": "http://loinc.org"
+                      }
+                    ],
+                    "text": "Diastolic Blood Pressure"
+                  },
+                  "valueQuantity": {
+                    "code": "mm[Hg]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "mmHg",
+                    "value": 80
+                  }
+                }
+              ],
+              "effectiveDateTime": "2023-01-01T09:00:00+00:00"
             }
         },
         {
