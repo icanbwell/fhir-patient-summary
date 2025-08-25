@@ -3,7 +3,6 @@
 import {TDomainResource} from "../types/resources/DomainResource";
 import {IPSSections} from "../structures/ips_sections";
 import {TypeScriptTemplateMapper} from "../narratives/templates/typescript/TypeScriptTemplateMapper";
-import {TBundle} from "../types/resources/Bundle";
 import { minify as htmlMinify } from 'html-minifier-terser';
 
 export interface Narrative {
@@ -57,17 +56,8 @@ export class NarrativeGenerator {
         }
 
         try {
-            // Create a bundle-like structure for the template
-            const bundle: TBundle = {
-                resourceType: 'Bundle',
-                type: 'collection',
-                entry: resources.map(resource => ({
-                    resource
-                }))
-            };
-
             // Use the TypeScript template mapper to generate HTML
-            const content: string = TypeScriptTemplateMapper.generateNarrative(section, bundle, timezone);
+            const content: string = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone);
             if (!content) {
                 return undefined; // No content generated
             }

@@ -1,8 +1,8 @@
 // MedicalDevicesTemplate.ts - TypeScript replacement for Jinja2 medicaldevices.j2
 import {TemplateUtilities} from './TemplateUtilities';
-import {TBundle} from '../../../types/resources/Bundle';
+import {TDomainResource} from '../../../types/resources/DomainResource';
+import {TDeviceUseStatement} from '../../../types/resources/DeviceUseStatement';
 import {ITemplate} from './interfaces/ITemplate';
-import {TDeviceUseStatement} from "../../../types/resources/DeviceUseStatement";
 
 /**
  * Class to generate HTML narrative for Medical Device resources
@@ -11,34 +11,23 @@ import {TDeviceUseStatement} from "../../../types/resources/DeviceUseStatement";
 export class MedicalDevicesTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Medical Device resources
-   * @param resource - FHIR Bundle containing Device resources
+   * @param resources - FHIR resources array containing Device resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    // sort the entries of the bundle by date in descending order
-    if (resource.entry && Array.isArray(resource.entry)) {
-      resource.entry.sort((a, b) => {
-        const dateA = a.resource?.recordedOn;
-        const dateB = b.resource?.recordedOn;
-        return (typeof dateA === 'string' && typeof dateB === 'string')
-          ? new Date(dateB).getTime() - new Date(dateA).getTime()
-          : 0;
-      });
-    }
-
-    return MedicalDevicesTemplate.generateStaticNarrative(resource, timezone);
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return MedicalDevicesTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing Device resources
+   * @param resources - FHIR resources array containing Device resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
    
-  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
-    const templateUtilities = new TemplateUtilities(resource);
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
     let html = `
       <table>
@@ -52,24 +41,29 @@ export class MedicalDevicesTemplate implements ITemplate {
         </thead>
         <tbody>`;
 
-    // Check if we have entries in the bundle
-    if (resource.entry && Array.isArray(resource.entry)) {
-      // Loop through entries in the bundle to find DeviceUseStatement resources
-      for (const entry of resource.entry) {
-        if (entry.resource?.resourceType === 'DeviceUseStatement') {
-          const dus = entry.resource as TDeviceUseStatement;
+    // Get DeviceUseStatement resources from the array and sort by date
+    const deviceStatements = resources
+      .filter(resourceItem => resourceItem.resourceType === 'DeviceUseStatement')
+      .map(resourceItem => resourceItem as TDeviceUseStatement)
+      .sort((a, b) => {
+        const dateA = a.recordedOn;
+        const dateB = b.recordedOn;
+        return (typeof dateA === 'string' && typeof dateB === 'string')
+          ? new Date(dateB).getTime() - new Date(dateA).getTime()
+          : 0;
+      });
 
-          // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-          // Add a table row for this device use statement
-          html += `
-            <tr id="${(templateUtilities.narrativeLinkId(dus))}">
-              <td>${templateUtilities.renderDevice(dus.device)}</td>
-              <td>${dus.status || ''}</td>
-              <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
-              <td>${templateUtilities.renderRecorded(dus.recordedOn, timezone)}</td>
-            </tr>`;
-        }
-      }
+    // Loop through DeviceUseStatement resources
+    for (const dus of deviceStatements) {
+      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+      // Add a table row for this device use statement
+      html += `
+        <tr id="${(templateUtilities.narrativeLinkId(dus))}">
+          <td>${templateUtilities.renderDevice(dus.device)}</td>
+          <td>${dus.status || ''}</td>
+          <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
+          <td>${templateUtilities.renderRecorded(dus.recordedOn, timezone)}</td>
+        </tr>`;
     }
 
     // Close the HTML table

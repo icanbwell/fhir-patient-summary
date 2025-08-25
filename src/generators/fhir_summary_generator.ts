@@ -13,20 +13,23 @@ import { IPSMandatorySections, IPSMissingMandatorySectionContent } from "../stru
 
 
 export class ComprehensiveIPSCompositionBuilder {
-    private patient: TPatient | undefined;
+    private patients: TPatient[] | undefined;
     private sections: TCompositionSection[] = [];
     private resources: Set<TDomainResource> = new Set();
 
     /**
      * sets the patient resource for the IPS Composition.
      * This is not needed if you are calling read_bundle, but can be used to set the patient resource directly.
-     * @param patient - FHIR Patient resource to set
+     * @param patients - FHIR Patient resource to set
      */
-    setPatient(patient: TPatient): this {
-        if (!patient || patient.resourceType !== 'Patient') {
+    setPatient(patients: TPatient | TPatient[]): this {
+        if (!Array.isArray(patients)) {
+            patients = [patients];
+        }
+        if (patients.length === 0 || !patients.every(patient => patient.resourceType === 'Patient')) {
             throw new Error('Invalid Patient resource');
         }
-        this.patient = patient;
+        this.patients = patients;
         return this;
     }
 
@@ -102,32 +105,32 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!bundle.entry) {
             return this;
         }
-        // find the patient resource in the bundle
-        const patientEntry = bundle.entry.find(e => e.resource?.resourceType === 'Patient');
-        if (!patientEntry || !patientEntry.resource) {
+        const patientEntries: TPatient[] = [];
+        const resources = [] as TDomainResource[];
+
+        // find all patient resources in the bundle
+        bundle.entry.forEach(e => {
+            if (e.resource?.resourceType === 'Patient') {
+                patientEntries.push(e.resource as TPatient);
+                this.resources.add(e.resource);
+            } else if (e.resource) {
+                resources.push(e.resource);
+            }
+        });
+
+        if (patientEntries.length === 0) {
             throw new Error('Patient resource not found in the bundle');
         }
-        this.patient = patientEntry.resource as TPatient;
 
-        const resources = bundle.entry.map(e => e.resource);
+        this.patients = patientEntries;
 
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
-            const resourceTypesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
-            const customFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
-            
-            // Filter resources by resource type first            
-            let sectionResources = resources.filter(
-              r =>
-                r &&
-                typeof r.resourceType === 'string' &&
-                resourceTypesForSection.includes(r.resourceType)
-            );
-
-            // Apply custom filter if it exists
-            if (customFilter) {
-                sectionResources = sectionResources.filter(resource => resource && customFilter(resource));
+            if (sectionType === IPSSections.PATIENT) {
+                continue; // Patient section is handled separately
             }
+            const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
+            const sectionResources = resources.filter(resource => sectionFilter(resource));
             await this.addSectionAsync(sectionType, sectionResources as TDomainResource[], timezone);
         }
         return this;
@@ -139,22 +142,28 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param authorOrganizationName - Name of the authoring organization
      * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param patientId - Optional patient ID to use as primary patient for composition reference
      */
     async buildBundleAsync(
         authorOrganizationId: string,
         authorOrganizationName: string,
         baseUrl: string,
         timezone: string | undefined,
+        patientId?: string
     ): Promise<TBundle> {
         if (baseUrl.endsWith('/')) {
             baseUrl = baseUrl.slice(0, -1); // Remove trailing slash if present
         }
-        if (!this.patient) {
+        if (!this.patients) {
             throw new Error('Patient resource must be set before building the bundle');
         }
+        
+        // For multiple patients, use the specified patientId or the first patient as primary
+        const primaryPatientId = patientId ?? this.patients[0].id;
+
         // Create the Composition resource
         const composition: TComposition = {
-            id: `Composition-${this.patient.id}`,
+            id: `Composition-${primaryPatientId}`,
             resourceType: 'Composition',
             status: 'final',
             type: {
@@ -165,7 +174,7 @@ export class ComprehensiveIPSCompositionBuilder {
                 }]
             },
             subject: {
-                reference: `Patient/${this.patient.id}`
+                reference: `Patient/${primaryPatientId}`
             },
             author: [{
                 reference: `Organization/${authorOrganizationId}`, // Assuming patient is also a practitioner for simplicity
@@ -176,7 +185,7 @@ export class ComprehensiveIPSCompositionBuilder {
             section: this.sections,
             text: await NarrativeGenerator.generateNarrativeAsync(
                 IPSSections.PATIENT,
-                [this.patient as TDomainResource],
+                this.patients,
                 timezone,
                 true
             )
@@ -200,10 +209,12 @@ export class ComprehensiveIPSCompositionBuilder {
             resource: composition
         });
 
-        // Add patient as second entry
-        bundle.entry?.push({
-            fullUrl: `${baseUrl}/Patient/${this.patient.id}`,
-            resource: this.patient
+        // Add patient entries
+        this.patients.forEach(patient => {
+            bundle.entry?.push({
+                fullUrl: `${baseUrl}/Patient/${patient.id}`,
+                resource: patient
+            });
         });
 
         // Extract and add all resources referenced in sections
