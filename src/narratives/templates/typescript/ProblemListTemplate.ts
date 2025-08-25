@@ -1,6 +1,6 @@
 // ProblemListTemplate.ts - TypeScript replacement for Jinja2 problemlist.j2
 import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
+import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TCondition } from '../../../types/resources/Condition';
 import { ITemplate } from './interfaces/ITemplate';
 
@@ -11,31 +11,31 @@ import { ITemplate } from './interfaces/ITemplate';
 export class ProblemListTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Problem List
-   * @param resource - FHIR Bundle containing Condition resources
+   * @param resources - FHIR Condition resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    return ProblemListTemplate.generateStaticNarrative(resource, timezone);
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return ProblemListTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing Condition resources
+   * @param resources - FHIR Condition resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
   private static generateStaticNarrative(
-    resource: TBundle,
+    resources: TDomainResource[],
     timezone: string | undefined
   ): string {
-    const templateUtilities = new TemplateUtilities(resource);
+    const templateUtilities = new TemplateUtilities(resources);
 
     // Start building the HTML
     let html = ``;
 
     const activeConditions: TCondition[] =
-      resource.entry?.map(entry => entry.resource as TCondition) || [];
+      resources.map(entry => entry as TCondition) || [];
 
     // sort conditions by onset date in descending order
     activeConditions.sort((a, b) => {

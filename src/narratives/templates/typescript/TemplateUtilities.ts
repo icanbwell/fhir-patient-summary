@@ -9,7 +9,6 @@ import {TMedicationStatement} from "../../../types/resources/MedicationStatement
 import {TQuantity} from "../../../types/partials/Quantity";
 import {TObservation} from "../../../types/resources/Observation";
 import {TObservationComponent} from "../../../types/partials/ObservationComponent";
-import {TBundle} from "../../../types/resources/Bundle";
 import {TDomainResource} from "../../../types/resources/DomainResource";
 import {TExtension} from "../../../types/partials/Extension";
 import {TResourceContainer} from "../../../types/simpleTypes/ResourceContainer";
@@ -35,14 +34,14 @@ type ObservationValueType =
  * This replaces the Jinja2 utility-fragments.j2 macros
  */
 export class TemplateUtilities {
-    private readonly bundle: TBundle;
+    private readonly resources: TDomainResource[];
 
     /**
-     * Constructor to initialize the TemplateUtilities with a FHIR Bundle
-     * @param bundle - FHIR Bundle containing resources
+     * Constructor to initialize the TemplateUtilities with a FHIR resources
+     * @param resources - FHIR resources
      */
-    constructor(bundle: TBundle) {
-        this.bundle = bundle;
+    constructor(resources: TDomainResource[]) {
+        this.resources = resources;
     }
 
     /**
@@ -80,8 +79,8 @@ export class TemplateUtilities {
     }
 
     resolveReference<T extends TDomainResource>(ref: TReference): T | null {
-        // find the resource in the bundle that matches the reference
-        if (!ref || !this.bundle || !this.bundle.entry) {
+        // find the resource that matches the reference
+        if (!ref || !this.resources) {
             return null;
         }
         // split the reference into referenceResourceType and id on /
@@ -92,11 +91,11 @@ export class TemplateUtilities {
         const referenceResourceType = referenceParts[0];
         const referenceResourceId = referenceParts[1];
 
-        const resource = this.bundle.entry.find(entry => {
-            return entry.resource && entry.resource.resourceType === referenceResourceType &&
-                entry.resource.id === referenceResourceId;
+        const resource = this.resources.find(entry => {
+            return entry.resourceType === referenceResourceType &&
+                entry.id === referenceResourceId;
         });
-        return resource ? (resource.resource as T) : null;
+        return resource ? (resource as T) : null;
     }
 
     /**
@@ -849,8 +848,8 @@ export class TemplateUtilities {
                 const resourceType = parts[0];
                 const resourceId = parts[1];
 
-                // Find the resource in the bundle
-                const resource = this.bundle.entry?.find(entry => entry.resource?.resourceType === resourceType && entry.resource?.id === resourceId);
+                // Find the resource
+                const resource = this.resources?.find(resource => resource.resourceType === resourceType && resource.id === resourceId);
                 if (resource) {
                     return `${resourceType}/${resourceId}`;
                 }

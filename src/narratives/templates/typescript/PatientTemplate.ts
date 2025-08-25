@@ -1,8 +1,13 @@
 // PatientTemplate.ts - TypeScript replacement for Jinja2 patient.j2
 import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
+import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TPatient } from '../../../types/resources/Patient';
 import { ITemplate } from './interfaces/ITemplate';
+import { THumanName } from '../../../types/partials/HumanName';
+import { TIdentifier } from '../../../types/partials/Identifier';
+import { TContactPoint } from '../../../types/partials/ContactPoint';
+import { TAddress } from '../../../types/partials/Address';
+import { TPatientCommunication } from '../../../types/partials/PatientCommunication';
 
 /**
  * Class to generate HTML narrative for Patient resources
@@ -10,54 +15,120 @@ import { ITemplate } from './interfaces/ITemplate';
  */
 export class PatientTemplate implements ITemplate {
   /**
-   * Generate HTML narrative for Patient resource
-   * @param resource - FHIR Bundle containing Patient resource
+   * Generate HTML narrative for Patient resources
+   * @param resources - FHIR Patient resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    return PatientTemplate.generateStaticNarrative(resource, timezone);
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return PatientTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing Patient resource
+   * @param resources - FHIR Patient resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
-    const templateUtilities = new TemplateUtilities(resource);
-    let html = '';
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    const templateUtilities = new TemplateUtilities(resources);
+    // For multiple patients, merge their data
+    const combinedPatient = this.combinePatients(resources);
+    
+    return `<div>
+      <ul>
+        <li><strong>Name(s):</strong>${this.renderNames(combinedPatient)}</li>
+        <li><strong>Gender:</strong>${combinedPatient.gender ? this.capitalize(combinedPatient.gender) : ''}</li>
+        <li><strong>Date of Birth:</strong>${combinedPatient.birthDate || ''}</li>
+        <li><strong>Identifier(s):</strong>${this.renderIdentifiers(combinedPatient)}</li>
+        <li><strong>Telecom:</strong><ul>${this.renderTelecom(combinedPatient)}</ul></li>
+        <li><strong>Address(es):</strong>${this.renderAddresses(combinedPatient)}</li>
+        <li><strong>Marital Status:</strong> ${combinedPatient.maritalStatus?.text || ''}</li>
+        <li><strong>Deceased:</strong>${this.renderDeceased(combinedPatient)}</li>
+        <li><strong>Language(s):</strong>${this.renderCommunication(templateUtilities, combinedPatient)}</li>
+      </ul>
+    </div>`;
+  }
 
-    // Loop through bundle entries to find Patient resources
-    for (const entry of resource.entry || []) {
-      if (entry.resource?.resourceType === 'Patient') {
-        const patient = entry.resource as TPatient;
-
-        html += `
-        <div>
-          <ul>
-            <li><strong>Name(s):</strong>${this.renderNames(patient)}</li>
-            <li><strong>Gender:</strong>${patient.gender ? this.capitalize(patient.gender) : ''}</li>
-            <li><strong>Date of Birth:</strong>${patient.birthDate || ''}</li>
-            <li><strong>Identifier(s):</strong>${this.renderIdentifiers(patient)}</li>
-            <li><strong>Telecom:</strong><ul>${this.renderTelecom(patient)}</ul></li>
-            <li><strong>Address(es):</strong>${this.renderAddresses(patient)}</li>
-            <li><strong>Marital Status:</strong> ${patient.maritalStatus?.text || ''}</li>
-            <li><strong>Deceased:</strong>${this.renderDeceased(patient)}</li>
-            <li><strong>Language(s):</strong>${this.renderCommunication(templateUtilities, patient)}</li>
-          </ul>
-        </div>`;
-      }
+  /**
+   * Combines multiple patient resources into a single patient object
+   * Merges fields, preferring non-empty values
+   * @param patients - Array of patient resources
+   * @returns Combined patient resource
+   */
+  private static combinePatients(patients: TPatient[]): TPatient {
+    if (patients.length === 1) {
+      return patients[0];
     }
 
-    return html;
+    // Start with the first patient as base
+    const combined: TPatient = patients[0];
+
+    // Merge arrays that need deduplication
+    const allNames = [] as THumanName[];
+    const allIdentifiers = [] as TIdentifier[];
+    const allTelecom = [] as TContactPoint[];
+    const allAddresses = [] as TAddress[];
+    const allCommunication = [] as TPatientCommunication[];
+
+    patients.forEach(patient => {
+      // Merge names
+      if (patient.name) {
+        allNames.push(...patient.name);
+      }
+
+      // Merge identifiers
+      if (patient.identifier) {
+        allIdentifiers.push(...patient.identifier);
+      }
+
+      // Merge telecom
+      if (patient.telecom) {
+        allTelecom.push(...patient.telecom);
+      }
+
+      // Merge addresses
+      if (patient.address) {
+        allAddresses.push(...patient.address);
+      }
+
+      // Merge communication
+      if (patient.communication) {
+        allCommunication.push(...patient.communication);
+      }
+
+      // Merge simple fields (prefer non-empty values)
+      if (!combined.gender && patient.gender) {
+        combined.gender = patient.gender;
+      }
+      if (!combined.birthDate && patient.birthDate) {
+        combined.birthDate = patient.birthDate;
+      }
+      if (!combined.maritalStatus && patient.maritalStatus) {
+        combined.maritalStatus = patient.maritalStatus;
+      }
+      if (!combined.deceasedBoolean && patient.deceasedBoolean !== undefined) {
+        combined.deceasedBoolean = patient.deceasedBoolean;
+      }
+      if (!combined.deceasedDateTime && patient.deceasedDateTime) {
+        combined.deceasedDateTime = patient.deceasedDateTime;
+      }
+    });
+
+    // Set combined arrays
+    combined.name = allNames;
+    combined.identifier = allIdentifiers;
+    combined.telecom = allTelecom;
+    combined.address = allAddresses;
+    combined.communication = allCommunication;
+
+    return combined;
   }
 
   /**
    * Renders patient names as HTML list items
-   * @param patient - Patient resource
+   * @param patient - Patient resources
    * @returns HTML string of list items
    */
   private static renderNames(patient: TPatient): string {
@@ -84,7 +155,7 @@ export class PatientTemplate implements ITemplate {
 
   /**
    * Renders patient identifiers as HTML list items
-   * @param patient - Patient resource
+   * @param patient - Patient resources
    * @returns HTML string of list items
    */
   private static renderIdentifiers(patient: TPatient): string {
@@ -101,7 +172,7 @@ export class PatientTemplate implements ITemplate {
 
   /**
    * Renders patient telecom information grouped by system
-   * @param patient - Patient resource
+   * @param patient - Patient resources
    * @returns HTML string grouped by system
    */
   private static renderTelecom(patient: TPatient): string {
@@ -186,7 +257,7 @@ export class PatientTemplate implements ITemplate {
 
   /**
    * Renders patient addresses as HTML list items
-   * @param patient - Patient resource
+   * @param patient - Patient resources
    * @returns HTML string of list items
    */
   private static renderAddresses(patient: TPatient): string {
@@ -210,8 +281,17 @@ export class PatientTemplate implements ITemplate {
         if (address.city) {
           addressArray.push(address.city);
         }
+        if (address.district) {
+          addressArray.push(address.district);
+        }
+        if (address.state) {
+          addressArray.push(address.state);
+        }
         if (address.country) {
           addressArray.push(address.country);
+        }
+        if (address.postalCode) {
+          addressArray.push(address.postalCode);
         }
       }
       const addressText = addressArray.join(', ').trim();
@@ -228,7 +308,7 @@ export class PatientTemplate implements ITemplate {
 
   /**
    * Renders patient deceased status
-   * @param patient - Patient resource
+   * @param patient - Patient resources
    * @returns HTML string for deceased status
    */
   private static renderDeceased(patient: TPatient): string {
@@ -244,7 +324,7 @@ export class PatientTemplate implements ITemplate {
   /**
    * Renders patient communication preferences as HTML list items
    * @param templateUtilities - Instance of TemplateUtilities for utility functions
-   * @param patient - Patient resource
+   * @param patient - Patient resources
    * @returns HTML string of list items
    */
   private static renderCommunication(templateUtilities: TemplateUtilities, patient: TPatient): string {

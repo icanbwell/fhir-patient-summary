@@ -1,6 +1,6 @@
 // AllergyIntoleranceTemplate.ts - TypeScript replacement for Jinja2 allergyintolerance.j2
 import {TemplateUtilities} from './TemplateUtilities';
-import {TBundle} from '../../../types/resources/Bundle';
+import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TAllergyIntolerance} from '../../../types/resources/AllergyIntolerance';
 import {ITemplate} from './interfaces/ITemplate';
 
@@ -11,40 +11,37 @@ import {ITemplate} from './interfaces/ITemplate';
 export class AllergyIntoleranceTemplate implements ITemplate {
   /**
    * Generate HTML narrative for AllergyIntolerance resources
-   * @param resource - FHIR Bundle containing AllergyIntolerance resources
+   * @param resources - FHIR resources array containing AllergyIntolerance resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  public generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    return AllergyIntoleranceTemplate.generateStaticNarrative(resource, timezone);
+  public generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return AllergyIntoleranceTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing AllergyIntolerance resources
+   * @param resources - FHIR resources array containing AllergyIntolerance resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-   
-  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
-    const templateUtilities = new TemplateUtilities(resource);
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    const templateUtilities = new TemplateUtilities(resources);
 
     // Group allergies by status (active vs resolved/inactive)
     const activeAllergies: TAllergyIntolerance[] = [];
     const resolvedAllergies: TAllergyIntolerance[] = [];
 
-    if (resource.entry && Array.isArray(resource.entry)) {
-      for (const entry of resource.entry) {
-        const allergy = entry.resource as TAllergyIntolerance;
+    for (const resourceItem of resources) {
+      const allergy = resourceItem as TAllergyIntolerance;
 
-        // Check clinical status to determine if active or resolved
-        const isResolved = allergy.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code));
+      // Check clinical status to determine if active or resolved
+      const isResolved = allergy.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code));
 
-        if (isResolved) {
-          resolvedAllergies.push(allergy);
-        } else {
-          activeAllergies.push(allergy);
-        }
+      if (isResolved) {
+        resolvedAllergies.push(allergy);
+      } else {
+        activeAllergies.push(allergy);
       }
     }
 
