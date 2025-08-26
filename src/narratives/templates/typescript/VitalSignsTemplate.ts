@@ -1,6 +1,6 @@
 // VitalSignsTemplate.ts - TypeScript replacement for Jinja2 vitalsigns.j2
 import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
+import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TObservation } from '../../../types/resources/Observation';
 import { ITemplate } from './interfaces/ITemplate';
 
@@ -11,28 +11,28 @@ import { ITemplate } from './interfaces/ITemplate';
 export class VitalSignsTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Vital Signs
-   * @param resource - FHIR Bundle containing Observation resources
+   * @param resources - FHIR Observation resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    return VitalSignsTemplate.generateStaticNarrative(resource, timezone);
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return VitalSignsTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing Observation resources
+   * @param resources - FHIR Observation resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
   private static generateStaticNarrative(
-    resource: TBundle,
+    resources: TDomainResource[],
     timezone: string | undefined
   ): string {
-    const templateUtilities = new TemplateUtilities(resource);
+    const templateUtilities = new TemplateUtilities(resources);
 
     const observations =
-      resource.entry?.map(entry => entry.resource as TObservation) || [];
+      resources.map(entry => entry as TObservation) || [];
 
     observations.sort((a, b) => {
       const dateA = a.effectiveDateTime || a.effectivePeriod?.start;
@@ -58,7 +58,7 @@ export class VitalSignsTemplate implements ITemplate {
         </thead>
         <tbody>`;
 
-    // Loop through entries in the bundle
+    // Loop through entries in the resources
     for (const obs of observations) {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
       // Add a table row for this observation

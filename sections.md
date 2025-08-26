@@ -26,7 +26,6 @@ This section contains the list of all the active/current issues the patient is s
 **Filter:** `clinicalStatus.coding.code` is **not** `inactive` or `resolved`
 **Data Table Fields:**
 - **Problem:** `code` (CodeableConcept)
-- **Severity:** `severity` (CodeableConcept)
 - **Onset Date:** `onsetDateTime`
 - **Recorded Date:** `recordedDate`
 - **Notes:** `note.text`
@@ -44,7 +43,6 @@ This section contains information about the patient's active & resolved allergie
 - **Status:** `clinicalStatus` (CodeableConcept)
 - **Category:** `category` (array)
 - **Reaction:** `reaction.manifestation` (CodeableConcept array)
-- **Severity:** `reaction.severity`
 - **Onset Date:** `onsetDateTime`
 - **Comments:** `note.text`
 - **Resolved Date:** `extension[allergyintolerance-resolutionDate].valueDateTime` (for resolved allergies)
@@ -103,7 +101,6 @@ This section contains diagnostic reports and related observations.
 
 ### Diagnostic Reports:
 - **Report:** `code` (CodeableConcept)
-- **Status:** `status`
 - **Category:** `category` (CodeableConcept array)
 - **Result:** Count of `result` references
 - **Issued:** `issued`
@@ -188,7 +185,6 @@ This section contains information about the patient's functional status.
 
 ### Conditions:
 - **Problem:** `code` (CodeableConcept)
-- **Severity:** `severity` (CodeableConcept)
 - **Onset Date:** `onsetDateTime`
 - **Recorded Date:** `recordedDate`
 - **Notes:** `note.text`
@@ -210,7 +206,6 @@ This section contains information about the patient's past medical conditions.
 **Filter:** `clinicalStatus.coding.code` is `inactive` or `resolved`
 **Data Table Fields:**
 - **Problem:** `code` (CodeableConcept)
-- **Severity:** `severity` (CodeableConcept)
 - **Onset Date:** `onsetDateTime`
 - **Recorded Date:** `recordedDate`
 - **Resolved Date:** `abatementDateTime`

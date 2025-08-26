@@ -1,6 +1,6 @@
 // DiagnosticResultsTemplate.ts - TypeScript replacement for Jinja2 diagnosticresults.j2
 import {TemplateUtilities} from './TemplateUtilities';
-import {TBundle} from '../../../types/resources/Bundle';
+import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TObservation} from '../../../types/resources/Observation';
 import {TDiagnosticReport} from '../../../types/resources/DiagnosticReport';
 import {ITemplate} from './interfaces/ITemplate';
@@ -12,26 +12,26 @@ import {ITemplate} from './interfaces/ITemplate';
 export class DiagnosticResultsTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Diagnostic Results
-   * @param resource - FHIR Bundle containing Observation and DiagnosticReport resources
+   * @param resources - FHIR resources array containing Observation and DiagnosticReport resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    return DiagnosticResultsTemplate.generateStaticNarrative(resource, timezone);
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return DiagnosticResultsTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing Observation and DiagnosticReport resources
+   * @param resources - FHIR resources array containing Observation and DiagnosticReport resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
-    const templateUtilities = new TemplateUtilities(resource);
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    const templateUtilities = new TemplateUtilities(resources);
     let html = '';
 
     // Generate Observations section if we have any Observation resources
-    const observations = this.getObservations(resource);
+    const observations = this.getObservations(resources);
     if (observations.length > 0) {
       // sort observations by date descending
       observations.sort((a, b) => {
@@ -43,7 +43,7 @@ export class DiagnosticResultsTemplate implements ITemplate {
     }
 
     // Generate DiagnosticReports section if we have any DiagnosticReport resources
-    const diagnosticReports = this.getDiagnosticReports(resource);
+    const diagnosticReports = this.getDiagnosticReports(resources);
     if (diagnosticReports.length > 0) {
       // sort diagnostic reports by date descending
       diagnosticReports.sort((a, b) => {
@@ -57,34 +57,26 @@ export class DiagnosticResultsTemplate implements ITemplate {
     return html;
   }
 
-  /**
-   * Extract Observation resources from the bundle
-   * @param resource - FHIR Bundle
+    /**
+   * Get all Observation resources from the resource array
+   * @param resources - FHIR resources array
    * @returns Array of Observation resources
    */
-  private static getObservations(resource: TBundle): Array<TObservation> {
-    if (!resource.entry || !Array.isArray(resource.entry)) {
-      return [];
-    }
-
-    return resource.entry
-      .filter(entry => entry.resource?.resourceType === 'Observation')
-      .map(entry => entry.resource as TObservation);
+  private static getObservations(resources: TDomainResource[]): Array<TObservation> {
+    return resources
+      .filter(resourceItem => resourceItem.resourceType === 'Observation')
+      .map(resourceItem => resourceItem as TObservation);
   }
 
   /**
-   * Extract DiagnosticReport resources from the bundle
-   * @param resource - FHIR Bundle
+   * Get all DiagnosticReport resources from the resource array
+   * @param resources - FHIR resources array
    * @returns Array of DiagnosticReport resources
    */
-  private static getDiagnosticReports(resource: TBundle): Array<TDiagnosticReport> {
-    if (!resource.entry || !Array.isArray(resource.entry)) {
-      return [];
-    }
-
-    return resource.entry
-      .filter(entry => entry.resource?.resourceType === 'DiagnosticReport')
-      .map(entry => entry.resource as TDiagnosticReport);
+  private static getDiagnosticReports(resources: TDomainResource[]): Array<TDiagnosticReport> {
+    return resources
+      .filter(resourceItem => resourceItem.resourceType === 'DiagnosticReport')
+      .map(resourceItem => resourceItem as TDiagnosticReport);
   }
 
   /**

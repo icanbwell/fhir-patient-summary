@@ -1,6 +1,6 @@
 // MedicationSummaryTemplate.ts - TypeScript replacement for Jinja2 medicationsummary.j2
 import {TemplateUtilities} from './TemplateUtilities';
-import {TBundle} from '../../../types/resources/Bundle';
+import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TMedicationRequest} from '../../../types/resources/MedicationRequest';
 import {TMedicationStatement} from '../../../types/resources/MedicationStatement';
 import {ITemplate} from './interfaces/ITemplate';
@@ -12,12 +12,12 @@ import {ITemplate} from './interfaces/ITemplate';
 export class MedicationSummaryTemplate implements ITemplate {
     /**
      * Generate HTML narrative for Medication resources
-     * @param resource - FHIR Bundle containing Medication resources
+     * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns HTML string for rendering
      */
-    generateNarrative(resource: TBundle, timezone: string | undefined): string {
-        return MedicationSummaryTemplate.generateStaticNarrative(resource, timezone);
+    generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+        return MedicationSummaryTemplate.generateStaticNarrative(resources, timezone);
     }
 
     /**
@@ -101,18 +101,18 @@ export class MedicationSummaryTemplate implements ITemplate {
 
     /**
      * Internal static implementation that actually generates the narrative
-     * @param resource - FHIR Bundle containing Medication resources
+     * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns HTML string for rendering
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    private static generateStaticNarrative(resource: TBundle, timezone: string | undefined): string {
-        const templateUtilities = new TemplateUtilities(resource);
+    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+        const templateUtilities = new TemplateUtilities(resources);
         let html = '';
 
         // Get all medication resources
-        const medicationRequests = this.getMedicationRequests(templateUtilities, resource);
-        const medicationStatements = this.getMedicationStatements(templateUtilities, resource);
+        const medicationRequests = this.getMedicationRequests(templateUtilities, resources);
+        const medicationStatements = this.getMedicationStatements(templateUtilities, resources);
 
         // Combine and separate active and inactive medications
         const allActiveMedications: Array<{
@@ -195,43 +195,43 @@ export class MedicationSummaryTemplate implements ITemplate {
     }
 
     /**
-     * Extract MedicationRequest resources from the bundle
+     * Extract MedicationRequest resources
      * @param templateUtilities - Instance of TemplateUtilities for utility functions
-     * @param resource - FHIR Bundle
+     * @param resources - FHIR Medication resources
      * @returns Array of MedicationRequest resources
      */
-    private static getMedicationRequests(templateUtilities: TemplateUtilities, resource: TBundle): Array<{ resource: TMedicationRequest, extension?: any }> {
-        if (!resource.entry || !Array.isArray(resource.entry)) {
+    private static getMedicationRequests(templateUtilities: TemplateUtilities, resources: TDomainResource[]): Array<{ resource: TMedicationRequest, extension?: any }> {
+        if (resources.length === 0) {
             return [];
         }
 
-        return resource.entry
-            .filter(entry => entry.resource?.resourceType === 'MedicationRequest')
+        return resources
+            .filter(entry => entry.resourceType === 'MedicationRequest')
             .map(entry => ({
-                resource: entry.resource as TMedicationRequest,
-                extension: templateUtilities.narrativeLinkExtension(entry.resource)
+                resource: entry as TMedicationRequest,
+                extension: templateUtilities.narrativeLinkExtension(entry)
             }));
     }
 
     /**
-     * Extract MedicationStatement resources from the bundle
+     * Extract MedicationStatement resources
      * @param templateUtilities - Instance of TemplateUtilities for utility functions
-     * @param resource - FHIR Bundle
+     * @param resources - FHIR Medication resources
      * @returns Array of MedicationStatement resources
      */
-    private static  getMedicationStatements(templateUtilities: TemplateUtilities, resource: TBundle): Array<{
+    private static getMedicationStatements(templateUtilities: TemplateUtilities, resources: TDomainResource[]): Array<{
         resource: TMedicationStatement,
         extension?: any
     }> {
-        if (!resource.entry || !Array.isArray(resource.entry)) {
+        if (resources.length === 0) {
             return [];
         }
 
-        return resource.entry
-            .filter(entry => entry.resource?.resourceType === 'MedicationStatement')
+        return resources
+            .filter(entry => entry.resourceType === 'MedicationStatement')
             .map(entry => ({
-                resource: entry.resource as TMedicationStatement,
-                extension: templateUtilities.narrativeLinkExtension(entry.resource)
+                resource: entry as TMedicationStatement,
+                extension: templateUtilities.narrativeLinkExtension(entry)
             }));
     }
 

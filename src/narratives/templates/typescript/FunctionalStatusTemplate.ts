@@ -1,6 +1,6 @@
 // FunctionalStatusTemplate.ts - TypeScript replacement for Jinja2 functionalstatus.j2
 import { TemplateUtilities } from './TemplateUtilities';
-import { TBundle } from '../../../types/resources/Bundle';
+import { TDomainResource } from '../../../types/resources/DomainResource';
 import { ITemplate } from './interfaces/ITemplate';
 import { TClinicalImpression } from '../../../types/resources/ClinicalImpression';
 import { TCondition } from '../../../types/resources/Condition';
@@ -12,26 +12,26 @@ import { TCondition } from '../../../types/resources/Condition';
 export class FunctionalStatusTemplate implements ITemplate {
   /**
    * Generate HTML narrative for Functional Status
-   * @param resource - FHIR Bundle containing Observation resources
+   * @param resources - FHIR resources array containing Observation resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TBundle, timezone: string | undefined): string {
-    return FunctionalStatusTemplate.generateStaticNarrative(resource, timezone);
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    return FunctionalStatusTemplate.generateStaticNarrative(resources, timezone);
   }
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resource - FHIR Bundle containing Observation resources
+   * @param resources - FHIR resources array containing Observation resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
 
   private static generateStaticNarrative(
-    resource: TBundle,
+    resources: TDomainResource[],
     timezone: string | undefined
   ): string {
-    const templateUtilities = new TemplateUtilities(resource);
+    const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML
     let html = ``;
 
@@ -39,26 +39,24 @@ export class FunctionalStatusTemplate implements ITemplate {
     const activeConditions: TCondition[] = [];
     const clinicalImpressions: TClinicalImpression[] = [];
 
-    if (resource.entry && Array.isArray(resource.entry)) {
-      // Loop through entries in the bundle
-      for (const entry of resource.entry) {
-        if (entry.resource?.resourceType === 'Condition') {
-          const cond = entry.resource as TCondition;
+    // Loop through resources in the array
+    for (const resourceItem of resources) {
+      if (resourceItem.resourceType === 'Condition') {
+        const cond = resourceItem as TCondition;
 
-          // Determine if condition is active or resolved
-          const isResolved = cond.clinicalStatus?.coding?.some(
-            c =>
-              c.code === 'resolved' ||
-              c.code === 'inactive' ||
-              c.display?.toLowerCase().includes('resolved')
-          );
+        // Determine if condition is active or resolved
+        const isResolved = cond.clinicalStatus?.coding?.some(
+          c =>
+            c.code === 'resolved' ||
+            c.code === 'inactive' ||
+            c.display?.toLowerCase().includes('resolved')
+        );
 
-          if (!isResolved) {
-            activeConditions.push(cond);
-          }
-        } else if (entry.resource?.resourceType === 'ClinicalImpression') {
-          clinicalImpressions.push(entry.resource as TClinicalImpression);
+        if (!isResolved) {
+          activeConditions.push(cond);
         }
+      } else if (resourceItem.resourceType === 'ClinicalImpression') {
+        clinicalImpressions.push(resourceItem as TClinicalImpression);
       }
     }
 
