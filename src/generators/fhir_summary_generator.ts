@@ -35,11 +35,44 @@ export class ComprehensiveIPSCompositionBuilder {
 
     /**
      * Adds a section to the composition with async HTML minification
+     * @param narrative - Narrative content for the section
+     * @param sectionType - IPS section type
+     * @param validResources - Array of domain resources
+     */
+    addSectionAsync<T extends TDomainResource>(
+        narrative: TNarrative,
+        sectionType: IPSSections,
+        validResources: T[]
+    ): this {
+        const sectionEntry: TCompositionSection = {
+            title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
+            code: {
+                coding: [{
+                    system: 'http://loinc.org',
+                    code: IPS_SECTION_LOINC_CODES[sectionType],
+                    display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+                }],
+                text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
+            },
+            text: narrative,
+            entry: validResources.map(resource => ({
+                reference: `${resource.resourceType}/${resource.id}`,
+                display: resource.resourceType
+            }))
+        };
+
+        this.sections.push(sectionEntry);
+
+        return this;
+    }
+
+    /**
+     * Make and adds a section to the composition with async HTML minification
      * @param sectionType - IPS section type
      * @param validResources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting
      */
-    async addSectionAsync<T extends TDomainResource>(
+    async makeSectionAsync<T extends TDomainResource>(
         sectionType: IPSSections,
         validResources: T[],
         timezone: string | undefined
@@ -71,25 +104,38 @@ export class ComprehensiveIPSCompositionBuilder {
                 return this; // Skip empty sections
             }
 
-            const sectionEntry: TCompositionSection = {
-                title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
-                code: {
-                    coding: [{
-                        system: 'http://loinc.org',
-                        code: IPS_SECTION_LOINC_CODES[sectionType],
-                        display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
-                    }],
-                    text: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
-                },
-                text: narrative,
-                entry: validResources.map(resource => ({
-                    reference: `${resource.resourceType}/${resource.id}`,
-                    display: resource.resourceType
-                }))
-            };
-
-            this.sections.push(sectionEntry);
+            this.addSectionAsync(narrative as TNarrative, sectionType, validResources);
         }
+        return this;
+    }
+
+    async makeSectionFromSummaryAsync (
+        sectionType: IPSSections,
+        summaryCompositions: TComposition[],
+        resources: TDomainResource[],
+        timezone: string | undefined
+    ): Promise<this> {
+        const sectionResources: TDomainResource[] = [];
+        for (const summaryComposition of summaryCompositions) {
+            const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
+
+            resources.forEach(resource => {
+                if (resourceEntries?.some(entry => entry.reference === `${resource.resourceType}/${resource.id}`)) {
+                    this.resources.add(resource);
+                    sectionResources.push(resource);
+                }
+            });
+        }
+
+        const narrative = await NarrativeGenerator.generateNarrativeAsync(
+            sectionType,
+            summaryCompositions,
+            timezone,
+            true,
+            true
+        );
+
+        this.addSectionAsync(narrative as TNarrative, sectionType, sectionResources);
         return this;
     }
 
@@ -97,10 +143,12 @@ export class ComprehensiveIPSCompositionBuilder {
      * Reads a FHIR Bundle and extracts resources for each section defined in IPSSections.
      * @param bundle - FHIR Bundle containing resources
      * @param timezone - Optional timezone to use for date formatting
+     * @param useSummaryCompositions - Whether to use summary compositions (default: false)
      */
     async readBundleAsync(
         bundle: TBundle,
         timezone: string | undefined,
+        useSummaryCompositions: boolean = false,
     ): Promise<this> {
         if (!bundle.entry) {
             return this;
@@ -129,9 +177,15 @@ export class ComprehensiveIPSCompositionBuilder {
             if (sectionType === IPSSections.PATIENT) {
                 continue; // Patient section is handled separately
             }
-            const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
-            const sectionResources = resources.filter(resource => sectionFilter(resource));
-            await this.addSectionAsync(sectionType, sectionResources as TDomainResource[], timezone);
+            const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
+            const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : undefined;
+            if (sectionSummary) {
+                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone);
+            } else {
+                const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
+                const sectionResources = resources.filter(resource => sectionFilter(resource));
+                await this.makeSectionAsync(sectionType, sectionResources as TDomainResource[], timezone);
+            }
         }
         return this;
     }

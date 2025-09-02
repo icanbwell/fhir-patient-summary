@@ -342,11 +342,11 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
         });
     });
 
-    describe('addSection', () => {
+    describe('makeSectionAsync', () => {
         it('should add a section with valid resources', async () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
-            const result = await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
+            const result = await builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
 
             expect(result).toBe(builder);
         });
@@ -358,10 +358,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             // Properly await each async call in sequence
-            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
-            await builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone);
-            await builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone);
-            await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone);
+            await builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
+            await builder.makeSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone);
+            await builder.makeSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone);
+            await builder.makeSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone);
 
             const sections = builder.getSections();
 
@@ -383,15 +383,15 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
 
             const timezone = 'America/New_York';
             // Use the async version for consistency
-            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
-            await builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone);
-            await builder.addSectionAsync(IPSSections.PROBLEMS, [{
+            await builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone);
+            await builder.makeSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone);
+            await builder.makeSectionAsync(IPSSections.PROBLEMS, [{
                 resourceType: 'Condition',
                 id: 'condition1',
                 clinicalStatus: {coding: [{code: 'active'}]},
                 code: {coding: [{code: 'hypertension'}]}
             }], timezone);
-            await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, [{
+            await builder.makeSectionAsync(IPSSections.IMMUNIZATIONS, [{
                 resourceType: 'Immunization',
                 id: 'immunization1',
                 status: 'completed',
@@ -413,10 +413,10 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             // Use async section addition for consistency
-            await builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
-            await builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, 'America/New_York');
-            await builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, 'America/New_York');
-            await builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
+            await builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
+            await builder.makeSectionAsync(IPSSections.MEDICATIONS, mockMedications, 'America/New_York');
+            await builder.makeSectionAsync(IPSSections.PROBLEMS, mockConditions, 'America/New_York');
+            await builder.makeSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, 'America/New_York');
 
             const bundle = await builder.buildBundleAsync(
                 'example-organization',

@@ -599,6 +599,164 @@ export class TemplateUtilities {
         return status;
     }
 
+    public extractObservationSummaryValue(data: Record<string, any>, timezone: string | undefined): string {
+        // valueQuantity
+        if (data["valueQuantity.value"] !== undefined) {
+            const value = data["valueQuantity.value"];
+            const unit = data["valueQuantity.unit"];
+            return unit ? `${value} ${unit}` : `${value}`;
+        }
+
+        // valueCodeableConcept
+        if (data["valueCodeableConcept.text"] !== undefined) {
+            return data["valueCodeableConcept.text"];
+        }
+        if (data["valueCodeableConcept.coding.display"] !== undefined) {
+            return data["valueCodeableConcept.coding.display"];
+        }
+
+        // valueString
+        if (data["valueString"] !== undefined) {
+            return data["valueString"];
+        }
+
+        // valueBoolean
+        if (data["valueBoolean"] !== undefined) {
+            return String(data["valueBoolean"]);
+        }
+
+        // valueInteger
+        if (data["valueInteger"] !== undefined) {
+            return String(data["valueInteger"]);
+        }
+
+        // valueDateTime
+        if (data["valueDateTime"] !== undefined) {
+            return this.renderTime(data["valueDateTime"], timezone);
+        }
+
+        // valuePeriod
+        if (data["valuePeriod.start"] !== undefined || data["valuePeriod.end"] !== undefined) {
+            const start = this.renderTime(data["valuePeriod.start"], timezone);
+            const end = this.renderTime(data["valuePeriod.end"], timezone);
+            if (start && end) {
+                return `${start} - ${end}`;
+            } else if (start) {
+                return `${start}`;
+            } else if (end) {
+                return `${end}`;
+            }
+        }
+
+        // valueTime
+        if (data["valueTime"] !== undefined) {
+            return this.renderTime(data["valueTime"], timezone);
+        }
+
+        // valueSampledData
+        if (data["valueSampledData.origin.value"] !== undefined || data["valueSampledData.origin.unit"] !== undefined) {
+            const originValue = data["valueSampledData.origin.value"];
+            const originUnit = data["valueSampledData.origin.unit"];
+            let result = '';
+            if (originValue !== undefined && originUnit !== undefined) {
+                result = `${originValue} ${originUnit}`;
+            } else if (originValue !== undefined) {
+                result = `${originValue}`;
+            } else if (originUnit !== undefined) {
+                result = `${originUnit}`;
+            }
+            // Add other sampledData fields if present
+            const period = data["valueSampledData.period"];
+            const factor = data["valueSampledData.factor"];
+            const lowerLimit = data["valueSampledData.lowerLimit"];
+            const upperLimit = data["valueSampledData.upperLimit"];
+            const sampledData = data["valueSampledData.data"];
+            const extras: string[] = [];
+            if (period !== undefined) extras.push(`period: ${period}`);
+            if (factor !== undefined) extras.push(`factor: ${factor}`);
+            if (lowerLimit !== undefined) extras.push(`lowerLimit: ${lowerLimit}`);
+            if (upperLimit !== undefined) extras.push(`upperLimit: ${upperLimit}`);
+            if (sampledData !== undefined) extras.push(`data: ${sampledData}`);
+            if (extras.length > 0) {
+                result += ` (${extras.join(', ')})`;
+            }
+            return result;
+        }
+
+        // valueRange
+        if (data["valueRange.low.value"] !== undefined || data["valueRange.high.value"] !== undefined) {
+            let referenceRange = '';
+            if (data["valueRange.low.value"] !== undefined) {
+                referenceRange += `${data["valueRange.low.value"]}`;
+                if (data["valueRange.low.unit"] !== undefined) {
+                    referenceRange += ` ${data["valueRange.low.unit"]}`;
+                }
+                referenceRange = referenceRange.trim();
+                if (data["valueRange.high.value"] !== undefined) {
+                    referenceRange += ' - ';
+                }
+            }
+            if (data["valueRange.high.value"] !== undefined) {
+                referenceRange += `${data["valueRange.high.value"]}`;
+                if (data["valueRange.high.unit"] !== undefined) {
+                    referenceRange += ` ${data["valueRange.high.unit"]}`;
+                }
+            }
+            return referenceRange.trim();
+        }
+
+        // valueRatio
+        if (data["valueRatio.numerator.value"] !== undefined || data["valueRatio.denominator.value"] !== undefined) {
+            let ratio = '';
+            if (data["valueRatio.numerator.value"] !== undefined) {
+                ratio += `${data["valueRatio.numerator.value"]}`;
+                if (data["valueRatio.numerator.unit"] !== undefined) {
+                    ratio += ` ${data["valueRatio.numerator.unit"]}`;
+                }
+            }
+            if (data["valueRatio.denominator.value"] !== undefined) {
+                ratio += ' / ';
+                ratio += `${data["valueRatio.denominator.value"]}`;
+                if (data["valueRatio.denominator.unit"] !== undefined) {
+                    ratio += ` ${data["valueRatio.denominator.unit"]}`;
+                }
+            }
+            return ratio.trim();
+        }
+
+        // If nothing matched, return empty string
+        return '';
+    }
+
+    public extractObservationSummaryReferenceRange(data: Record<string, any>): string {
+        let referenceRange = '';
+        if (data["referenceRange.low.value"]) {
+            referenceRange += `${data["referenceRange.low.value"]} ${data["referenceRange.low.unit"]}`;
+            referenceRange.trim();
+            if (data["referenceRange.high.value"]) {
+                referenceRange += ' - ';
+            }
+        }
+        if (data["referenceRange.high.value"]) {
+            referenceRange += `${data["referenceRange.high.value"]} ${data["referenceRange.high.unit"]}`;
+        }
+        return referenceRange.trim();
+    }
+
+    public extractObservationSummaryEffectiveTime(data: Record<string, any>, timezone: string | undefined): string {
+        if (data["effectiveDateTime"]) {
+            return this.renderTime(data["effectiveDateTime"], timezone);
+        }
+        let effectiveTimePeriod = '';
+        if (data["effectivePeriod.start"]) {
+            effectiveTimePeriod += this.renderTime(data["effectivePeriod.start"], timezone);
+        }
+        if (data["effectivePeriod.end"]) {
+            effectiveTimePeriod += ` - ${this.renderTime(data["effectivePeriod.end"], timezone)}`;
+        }
+        return effectiveTimePeriod.trim();
+    }
+
     private formatQuantityValue(quantity: TQuantity): string {
         if (!quantity) return '';
 

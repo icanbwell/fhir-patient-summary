@@ -136,9 +136,9 @@ This section contains information about medical devices used by the patient.
 This section contains the patient's vital signs measurements.
 
 **Resource:** Observation <br>
-**Filter:** `category.coding` contains `vital-signs`
+**Filter:** `category.coding.code` contains `vital-signs`
 **Data Table Fields:**
-- **Code:** `code` (CodeableConcept)
+- **Vital Name:** `code` (CodeableConcept)
 - **Result:** `valueQuantity`, `valueCodeableConcept`, `valueString`, etc.
 - **Unit:** `valueQuantity.unit` or `valueQuantity.code`
 - **Interpretation:** `interpretation` (CodeableConcept array)
@@ -152,7 +152,7 @@ This section contains the patient's vital signs measurements.
 This section contains social history information including tobacco and alcohol use.
 
 **Resource:** Observation <br>
-**Filter:** `code.coding` contains LOINC codes:
+**Filter:** `code.coding.code` contains LOINC codes:
 - `72166-2` - Tobacco Use
 - `74013-4` - Alcohol Use
 **Data Table Fields:**
@@ -168,7 +168,7 @@ This section contains social history information including tobacco and alcohol u
 This section contains pregnancy history information.
 
 **Resource:** Observation <br>
-**Filter:** `code.coding` contains pregnancy-related LOINC codes or `valueCodeableConcept.coding` contains pregnancy outcome codes
+**Filter:** `code.coding.code` contains pregnancy-related LOINC codes or `valueCodeableConcept.coding.code` contains pregnancy outcome codes
 **Data Table Fields:**
 - **Result:** Extracted pregnancy status from `valueCodeableConcept` or related pregnancy codes
 - **Comments:** `note.text`
