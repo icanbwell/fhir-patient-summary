@@ -15,8 +15,9 @@ import { PlanOfCareTemplate } from './PlanOfCareTemplate';
 import { FunctionalStatusTemplate } from './FunctionalStatusTemplate';
 import { PregnancyTemplate } from './PregnancyTemplate';
 import { AdvanceDirectivesTemplate } from './AdvanceDirectivesTemplate';
-import { ITemplate } from './interfaces/ITemplate';
+import { ISummaryTemplate, ITemplate } from './interfaces/ITemplate';
 import { TDomainResource } from '../../../types/resources/DomainResource';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Maps IPS sections to their corresponding TypeScript template classes
@@ -48,15 +49,26 @@ export class TypeScriptTemplateMapper {
    * @param section - The IPS section
    * @param resources - FHIR resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @param useSectionSummary - Whether to use the section summary for narrative generation
    * @returns HTML string for rendering
    */
-  static generateNarrative(section: IPSSections, resources: TDomainResource[], timezone: string | undefined): string {
+  static generateNarrative(
+    section: IPSSections,
+    resources: TDomainResource[],
+    timezone: string | undefined,
+    useSectionSummary: boolean = false
+  ): string {
     const templateClass: ITemplate = this.sectionToTemplate[section];
 
     if (!templateClass) {
       throw new Error(`No template found for section: ${section}`);
     }
 
-    return templateClass.generateNarrative(resources, timezone);
+    return useSectionSummary
+      ? (templateClass as ISummaryTemplate).generateSummaryNarrative(
+          resources as TComposition[],
+          timezone
+        )
+      : templateClass.generateNarrative(resources, timezone);
   }
 }

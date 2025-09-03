@@ -342,11 +342,11 @@ describe('International Patient Summary (IPS) Implementation', () => {
             const timezone = 'America/New_York';
 
             await ipsBuilder
-                .addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone)
-                .then(builder => builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.PATIENT, [mockPatient], timezone))
+                .makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone)
+                .then(builder => builder.makeSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.PATIENT, [mockPatient], timezone))
                 .then(builder => builder.getSections());
 
             expect(ipsBuilder.getSections()).toBeDefined();
@@ -357,12 +357,12 @@ describe('International Patient Summary (IPS) Implementation', () => {
             const timezone = 'America/New_York';
 
             await ipsBuilder
-                .addSectionAsync(IPSSections.PATIENT, [mockPatient], timezone)
-                .then(builder => builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.DIAGNOSTIC_REPORTS, mockLaboratoryResults, timezone));
+                .makeSectionAsync(IPSSections.PATIENT, [mockPatient], timezone)
+                .then(builder => builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.MEDICATIONS, mockMedications, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.DIAGNOSTIC_REPORTS, mockLaboratoryResults, timezone));
 
             expect(ipsBuilder.getSections()).toBeDefined();
         });
@@ -422,11 +422,11 @@ describe('International Patient Summary (IPS) Implementation', () => {
             const start = performance.now();
 
             await ipsBuilder
-                .addSectionAsync(IPSSections.PATIENT, [mockPatient], timezone)
-                .then(builder => builder.addSectionAsync(IPSSections.MEDICATIONS, largeMedicationList, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
-                .then(builder => builder.addSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone));
+                .makeSectionAsync(IPSSections.PATIENT, [mockPatient], timezone)
+                .then(builder => builder.makeSectionAsync(IPSSections.MEDICATIONS, largeMedicationList, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.PROBLEMS, mockConditions, timezone))
+                .then(builder => builder.makeSectionAsync(IPSSections.IMMUNIZATIONS, mockImmunizations, timezone));
 
             const sections = ipsBuilder.getSections();
 

@@ -35,12 +35,19 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
     [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Consent' && resource.status === 'active',
-    
 };
+
+export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
+    [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/" && c.code === "allergy_summary_document"),
+    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/" && c.code === "vital_summary_document"),
+}
 
 // Helper class to get resource types for a section
 export class IPSSectionResourceHelper {
     static getResourceFilterForSection(section: IPSSections): IPSSectionResourceFilter {
         return IPSSectionResourceFilters[section] as IPSSectionResourceFilter;
+    }
+    static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
+        return IPSSectionSummaryCompositionFilter[section];
     }
 }

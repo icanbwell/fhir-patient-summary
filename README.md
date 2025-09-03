@@ -18,7 +18,7 @@ npm install
 
 You can use the `ComprehensiveIPSCompositionBuilder` in your TypeScript or JavaScript project to generate an IPS-compliant FHIR Bundle. The builder supports both fluent section addition and a convenient `read_bundle()` method to extract all supported sections from a FHIR Bundle.
 
-### Example: Using setPatient and addSection
+### Example: Using setPatient and makeSectionAsync
 
 ```typescript
 import { ComprehensiveIPSCompositionBuilder } from './src/generators/fhir_summary_generator';
@@ -26,10 +26,10 @@ import { IPSSections } from './src/structures/ips_sections';
 
 const builder = new ComprehensiveIPSCompositionBuilder()
   .setPatient(patientResource)
-  .addSection(IPSSections.ALLERGIES, allergiesArray, 'America/New_York')
-  .addSection(IPSSections.MEDICATIONS, medicationsArray, 'America/New_York')
-  .addSection(IPSSections.PROBLEMS, problemsArray, 'America/New_York')
-  .addSection(IPSSections.IMMUNIZATIONS, immunizationsArray, 'America/New_York');
+  .makeSectionAsync(IPSSections.ALLERGIES, allergiesArray, 'America/New_York')
+  .makeSectionAsync(IPSSections.MEDICATIONS, medicationsArray, 'America/New_York')
+  .makeSectionAsync(IPSSections.PROBLEMS, problemsArray, 'America/New_York')
+  .makeSectionAsync(IPSSections.IMMUNIZATIONS, immunizationsArray, 'America/New_York');
 
 const bundle = builder.build_bundle(
   'example-organization',
@@ -61,7 +61,7 @@ console.log(JSON.stringify(bundle, null, 2));
 ```
 
 - Use `setPatient(patientResource)` to set the patient.
-- Use `addSection(sectionType, resources, timezone)` to add each IPS section, or use `read_bundle(fhirBundle, timezone)` to extract all supported sections from a FHIR Bundle.
+- Use `makeSectionAsync(sectionType, resources, timezone)` to add each IPS section, or use `read_bundle(fhirBundle, timezone)` to extract all supported sections from a FHIR Bundle.
 - Use `build_bundle` to generate the final FHIR Bundle.
 
 ## Running Tests

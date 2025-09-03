@@ -2,13 +2,14 @@
 import {TemplateUtilities} from './TemplateUtilities';
 import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TAllergyIntolerance} from '../../../types/resources/AllergyIntolerance';
-import {ITemplate} from './interfaces/ITemplate';
+import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for AllergyIntolerance resources
  * This replaces the Jinja2 allergyintolerance.j2 template
  */
-export class AllergyIntoleranceTemplate implements ITemplate {
+export class AllergyIntoleranceTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for AllergyIntolerance resources
    * @param resources - FHIR resources array containing AllergyIntolerance resources
@@ -17,6 +18,63 @@ export class AllergyIntoleranceTemplate implements ITemplate {
    */
   public generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     return AllergyIntoleranceTemplate.generateStaticNarrative(resources, timezone);
+  }
+
+  /**
+   * Generate HTML narrative for AllergyIntolerance resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    let html = `
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Allergen</th>
+              <th>Criticality</th>
+              <th>Recorded Date</th>
+            </tr>
+          </thead>
+          <tbody>`;
+    
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []){
+        const data: Record<string, string> = {}
+        for (const columnData of rowData.section ?? []){
+          switch (columnData.title){
+            case 'Allergen Name':
+              data["allergen"] = columnData.text?.div ?? "";
+              break;
+            case 'Criticality':
+              data["criticality"] = columnData.text?.div ?? "";
+              break;
+            case 'Recorded Date':
+              data["recordedDate"] = columnData.text?.div ?? "";
+              break;
+            default:
+              break;
+          }
+        }
+
+        html += `
+            <tr>
+              <td>${data["allergen"] ?? "-"}</td>
+              <td>${data["criticality"] ?? "-"}</td>
+              <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? "-"}</td>
+            </tr>`;
+      }
+    }
+
+    html += `
+          </tbody>
+        </table>
+      </div>`;
+
+    return html;
   }
 
   /**

@@ -44,12 +44,14 @@ export class NarrativeGenerator {
      * @param section - IPS section type
      * @param resources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
      * @returns Generated HTML content or undefined if no resources
      */
     static async generateNarrativeContentAsync<T extends TDomainResource>(
         section: IPSSections,
         resources: T[],
         timezone: string | undefined,
+        useSectionSummary: boolean = false
     ): Promise<string | undefined> {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
@@ -57,7 +59,7 @@ export class NarrativeGenerator {
 
         try {
             // Use the TypeScript template mapper to generate HTML
-            const content: string = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone);
+            const content: string = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary);
             if (!content) {
                 return undefined; // No content generated
             }
@@ -116,6 +118,7 @@ export class NarrativeGenerator {
      * @param resources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting
      * @param minify - Whether to minify the HTML content (default: true)
+     * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
      * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
     static async generateNarrativeAsync<T extends TDomainResource>(
@@ -123,8 +126,9 @@ export class NarrativeGenerator {
         resources: T[],
         timezone: string | undefined,
         minify: boolean = true,
+        useSectionSummary: boolean = false,
     ): Promise<Narrative | undefined> {
-        const content = await this.generateNarrativeContentAsync(section, resources, timezone);
+        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary);
         if (!content) {
             return undefined;
         }
