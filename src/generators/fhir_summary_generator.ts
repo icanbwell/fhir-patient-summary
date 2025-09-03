@@ -179,7 +179,7 @@ export class ComprehensiveIPSCompositionBuilder {
             }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
-            if (sectionSummary?.length > 0) {
+            if (sectionSummary.length > 0) {
                 await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone);
             } else {
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
