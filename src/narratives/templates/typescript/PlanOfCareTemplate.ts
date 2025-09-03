@@ -2,13 +2,14 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TCarePlan } from '../../../types/resources/CarePlan';
-import { ITemplate } from './interfaces/ITemplate';
+import { ISummaryTemplate } from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Plan of Care (CarePlan resources)
  * This replaces the Jinja2 planofcare.j2 template
  */
-export class PlanOfCareTemplate implements ITemplate {
+export class PlanOfCareTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Plan of Care
    * @param resources - FHIR CarePlan resources
@@ -59,6 +60,59 @@ export class PlanOfCareTemplate implements ITemplate {
     html += `
         </tbody>
       </table>`;
+
+    return html;
+  }
+
+  /**
+   * Generate HTML narrative for CarePlan resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    let html = `
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Created</th>
+              <th>Planned Start</th>
+              <th>Planned End</th>
+            </tr>
+          </thead>
+          <tbody>`;
+    
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []){
+        const data: Record<string, string> = {}
+        for (const columnData of rowData.section ?? []){
+          if (columnData.title) {
+            data[columnData.title] = columnData.text?.div ?? '';
+          }
+        }
+
+        if (data["status"] !== "active") {
+          continue; // Skip non-active care plans
+        }
+
+        html += `
+            <tr>
+              <td>${data["CarePlan Name"] ?? "-"}</td>
+              <td>${templateUtilities.renderTime(data["created"], timezone) ?? "-"}</td>
+              <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? "-"}</td>
+              <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? "-"}</td>
+            </tr>`;
+      }
+    }
+
+    html += `
+          </tbody>
+        </table>
+      </div>`;
 
     return html;
   }

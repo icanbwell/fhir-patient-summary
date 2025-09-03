@@ -219,6 +219,107 @@
       }
     },
     {
+      "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/Composition/a7561966-95de-58f4-a919-cf47403ced91",
+      "resource": {
+        "id": "a7561966-95de-58f4-a919-cf47403ced91",
+        "resourceType": "Composition",
+        "section": [
+          {
+            "entry": [
+              {
+                "reference": "CarePlan/3d6ddb89-9edd-4fec-8553-ebb8ecb338a8"
+              }
+            ],
+            "section": [
+              {
+                "title": "CarePlan Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Weight management plan"
+                }
+              },
+              {
+                "title": "created"
+              },
+              {
+                "title": "period.start",
+                "text": {
+                  "status": "generated",
+                  "div": "2012-03-03T01:45:51+00:00"
+                }
+              },
+              {
+                "title": "period.end",
+                "text": {
+                  "status": "generated",
+                  "div": "2026-06-01T00:00:00+00:00"
+                }
+              },
+              {
+                "title": "status",
+                "text": {
+                  "status": "generated",
+                  "div": "active"
+                }
+              }
+            ]
+          },
+          {
+            "entry": [
+              {
+                "reference": "CarePlan/b9ce7293-0b8a-43e5-a884-e208fb6c128d1"
+              }
+            ],
+            "section": [
+              {
+                "title": "CarePlan Name",
+                "text": {
+                  "status": "generated",
+                  "div": "New Care Plan"
+                }
+              },
+              {
+                "title": "created",
+                "text": {
+                  "status": "generated",
+                  "div": "2012-03-03T01:45:51+00:00"
+                }
+              },
+              {
+                "title": "period.start",
+                "text": {
+                  "status": "generated",
+                  "div": "2012-03-03T01:45:51+00:00"
+                }
+              },
+              {
+                "title": "period.end",
+                "text": {
+                  "status": "generated",
+                  "div": "2013-03-03T01:45:51+00:00"
+                }
+              },
+              {
+                "title": "status",
+                "text": {
+                  "status": "generated",
+                  "div": "on-hold"
+                }
+              }
+            ]
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "careplan_summary_document"
+            }
+          ]
+        }
+      }
+    },
+    {
       "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/AllergyIntolerance/eWnSvqVtUdx9Y08zZy-RCwekkG16SLp1A9E5OJknfJX43",
       "resource": {
         "resourceType": "AllergyIntolerance",
