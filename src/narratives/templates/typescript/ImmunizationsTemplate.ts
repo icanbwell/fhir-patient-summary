@@ -2,13 +2,14 @@
 import {TemplateUtilities} from './TemplateUtilities';
 import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TImmunization} from '../../../types/resources/Immunization';
-import {ITemplate} from './interfaces/ITemplate';
+import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Immunization resources
  * This replaces the Jinja2 immunizations.j2 template
  */
-export class ImmunizationsTemplate implements ITemplate {
+export class ImmunizationsTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Immunization resources
    * @param resources - FHIR resources array containing Immunization resources
@@ -26,6 +27,68 @@ export class ImmunizationsTemplate implements ITemplate {
     });
 
     return ImmunizationsTemplate.generateStaticNarrative(resources, timezone);
+  }
+
+  /**
+   * Generate HTML narrative for Immunization resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  public generateSummaryNarrative(
+    resources: TComposition[],
+    timezone: string | undefined
+  ): string {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    let html = `
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Immunization</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []) {
+        const data: Record<string, string> = {};
+        for (const columnData of rowData.section ?? []) {
+          switch (columnData.title) {
+            case 'Immunization Name':
+              data['immunization'] = columnData.text?.div ?? '';
+              break;
+            case 'Status':
+              data['status'] = columnData.text?.div ?? '';
+              break;
+            case 'occurrenceDateTime':
+              data['occurrenceDateTime'] = columnData.text?.div ?? '';
+              break;
+            default:
+              break;
+          }
+        }
+
+        if (data['status'] === 'completed') {
+          html += `
+              <tr>
+                <td>${data['immunization'] ?? '-'}</td>
+                <td>${data['status'] ?? '-'}</td>
+                <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? '-'}</td>
+              </tr>`;
+        }
+      }
+    }
+
+    html += `
+          </tbody>
+        </table>
+      </div>`;
+
+    return html;
   }
 
   /**
