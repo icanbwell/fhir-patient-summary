@@ -1,4 +1,3 @@
-
 .PHONY:up
 up:
 	docker compose build --parallel && \
@@ -20,6 +19,7 @@ update:down
 upgrade_packages:down
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	yarn install --no-optional && \
+	npm list -g npm-check-updates || npm install -g npm-check-updates && \
 	ncu -u --reject @sentry/node
 
 .PHONY:tests
