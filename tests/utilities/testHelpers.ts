@@ -14,8 +14,14 @@ import {TCompositionSection} from "../../src/types/partials/CompositionSection";
  */
 async function beautifyHtml(html: string): Promise<string> {
     try {
+        // Preprocess HTML to fix specific cases
+        // Join empty <ul></ul> elements with their preceding text within table cells
+        const preprocessedHtml = html
+            .replace(/(<td>[^<]+?)[\s\r\n]+([ \t]*)<ul><\/ul>/g, '$1<ul></ul>')
+            .replace(/(<td>[^<]+?)<ul><\/ul>[\s\r\n]+([ \t]*)<\/td>/g, '$1<ul></ul></td>');
+
         // Add configuration to prevent line breaks between text and adjacent elements
-        return beautify(html);
+        return beautify(preprocessedHtml);
     } catch (error) {
         console.error('Formatting Error:', error);
         return html;
