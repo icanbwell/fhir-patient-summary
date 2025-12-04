@@ -21,11 +21,19 @@ async function beautifyHtml(html: string): Promise<string> {
             .replace(/(<td>[^<]+?)<ul><\/ul>[\s\r\n]+([ \t]*)<\/td>/g, '$1<ul></ul></td>');
 
         // Add configuration to prevent line breaks between text and adjacent elements
-        return beautify(preprocessedHtml);
+        return beautify(preprocessedHtml, {
+            preserve_newlines: false,
+        });
     } catch (error) {
         console.error('Formatting Error:', error);
         return html;
     }
+}
+
+function getFileNameForSection(sectionTitle: string, codeValue: string, folder: string) {
+    const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
+    const filename = `${codeValue}_${safeSectionTitle}.html`;
+    return path.join(folder, filename);
 }
 
 /**
@@ -36,9 +44,7 @@ async function beautifyHtml(html: string): Promise<string> {
  */
 export function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | undefined {
     // Convert the section title to a filename-friendly format
-    const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
-    const filename = `${codeValue}_${safeSectionTitle}.html`;
-    const filePath = path.join(folder, filename);
+    const filePath = getFileNameForSection(sectionTitle, codeValue, folder);
 
     try {
         return fs.readFileSync(filePath, 'utf-8');
