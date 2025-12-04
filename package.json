@@ -28,7 +28,7 @@
     "prebuild": "npm run clean:dist",
     "pretest": "npm run clean:coverage",
     "cm": "cz",
-    "lint": "eslint ./src/ --ext .ts --fix",
+    "lint": "eslint ./src/ ./tests/ --ext .ts --fix",
     "prepare": "husky",
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",

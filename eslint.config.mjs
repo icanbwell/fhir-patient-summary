@@ -6,8 +6,7 @@ export default tseslint.config(
   tseslint.configs.recommended,
   {
     ignores: [
-      'src/types/global.d.ts',
-      '**/test/build/**'
+      'src/types/global.d.ts'
     ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
