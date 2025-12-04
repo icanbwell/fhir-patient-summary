@@ -17,12 +17,12 @@ try {
      
     throw new Error('Failed to instantiate ComprehensiveIPSCompositionBuilder');
   }
-  // eslint-disable-next-line no-undef
+   
   console.log('CommonJS import check passed, ComprehensiveIPSCompositionBuilder is available.');
   // eslint-disable-next-line no-undef
   process.exit(0);
 } catch (err) {
-  // eslint-disable-next-line no-undef
+   
   console.error('CommonJS import check failed:', err);
   // eslint-disable-next-line no-undef
   process.exit(1);

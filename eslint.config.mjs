@@ -10,6 +10,11 @@ export default tseslint.config(
     ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
+    },
+    languageOptions: {
+      globals: {
+        console: 'readonly'
+      }
     }
   }
 );
