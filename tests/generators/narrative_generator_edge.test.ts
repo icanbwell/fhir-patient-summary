@@ -11,6 +11,6 @@ describe('NarrativeGenerator edge cases', () => {
   it('should handle invalid section gracefully', async () => {
     // @ts-expect-error Invalid section type for test
     const result = await NarrativeGenerator.generateNarrativeContentAsync('UNKNOWN_SECTION', [{ resourceType: 'Patient' } as TDomainResource], 'America/New_York');
-    expect(result).toBeUndefined();
+    expect(result).toContain('Error generating narrative: No template found for section: UNKNOWN_SECTION');
   });
 });
