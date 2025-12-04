@@ -68,15 +68,15 @@ export async function compareNarratives(generatedHtml: string | undefined, expec
     }
     // Beautify both HTML strings for comparison
     const generatedFormattedHtml = await beautifyHtml(generatedHtml);
-    const expectedFormattedHtml = expectedHtml;
+    const expectedFormattedHtml = await beautifyHtml(expectedHtml);
 
     // Compare the formatted HTML strings
     if (generatedFormattedHtml === expectedFormattedHtml) {
         console.info('Narrative matches expected output.');
     } else {
         console.info('Narrative does not match expected output.');
-        console.info(`Generated:\n${generatedFormattedHtml}`);
-        console.info(`Expected:\n${expectedFormattedHtml}`);
+        console.info(`Generated (beautified):\n${generatedFormattedHtml}`);
+        console.info(`Expected (beautified):\n${expectedFormattedHtml}`);
     }
 
     expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);
