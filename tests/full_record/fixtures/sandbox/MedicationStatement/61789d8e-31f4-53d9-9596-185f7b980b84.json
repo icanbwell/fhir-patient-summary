@@ -1,0 +1,219 @@
+{
+  "category": {
+    "coding": [
+      {
+        "id": "d5e9c277-aa92-5f71-9201-2f8d25ad3731",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/medicationstatement/category",
+        "code": "derived_medication_statement",
+        "display": "b.Well Derived Medication Statement"
+      }
+    ]
+  },
+  "derivedFrom": [
+    {
+      "id": "69a3f9de-75bd-575e-a5c5-0252de3c3897",
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-eaea-543fafc52b39"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-eaea-543fafc52b39"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "MedicationRequest/ac59c2e9-d108-03bd-eaea-543fafc52b39",
+      "type": "MedicationRequest"
+    },
+    {
+      "id": "9489b5e6-0eb0-5677-9b60-0811d42fcbb4",
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-4789-c0bdfcfed895"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-4789-c0bdfcfed895"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "MedicationRequest/ac59c2e9-d108-03bd-4789-c0bdfcfed895",
+      "type": "MedicationRequest"
+    },
+    {
+      "id": "d0c45e3f-3da1-5598-b00a-af7b33111a73",
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-da46-ed244d166972"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-da46-ed244d166972"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "MedicationRequest/ac59c2e9-d108-03bd-da46-ed244d166972",
+      "type": "MedicationRequest"
+    },
+    {
+      "id": "089a7876-4116-55b0-84dc-23e4138ccf5c",
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-2f36-e9cb11d3283c"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-2f36-e9cb11d3283c"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "MedicationRequest/ac59c2e9-d108-03bd-2f36-e9cb11d3283c",
+      "type": "MedicationRequest"
+    },
+    {
+      "id": "923541d4-b0c6-5117-b3ac-ecc8674490b8",
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-be87-6dfaea360c5f"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-be87-6dfaea360c5f"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "MedicationRequest/ac59c2e9-d108-03bd-be87-6dfaea360c5f",
+      "type": "MedicationRequest"
+    }
+  ],
+  "id": "61789d8e-31f4-53d9-9596-185f7b980b84",
+  "identifier": [
+    {
+      "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/medicationstatement/bwell",
+      "value": "bwell_derived_medicationstatement"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "61789d8e-31f4-53d9-9596-185f7b980b84"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "61789d8e-31f4-53d9-9596-185f7b980b84"
+    }
+  ],
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "id": "1644aee8-e789-5285-af77-2f80a49a93d0",
+        "extension": [
+          {
+            "id": "preferred",
+            "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+            "valueCode": "preferred"
+          }
+        ],
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "1535362",
+        "display": "sodium fluoride 0.0272 MG/MG Oral Gel"
+      }
+    ],
+    "text": "sodium fluoride 0.0272 MG/MG Oral Gel"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-11-21T18:09:16.022Z",
+    "source": "https://www.icanbwell.com/intelligence-layer-pipeline",
+    "security": [
+      {
+        "id": "70ae40c6-f2bd-54a0-aa66-656be4cce72b",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      },
+      {
+        "id": "2d1e0b6f-56fb-5dd9-bc38-f01b5902fde2",
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "id": "a49dbe6e-233b-5ae6-b71a-aaa3a06ed9b1",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "bwell"
+      },
+      {
+        "id": "33ced3c5-0807-582a-b03a-df7d6e95a41c",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "61789d8e-31f4-53d9-9596-185f7b980b84"
+      }
+    ]
+  },
+  "resourceType": "MedicationStatement",
+  "status": "completed",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell"
+      }
+    ],
+    "reference": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41",
+    "type": "Patient"
+  },
+  "text": {
+    "status": "generated",
+    "div": "MedicationStatement Summary Grouped by Medication Code"
+  }
+}

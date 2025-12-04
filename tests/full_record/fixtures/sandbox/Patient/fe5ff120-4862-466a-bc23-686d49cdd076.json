@@ -1,0 +1,78 @@
+{
+  "id": "fe5ff120-4862-466a-bc23-686d49cdd076",
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "id": "a25001dc-b645-59b8-94bc-c09be443e96e",
+            "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/vs-identifier-type",
+            "code": "fhir-master-person"
+          }
+        ]
+      },
+      "system": "http://www.icanbwell.com/master-person-fhir-id",
+      "value": "bbe60a79-a805-4ece-8208-60bf6818cd19"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "id": "8a646969-9339-5f6c-b292-15c53a63f265",
+            "system": "http://www.icanbwell.com/identifier-types",
+            "code": "user-identifier"
+          }
+        ]
+      },
+      "system": "http://www.icanbwell.com/openai/sub",
+      "value": "user-test123"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "fe5ff120-4862-466a-bc23-686d49cdd076"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "fe5ff120-4862-466a-bc23-686d49cdd076"
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-24T21:13:15.490Z",
+    "source": "https://www.icanbwell.com/enterprise-person-service",
+    "security": [
+      {
+        "id": "265130f1-2081-522d-87ac-cbca130085b9",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "openai"
+      },
+      {
+        "id": "5755c723-35c3-5283-bc19-c1d15656ebe0",
+        "system": "https://www.icanbwell.com/access",
+        "code": "openai"
+      },
+      {
+        "id": "33cbdff2-5a18-5b2f-9d59-51e5f1a628e5",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "openai"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "fe5ff120-4862-466a-bc23-686d49cdd076"
+      }
+    ]
+  },
+  "resourceType": "Patient",
+  "telecom": [
+    {
+      "id": "bwell-default-email",
+      "system": "email",
+      "value": "xxx@xxxxx.com",
+      "use": "home"
+    }
+  ]
+}

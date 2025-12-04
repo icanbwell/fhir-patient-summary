@@ -62,3 +62,8 @@ generate_types:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/generator/generate_types.py" \
 	eslint --fix "src/types/**/*.ts"
+
+.PHONY:split_bundle
+split_bundle:
+	. ${NVM_DIR}/nvm.sh && nvm use && \
+	node tests/full_record/split_bundle.mjs
