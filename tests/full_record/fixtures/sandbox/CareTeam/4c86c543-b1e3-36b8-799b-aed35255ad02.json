@@ -1,0 +1,243 @@
+{
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+  },
+  "id": "4c86c543-b1e3-36b8-799b-aed35255ad02",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "4c86c543-b1e3-36b8-799b-aed35255ad02"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "4c86c543-b1e3-36b8-799b-aed35255ad02"
+    }
+  ],
+  "managingOrganization": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Organization/unknown"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Organization/unknown",
+      "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:39:26.722Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "4c86c543-b1e3-36b8-799b-aed35255ad02"
+      }
+    ]
+  },
+  "participant": [
+    {
+      "role": [
+        {
+          "coding": [
+            {
+              "id": "498bebd5-1a6d-5805-98e5-3186e4014246",
+              "system": "http://snomed.info/sct",
+              "code": "116154003",
+              "display": "Patient"
+            }
+          ],
+          "text": "Patient"
+        }
+      ],
+      "member": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb",
+        "display": "Ms. Eula461 Ellie521 Quigley282"
+      }
+    },
+    {
+      "role": [
+        {
+          "coding": [
+            {
+              "id": "80623bee-c10a-534e-9d13-3c75f8309045",
+              "system": "http://snomed.info/sct",
+              "code": "223366009",
+              "display": "Healthcare professional (occupation)"
+            }
+          ],
+          "text": "Healthcare professional (occupation)"
+        }
+      ],
+      "member": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Practitioner/unknown"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Practitioner/unknown",
+        "display": "Dr. Elbert916 Carter549"
+      }
+    },
+    {
+      "role": [
+        {
+          "coding": [
+            {
+              "id": "f1d2b810-df58-5219-9929-f5d1c14a41c6",
+              "system": "http://snomed.info/sct",
+              "code": "224891009",
+              "display": "Healthcare services (qualifier value)"
+            }
+          ],
+          "text": "Healthcare services (qualifier value)"
+        }
+      ],
+      "member": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Organization/unknown"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Organization/unknown",
+        "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+      }
+    }
+  ],
+  "period": {
+    "start": "2019-06-27T21:39:36+00:00",
+    "end": "2019-07-18T21:39:36+00:00"
+  },
+  "reasonCode": [
+    {
+      "coding": [
+        {
+          "id": "6e426fde-aa0c-51d5-83b4-0cd02f5711be",
+          "system": "http://snomed.info/sct",
+          "code": "70704007",
+          "display": "Sprain of wrist (disorder)"
+        }
+      ],
+      "text": "Sprain of wrist (disorder)"
+    }
+  ],
+  "resourceType": "CareTeam",
+  "status": "inactive",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

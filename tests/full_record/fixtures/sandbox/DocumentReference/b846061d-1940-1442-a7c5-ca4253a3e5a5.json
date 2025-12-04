@@ -1,0 +1,192 @@
+{
+  "author": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Practitioner/unknown"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Practitioner/unknown",
+      "display": "Dr. Tashina114 Towne435"
+    }
+  ],
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "8f15ad77-50e6-5eea-abf6-9803b85f43c9",
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+          "code": "clinical-note",
+          "display": "Clinical Note"
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "attachment": {
+        "contentType": "text/plain; charset=utf-8",
+        "data": "CjE5OTgtMTItMDUKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkV1bGE0NjEgaXMgYSAzNyB5ZWFyLW9sZCBoaXNwYW5pYyBhc2lhbiBmZW1hbGUuCgojIFNvY2lhbCBIaXN0b3J5ClBhdGllbnQgaXMgc2luZ2xlLiBQYXRpZW50IHF1aXQgc21va2luZyBhdCBhZ2UgMTkuCiBQYXRpZW50IGlkZW50aWZpZXMgYXMgaGV0ZXJvc2V4dWFsLgoKUGF0aWVudCBjb21lcyBmcm9tIGEgbWlkZGxlIHNvY2lvZWNvbm9taWMgYmFja2dyb3VuZC4KIFBhdGllbnQgaGFzIGNvbXBsZXRlZCBzb21lIGNvbGxlZ2UgY291cnNlcy4KUGF0aWVudCBjdXJyZW50bHkgaGFzIEh1bWFuYS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKTm8gQWN0aXZlIE1lZGljYXRpb25zLgoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuClBhdGllbnQgaXMgcHJlc2VudGluZyB3aXRoIHByZWRpYWJldGVzIChmaW5kaW5nKSwgYW5lbWlhIChkaXNvcmRlcikuIAoKCiMjIFBsYW4KClRoZSBwYXRpZW50IHdhcyBwbGFjZWQgb24gYSBjYXJlcGxhbjoKLSBkaWFiZXRlcyBzZWxmIG1hbmFnZW1lbnQgcGxhbiAocmVjb3JkIGFydGlmYWN0KQo="
+      },
+      "format": {
+        "id": "a2b0060a-0c2f-5763-a1ba-d4f7c258bb5e",
+        "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+        "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+        "display": "mimeType Sufficient"
+      }
+    }
+  ],
+  "context": {
+    "encounter": [
+      {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Encounter/ac59c2e9-d108-03bd-385d-7c38c6e24308"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Encounter/ac59c2e9-d108-03bd-385d-7c38c6e24308"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Encounter/ac59c2e9-d108-03bd-385d-7c38c6e24308"
+      }
+    ],
+    "period": {
+      "start": "1998-12-05T20:58:10+00:00",
+      "end": "1998-12-05T21:56:51+00:00"
+    }
+  },
+  "custodian": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Organization/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Organization/unknown",
+    "display": "NEW ENGLAND FAMILY HEALTH LLC"
+  },
+  "date": "1998-12-05T20:58:10.689Z",
+  "id": "b846061d-1940-1442-a7c5-ca4253a3e5a5",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:uuid:ec91b1b9-d0a1-4203-7338-fe33fcff31fc"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "b846061d-1940-1442-a7c5-ca4253a3e5a5"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "b846061d-1940-1442-a7c5-ca4253a3e5a5"
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:38:02.461Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "b846061d-1940-1442-a7c5-ca4253a3e5a5"
+      }
+    ]
+  },
+  "resourceType": "DocumentReference",
+  "status": "superseded",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "type": {
+    "coding": [
+      {
+        "id": "c1644d8a-c57c-52bd-aa9c-a275ba460b42",
+        "system": "http://loinc.org",
+        "code": "34117-2",
+        "display": "History and physical note"
+      },
+      {
+        "id": "60c66b2f-a4ca-57a6-8ebe-8e30615509dd",
+        "system": "http://loinc.org",
+        "code": "51847-2",
+        "display": "Evaluation + Plan note"
+      }
+    ]
+  }
+}

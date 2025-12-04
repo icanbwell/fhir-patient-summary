@@ -1,0 +1,164 @@
+{
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-2e3e-e2aaaeaaf767"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-2e3e-e2aaaeaaf767"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-2e3e-e2aaaeaaf767"
+  },
+  "id": "ac59c2e9-d108-03bd-bbb0-4cb9730bf788",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:1.2.840.99999999.80045110.1509835887689"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-bbb0-4cb9730bf788"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-bbb0-4cb9730bf788"
+    }
+  ],
+  "location": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "MARLBOROUGH HOSPITAL CORP"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:38:54.111Z",
+    "source": "synthea",
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-bbb0-4cb9730bf788"
+      }
+    ]
+  },
+  "numberOfInstances": 1,
+  "numberOfSeries": 1,
+  "procedureCode": [
+    {
+      "coding": [
+        {
+          "id": "43922ed3-1b84-57e7-88c1-556109129f99",
+          "system": "http://snomed.info/sct",
+          "code": "241046008",
+          "display": "Dental plain X-ray bitewing (procedure)"
+        }
+      ],
+      "text": "Dental plain X-ray bitewing (procedure)"
+    }
+  ],
+  "resourceType": "ImagingStudy",
+  "series": [
+    {
+      "uid": "1.2.840.99999999.1.70900150.1509835887689",
+      "number": 1,
+      "modality": {
+        "id": "82d6e37f-7fbf-57f4-a620-4dc2b4ae2faa",
+        "system": "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
+        "code": "DX",
+        "display": "Digital Radiography"
+      },
+      "numberOfInstances": 1,
+      "bodySite": {
+        "id": "ff9351a7-5c3f-5d4d-954f-40dd51d091ed",
+        "system": "http://snomed.info/sct",
+        "code": "700016008",
+        "display": "Structure of region of internal part of mouth (body structure)"
+      },
+      "started": "2017-11-04T22:51:27+00:00",
+      "instance": [
+        {
+          "uid": "1.2.840.99999999.1.1.39944565.1509835887689",
+          "sopClass": {
+            "id": "1fa82a4e-afc4-58bc-8801-45cb70561c5c",
+            "system": "urn:ietf:rfc:3986",
+            "code": "urn:oid:1.2.840.10008.5.1.4.1.1.1.3"
+          },
+          "number": 1,
+          "title": "Digital Intra-Oral X-Ray Image"
+        }
+      ]
+    }
+  ],
+  "started": "2017-11-04T22:51:27+00:00",
+  "status": "available",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

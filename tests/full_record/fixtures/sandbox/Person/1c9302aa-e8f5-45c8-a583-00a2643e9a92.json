@@ -1,0 +1,190 @@
+{
+  "resourceType": "Person",
+  "id": "1c9302aa-e8f5-45c8-a583-00a2643e9a92",
+  "meta": {
+    "versionId": "183",
+    "lastUpdated": "2025-11-25T04:01:07.445Z",
+    "source": "https://www.icanbwell.com/enterprise-person-service",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "openai"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "openai"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "openai"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "1c9302aa-e8f5-45c8-a583-00a2643e9a92"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "id": "last-login-date",
+      "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/last-login-date",
+      "valueDateTime": "2025-11-24T23:40:29.255000+00:00"
+    }
+  ],
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://www.icanbwell.com/identifier-types",
+            "code": "user-identifier"
+          }
+        ]
+      },
+      "system": "http://www.icanbwell.com/openai/sub",
+      "value": "user-test124"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "1c9302aa-e8f5-45c8-a583-00a2643e9a92"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "1c9302aa-e8f5-45c8-a583-00a2643e9a92"
+    }
+  ],
+  "name": [
+    {
+      "id": "bwell-default-name",
+      "use": "usual",
+      "family": "Murphy",
+      "given": [
+        "Giuseppe"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "id": "bwell-default-email",
+      "system": "email",
+      "value": "Murphy.Giuseppe@bwelltestuser.com",
+      "use": "home"
+    },
+    {
+      "id": "bwell-default-phone",
+      "system": "phone",
+      "value": "413-250-8120",
+      "use": "mobile"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1987-08-30",
+  "address": [
+    {
+      "id": "bwell-default-address",
+      "line": [
+        "287 Ryder Camp"
+      ],
+      "city": "Emardmouth",
+      "state": "OH",
+      "postalCode": "45040"
+    }
+  ],
+  "managingOrganization": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Organization/724edc79-0fcb-433f-9a3e-82f68676b2b8"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Organization/724edc79-0fcb-433f-9a3e-82f68676b2b8"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "openai"
+      }
+    ],
+    "reference": "Organization/724edc79-0fcb-433f-9a3e-82f68676b2b8"
+  },
+  "active": true,
+  "link": [
+    {
+      "id": "58511672-e1c0-44c9-a225-7ccebea78c1f",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/fc2f7b77-58fd-4a40-80ab-ceb9b0b5e1fd"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/fc2f7b77-58fd-4a40-80ab-ceb9b0b5e1fd"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "openai"
+          }
+        ],
+        "reference": "Patient/fc2f7b77-58fd-4a40-80ab-ceb9b0b5e1fd"
+      }
+    },
+    {
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "openai"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      }
+    },
+    {
+      "id": "ada03dfb-79cf-4fbd-92aa-e35606657c8a",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ada03dfb-79cf-4fbd-92aa-e35606657c8a"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ada03dfb-79cf-4fbd-92aa-e35606657c8a"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "openai"
+          }
+        ],
+        "reference": "Patient/ada03dfb-79cf-4fbd-92aa-e35606657c8a",
+        "type": "Patient"
+      },
+      "assurance": "level4"
+    }
+  ]
+}

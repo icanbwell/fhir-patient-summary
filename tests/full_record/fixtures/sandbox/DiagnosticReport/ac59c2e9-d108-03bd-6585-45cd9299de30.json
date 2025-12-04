@@ -1,0 +1,126 @@
+{
+  "code": {
+    "coding": [
+      {
+        "id": "9d47ee7f-0f8f-5cd9-a212-f39a17b7ca72",
+        "system": "http://loinc.org",
+        "code": "55757-9",
+        "display": "Patient Health Questionnaire 2 item (PHQ-2) [Reported]"
+      }
+    ],
+    "text": "Patient Health Questionnaire 2 item (PHQ-2) [Reported]"
+  },
+  "effectiveDateTime": "2021-11-13T22:28:27+00:00",
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-ff10-a216139fc185"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-ff10-a216139fc185"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-ff10-a216139fc185"
+  },
+  "id": "ac59c2e9-d108-03bd-6585-45cd9299de30",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-6585-45cd9299de30"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-6585-45cd9299de30"
+    }
+  ],
+  "issued": "2021-11-13T22:28:27.689Z",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:40:30.043Z",
+    "source": "synthea",
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-6585-45cd9299de30"
+      }
+    ]
+  },
+  "resourceType": "DiagnosticReport",
+  "result": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-a36b-9fdc8b286080"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-a36b-9fdc8b286080"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-a36b-9fdc8b286080",
+      "display": "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]"
+    }
+  ],
+  "status": "final",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

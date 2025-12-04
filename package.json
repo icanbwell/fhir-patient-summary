@@ -36,7 +36,8 @@
     "typecheck": "tsc --noEmit",
     "check:cjs-import": "node tests/build/cjs-import-check.cjs",
     "check:esm-import": "node --experimental-vm-modules tests/build/esm-import-check.mjs",
-    "check:ts-import": "ts-node --project tsconfig.json tests/build/ts-import-check.ts"
+    "check:ts-import": "ts-node --project tsconfig.json tests/build/ts-import-check.ts",
+    "split:bundle": "node tests/full_record/split_bundle.cjs"
   },
   "repository": {
     "type": "git",

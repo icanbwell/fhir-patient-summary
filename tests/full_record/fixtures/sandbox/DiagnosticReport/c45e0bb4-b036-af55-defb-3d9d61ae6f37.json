@@ -1,0 +1,158 @@
+{
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "c1644d8a-c57c-52bd-aa9c-a275ba460b42",
+          "system": "http://loinc.org",
+          "code": "34117-2",
+          "display": "History and physical note"
+        },
+        {
+          "id": "60c66b2f-a4ca-57a6-8ebe-8e30615509dd",
+          "system": "http://loinc.org",
+          "code": "51847-2",
+          "display": "Evaluation + Plan note"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "id": "c1644d8a-c57c-52bd-aa9c-a275ba460b42",
+        "system": "http://loinc.org",
+        "code": "34117-2",
+        "display": "History and physical note"
+      },
+      {
+        "id": "60c66b2f-a4ca-57a6-8ebe-8e30615509dd",
+        "system": "http://loinc.org",
+        "code": "51847-2",
+        "display": "Evaluation + Plan note"
+      }
+    ]
+  },
+  "effectiveDateTime": "2017-10-21T20:58:10+00:00",
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-519c-64473d5bd0cd"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-519c-64473d5bd0cd"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-519c-64473d5bd0cd"
+  },
+  "id": "c45e0bb4-b036-af55-defb-3d9d61ae6f37",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "c45e0bb4-b036-af55-defb-3d9d61ae6f37"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "c45e0bb4-b036-af55-defb-3d9d61ae6f37"
+    }
+  ],
+  "issued": "2017-10-21T20:58:10.689Z",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:38:46.110Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "c45e0bb4-b036-af55-defb-3d9d61ae6f37"
+      }
+    ]
+  },
+  "performer": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Practitioner/unknown"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Practitioner/unknown",
+      "display": "Dr. Tashina114 Towne435"
+    }
+  ],
+  "presentedForm": [
+    {
+      "contentType": "text/plain; charset=utf-8",
+      "data": "CjIwMTctMTAtMjEKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkV1bGE0NjEgaXMgYSA1NiB5ZWFyLW9sZCBoaXNwYW5pYyBhc2lhbiBmZW1hbGUuIFBhdGllbnQgaGFzIGEgaGlzdG9yeSBvZiBtZWRpY2F0aW9uIHJldmlldyBkdWUgKHNpdHVhdGlvbiksIGZ1bGwtdGltZSBlbXBsb3ltZW50IChmaW5kaW5nKSwgYWN1dGUgdmlyYWwgcGhhcnluZ2l0aXMgKGRpc29yZGVyKSwgc29jaWFsIGlzb2xhdGlvbiAoZmluZGluZykuCgojIFNvY2lhbCBIaXN0b3J5ClBhdGllbnQgaXMgc2luZ2xlLiBQYXRpZW50IHF1aXQgc21va2luZyBhdCBhZ2UgMTkuCiBQYXRpZW50IGlkZW50aWZpZXMgYXMgaGV0ZXJvc2V4dWFsLgoKUGF0aWVudCBjb21lcyBmcm9tIGEgbWlkZGxlIHNvY2lvZWNvbm9taWMgYmFja2dyb3VuZC4KIFBhdGllbnQgaGFzIGNvbXBsZXRlZCBzb21lIGNvbGxlZ2UgY291cnNlcy4KUGF0aWVudCBjdXJyZW50bHkgaGFzIEh1bWFuYS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKaWJ1cHJvZmVuIDQwMCBtZyBvcmFsIHRhYmxldCBbaWJ1XQoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuClBhdGllbnQgaXMgcHJlc2VudGluZyB3aXRoIHBhcnQtdGltZSBlbXBsb3ltZW50IChmaW5kaW5nKSwgc3RyZXNzIChmaW5kaW5nKSwgaGFzIGEgY3JpbWluYWwgcmVjb3JkIChmaW5kaW5nKS4gCgoKIyMgUGxhbgpQYXRpZW50IHdhcyBnaXZlbiB0aGUgZm9sbG93aW5nIGltbXVuaXphdGlvbnM6IGluZmx1ZW56YSwgc2Vhc29uYWwsIGluamVjdGFibGUsIHByZXNlcnZhdGl2ZSBmcmVlLiAKVGhlIGZvbGxvd2luZyBwcm9jZWR1cmVzIHdlcmUgY29uZHVjdGVkOgotIGFzc2Vzc21lbnQgb2YgaGVhbHRoIGFuZCBzb2NpYWwgY2FyZSBuZWVkcyAocHJvY2VkdXJlKQotIGFzc2Vzc21lbnQgb2Ygc3Vic3RhbmNlIHVzZSAocHJvY2VkdXJlKQotIHNjcmVlbmluZyBmb3IgZHJ1ZyBhYnVzZSAocHJvY2VkdXJlKQotIHBhdGllbnQgcmVmZXJyYWwgZm9yIGRlbnRhbCBjYXJlIChwcm9jZWR1cmUpClRoZSBmb2xsb3dpbmcgbGFiIHJlcG9ydHMgd2VyZSBjb21wbGV0ZWQ6Ci0gYmFzaWMgbWV0YWJvbGljIHBhbmVsIC0gYmxvb2QKLSBsaXBpZCBwYW5lbCB3aXRoIGRpcmVjdCBsZGwgLSBzZXJ1bSBvciBwbGFzbWEKLSBkcnVnIGFidXNlIHNjcmVlbmluZyB0ZXN0LTEwIFtkYXN0LTEwXQpUaGUgcGF0aWVudCB3YXMgcHJlc2NyaWJlZCB0aGUgZm9sbG93aW5nIG1lZGljYXRpb25zOgotIGlidXByb2ZlbiA0MDAgbWcgb3JhbCB0YWJsZXQgW2lidV0K"
+    }
+  ],
+  "resourceType": "DiagnosticReport",
+  "status": "final",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

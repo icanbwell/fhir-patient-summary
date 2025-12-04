@@ -1,0 +1,286 @@
+{
+  "resourceType": "CarePlan",
+  "id": "ac59c2e9-d108-03bd-325a-433b2943a242",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:27.824Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-325a-433b2943a242"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Fracture care (regime/therapy).<br/>Care plan is meant to treat Fracture of ankle (disorder).<br/>Activities: <ul><li>Fracture care (regime/therapy)</li><li>Fracture care (regime/therapy)</li></ul></div>"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-325a-433b2943a242"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-325a-433b2943a242"
+    }
+  ],
+  "status": "completed",
+  "intent": "order",
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "ab22e646-0212-52c1-af4f-125d2495a60c",
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "id": "303be416-f597-5f3b-a8ed-2af389a00aa8",
+          "system": "http://snomed.info/sct",
+          "code": "385691007",
+          "display": "Fracture care (regime/therapy)"
+        }
+      ],
+      "text": "Fracture care (regime/therapy)"
+    },
+    {
+      "coding": [
+        {
+          "id": "ab22e646-0212-52c1-af4f-125d2495a60c",
+          "extension": [
+            {
+              "id": "preferred",
+              "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+              "valueCode": "preferred"
+            }
+          ],
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "id": "303be416-f597-5f3b-a8ed-2af389a00aa8",
+          "extension": [
+            {
+              "id": "preferred",
+              "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+              "valueCode": "preferred"
+            }
+          ],
+          "system": "http://snomed.info/sct",
+          "code": "385691007",
+          "display": "Fracture care (regime/therapy)"
+        }
+      ],
+      "text": "Fracture care (regime/therapy)"
+    }
+  ],
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+  },
+  "period": {
+    "start": "2023-09-21T22:19:04+00:00",
+    "end": "2023-12-30T22:19:04+00:00"
+  },
+  "careTeam": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "CareTeam/32f36606-37c2-87cd-c29b-a039076f9cb6"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "CareTeam/32f36606-37c2-87cd-c29b-a039076f9cb6"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "CareTeam/32f36606-37c2-87cd-c29b-a039076f9cb6"
+    }
+  ],
+  "addresses": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+    }
+  ],
+  "activity": [
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "id": "0d439568-024b-5590-bfdd-2b59a3f09c4e",
+              "system": "http://snomed.info/sct",
+              "code": "183051005",
+              "display": "Recommendation to rest (procedure)"
+            }
+          ],
+          "text": "Recommendation to rest (procedure)"
+        },
+        "reasonReference": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "synthea"
+              }
+            ],
+            "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+          }
+        ],
+        "status": "completed",
+        "location": {
+          "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+        }
+      }
+    },
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "id": "7eaf0438-e749-5e72-9bdb-542ade9a01b8",
+              "system": "http://snomed.info/sct",
+              "code": "408580007",
+              "display": "Physical activity target light exercise (finding)"
+            }
+          ],
+          "text": "Physical activity target light exercise (finding)"
+        },
+        "reasonReference": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "synthea"
+              }
+            ],
+            "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+          }
+        ],
+        "status": "completed",
+        "location": {
+          "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "resourceType": "Person",
+  "id": "61850843-13a8-4db2-829b-e83859101676",
+  "meta": {
+    "versionId": "54",
+    "lastUpdated": "2025-12-01T16:02:47.862Z",
+    "source": "https://www.icanbwell.com/enterprise-person-service",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell_demo"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell_demo"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell_demo"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/userType",
+        "code": "bwelltestuser",
+        "display": "Test User"
+      },
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "61850843-13a8-4db2-829b-e83859101676"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "id": "last-login-date",
+      "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/last-login-date",
+      "valueDateTime": "2025-12-01T16:02:47.332Z"
+    }
+  ],
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://www.icanbwell.com/identifier-types",
+            "code": "user-identifier"
+          }
+        ]
+      },
+      "system": "http://www.icanbwell.com/bwell_demo/email",
+      "value": "kate.kolchier+gladys@icanbwell.com"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "61850843-13a8-4db2-829b-e83859101676"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "61850843-13a8-4db2-829b-e83859101676"
+    }
+  ],
+  "name": [
+    {
+      "id": "bwell-default-name",
+      "family": "Doe",
+      "given": [
+        "John"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "id": "bwell-default-email",
+      "system": "email",
+      "value": "kate.kolchier+gladys@icanbwell.com",
+      "use": "home"
+    },
+    {
+      "id": "bwell-default-phone",
+      "system": "phone",
+      "value": "(276) 784-5147",
+      "use": "home"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1980-01-01",
+  "address": [
+    {
+      "id": "bwell-default-address",
+      "line": [
+        "227 State St"
+      ],
+      "city": "Madison",
+      "state": "WI",
+      "postalCode": "53703"
+    }
+  ],
+  "managingOrganization": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Organization/4ae1dd68-3353-4cf8-8b23-a4dce617c65e"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Organization/4ae1dd68-3353-4cf8-8b23-a4dce617c65e"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell_demo"
+      }
+    ],
+    "reference": "Organization/4ae1dd68-3353-4cf8-8b23-a4dce617c65e"
+  },
+  "active": true,
+  "link": [
+    {
+      "id": "78359ac3-6dc5-4b76-a851-b31e4aec1eb7",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/5d456cca-132d-495b-a461-a1360e493dbf"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/5d456cca-132d-495b-a461-a1360e493dbf"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "bwell_demo"
+          }
+        ],
+        "reference": "Patient/5d456cca-132d-495b-a461-a1360e493dbf"
+      }
+    },
+    {
+      "id": "f92e8605-ac97-40a9-ac3e-7673d9685dd7",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/f92e8605-ac97-40a9-ac3e-7673d9685dd7"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/f92e8605-ac97-40a9-ac3e-7673d9685dd7"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "bwell_demo"
+          }
+        ],
+        "reference": "Patient/f92e8605-ac97-40a9-ac3e-7673d9685dd7"
+      }
+    },
+    {
+      "id": "44749c37-d0da-4006-86e4-62bb3fef0120",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/44749c37-d0da-4006-86e4-62bb3fef0120"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/44749c37-d0da-4006-86e4-62bb3fef0120"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "bwell_demo"
+          }
+        ],
+        "reference": "Patient/44749c37-d0da-4006-86e4-62bb3fef0120",
+        "type": "Patient"
+      },
+      "assurance": "level4"
+    },
+    {
+      "id": "4300c90a-9adf-4301-9934-f679488c40e2",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/4300c90a-9adf-4301-9934-f679488c40e2"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/4300c90a-9adf-4301-9934-f679488c40e2"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "bwell_demo"
+          }
+        ],
+        "reference": "Patient/4300c90a-9adf-4301-9934-f679488c40e2",
+        "type": "Patient"
+      },
+      "assurance": "level4"
+    },
+    {
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "bwell_demo"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      }
+    }
+  ]
+}

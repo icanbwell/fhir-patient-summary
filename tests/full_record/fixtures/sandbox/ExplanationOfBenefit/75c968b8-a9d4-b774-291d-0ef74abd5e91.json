@@ -1,0 +1,1267 @@
+{
+  "billablePeriod": {
+    "start": "2023-09-21T22:39:36+00:00",
+    "end": "2024-09-21T22:39:36+00:00"
+  },
+  "careTeam": [
+    {
+      "sequence": 1,
+      "provider": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Practitioner/unknown"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Practitioner/unknown"
+      },
+      "role": {
+        "coding": [
+          {
+            "id": "552798d5-5f9a-5b74-a48c-e85209b21037",
+            "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+            "code": "primary",
+            "display": "Primary provider"
+          }
+        ]
+      }
+    }
+  ],
+  "claim": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Claim/ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Claim/ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Claim/ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+  },
+  "contained": [
+    {
+      "resourceType": "ServiceRequest",
+      "id": "referral",
+      "status": "completed",
+      "intent": "order",
+      "subject": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      "requester": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Practitioner/unknown"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Practitioner/unknown"
+      },
+      "performer": [
+        {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Practitioner/unknown"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Practitioner/unknown"
+        }
+      ]
+    },
+    {
+      "resourceType": "Coverage",
+      "id": "coverage",
+      "status": "active",
+      "type": {
+        "text": "Humana"
+      },
+      "beneficiary": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      "payor": [
+        {
+          "display": "Humana"
+        }
+      ]
+    }
+  ],
+  "created": "2023-09-21T22:39:36+00:00",
+  "diagnosis": [
+    {
+      "sequence": 1,
+      "diagnosisReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Condition/ac59c2e9-d108-03bd-3ce8-39c301b39ab9"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Condition/ac59c2e9-d108-03bd-3ce8-39c301b39ab9"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Condition/ac59c2e9-d108-03bd-3ce8-39c301b39ab9"
+      },
+      "type": [
+        {
+          "coding": [
+            {
+              "id": "3b2d6ce2-c139-569d-94ca-f4f10901e67e",
+              "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+              "code": "principal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "diagnosisReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+      },
+      "type": [
+        {
+          "coding": [
+            {
+              "id": "3b2d6ce2-c139-569d-94ca-f4f10901e67e",
+              "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+              "code": "principal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "facility": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+  },
+  "id": "75c968b8-a9d4-b774-291d-0ef74abd5e91",
+  "identifier": [
+    {
+      "system": "https://bluebutton.cms.gov/resources/variables/clm_id",
+      "value": "ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+    },
+    {
+      "system": "https://bluebutton.cms.gov/resources/identifier/claim-group",
+      "value": "99999999999"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "75c968b8-a9d4-b774-291d-0ef74abd5e91"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "75c968b8-a9d4-b774-291d-0ef74abd5e91"
+    }
+  ],
+  "insurance": [
+    {
+      "focal": true,
+      "coverage": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "#coverage"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "ac7798ae-c8b1-5de1-befe-852987d3adeb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "#coverage",
+        "display": "Humana"
+      }
+    }
+  ],
+  "insurer": {
+    "display": "Humana"
+  },
+  "item": [
+    {
+      "sequence": 1,
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "4f083054-13ed-5a3f-8e94-53151399fbbb",
+            "system": "http://snomed.info/sct",
+            "code": "50849002",
+            "display": "Emergency room admission (procedure)"
+          }
+        ],
+        "text": "Emergency room admission (procedure)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "encounter": [
+        {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "diagnosisSequence": [
+        1
+      ],
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "03d1484d-59bc-5dfc-b95b-5795e54b9525",
+            "system": "http://snomed.info/sct",
+            "code": "125605004",
+            "display": "Fracture of bone (disorder)"
+          }
+        ],
+        "text": "Fracture of bone (disorder)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 3,
+      "diagnosisSequence": [
+        2
+      ],
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "70775844-9bc3-5605-93dc-7f478591d891",
+            "system": "http://snomed.info/sct",
+            "code": "16114001",
+            "display": "Fracture of ankle (disorder)"
+          }
+        ],
+        "text": "Fracture of ankle (disorder)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 4,
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "1e3e17c5-d377-58b2-8dc1-45733f751301",
+            "system": "http://snomed.info/sct",
+            "code": "1290459008",
+            "display": "Plain X-ray of ankle region (procedure)"
+          }
+        ],
+        "text": "Plain X-ray of ankle region (procedure)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      },
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "e33f1fb9-52f8-5909-b4b3-ddd8cd5abfb6",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt",
+                "display": "Line Beneficiary Coinsurance Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 86.28,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "013c0dff-5302-5406-95cc-6c3a033aad23",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt",
+                "display": "Line Provider Payment Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 345.12,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "d7c793d6-cfa7-5320-bc80-8dcdd65bba53",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt",
+                "display": "Line Submitted Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 431.4,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "28126ede-f7f8-5665-990c-c10ba934bc40",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt",
+                "display": "Line Allowed Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 431.4,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "b0971df9-d97f-5f01-8903-9cfd3330386e",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt",
+                "display": "Line Beneficiary Part B Deductible Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "8ef27c8a-80f3-5ec1-a673-c894f368a84b",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd",
+                "display": "Line Processing Indicator Code"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 5,
+      "informationSequence": [
+        1
+      ],
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "eab951d1-674b-5668-b404-b6fe8d3d53fa",
+            "system": "http://snomed.info/sct",
+            "code": "228869008",
+            "display": "Manual wheelchair (physical object)"
+          }
+        ],
+        "text": "Manual wheelchair (physical object)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "net": {
+        "value": 0,
+        "currency": "USD"
+      },
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "e33f1fb9-52f8-5909-b4b3-ddd8cd5abfb6",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt",
+                "display": "Line Beneficiary Coinsurance Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "013c0dff-5302-5406-95cc-6c3a033aad23",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt",
+                "display": "Line Provider Payment Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "d7c793d6-cfa7-5320-bc80-8dcdd65bba53",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt",
+                "display": "Line Submitted Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "28126ede-f7f8-5665-990c-c10ba934bc40",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt",
+                "display": "Line Allowed Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "b0971df9-d97f-5f01-8903-9cfd3330386e",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt",
+                "display": "Line Beneficiary Part B Deductible Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "8ef27c8a-80f3-5ec1-a673-c894f368a84b",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd",
+                "display": "Line Processing Indicator Code"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 6,
+      "informationSequence": [
+        2
+      ],
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "66df8caf-0f8d-54f5-9aa1-7768742308c4",
+            "system": "http://snomed.info/sct",
+            "code": "705417005",
+            "display": "Wheelchair accessory (physical object)"
+          }
+        ],
+        "text": "Wheelchair accessory (physical object)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "net": {
+        "value": 0,
+        "currency": "USD"
+      },
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "e33f1fb9-52f8-5909-b4b3-ddd8cd5abfb6",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt",
+                "display": "Line Beneficiary Coinsurance Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "013c0dff-5302-5406-95cc-6c3a033aad23",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt",
+                "display": "Line Provider Payment Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "d7c793d6-cfa7-5320-bc80-8dcdd65bba53",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt",
+                "display": "Line Submitted Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "28126ede-f7f8-5665-990c-c10ba934bc40",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt",
+                "display": "Line Allowed Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "b0971df9-d97f-5f01-8903-9cfd3330386e",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt",
+                "display": "Line Beneficiary Part B Deductible Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "8ef27c8a-80f3-5ec1-a673-c894f368a84b",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd",
+                "display": "Line Processing Indicator Code"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 7,
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "ee343c57-1cd2-5a97-9a6c-337c3790fbd7",
+            "system": "http://snomed.info/sct",
+            "code": "274474001",
+            "display": "Bone immobilization (procedure)"
+          }
+        ],
+        "text": "Bone immobilization (procedure)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      },
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "e33f1fb9-52f8-5909-b4b3-ddd8cd5abfb6",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt",
+                "display": "Line Beneficiary Coinsurance Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 86.28,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "013c0dff-5302-5406-95cc-6c3a033aad23",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt",
+                "display": "Line Provider Payment Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 345.12,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "d7c793d6-cfa7-5320-bc80-8dcdd65bba53",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt",
+                "display": "Line Submitted Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 431.4,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "28126ede-f7f8-5665-990c-c10ba934bc40",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt",
+                "display": "Line Allowed Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 431.4,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "b0971df9-d97f-5f01-8903-9cfd3330386e",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt",
+                "display": "Line Beneficiary Part B Deductible Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "8ef27c8a-80f3-5ec1-a673-c894f368a84b",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd",
+                "display": "Line Processing Indicator Code"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 8,
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "8b9b8f6d-9e2d-5407-be8e-3042b05c606b",
+            "system": "http://snomed.info/sct",
+            "code": "312681000",
+            "display": "Bone density scan (procedure)"
+          }
+        ],
+        "text": "Bone density scan (procedure)"
+      },
+      "servicedPeriod": {
+        "start": "2023-09-21T21:39:36+00:00",
+        "end": "2023-09-21T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "net": {
+        "value": 6109.63,
+        "currency": "USD"
+      },
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "e33f1fb9-52f8-5909-b4b3-ddd8cd5abfb6",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt",
+                "display": "Line Beneficiary Coinsurance Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 1221.9260000000002,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "013c0dff-5302-5406-95cc-6c3a033aad23",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt",
+                "display": "Line Provider Payment Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 4887.704000000001,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "d7c793d6-cfa7-5320-bc80-8dcdd65bba53",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt",
+                "display": "Line Submitted Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 6109.63,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "28126ede-f7f8-5665-990c-c10ba934bc40",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt",
+                "display": "Line Allowed Charge Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 6109.63,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "b0971df9-d97f-5f01-8903-9cfd3330386e",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt",
+                "display": "Line Beneficiary Part B Deductible Amount"
+              }
+            ]
+          },
+          "amount": {
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        {
+          "category": {
+            "coding": [
+              {
+                "id": "8ef27c8a-80f3-5ec1-a673-c894f368a84b",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+                "code": "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd",
+                "display": "Line Processing Indicator Code"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:41:00.298Z",
+    "source": "synthea",
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "75c968b8-a9d4-b774-291d-0ef74abd5e91"
+      }
+    ]
+  },
+  "outcome": "complete",
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "payment": {
+    "amount": {
+      "value": 5577.944,
+      "currency": "USD"
+    }
+  },
+  "provider": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Practitioner/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Practitioner/unknown"
+  },
+  "referral": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "#referral"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "6954e121-00c1-5e7a-b3f0-f3e1f1c7833e"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "#referral"
+  },
+  "resourceType": "ExplanationOfBenefit",
+  "status": "active",
+  "total": [
+    {
+      "category": {
+        "coding": [
+          {
+            "id": "e436baef-8c84-502b-951d-48ce56cb511a",
+            "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+            "code": "submitted",
+            "display": "Submitted Amount"
+          }
+        ],
+        "text": "Submitted Amount"
+      },
+      "amount": {
+        "value": 7118.61,
+        "currency": "USD"
+      }
+    }
+  ],
+  "type": {
+    "coding": [
+      {
+        "id": "63666d30-7b8d-5674-97f4-bda270072f58",
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "institutional"
+      }
+    ]
+  },
+  "use": "claim"
+}

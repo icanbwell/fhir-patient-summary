@@ -1,0 +1,96 @@
+{
+  "deviceName": [
+    {
+      "name": "Blood glucose meter (physical object)",
+      "type": "user-friendly-name"
+    }
+  ],
+  "distinctIdentifier": "55757483857458",
+  "expirationDate": "2023-11-29T20:58:10+00:00",
+  "id": "ac59c2e9-d108-03bd-216b-d978b7e5b567",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-216b-d978b7e5b567"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-216b-d978b7e5b567"
+    }
+  ],
+  "lotNumber": "6466213595927086085",
+  "manufactureDate": "1998-11-14T20:58:10+00:00",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:38:00.851Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+    ],
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-216b-d978b7e5b567"
+      }
+    ]
+  },
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "resourceType": "Device",
+  "serialNumber": "658064",
+  "status": "active",
+  "type": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "337414009",
+        "display": "Blood glucose meter (physical object)"
+      }
+    ],
+    "text": "Blood glucose meter (physical object)"
+  },
+  "udiCarrier": [
+    {
+      "deviceIdentifier": "55757483857458",
+      "carrierHRF": "(01)55757483857458(11)981114(17)231129(10)6466213595927086085(21)658064"
+    }
+  ]
+}

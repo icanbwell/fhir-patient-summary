@@ -1,0 +1,285 @@
+{
+  "resourceType": "CarePlan",
+  "id": "ac59c2e9-d108-03bd-ac7b-87b23d1d47f4",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:27.826Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-ac7b-87b23d1d47f4"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Diabetes self management plan (record artifact).<br/>Care plan is meant to treat Prediabetes (finding).<br/>Activities: <ul><li>Diabetes self management plan (record artifact)</li><li>Diabetes self management plan (record artifact)</li></ul></div>"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-ac7b-87b23d1d47f4"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-ac7b-87b23d1d47f4"
+    }
+  ],
+  "status": "active",
+  "intent": "order",
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "ab22e646-0212-52c1-af4f-125d2495a60c",
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "id": "1fd2ac04-7a2c-5f3d-a6df-03d1066beec2",
+          "system": "http://snomed.info/sct",
+          "code": "735985000",
+          "display": "Diabetes self management plan (record artifact)"
+        }
+      ],
+      "text": "Diabetes self management plan (record artifact)"
+    },
+    {
+      "coding": [
+        {
+          "id": "ab22e646-0212-52c1-af4f-125d2495a60c",
+          "extension": [
+            {
+              "id": "preferred",
+              "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+              "valueCode": "preferred"
+            }
+          ],
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "id": "1fd2ac04-7a2c-5f3d-a6df-03d1066beec2",
+          "extension": [
+            {
+              "id": "preferred",
+              "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+              "valueCode": "preferred"
+            }
+          ],
+          "system": "http://snomed.info/sct",
+          "code": "735985000",
+          "display": "Diabetes self management plan (record artifact)"
+        }
+      ],
+      "text": "Diabetes self management plan (record artifact)"
+    }
+  ],
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-385d-7c38c6e24308"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-385d-7c38c6e24308"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-385d-7c38c6e24308"
+  },
+  "period": {
+    "start": "1998-12-05T20:58:10+00:00"
+  },
+  "careTeam": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "CareTeam/30fbb405-7d19-2ba0-f8b9-0b76d2d1b614"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "CareTeam/30fbb405-7d19-2ba0-f8b9-0b76d2d1b614"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "CareTeam/30fbb405-7d19-2ba0-f8b9-0b76d2d1b614"
+    }
+  ],
+  "addresses": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+    }
+  ],
+  "activity": [
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "id": "d031bf91-cea9-502e-98d0-cc0726f57818",
+              "system": "http://snomed.info/sct",
+              "code": "160670007",
+              "display": "Diabetic diet (finding)"
+            }
+          ],
+          "text": "Diabetic diet (finding)"
+        },
+        "reasonReference": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "synthea"
+              }
+            ],
+            "reference": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+          }
+        ],
+        "status": "in-progress",
+        "location": {
+          "display": "NEW ENGLAND FAMILY HEALTH LLC"
+        }
+      }
+    },
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "id": "d69d144f-975d-5487-bd99-8b369ef8a06e",
+              "system": "http://snomed.info/sct",
+              "code": "229065009",
+              "display": "Exercise therapy (regime/therapy)"
+            }
+          ],
+          "text": "Exercise therapy (regime/therapy)"
+        },
+        "reasonReference": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "synthea"
+              }
+            ],
+            "reference": "Condition/ac59c2e9-d108-03bd-ae6c-c01882f9f3be"
+          }
+        ],
+        "status": "in-progress",
+        "location": {
+          "display": "NEW ENGLAND FAMILY HEALTH LLC"
+        }
+      }
+    }
+  ]
+}

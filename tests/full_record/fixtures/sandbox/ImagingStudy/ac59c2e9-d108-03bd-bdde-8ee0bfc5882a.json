@@ -1,0 +1,164 @@
+{
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+  },
+  "id": "ac59c2e9-d108-03bd-bdde-8ee0bfc5882a",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:1.2.840.99999999.60116789.1695332376689"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-bdde-8ee0bfc5882a"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-bdde-8ee0bfc5882a"
+    }
+  ],
+  "location": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:40:58.665Z",
+    "source": "synthea",
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-bdde-8ee0bfc5882a"
+      }
+    ]
+  },
+  "numberOfInstances": 1,
+  "numberOfSeries": 1,
+  "procedureCode": [
+    {
+      "coding": [
+        {
+          "id": "1e3e17c5-d377-58b2-8dc1-45733f751301",
+          "system": "http://snomed.info/sct",
+          "code": "1290459008",
+          "display": "Plain X-ray of ankle region (procedure)"
+        }
+      ],
+      "text": "Plain X-ray of ankle region (procedure)"
+    }
+  ],
+  "resourceType": "ImagingStudy",
+  "series": [
+    {
+      "uid": "1.2.840.99999999.1.98891344.1695332376689",
+      "number": 1,
+      "modality": {
+        "id": "82d6e37f-7fbf-57f4-a620-4dc2b4ae2faa",
+        "system": "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
+        "code": "DX",
+        "display": "Digital Radiography"
+      },
+      "numberOfInstances": 1,
+      "bodySite": {
+        "id": "b3f3f57d-b0b9-5834-9432-f3f95282e3ca",
+        "system": "http://snomed.info/sct",
+        "code": "344001",
+        "display": "Ankle region structure (body structure)"
+      },
+      "started": "2023-09-21T21:39:36+00:00",
+      "instance": [
+        {
+          "uid": "1.2.840.99999999.1.1.97407657.1695332376689",
+          "sopClass": {
+            "id": "da32dc83-14cf-58e6-ae78-11170392c545",
+            "system": "urn:ietf:rfc:3986",
+            "code": "urn:oid:1.2.840.10008.5.1.4.1.1.1.1"
+          },
+          "number": 1,
+          "title": "Image of ankle"
+        }
+      ]
+    }
+  ],
+  "started": "2023-09-21T21:39:36+00:00",
+  "status": "available",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "resourceType": "Observation",
+  "id": "ac59c2e9-d108-03bd-f730-952c2b16e73d",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:29.216Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-f730-952c2b16e73d"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "Generated Text for Observation"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-f730-952c2b16e73d"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-f730-952c2b16e73d"
+    }
+  ],
+  "status": "final",
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "14fd8a06-fecb-5eba-a32f-5fffc6bea731",
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "laboratory",
+          "display": "Laboratory"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "id": "14f9bbe5-308a-5668-98f6-92d06c554655",
+        "extension": [
+          {
+            "id": "preferred",
+            "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+            "valueCode": "preferred"
+          }
+        ],
+        "system": "http://loinc.org",
+        "code": "789-8",
+        "display": "Erythrocytes [#/volume] in Blood by Automated count"
+      }
+    ],
+    "text": "Erythrocytes [#/volume] in Blood by Automated count"
+  },
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-84a8-66594b9e1174"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-84a8-66594b9e1174"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-84a8-66594b9e1174"
+  },
+  "effectiveDateTime": "2023-11-25T20:58:10+00:00",
+  "issued": "2023-11-25T20:58:10.689Z",
+  "valueQuantity": {
+    "value": 4.2186,
+    "unit": "10*6/uL",
+    "system": "http://unitsofmeasure.org",
+    "code": "10*6/uL"
+  }
+}

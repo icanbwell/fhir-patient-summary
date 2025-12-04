@@ -1,0 +1,158 @@
+{
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "c1644d8a-c57c-52bd-aa9c-a275ba460b42",
+          "system": "http://loinc.org",
+          "code": "34117-2",
+          "display": "History and physical note"
+        },
+        {
+          "id": "60c66b2f-a4ca-57a6-8ebe-8e30615509dd",
+          "system": "http://loinc.org",
+          "code": "51847-2",
+          "display": "Evaluation + Plan note"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "id": "c1644d8a-c57c-52bd-aa9c-a275ba460b42",
+        "system": "http://loinc.org",
+        "code": "34117-2",
+        "display": "History and physical note"
+      },
+      {
+        "id": "60c66b2f-a4ca-57a6-8ebe-8e30615509dd",
+        "system": "http://loinc.org",
+        "code": "51847-2",
+        "display": "Evaluation + Plan note"
+      }
+    ]
+  },
+  "effectiveDateTime": "2023-09-21T21:39:36+00:00",
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+  },
+  "id": "3a4cb3c4-84ea-b5da-5bf6-86e3100231d8",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "3a4cb3c4-84ea-b5da-5bf6-86e3100231d8"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "3a4cb3c4-84ea-b5da-5bf6-86e3100231d8"
+    }
+  ],
+  "issued": "2023-09-21T21:39:36.689Z",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:40:58.988Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "3a4cb3c4-84ea-b5da-5bf6-86e3100231d8"
+      }
+    ]
+  },
+  "performer": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Practitioner/unknown"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Practitioner/unknown",
+      "display": "Dr. Elbert916 Carter549"
+    }
+  ],
+  "presentedForm": [
+    {
+      "contentType": "text/plain; charset=utf-8",
+      "data": "CjIwMjMtMDktMjEKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkV1bGE0NjEgaXMgYSA2MiB5ZWFyLW9sZCBoaXNwYW5pYyBhc2lhbiBmZW1hbGUuIFBhdGllbnQgaGFzIGEgaGlzdG9yeSBvZiBnaW5naXZhbCBkaXNlYXNlIChkaXNvcmRlciksIHNwcmFpbiAobW9ycGhvbG9naWMgYWJub3JtYWxpdHkpLCBtZWRpY2F0aW9uIHJldmlldyBkdWUgKHNpdHVhdGlvbiksIGFjdXRlIHZpcmFsIHBoYXJ5bmdpdGlzIChkaXNvcmRlciksIHNwcmFpbiBvZiB3cmlzdCAoZGlzb3JkZXIpLCB2aXJhbCBzaW51c2l0aXMgKGRpc29yZGVyKSwgcGFydC10aW1lIGVtcGxveW1lbnQgKGZpbmRpbmcpLCBsaW1pdGVkIHNvY2lhbCBjb250YWN0IChmaW5kaW5nKSwgcmVwb3J0cyBvZiB2aW9sZW5jZSBpbiB0aGUgZW52aXJvbm1lbnQgKGZpbmRpbmcpLCBmdWxsLXRpbWUgZW1wbG95bWVudCAoZmluZGluZyksIGdpbmdpdml0aXMgKGRpc29yZGVyKSwgc29jaWFsIGlzb2xhdGlvbiAoZmluZGluZyksIHN0cmVzcyAoZmluZGluZykuCgojIFNvY2lhbCBIaXN0b3J5ClBhdGllbnQgaXMgc2luZ2xlLiBQYXRpZW50IHF1aXQgc21va2luZyBhdCBhZ2UgMTkuCiBQYXRpZW50IGlkZW50aWZpZXMgYXMgaGV0ZXJvc2V4dWFsLgoKUGF0aWVudCBjb21lcyBmcm9tIGEgbWlkZGxlIHNvY2lvZWNvbm9taWMgYmFja2dyb3VuZC4KIFBhdGllbnQgaGFzIGNvbXBsZXRlZCBzb21lIGNvbGxlZ2UgY291cnNlcy4KUGF0aWVudCBjdXJyZW50bHkgaGFzIEh1bWFuYS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKYWNldGFtaW5vcGhlbiAzMjUgbWcgb3JhbCB0YWJsZXQ7IGlidXByb2ZlbiA0MDAgbWcgb3JhbCB0YWJsZXQgW2lidV07IHNvZGl1bSBmbHVvcmlkZSAwLjAyNzIgbWcvbWcgb3JhbCBnZWwKCiMgQXNzZXNzbWVudCBhbmQgUGxhbgpQYXRpZW50IGlzIHByZXNlbnRpbmcgd2l0aCBmcmFjdHVyZSBvZiBib25lIChkaXNvcmRlciksIGZyYWN0dXJlIG9mIGFua2xlIChkaXNvcmRlcikuIAoKCiMjIFBsYW4KClRoZSBmb2xsb3dpbmcgcHJvY2VkdXJlcyB3ZXJlIGNvbmR1Y3RlZDoKLSBwbGFpbiB4LXJheSBvZiBhbmtsZSByZWdpb24gKHByb2NlZHVyZSkKLSBib25lIGltbW9iaWxpemF0aW9uIChwcm9jZWR1cmUpCi0gYm9uZSBkZW5zaXR5IHNjYW4gKHByb2NlZHVyZSkKVGhlIHBhdGllbnQgd2FzIHByZXNjcmliZWQgdGhlIGZvbGxvd2luZyBtZWRpY2F0aW9uczoKLSBuYXByb3hlbiBzb2RpdW0gMjIwIG1nIG9yYWwgdGFibGV0ClRoZSBwYXRpZW50IHdhcyBwbGFjZWQgb24gYSBjYXJlcGxhbjoKLSBmcmFjdHVyZSBjYXJlIChyZWdpbWUvdGhlcmFweSkK"
+    }
+  ],
+  "resourceType": "DiagnosticReport",
+  "status": "final",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

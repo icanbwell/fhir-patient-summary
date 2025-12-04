@@ -1,0 +1,429 @@
+{
+  "billablePeriod": {
+    "start": "2019-06-27T22:39:36+00:00",
+    "end": "2020-06-27T22:39:36+00:00"
+  },
+  "careTeam": [
+    {
+      "sequence": 1,
+      "provider": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Practitioner/unknown"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Practitioner/unknown"
+      },
+      "role": {
+        "coding": [
+          {
+            "id": "552798d5-5f9a-5b74-a48c-e85209b21037",
+            "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+            "code": "primary",
+            "display": "Primary provider"
+          }
+        ]
+      }
+    }
+  ],
+  "claim": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Claim/ac59c2e9-d108-03bd-bcb6-6e85ac58de6c"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Claim/ac59c2e9-d108-03bd-bcb6-6e85ac58de6c"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Claim/ac59c2e9-d108-03bd-bcb6-6e85ac58de6c"
+  },
+  "contained": [
+    {
+      "resourceType": "ServiceRequest",
+      "id": "referral",
+      "status": "completed",
+      "intent": "order",
+      "subject": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      "requester": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Practitioner/unknown"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Practitioner/unknown"
+      },
+      "performer": [
+        {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Practitioner/unknown"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Practitioner/unknown"
+        }
+      ]
+    },
+    {
+      "resourceType": "Coverage",
+      "id": "coverage",
+      "status": "active",
+      "type": {
+        "text": "Humana"
+      },
+      "beneficiary": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      "payor": [
+        {
+          "display": "Humana"
+        }
+      ]
+    }
+  ],
+  "created": "2019-06-27T22:39:36+00:00",
+  "facility": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+  },
+  "id": "6916c9fc-6fa5-cf1a-8857-aee903fff8ed",
+  "identifier": [
+    {
+      "system": "https://bluebutton.cms.gov/resources/variables/clm_id",
+      "value": "ac59c2e9-d108-03bd-bcb6-6e85ac58de6c"
+    },
+    {
+      "system": "https://bluebutton.cms.gov/resources/identifier/claim-group",
+      "value": "99999999999"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "6916c9fc-6fa5-cf1a-8857-aee903fff8ed"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "6916c9fc-6fa5-cf1a-8857-aee903fff8ed"
+    }
+  ],
+  "insurance": [
+    {
+      "focal": true,
+      "coverage": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "#coverage"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "ac7798ae-c8b1-5de1-befe-852987d3adeb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "#coverage",
+        "display": "Humana"
+      }
+    }
+  ],
+  "insurer": {
+    "display": "Humana"
+  },
+  "item": [
+    {
+      "sequence": 1,
+      "category": {
+        "coding": [
+          {
+            "id": "295af87c-7be2-5716-a727-d01c781be9a4",
+            "system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+            "code": "1",
+            "display": "Medical care"
+          }
+        ]
+      },
+      "productOrService": {
+        "coding": [
+          {
+            "id": "64972a1f-59f9-5e92-af4b-5ee2557139f0",
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "313782",
+            "display": "Acetaminophen 325 MG Oral Tablet"
+          }
+        ],
+        "text": "Acetaminophen 325 MG Oral Tablet"
+      },
+      "servicedPeriod": {
+        "start": "2019-06-27T21:39:36+00:00",
+        "end": "2019-06-27T22:39:36+00:00"
+      },
+      "locationCodeableConcept": {
+        "coding": [
+          {
+            "id": "0069d7b1-4eb2-5cdd-9463-00e61be20e4f",
+            "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+            "code": "20",
+            "display": "Urgent Care Facility"
+          }
+        ]
+      },
+      "encounter": [
+        {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:39:26.340Z",
+    "source": "synthea",
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "6916c9fc-6fa5-cf1a-8857-aee903fff8ed"
+      }
+    ]
+  },
+  "outcome": "complete",
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "payment": {
+    "amount": {
+      "value": 0,
+      "currency": "USD"
+    }
+  },
+  "provider": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Practitioner/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Practitioner/unknown"
+  },
+  "referral": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "#referral"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "6954e121-00c1-5e7a-b3f0-f3e1f1c7833e"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "#referral"
+  },
+  "resourceType": "ExplanationOfBenefit",
+  "status": "active",
+  "total": [
+    {
+      "category": {
+        "coding": [
+          {
+            "id": "e436baef-8c84-502b-951d-48ce56cb511a",
+            "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+            "code": "submitted",
+            "display": "Submitted Amount"
+          }
+        ],
+        "text": "Submitted Amount"
+      },
+      "amount": {
+        "value": 55.65,
+        "currency": "USD"
+      }
+    }
+  ],
+  "type": {
+    "coding": [
+      {
+        "id": "9fc13c55-2ee1-5530-a591-86db1e24d231",
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "pharmacy"
+      }
+    ]
+  },
+  "use": "claim"
+}

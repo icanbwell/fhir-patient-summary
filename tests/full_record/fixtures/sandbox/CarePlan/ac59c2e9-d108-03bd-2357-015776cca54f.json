@@ -1,0 +1,219 @@
+{
+  "resourceType": "CarePlan",
+  "id": "ac59c2e9-d108-03bd-2357-015776cca54f",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:27.782Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-2357-015776cca54f"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Therapy (regime/therapy).<br/>Activities: <ul><li>Therapy (regime/therapy)</li><li>Therapy (regime/therapy)</li></ul></div>"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-2357-015776cca54f"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-2357-015776cca54f"
+    }
+  ],
+  "status": "active",
+  "intent": "order",
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "ab22e646-0212-52c1-af4f-125d2495a60c",
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "id": "d8946545-921f-5273-9f2b-1e93f76bb320",
+          "system": "http://snomed.info/sct",
+          "code": "276239002",
+          "display": "Therapy (regime/therapy)"
+        }
+      ],
+      "text": "Therapy (regime/therapy)"
+    },
+    {
+      "coding": [
+        {
+          "id": "ab22e646-0212-52c1-af4f-125d2495a60c",
+          "extension": [
+            {
+              "id": "preferred",
+              "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+              "valueCode": "preferred"
+            }
+          ],
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "id": "d8946545-921f-5273-9f2b-1e93f76bb320",
+          "extension": [
+            {
+              "id": "preferred",
+              "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+              "valueCode": "preferred"
+            }
+          ],
+          "system": "http://snomed.info/sct",
+          "code": "276239002",
+          "display": "Therapy (regime/therapy)"
+        }
+      ],
+      "text": "Therapy (regime/therapy)"
+    }
+  ],
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-ff44-05c190d9ded9"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-ff44-05c190d9ded9"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-ff44-05c190d9ded9"
+  },
+  "period": {
+    "start": "2014-03-17T13:58:10+00:00"
+  },
+  "careTeam": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "CareTeam/3c756ba2-bc2b-4345-146f-da44dec87538"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "CareTeam/3c756ba2-bc2b-4345-146f-da44dec87538"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "CareTeam/3c756ba2-bc2b-4345-146f-da44dec87538"
+    }
+  ],
+  "activity": [
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "id": "06a1f2af-b4d3-5183-b529-a732859ece8f",
+              "system": "http://snomed.info/sct",
+              "code": "91251008",
+              "display": "Physical therapy procedure (regime/therapy)"
+            }
+          ],
+          "text": "Physical therapy procedure (regime/therapy)"
+        },
+        "status": "in-progress",
+        "location": {
+          "display": "MARLBOROUGH HOSPITAL CORP"
+        }
+      }
+    },
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "id": "68aa4402-626c-5e5c-a3f8-afef198824aa",
+              "system": "http://snomed.info/sct",
+              "code": "228557008",
+              "display": "Cognitive and behavioral therapy (regime/therapy)"
+            }
+          ],
+          "text": "Cognitive and behavioral therapy (regime/therapy)"
+        },
+        "status": "in-progress",
+        "location": {
+          "display": "MARLBOROUGH HOSPITAL CORP"
+        }
+      }
+    }
+  ]
+}

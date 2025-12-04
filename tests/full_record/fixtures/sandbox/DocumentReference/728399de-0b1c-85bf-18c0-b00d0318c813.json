@@ -1,0 +1,192 @@
+{
+  "author": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Practitioner/unknown"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Practitioner/9d8ad331-8657-51af-92ca-8de68dc7512d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Practitioner/unknown",
+      "display": "Dr. Tashina114 Towne435"
+    }
+  ],
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "8f15ad77-50e6-5eea-abf6-9803b85f43c9",
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+          "code": "clinical-note",
+          "display": "Clinical Note"
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "attachment": {
+        "contentType": "text/plain; charset=utf-8",
+        "data": "CjIwMjMtMTEtMjUKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkV1bGE0NjEgaXMgYSA2MiB5ZWFyLW9sZCBoaXNwYW5pYyBhc2lhbiBmZW1hbGUuIFBhdGllbnQgaGFzIGEgaGlzdG9yeSBvZiBnaW5naXZhbCBkaXNlYXNlIChkaXNvcmRlciksIGZyYWN0dXJlIG9mIGFua2xlIChkaXNvcmRlciksIHNwcmFpbiAobW9ycGhvbG9naWMgYWJub3JtYWxpdHkpLCBtZWRpY2F0aW9uIHJldmlldyBkdWUgKHNpdHVhdGlvbiksIGFjdXRlIHZpcmFsIHBoYXJ5bmdpdGlzIChkaXNvcmRlciksIHNwcmFpbiBvZiB3cmlzdCAoZGlzb3JkZXIpLCB2aXJhbCBzaW51c2l0aXMgKGRpc29yZGVyKSwgZnJhY3R1cmUgb2YgYm9uZSAoZGlzb3JkZXIpLCBwYXJ0LXRpbWUgZW1wbG95bWVudCAoZmluZGluZyksIGxpbWl0ZWQgc29jaWFsIGNvbnRhY3QgKGZpbmRpbmcpLCByZXBvcnRzIG9mIHZpb2xlbmNlIGluIHRoZSBlbnZpcm9ubWVudCAoZmluZGluZyksIGZ1bGwtdGltZSBlbXBsb3ltZW50IChmaW5kaW5nKSwgZ2luZ2l2aXRpcyAoZGlzb3JkZXIpLCBzb2NpYWwgaXNvbGF0aW9uIChmaW5kaW5nKSwgc3RyZXNzIChmaW5kaW5nKS4KCiMgU29jaWFsIEhpc3RvcnkKUGF0aWVudCBpcyBzaW5nbGUuIFBhdGllbnQgcXVpdCBzbW9raW5nIGF0IGFnZSAxOS4KIFBhdGllbnQgaWRlbnRpZmllcyBhcyBoZXRlcm9zZXh1YWwuCgpQYXRpZW50IGNvbWVzIGZyb20gYSBtaWRkbGUgc29jaW9lY29ub21pYyBiYWNrZ3JvdW5kLgogUGF0aWVudCBoYXMgY29tcGxldGVkIHNvbWUgY29sbGVnZSBjb3Vyc2VzLgpQYXRpZW50IGN1cnJlbnRseSBoYXMgSHVtYW5hLgoKIyBBbGxlcmdpZXMKTm8gS25vd24gQWxsZXJnaWVzLgoKIyBNZWRpY2F0aW9ucwphY2V0YW1pbm9waGVuIDMyNSBtZyBvcmFsIHRhYmxldDsgaWJ1cHJvZmVuIDQwMCBtZyBvcmFsIHRhYmxldCBbaWJ1XTsgbmFwcm94ZW4gc29kaXVtIDIyMCBtZyBvcmFsIHRhYmxldDsgc29kaXVtIGZsdW9yaWRlIDAuMDI3MiBtZy9tZyBvcmFsIGdlbAoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuCgoKCiMjIFBsYW4KUGF0aWVudCB3YXMgZ2l2ZW4gdGhlIGZvbGxvd2luZyBpbW11bml6YXRpb25zOiBpbmZsdWVuemEsIHNlYXNvbmFsLCBpbmplY3RhYmxlLCBwcmVzZXJ2YXRpdmUgZnJlZS4gClRoZSBmb2xsb3dpbmcgcHJvY2VkdXJlcyB3ZXJlIGNvbmR1Y3RlZDoKLSBtZWRpY2F0aW9uIHJlY29uY2lsaWF0aW9uIChwcm9jZWR1cmUpCi0gYXNzZXNzbWVudCBvZiBoZWFsdGggYW5kIHNvY2lhbCBjYXJlIG5lZWRzIChwcm9jZWR1cmUpCi0gZGVwcmVzc2lvbiBzY3JlZW5pbmcgKHByb2NlZHVyZSkKLSBkZXByZXNzaW9uIHNjcmVlbmluZyAocHJvY2VkdXJlKQpUaGUgZm9sbG93aW5nIGxhYiByZXBvcnRzIHdlcmUgY29tcGxldGVkOgotIGJhc2ljIG1ldGFib2xpYyBwYW5lbCAtIGJsb29kCi0gbGlwaWQgcGFuZWwgd2l0aCBkaXJlY3QgbGRsIC0gc2VydW0gb3IgcGxhc21hCi0gY2JjIHBhbmVsIC0gYmxvb2QgYnkgYXV0b21hdGVkIGNvdW50Ci0gcGF0aWVudCBoZWFsdGggcXVlc3Rpb25uYWlyZSAyIGl0ZW0gKHBocS0yKSBbcmVwb3J0ZWRdClRoZSBwYXRpZW50IHdhcyBwcmVzY3JpYmVkIHRoZSBmb2xsb3dpbmcgbWVkaWNhdGlvbnM6Ci0gaWJ1cHJvZmVuIDQwMCBtZyBvcmFsIHRhYmxldCBbaWJ1XQo="
+      },
+      "format": {
+        "id": "a2b0060a-0c2f-5763-a1ba-d4f7c258bb5e",
+        "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+        "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+        "display": "mimeType Sufficient"
+      }
+    }
+  ],
+  "context": {
+    "encounter": [
+      {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Encounter/ac59c2e9-d108-03bd-84a8-66594b9e1174"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Encounter/ac59c2e9-d108-03bd-84a8-66594b9e1174"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Encounter/ac59c2e9-d108-03bd-84a8-66594b9e1174"
+      }
+    ],
+    "period": {
+      "start": "2023-11-25T20:58:10+00:00",
+      "end": "2023-11-25T21:48:06+00:00"
+    }
+  },
+  "custodian": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Organization/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Organization/unknown",
+    "display": "NEW ENGLAND FAMILY HEALTH LLC"
+  },
+  "date": "2023-11-25T20:58:10.689Z",
+  "id": "728399de-0b1c-85bf-18c0-b00d0318c813",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:uuid:c064f7c3-4cd6-f766-8643-f74bb74bbf09"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "728399de-0b1c-85bf-18c0-b00d0318c813"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "728399de-0b1c-85bf-18c0-b00d0318c813"
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:41:17.606Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "728399de-0b1c-85bf-18c0-b00d0318c813"
+      }
+    ]
+  },
+  "resourceType": "DocumentReference",
+  "status": "superseded",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "type": {
+    "coding": [
+      {
+        "id": "c1644d8a-c57c-52bd-aa9c-a275ba460b42",
+        "system": "http://loinc.org",
+        "code": "34117-2",
+        "display": "History and physical note"
+      },
+      {
+        "id": "60c66b2f-a4ca-57a6-8ebe-8e30615509dd",
+        "system": "http://loinc.org",
+        "code": "51847-2",
+        "display": "Evaluation + Plan note"
+      }
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "resourceType": "Procedure",
+  "id": "ac59c2e9-d108-03bd-ddfb-219e20bd74d3",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:26.270Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-ddfb-219e20bd74d3"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "Generated Text for Procedure"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-ddfb-219e20bd74d3"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-ddfb-219e20bd74d3"
+    }
+  ],
+  "status": "completed",
+  "code": {
+    "coding": [
+      {
+        "id": "54707d1c-9ce5-51df-949b-459b5cccfb85",
+        "extension": [
+          {
+            "id": "preferred",
+            "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+            "valueCode": "preferred"
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "1260010008",
+        "display": "Removal of subgingival plaque and calculus from all teeth using dental instrument (procedure)"
+      }
+    ],
+    "text": "Removal of subgingival plaque and calculus from all teeth using dental instrument (procedure)"
+  },
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-08c8-2e74f8a77dff"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-08c8-2e74f8a77dff"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-08c8-2e74f8a77dff"
+  },
+  "performedPeriod": {
+    "start": "2021-11-27T22:16:06+00:00",
+    "end": "2021-11-27T22:46:35+00:00"
+  },
+  "location": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "MARLBOROUGH HOSPITAL CORP"
+  },
+  "reasonCode": [
+    {
+      "coding": [
+        {
+          "id": "c04a53e4-88a1-552b-a9f6-642402534dea",
+          "system": "http://snomed.info/sct",
+          "code": "103697008",
+          "display": "Patient referral for dental care (procedure)"
+        }
+      ],
+      "text": "Patient referral for dental care (procedure)"
+    }
+  ]
+}
