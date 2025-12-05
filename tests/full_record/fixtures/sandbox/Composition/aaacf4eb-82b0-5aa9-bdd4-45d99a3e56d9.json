@@ -1,0 +1,4496 @@
+{
+  "author": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d",
+      "type": "Organization",
+      "display": "bwell Connected Health"
+    }
+  ],
+  "date": "2025-11-21T18:08:58.937598+00:00",
+  "id": "aaacf4eb-82b0-5aa9-bdd4-45d99a3e56d9",
+  "identifier": {
+    "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+    "value": "bwell_composition_for_health_data_summary"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-11-21T18:09:12.406Z",
+    "source": "https://www.icanbwell.com/intelligence-layer-pipeline",
+    "security": [
+      {
+        "id": "70ae40c6-f2bd-54a0-aa66-656be4cce72b",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      },
+      {
+        "id": "2d1e0b6f-56fb-5dd9-bc38-f01b5902fde2",
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "id": "a49dbe6e-233b-5ae6-b71a-aaa3a06ed9b1",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "bwell"
+      },
+      {
+        "id": "33ced3c5-0807-582a-b03a-df7d6e95a41c",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "aaacf4eb-82b0-5aa9-bdd4-45d99a3e56d9"
+      }
+    ]
+  },
+  "resourceType": "Composition",
+  "section": [
+    {
+      "id": "c10dfcb3-487f-517a-95fb-8a4b2b97c75f",
+      "title": "Carbon dioxide, total [Moles/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "dd9cc88f-f339-5b20-bc02-8384f34dd461",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "20565-8",
+            "display": "Carbon dioxide, total [Moles/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "0cf7e598-d6d8-57c2-9a97-70c6f943ebc8",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9f55-b76715e5f994"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9f55-b76715e5f994"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9f55-b76715e5f994",
+          "type": "Observation"
+        },
+        {
+          "id": "8ce5967f-d8bb-50d0-917f-ce5d4e79250a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-6c75-a59ce05b91d8"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-6c75-a59ce05b91d8"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-6c75-a59ce05b91d8",
+          "type": "Observation"
+        },
+        {
+          "id": "71908957-3e09-5a41-8e36-cdc5144e5c0f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-86f5-e254f8755dca"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-86f5-e254f8755dca"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-86f5-e254f8755dca",
+          "type": "Observation"
+        },
+        {
+          "id": "53ea1891-8d7b-5e92-9a23-89105f2f957f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a874-eb2fe74ab078"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a874-eb2fe74ab078"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-a874-eb2fe74ab078",
+          "type": "Observation"
+        },
+        {
+          "id": "b5724f3b-c295-553a-a31d-01d86afeb5e4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-3bf0-23480ac4c0e2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-3bf0-23480ac4c0e2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-3bf0-23480ac4c0e2",
+          "type": "Observation"
+        },
+        {
+          "id": "e270c258-150c-5761-8362-720ac0f503ef",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7f29-d285de56c86c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7f29-d285de56c86c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-7f29-d285de56c86c",
+          "type": "Observation"
+        },
+        {
+          "id": "f675bc25-334b-5e97-ae07-a1103d00e699",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e0d1-b5d4202c4cba"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e0d1-b5d4202c4cba"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-e0d1-b5d4202c4cba",
+          "type": "Observation"
+        },
+        {
+          "id": "f1ff2d99-8245-51aa-a032-fd8a2e7af8da",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-327c-1667860f105a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-327c-1667860f105a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-327c-1667860f105a",
+          "type": "Observation"
+        },
+        {
+          "id": "53ff4c65-3a35-5ada-8c40-acd16a4af2f1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-678a-f54429e90738"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-678a-f54429e90738"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-678a-f54429e90738",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "8122c741-df7e-5761-8d33-b151df3a6930",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Carbon dioxide, total [Moles/volume] in Blood"
+          }
+        },
+        {
+          "id": "f40ef2dd-fcff-5194-88c7-0fca823e93f1",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "dba70fcb-0e97-5199-852f-6e32a7182123",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "b71d8eea-5040-5221-9a5f-2a4cc252e9f1",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "21.01"
+          }
+        },
+        {
+          "id": "a02c8ebd-e89b-571e-8ca6-835b8009d07a",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mmol/L"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2c730abd-7551-599b-a8bc-a13ac7c20677",
+      "title": "Chloride [Moles/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "6fb9f296-85e9-52f2-bbe6-30af80564f47",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "2069-3",
+            "display": "Chloride [Moles/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "1a31f54f-c0da-5edf-b934-334b00083f4f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-71a8-19d33db64be0"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-71a8-19d33db64be0"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-71a8-19d33db64be0",
+          "type": "Observation"
+        },
+        {
+          "id": "9767f9c3-b354-5018-ae95-4f64aa2db07a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-805f-404329765dba"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-805f-404329765dba"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-805f-404329765dba",
+          "type": "Observation"
+        },
+        {
+          "id": "c672b4eb-e78a-556d-8b45-bc6f4f01e959",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f798-fdf3ecdcbf5e"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f798-fdf3ecdcbf5e"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f798-fdf3ecdcbf5e",
+          "type": "Observation"
+        },
+        {
+          "id": "14bc12b7-8174-57d7-b25b-4703c695bd1a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2133-142d54dfe3f2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2133-142d54dfe3f2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-2133-142d54dfe3f2",
+          "type": "Observation"
+        },
+        {
+          "id": "dce87ee7-a906-5341-91c4-85b9b8d90e27",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e33c-d91b89fe9bc4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e33c-d91b89fe9bc4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-e33c-d91b89fe9bc4",
+          "type": "Observation"
+        },
+        {
+          "id": "ba48a52b-1f83-5c12-bae9-db7d96d7bc01",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c25c-deb67d62aeba"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c25c-deb67d62aeba"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-c25c-deb67d62aeba",
+          "type": "Observation"
+        },
+        {
+          "id": "cdea2b2b-df7c-5806-8d4d-c74ba300cc17",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a095-a265aa518333"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a095-a265aa518333"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-a095-a265aa518333",
+          "type": "Observation"
+        },
+        {
+          "id": "c16c8609-6bc3-592c-96a5-a52f16fcd631",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-0ed6-314bd4c781e1"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-0ed6-314bd4c781e1"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-0ed6-314bd4c781e1",
+          "type": "Observation"
+        },
+        {
+          "id": "e29bbb83-9150-5158-9bd7-d0fb1891234f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ca72-dd8ba638c437"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ca72-dd8ba638c437"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ca72-dd8ba638c437",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "4e1d9a85-a4cf-5829-b6f5-4947b8f574d7",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Chloride [Moles/volume] in Blood"
+          }
+        },
+        {
+          "id": "70241b62-0758-507e-af42-8fd25a902fd9",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "68b5174f-d546-5373-bf23-ca8b81fba734",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "c58eb7a4-76da-56f7-be5e-ce1de652823c",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "101.8"
+          }
+        },
+        {
+          "id": "4db339c5-f42a-500a-905a-f7d60f0e6f22",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mmol/L"
+          }
+        }
+      ]
+    },
+    {
+      "id": "48cdaecf-7610-5dd2-965b-2c31b658af2c",
+      "title": "Glucose [Mass/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "22099547-8c21-516c-9dfb-fd1daaebf18b",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "2339-0",
+            "display": "Glucose [Mass/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "f5fbdfb9-30c6-554b-84c4-4810762497c9",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ebab-0aebcbe08703"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ebab-0aebcbe08703"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ebab-0aebcbe08703",
+          "type": "Observation"
+        },
+        {
+          "id": "16cac592-814a-5cb2-a64e-913510bb40b2",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-cfad-3b0c3914d032"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-cfad-3b0c3914d032"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-cfad-3b0c3914d032",
+          "type": "Observation"
+        },
+        {
+          "id": "44bd52eb-057d-54ba-a444-d655fc8fdfe3",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a4c6-4849336c8057"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a4c6-4849336c8057"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-a4c6-4849336c8057",
+          "type": "Observation"
+        },
+        {
+          "id": "aca8a988-dd9f-5f9c-b090-3c585cdc05ab",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4168-112ed75ae3a1"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4168-112ed75ae3a1"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-4168-112ed75ae3a1",
+          "type": "Observation"
+        },
+        {
+          "id": "1216d8f9-d712-5011-a670-f12c4dc451d6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7b47-ecb02bd7b9da"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7b47-ecb02bd7b9da"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-7b47-ecb02bd7b9da",
+          "type": "Observation"
+        },
+        {
+          "id": "71538245-4f20-5111-860a-b37533588087",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5830-f968d5f35e7e"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5830-f968d5f35e7e"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-5830-f968d5f35e7e",
+          "type": "Observation"
+        },
+        {
+          "id": "b9f0882d-fc4e-5558-b7e9-f7d17db7ee01",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8e0d-d2e2959428ad"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8e0d-d2e2959428ad"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8e0d-d2e2959428ad",
+          "type": "Observation"
+        },
+        {
+          "id": "8e0e39d3-74ff-57ad-8e45-fdd3cf1af3a3",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f708-c3166b8c054b"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f708-c3166b8c054b"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f708-c3166b8c054b",
+          "type": "Observation"
+        },
+        {
+          "id": "271bf09f-1165-58d7-8bf9-2176bae04ba6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8c0d-a25447cd8d31"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8c0d-a25447cd8d31"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8c0d-a25447cd8d31",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "b5cf51f5-72a7-5ce4-b893-da09bd89553a",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Glucose [Mass/volume] in Blood"
+          }
+        },
+        {
+          "id": "52215dcc-a8a4-5cb1-968b-3970464e9384",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "a28f24b1-abb6-5323-bfc8-23c0e26fc7a5",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "74005b95-a2c3-58ee-ad2b-e1bacdc03f5e",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "95.9"
+          }
+        },
+        {
+          "id": "7531cdcd-f191-531c-918b-538a12a1914d",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d349747d-5d42-5c07-9f90-458daccd7c05",
+      "title": "Sodium [Moles/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "ee66b9a4-e2f7-5f60-a809-6dfc46532937",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "2947-0",
+            "display": "Sodium [Moles/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "4601f079-1cfb-510a-bcfe-8ab2adfeb2f0",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e2a0-7a17fdf77341"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e2a0-7a17fdf77341"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-e2a0-7a17fdf77341",
+          "type": "Observation"
+        },
+        {
+          "id": "85143641-5bdb-54e0-9925-fc41e34175c1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1b42-b90768b826f6"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1b42-b90768b826f6"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1b42-b90768b826f6",
+          "type": "Observation"
+        },
+        {
+          "id": "c80ed689-a0bd-58ad-a7ff-41b3fb68e5e4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-3a3d-b28a028ea8b4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-3a3d-b28a028ea8b4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-3a3d-b28a028ea8b4",
+          "type": "Observation"
+        },
+        {
+          "id": "3ab9eeea-5983-5360-86e5-8ffb50c8450c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8ba1-d1fdd06fb31a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8ba1-d1fdd06fb31a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8ba1-d1fdd06fb31a",
+          "type": "Observation"
+        },
+        {
+          "id": "065946fb-65c9-5d11-b91f-5333aa364d31",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-441a-76c7f3fa2c3d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-441a-76c7f3fa2c3d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-441a-76c7f3fa2c3d",
+          "type": "Observation"
+        },
+        {
+          "id": "3707824a-b3e3-53b4-8a32-86e4a86ab986",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ab27-7f6dcbf8e4ad"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ab27-7f6dcbf8e4ad"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ab27-7f6dcbf8e4ad",
+          "type": "Observation"
+        },
+        {
+          "id": "75f178c8-2afc-598b-8961-6d0b2395cb3f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9d5f-e648f00e93d5"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9d5f-e648f00e93d5"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9d5f-e648f00e93d5",
+          "type": "Observation"
+        },
+        {
+          "id": "d709cd33-e162-56f6-bc6b-4849c7c5a0d4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-0365-87caa58a9523"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-0365-87caa58a9523"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-0365-87caa58a9523",
+          "type": "Observation"
+        },
+        {
+          "id": "92e9a4fa-5cf9-5d22-93da-6f10fec5b0a1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ae05-c2ce072f7228"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ae05-c2ce072f7228"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ae05-c2ce072f7228",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "97b664c1-8d08-5407-9eb4-ec20c87c6251",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Sodium [Moles/volume] in Blood"
+          }
+        },
+        {
+          "id": "9e4ead10-a68d-5efe-a08b-05fe474a3b40",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "05554ca4-fd79-523a-b5c3-6eafb1dbdd37",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "1a4abb85-dd6b-5291-93bc-1e6ec987331b",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "140.41"
+          }
+        },
+        {
+          "id": "5d651fa7-fbd2-54b8-870c-e6acf9b70eb4",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mmol/L"
+          }
+        }
+      ]
+    },
+    {
+      "id": "02b5fbfe-4ff9-5b7d-8de8-77c9a7376ab1",
+      "title": "Creatinine [Mass/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "c9ee690a-50aa-58a6-a13d-93fdf6b02ee9",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "38483-4",
+            "display": "Creatinine [Mass/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "a2b41e71-0bb1-500a-8849-3bba772adecb",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f106-e809497bda4c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f106-e809497bda4c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f106-e809497bda4c",
+          "type": "Observation"
+        },
+        {
+          "id": "6d2b59f4-dfbd-5b1d-be72-59c313b18129",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9479-274494c5c40c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9479-274494c5c40c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9479-274494c5c40c",
+          "type": "Observation"
+        },
+        {
+          "id": "c33cb81c-e71d-5051-b613-dab9a59c15f4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7ffc-47d9cd5cee90"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7ffc-47d9cd5cee90"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-7ffc-47d9cd5cee90",
+          "type": "Observation"
+        },
+        {
+          "id": "07b7b2e8-c94d-501c-93a7-33acf8d13da1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1ef4-bf2239b146d8"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1ef4-bf2239b146d8"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1ef4-bf2239b146d8",
+          "type": "Observation"
+        },
+        {
+          "id": "669ccb0c-4a05-546e-9457-3ffe86853427",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9058-1c6e7bc5bcdb"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9058-1c6e7bc5bcdb"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9058-1c6e7bc5bcdb",
+          "type": "Observation"
+        },
+        {
+          "id": "ae42a19c-e934-5a1f-9f49-eaed2eb91793",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1ca3-169f508ab171"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1ca3-169f508ab171"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1ca3-169f508ab171",
+          "type": "Observation"
+        },
+        {
+          "id": "19cc8473-4f6b-5285-84f3-2ab77d008d2d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-334c-e23b4997f8ea"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-334c-e23b4997f8ea"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-334c-e23b4997f8ea",
+          "type": "Observation"
+        },
+        {
+          "id": "37a5f409-7dfa-5ffa-846e-51f83e2c7a84",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-208f-9ac8d17990df"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-208f-9ac8d17990df"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-208f-9ac8d17990df",
+          "type": "Observation"
+        },
+        {
+          "id": "bba32fff-555c-50be-8fd9-23329497e049",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8023-f1963d91d6ff"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8023-f1963d91d6ff"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8023-f1963d91d6ff",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "6b2326cf-00b9-5743-896d-9c7d1e1fa9d9",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Creatinine [Mass/volume] in Blood"
+          }
+        },
+        {
+          "id": "aa5a3dea-998b-58ac-9e6b-9e1d68d99884",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "e8652443-593e-55d9-b630-8dda308cf209",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "981171d7-75a2-58cd-a8a8-3f76e9112749",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "0.65"
+          }
+        },
+        {
+          "id": "25789ed2-e846-5387-af52-736b6c59af25",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5d28ffc7-93cb-56b1-833c-58f5fc8c0a1a",
+      "title": "Hemoglobin A1c/Hemoglobin.total in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "2f815fca-f080-5582-a42d-a060eeb581c0",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "4548-4",
+            "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "ce14b8c3-9d25-5cce-889e-211efc61fdcb",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7d48-ee7bc4ac8f7a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7d48-ee7bc4ac8f7a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-7d48-ee7bc4ac8f7a",
+          "type": "Observation"
+        },
+        {
+          "id": "b9396c74-8a7d-566a-8f76-27480203cb0a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c07c-e29c3095baae"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c07c-e29c3095baae"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-c07c-e29c3095baae",
+          "type": "Observation"
+        },
+        {
+          "id": "1d97f941-1dfc-5200-b926-cd40f820214f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9fa0-b45d7004ab95"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9fa0-b45d7004ab95"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9fa0-b45d7004ab95",
+          "type": "Observation"
+        },
+        {
+          "id": "7789efa6-0fb0-5fec-863f-0211f74e79db",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a6c7-76e5d6b31af7"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a6c7-76e5d6b31af7"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-a6c7-76e5d6b31af7",
+          "type": "Observation"
+        },
+        {
+          "id": "e439a730-7c10-5944-a0e3-c662710100af",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9565-e1a4b0aee0c9"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9565-e1a4b0aee0c9"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9565-e1a4b0aee0c9",
+          "type": "Observation"
+        },
+        {
+          "id": "7f66e3d5-fd40-52be-9771-4f56f90c79e6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1236-94c26e3bb8be"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1236-94c26e3bb8be"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1236-94c26e3bb8be",
+          "type": "Observation"
+        },
+        {
+          "id": "bf61a1aa-9140-5f37-a593-a99afd206892",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8071-44e6101b1bb0"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8071-44e6101b1bb0"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8071-44e6101b1bb0",
+          "type": "Observation"
+        },
+        {
+          "id": "c8b08830-f827-5335-a5d4-d4eb5b5a8067",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ca95-58cf748a060c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ca95-58cf748a060c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ca95-58cf748a060c",
+          "type": "Observation"
+        },
+        {
+          "id": "df53cd65-0d2e-5519-89c2-bf99ab620b27",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8a40-83c4caf6f836"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8a40-83c4caf6f836"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8a40-83c4caf6f836",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "507cc6fb-b508-553a-9282-69877741d7d7",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Hemoglobin A1c/Hemoglobin.total in Blood"
+          }
+        },
+        {
+          "id": "444c9291-a985-51e3-98fd-a07e4953773e",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "8b149c4a-8508-5558-a285-d4bfc13affcd",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "5b82b92d-7555-50c7-a760-d672b1432b5b",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "6.25"
+          }
+        },
+        {
+          "id": "aae11c5e-c07f-51bb-becf-c7b184005bdc",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "%"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fa75a066-b8fb-5de5-b806-e60b4ddc5780",
+      "title": "Calcium [Mass/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "6ea49429-1ba8-58ae-9eda-fb2ae7033ab1",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "49765-1",
+            "display": "Calcium [Mass/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "cb56df31-a7a8-54e9-963c-6b052d71a301",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2f64-eeb7632dac29"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2f64-eeb7632dac29"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-2f64-eeb7632dac29",
+          "type": "Observation"
+        },
+        {
+          "id": "c30f2a53-519c-5251-923a-c27bdd092a11",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4c0d-55ca92db1fa9"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4c0d-55ca92db1fa9"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-4c0d-55ca92db1fa9",
+          "type": "Observation"
+        },
+        {
+          "id": "9b40cf91-9753-5c0f-850d-3ad8606c547c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-813d-c87a9766cd9c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-813d-c87a9766cd9c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-813d-c87a9766cd9c",
+          "type": "Observation"
+        },
+        {
+          "id": "7cb84b22-49e4-5bf8-a2fc-036cf791f3d6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f1c7-72fafa8657c8"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f1c7-72fafa8657c8"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f1c7-72fafa8657c8",
+          "type": "Observation"
+        },
+        {
+          "id": "97dc6fef-5afe-5ad2-b9e0-585d8f8ffe30",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-0ab4-82634423fc89"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-0ab4-82634423fc89"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-0ab4-82634423fc89",
+          "type": "Observation"
+        },
+        {
+          "id": "b14d3707-c817-55ed-a759-08b20ab03e53",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f16d-e390d59ce12e"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f16d-e390d59ce12e"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f16d-e390d59ce12e",
+          "type": "Observation"
+        },
+        {
+          "id": "427ec9b4-b02b-563c-be16-a0045679372f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9817-eb1f37dcc724"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-9817-eb1f37dcc724"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-9817-eb1f37dcc724",
+          "type": "Observation"
+        },
+        {
+          "id": "b912b590-27bd-520a-9ae2-2ccb0b5935d1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2f5f-c04856bbc093"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2f5f-c04856bbc093"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-2f5f-c04856bbc093",
+          "type": "Observation"
+        },
+        {
+          "id": "8a956ae4-d9de-5aa9-9db8-5d0230239290",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-d128-281f870203b0"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-d128-281f870203b0"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-d128-281f870203b0",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "e2f7749c-1f10-5cae-a1e6-9a0b304c86f6",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Calcium [Mass/volume] in Blood"
+          }
+        },
+        {
+          "id": "645f51ff-fcd5-5596-ba36-efdd8afbfded",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "e4d0e3e7-c028-595e-b5d4-db6a1331c434",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "67b89723-0384-5437-96d7-82f8a243a873",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "9.88"
+          }
+        },
+        {
+          "id": "887e5fcb-14f3-5f6c-9a28-223286bd585d",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "45fc9d27-ae9b-5ece-a4f7-7cbdc7838f5b",
+      "title": "Potassium [Moles/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "0a7ca4e0-95a0-5784-a275-fae9212b4e45",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "6298-4",
+            "display": "Potassium [Moles/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "2fb27c06-0afc-583c-af35-47c405f88200",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1e4d-7c81c86ab79e"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1e4d-7c81c86ab79e"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1e4d-7c81c86ab79e",
+          "type": "Observation"
+        },
+        {
+          "id": "21d46b4c-73bb-5549-a572-e0e53f26cf88",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-3a45-cb2ad21bd341"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-3a45-cb2ad21bd341"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-3a45-cb2ad21bd341",
+          "type": "Observation"
+        },
+        {
+          "id": "33146497-643d-5919-8927-c3539c30eec0",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1ab9-a0aa00d23275"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1ab9-a0aa00d23275"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1ab9-a0aa00d23275",
+          "type": "Observation"
+        },
+        {
+          "id": "9e4729db-ee9d-5159-b809-9e626b8f169e",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a7db-6c1a4824cea0"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a7db-6c1a4824cea0"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-a7db-6c1a4824cea0",
+          "type": "Observation"
+        },
+        {
+          "id": "4c2a5c99-fa22-558b-891f-a5c97817582c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-6b69-b7d9b034b5fb"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-6b69-b7d9b034b5fb"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-6b69-b7d9b034b5fb",
+          "type": "Observation"
+        },
+        {
+          "id": "dfb38f5d-aad6-57f0-a940-2aedffa20627",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f3fa-bc8c01efca2a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f3fa-bc8c01efca2a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f3fa-bc8c01efca2a",
+          "type": "Observation"
+        },
+        {
+          "id": "f0509905-9317-5043-b75b-606ccf5541f7",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-703d-b26c1929daae"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-703d-b26c1929daae"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-703d-b26c1929daae",
+          "type": "Observation"
+        },
+        {
+          "id": "fc7e7b67-fa01-518e-a13f-25c2bde5f896",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-804d-009af2bcfbab"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-804d-009af2bcfbab"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-804d-009af2bcfbab",
+          "type": "Observation"
+        },
+        {
+          "id": "4758b9ea-36aa-5f81-9cbb-ac3ef2b23fad",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e038-cc27e5a8642d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e038-cc27e5a8642d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-e038-cc27e5a8642d",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "86b13695-2b51-5b9a-80f7-25852204bd66",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Potassium [Moles/volume] in Blood"
+          }
+        },
+        {
+          "id": "e637e296-6126-5c1d-8ab9-9040bf3f8f93",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "84cd4919-65af-5e2d-a09f-35627edd2aa0",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "e59b8c82-326d-5399-92a7-5d32f6f61137",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "4.58"
+          }
+        },
+        {
+          "id": "a52a8757-4977-5b0b-956d-d5f903feb574",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mmol/L"
+          }
+        }
+      ]
+    },
+    {
+      "id": "15dae784-a2a3-5d91-b136-8734d7b88775",
+      "title": "Urea nitrogen [Mass/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "74ade116-7759-5905-8514-664fb74943b9",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "6299-2",
+            "display": "Urea nitrogen [Mass/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "724dfba3-b0f4-5c33-9f6b-768c206db2ed",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c84a-e6de867ae135"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c84a-e6de867ae135"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-c84a-e6de867ae135",
+          "type": "Observation"
+        },
+        {
+          "id": "6cbd8bb8-ce1e-5c2e-a784-91e85d689947",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-387f-98a35baca9d5"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-387f-98a35baca9d5"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-387f-98a35baca9d5",
+          "type": "Observation"
+        },
+        {
+          "id": "09a7b2af-da2c-5b5d-b811-bde5ac16cf8e",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8eac-8bc806d9d41c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8eac-8bc806d9d41c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8eac-8bc806d9d41c",
+          "type": "Observation"
+        },
+        {
+          "id": "882e6090-d7f0-50c3-a66b-26df5413428a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c5e5-54e2bb4e8355"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c5e5-54e2bb4e8355"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-c5e5-54e2bb4e8355",
+          "type": "Observation"
+        },
+        {
+          "id": "94ce70f3-3bc6-5f23-8514-49697a69ede1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-dee7-a33c38b1d4e7"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-dee7-a33c38b1d4e7"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-dee7-a33c38b1d4e7",
+          "type": "Observation"
+        },
+        {
+          "id": "a625a9f2-175c-5a94-8bf9-898105eec7be",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5c6b-05b496ec6f25"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5c6b-05b496ec6f25"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-5c6b-05b496ec6f25",
+          "type": "Observation"
+        },
+        {
+          "id": "3e1663bb-9cf6-5e22-8fe2-d66bbb38ac2a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-bb1f-2706227656fd"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-bb1f-2706227656fd"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-bb1f-2706227656fd",
+          "type": "Observation"
+        },
+        {
+          "id": "26151418-0699-5d1d-a838-9d962cc87594",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ebfb-74ce058c174b"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ebfb-74ce058c174b"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ebfb-74ce058c174b",
+          "type": "Observation"
+        },
+        {
+          "id": "1e610472-ed32-5dcb-9a9d-93c5809e3c1a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f282-ff55d36f3acd"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f282-ff55d36f3acd"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f282-ff55d36f3acd",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "04c575a0-77c5-582e-9762-5884b6080bef",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Urea nitrogen [Mass/volume] in Blood"
+          }
+        },
+        {
+          "id": "31a068e6-8eff-5e9a-8adc-a1242bfdac05",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "3565521d-9ae3-5ec5-907e-a536178b6100",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "5801cca1-df31-5c8d-bbae-fdc19b93ed5f",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "15.59"
+          }
+        },
+        {
+          "id": "5ed4ff84-12d1-5f1d-9fda-c742df861a20",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fb1d1997-2305-56a4-821e-a12fa5aef326",
+      "title": "Low Density Lipoprotein Cholesterol",
+      "code": {
+        "coding": [
+          {
+            "id": "e0f0cbcb-6791-5b09-9bdb-a86a5bc36746",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "18262-6",
+            "display": "Low Density Lipoprotein Cholesterol"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "5c36381b-3099-52d0-b445-4d1e479f02d2",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a7b5-b69719438cf1"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-a7b5-b69719438cf1"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-a7b5-b69719438cf1",
+          "type": "Observation"
+        },
+        {
+          "id": "6da57fe0-e8d7-5b8d-8f71-51d1913488c2",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-b7db-d1c8ef58ef8f"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-b7db-d1c8ef58ef8f"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-b7db-d1c8ef58ef8f",
+          "type": "Observation"
+        },
+        {
+          "id": "14cd982b-e795-5d57-ad22-6e2ddad6849f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7751-c30142f81228"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7751-c30142f81228"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-7751-c30142f81228",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "660bd642-fe72-5c35-be58-c270f535153b",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Low Density Lipoprotein Cholesterol"
+          }
+        },
+        {
+          "id": "57bfccf0-2348-5d62-88b8-6441c658a44b",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "98454984-8976-579f-9a41-e53bb757739e",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "1b8cc03e-cd8f-51c5-914e-53cfdf5e1cac",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "202.94"
+          }
+        },
+        {
+          "id": "8ce50e9c-0011-5084-ace8-9ec0db0a050e",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b0fb3eaf-b724-5d66-a1ba-dbe2adfde9ce",
+      "title": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+      "code": {
+        "coding": [
+          {
+            "id": "1dd81bc4-6dce-5a52-8998-2d78c46f0d5b",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "2085-9",
+            "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "946cf1d4-e872-51b1-b405-55899600a04d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c2a3-3f4bd68c5204"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-c2a3-3f4bd68c5204"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-c2a3-3f4bd68c5204",
+          "type": "Observation"
+        },
+        {
+          "id": "651f10f5-f22e-5039-bf82-0245eafe43de",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-d60a-f6e594e76d3a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-d60a-f6e594e76d3a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-d60a-f6e594e76d3a",
+          "type": "Observation"
+        },
+        {
+          "id": "25d81680-a2d9-5896-8ac1-73617547b0fd",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e15e-274ca50ba559"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e15e-274ca50ba559"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-e15e-274ca50ba559",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "a7d58737-ad41-592a-8fa2-5a24f7e60d72",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+          }
+        },
+        {
+          "id": "b6469ade-3e30-5657-8e84-0713d726928c",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "81758ce1-c4a7-535a-91b5-6bb78ee83efa",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "c419b989-2936-5305-806a-ab072b171103",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "53.59"
+          }
+        },
+        {
+          "id": "d92eadf7-7129-5bf3-959c-925445d0c576",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "1ee9c929-742d-5959-8a97-74792ac9327e",
+      "title": "Cholesterol [Mass/volume] in Serum or Plasma",
+      "code": {
+        "coding": [
+          {
+            "id": "27c6f010-913e-5f4b-aac6-3385e9dab875",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "2093-3",
+            "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "7e078134-bfbe-5f0c-8e80-a95b76cc226d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1251-60ae812e367c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1251-60ae812e367c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1251-60ae812e367c",
+          "type": "Observation"
+        },
+        {
+          "id": "cfa7ef1d-ec12-5111-984a-52de9235cc31",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7b9d-3948cd0f3a85"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-7b9d-3948cd0f3a85"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-7b9d-3948cd0f3a85",
+          "type": "Observation"
+        },
+        {
+          "id": "e0e39f84-e223-5017-bf16-6b43b172cdfa",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-995f-300b861fb432"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-995f-300b861fb432"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-995f-300b861fb432",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "ab77a353-d9a8-51d6-a51a-f12275907f12",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Cholesterol [Mass/volume] in Serum or Plasma"
+          }
+        },
+        {
+          "id": "9341a758-0a85-5978-a142-c0787c813915",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "babb2cef-1712-533a-94ad-72937df585b0",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "b13fee25-cfa9-5bf1-b02b-e5c899210f44",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "276.89"
+          }
+        },
+        {
+          "id": "b5909e57-5bea-564c-a7dd-ebec00e864ff",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "79c675ba-f070-57e9-85d1-47ba0320f472",
+      "title": "Erythrocyte distribution width [Entitic volume] by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "14795465-0f19-5d41-9c5c-ab3c40e41fb1",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "21000-5",
+            "display": "Erythrocyte distribution width [Entitic volume] by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "b0484e3e-4f82-56d3-9b2e-58cb5919bce9",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-d562-48197c402364"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-d562-48197c402364"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-d562-48197c402364",
+          "type": "Observation"
+        },
+        {
+          "id": "03022a1b-3826-5cb9-8e17-5acac2623c89",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-50aa-f5891f01a805"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-50aa-f5891f01a805"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-50aa-f5891f01a805",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "670209d5-8e4c-58a8-9104-19a5820d630f",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Erythrocyte distribution width [Entitic volume] by Automated count"
+          }
+        },
+        {
+          "id": "25732718-1e0e-538f-84bb-99813be3198f",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "b9df7a2b-941a-5ed1-9978-944e4b80af44",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "9a18f45c-3d60-53d4-a1bb-eef1038d569c",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "42.038"
+          }
+        },
+        {
+          "id": "90860172-3654-5545-9903-d942d2956908",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "fL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8f4420cc-d734-5359-939e-dd6b780e1059",
+      "title": "Triglycerides",
+      "code": {
+        "coding": [
+          {
+            "id": "e681241d-c0ee-5e74-ad9b-b5604fc26a97",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "2571-8",
+            "display": "Triglycerides"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "e67ccc9e-c502-5022-ad23-09172efa9206",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4b2b-afb1db2525a1"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4b2b-afb1db2525a1"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-4b2b-afb1db2525a1",
+          "type": "Observation"
+        },
+        {
+          "id": "ed265555-b51d-5e43-921f-220b18955937",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e4f3-37f4e39a8bdf"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-e4f3-37f4e39a8bdf"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-e4f3-37f4e39a8bdf",
+          "type": "Observation"
+        },
+        {
+          "id": "709873ac-a0b3-5620-87ad-0c14c2d49800",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5ce9-b6e62238d695"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5ce9-b6e62238d695"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-5ce9-b6e62238d695",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "1e913f53-e2a3-5730-85fb-421f9f034da5",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Triglycerides"
+          }
+        },
+        {
+          "id": "ec69d75c-b174-567d-b867-51da1f1b67b6",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "05fd898d-d541-5094-9101-8cdb13d247b6",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "bc8ebeca-1eb1-53d3-8341-82123fe576c1",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "101.75"
+          }
+        },
+        {
+          "id": "b9d9c65f-87a5-56d0-85b9-53a00f4df9e8",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "mg/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b73ccc31-f14b-5c2f-af65-2832447d5389",
+      "title": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "17dd254a-c899-57ca-9c97-7ff89e5b3cdb",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "32207-3",
+            "display": "Platelet distribution width [Entitic volume] in Blood by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "e0281a27-2785-541d-9fe5-7170d0f06360",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-763a-c2cc3d1063cf"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-763a-c2cc3d1063cf"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-763a-c2cc3d1063cf",
+          "type": "Observation"
+        },
+        {
+          "id": "2533607b-b878-54fc-8129-74d00a3af43f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-eee1-3c5c246d10cb"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-eee1-3c5c246d10cb"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-eee1-3c5c246d10cb",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "392fbdba-085e-54e5-96ca-9002f161da9d",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Platelet distribution width [Entitic volume] in Blood by Automated count"
+          }
+        },
+        {
+          "id": "81502614-a5b8-53a3-8477-6ce1756f8230",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "55421f4f-435e-5ba6-98ca-fdc97339ba16",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "a0cb76b3-73ef-5a4b-91e6-0b8fd20aa537",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "342.13"
+          }
+        },
+        {
+          "id": "8d11e21a-9508-5a07-a357-b6440b4d5bf5",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "fL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c833925a-cf7f-5119-a14e-85fb7101afb4",
+      "title": "Platelet mean volume [Entitic volume] in Blood by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "1a14e7c0-c47c-51d4-9d60-0bff97fba5c3",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "32623-1",
+            "display": "Platelet mean volume [Entitic volume] in Blood by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "45cca812-a12d-5469-a125-6596b895f9b4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5605-b0a45bb53693"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5605-b0a45bb53693"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-5605-b0a45bb53693",
+          "type": "Observation"
+        },
+        {
+          "id": "d8c7c3bf-00e2-5cb7-afd6-f05b039ab624",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1092-cc98379db473"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1092-cc98379db473"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1092-cc98379db473",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "11b68020-f331-5faf-8378-098477e20db8",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Platelet mean volume [Entitic volume] in Blood by Automated count"
+          }
+        },
+        {
+          "id": "e9908134-36f4-55a9-9667-0bf091ec0fff",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "9bfd01c3-dd62-5e39-a563-9ac6cadd6fc3",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "e44aa23b-e1da-5084-9a91-e806b278d05e",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "9.7981"
+          }
+        },
+        {
+          "id": "c6948d58-442b-56ca-b338-0f941a53aa83",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "fL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2abcea5c-0274-537b-9708-b3f85cda0a8e",
+      "title": "Hematocrit [Volume Fraction] of Blood by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "ccb9d0f3-126a-50c3-89b4-263ed75baf26",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "4544-3",
+            "display": "Hematocrit [Volume Fraction] of Blood by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "4421c6d7-95a4-5ae4-8826-2cd7753417fc",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-80f1-0226567d0acb"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-80f1-0226567d0acb"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-80f1-0226567d0acb",
+          "type": "Observation"
+        },
+        {
+          "id": "cfe7d492-fb04-554b-a06f-7225ca0c6963",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f7a5-5be0cd0afdf3"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f7a5-5be0cd0afdf3"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f7a5-5be0cd0afdf3",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "f2adfdd0-2f89-5f5b-a385-38c375157f34",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Hematocrit [Volume Fraction] of Blood by Automated count"
+          }
+        },
+        {
+          "id": "55c83421-e1e8-5f8b-8500-30b04f84c3cb",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "211f8f8a-ebea-516d-9f28-2c9cdba0eea1",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "7c3c7b67-aff2-5210-ab43-73c8a9743154",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "41.375"
+          }
+        },
+        {
+          "id": "f9de2d9a-a977-5bbd-8e6d-4747314b1ecf",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "%"
+          }
+        }
+      ]
+    },
+    {
+      "id": "000ac624-0061-580f-bfd9-3cbfe2cb9377",
+      "title": "Leukocytes [#/volume] in Blood by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "d0021d12-8652-5347-833e-a7e49191d190",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "6690-2",
+            "display": "Leukocytes [#/volume] in Blood by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "39f9557a-11a3-5f08-920b-3d605bdae06d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-553e-37747e2e6f04"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-553e-37747e2e6f04"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-553e-37747e2e6f04",
+          "type": "Observation"
+        },
+        {
+          "id": "39a79842-9e01-57c5-84bc-cd4a782470f3",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4ae3-97f55ce44c5a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4ae3-97f55ce44c5a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-4ae3-97f55ce44c5a",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "ebe57083-ee60-5fbd-9d7e-7f36d4b6cf97",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Leukocytes [#/volume] in Blood by Automated count"
+          }
+        },
+        {
+          "id": "5226e5e7-9c77-59b5-9195-d3a6117eedec",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "88ca9310-949d-5057-b8fb-4eb94640e09b",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "db3d5fd0-d5fe-59cb-8368-b9ab75ea2b3d",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "4.4181"
+          }
+        },
+        {
+          "id": "5d254ed4-cc1d-5d69-9b74-03a74959efc3",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "10*3/uL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dea2a732-50af-5a29-a18b-d455e5a8b35e",
+      "title": "Hemoglobin [Mass/volume] in Blood",
+      "code": {
+        "coding": [
+          {
+            "id": "51f12959-eab9-5413-98f8-d0ad613bd460",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "718-7",
+            "display": "Hemoglobin [Mass/volume] in Blood"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "efc26684-1de5-5af0-be61-6d1a754e8ae5",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1fbf-f5e67ec3fc05"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-1fbf-f5e67ec3fc05"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-1fbf-f5e67ec3fc05",
+          "type": "Observation"
+        },
+        {
+          "id": "3fb016e9-e325-586b-8807-91fda5018ca1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5194-87841d7bb604"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-5194-87841d7bb604"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-5194-87841d7bb604",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "e551540b-b364-58ff-8eaf-7b71049f18fd",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Hemoglobin [Mass/volume] in Blood"
+          }
+        },
+        {
+          "id": "4e1917ed-632c-5cc5-8064-815724eee95e",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "fb1e8506-1aa0-567b-93d0-326eecf10009",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "69fe4760-292d-5f57-8860-da20cba5dd4f",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "13.64"
+          }
+        },
+        {
+          "id": "cb5af928-686e-5ed9-b57c-4db0db9f6317",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "g/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "204e5e6d-0bda-58dc-a2e2-b8ed078d1a59",
+      "title": "Platelets [#/volume] in Blood by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "077553fd-1ce4-58d7-acf2-76cb616c7f5a",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "777-3",
+            "display": "Platelets [#/volume] in Blood by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "e00d9981-8d20-5263-96b7-a9543717cb24",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-15b1-e86a5e847701"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-15b1-e86a5e847701"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-15b1-e86a5e847701",
+          "type": "Observation"
+        },
+        {
+          "id": "2a6da448-20bd-5379-aa1f-d3f913141dd6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-01a0-99132d6016a8"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-01a0-99132d6016a8"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-01a0-99132d6016a8",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "d48acc6d-4b68-587f-a321-2d03f22e4911",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Platelets [#/volume] in Blood by Automated count"
+          }
+        },
+        {
+          "id": "6f2b28e2-7a07-5066-b579-26381446f927",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "cf3485ee-9868-5129-b342-e9b302b46f3b",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "3ae76703-21a3-5321-8a9a-caa9a6e122dc",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "422.15"
+          }
+        },
+        {
+          "id": "72f4015e-33ed-5431-bfd4-be754c7dc052",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "10*3/uL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "73464acd-de8e-533d-afaf-0d40315141e6",
+      "title": "MCH [Entitic mass] by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "d86918fe-2167-57c4-9063-b9c7efa59ff5",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "785-6",
+            "display": "MCH [Entitic mass] by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "ed751d6c-9db7-554c-9b23-fead082090cb",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-fbc5-c31eea794538"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-fbc5-c31eea794538"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-fbc5-c31eea794538",
+          "type": "Observation"
+        },
+        {
+          "id": "347295f1-8a4c-54a6-be23-9f68878ac249",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8823-fd135e29fe2c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-8823-fd135e29fe2c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-8823-fd135e29fe2c",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "21798e7f-28f3-5d18-8362-f9324fe3c8a0",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "MCH [Entitic mass] by Automated count"
+          }
+        },
+        {
+          "id": "8e0233bc-f712-5fde-a0b9-1f0f4b2e74df",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "b85d6023-fa7a-54f4-bd46-e043accdb456",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "c0dba6a3-573e-52fb-be10-dc7d9d94edae",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "32.687"
+          }
+        },
+        {
+          "id": "0dbed873-e7c8-5467-a23f-80c9c1255aa6",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "pg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6e5b5acd-78de-511e-886c-933aa9f3cdd1",
+      "title": "MCHC [Mass/volume] by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "227df304-c78d-56ab-86c0-d5fa2444296e",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "786-4",
+            "display": "MCHC [Mass/volume] by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "76fb3575-bd1e-5413-b828-ad9aba07ed51",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2f8e-4c0e2f26c715"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-2f8e-4c0e2f26c715"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-2f8e-4c0e2f26c715",
+          "type": "Observation"
+        },
+        {
+          "id": "c29755ac-9ef7-5594-b569-6a1e1bcf513f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4706-a82c4b199f02"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-4706-a82c4b199f02"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-4706-a82c4b199f02",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "96971e28-5a29-555f-b4b9-a5d18ba381f4",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "MCHC [Mass/volume] by Automated count"
+          }
+        },
+        {
+          "id": "9954d3e3-7ab0-59dd-834d-313b3f222c7f",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "51448c89-6d87-55c9-a48f-46c430f7552a",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "7c19669b-fa84-56cc-a9b7-61e86c2405e7",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "33.147"
+          }
+        },
+        {
+          "id": "bcc9d399-014c-550f-bc1b-b47633a23df6",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "g/dL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d3c9507c-9c3a-5a3a-b5b1-1c2937dc48d9",
+      "title": "MCV [Entitic volume] by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "dfaf75a2-1b22-56e6-8340-c3030bcef899",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "787-2",
+            "display": "MCV [Entitic volume] by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "3ba62739-76b8-52b4-a145-c9da2b74d793",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-45ad-4910a481b64c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-45ad-4910a481b64c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-45ad-4910a481b64c",
+          "type": "Observation"
+        },
+        {
+          "id": "11525f1d-341f-5c0d-891c-84420510eebf",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-fe72-0033b9caf40d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-fe72-0033b9caf40d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-fe72-0033b9caf40d",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "057f81de-5085-5746-b96b-9430f46ed6e1",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "MCV [Entitic volume] by Automated count"
+          }
+        },
+        {
+          "id": "d667ba71-a9a7-5b9c-a940-dbe04f893854",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "2b45f044-a627-5b1e-837d-a8a7625ce2f0",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "ccb5e6d1-8101-5206-a98f-d7be141a1756",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "81.955"
+          }
+        },
+        {
+          "id": "2982e91e-3147-55d6-a86e-087fa4e9f708",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "fL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6a9a0f63-09c3-5fb2-987f-659aedbd99c5",
+      "title": "Erythrocytes [#/volume] in Blood by Automated count",
+      "code": {
+        "coding": [
+          {
+            "id": "14f9bbe5-308a-5668-98f6-92d06c554655",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://loinc.org",
+            "code": "789-8",
+            "display": "Erythrocytes [#/volume] in Blood by Automated count"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+      },
+      "entry": [
+        {
+          "id": "2a91df05-f7c1-55d8-855f-8db928971715",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f730-952c2b16e73d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-f730-952c2b16e73d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-f730-952c2b16e73d",
+          "type": "Observation"
+        },
+        {
+          "id": "fb2417d2-55b5-554a-8f39-7ca5a55b120c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ad10-c29ac7631881"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Observation/ac59c2e9-d108-03bd-ad10-c29ac7631881"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Observation/ac59c2e9-d108-03bd-ad10-c29ac7631881",
+          "type": "Observation"
+        }
+      ],
+      "section": [
+        {
+          "id": "c2a029e6-2082-53e2-9b1c-7426ff341ac5",
+          "title": "Labs Name",
+          "text": {
+            "status": "generated",
+            "div": "Erythrocytes [#/volume] in Blood by Automated count"
+          }
+        },
+        {
+          "id": "575b2b96-a096-5069-80e3-a2c64f27d24c",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "46d3c6fe-0b10-5a5f-afd8-b1986791b037",
+          "title": "effectiveDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "1470efc1-94cb-5e60-8a2d-a1a46cc58def",
+          "title": "valueQuantity.value",
+          "text": {
+            "status": "generated",
+            "div": "4.2186"
+          }
+        },
+        {
+          "id": "77939f2c-b73e-5bcb-a413-16d6099df999",
+          "title": "valueQuantity.unit",
+          "text": {
+            "status": "generated",
+            "div": "10*6/uL"
+          }
+        }
+      ]
+    }
+  ],
+  "status": "preliminary",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell"
+      }
+    ],
+    "reference": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41",
+    "type": "Patient"
+  },
+  "text": {
+    "status": "generated",
+    "div": "Observation|Labs Summary Grouped by Lab Code"
+  },
+  "title": "Observation|Labs Summary Grouped by Lab Code",
+  "type": {
+    "coding": [
+      {
+        "id": "8094888f-683d-5f44-b086-90099af73ac7",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+        "code": "lab_summary_document",
+        "display": "b.Well Lab Summary Composition Document"
+      },
+      {
+        "id": "6face25f-4736-59c1-9882-1c6a0e149a4e",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/type",
+        "code": "lab_group_code",
+        "display": "Lab Summary Composition Grouped by Lab Code"
+      },
+      {
+        "id": "a639806a-8d1a-58ed-9987-387c9fdb9190",
+        "system": "https://hl7.org/fhir/observation",
+        "code": "Observation",
+        "display": "FHIR resource type"
+      }
+    ],
+    "text": "Lab Summary Composition Document"
+  }
+}

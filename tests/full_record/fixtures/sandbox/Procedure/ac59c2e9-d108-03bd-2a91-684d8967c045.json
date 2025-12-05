@@ -1,0 +1,163 @@
+{
+  "resourceType": "Procedure",
+  "id": "ac59c2e9-d108-03bd-2a91-684d8967c045",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:25.879Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-2a91-684d8967c045"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "Generated Text for Procedure"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-2a91-684d8967c045"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-2a91-684d8967c045"
+    }
+  ],
+  "status": "completed",
+  "code": {
+    "coding": [
+      {
+        "id": "bc7c811b-852e-51b6-a7e6-b1128c16e161",
+        "extension": [
+          {
+            "id": "preferred",
+            "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+            "valueCode": "preferred"
+          }
+        ],
+        "system": "http://snomed.info/sct",
+        "code": "68071007",
+        "display": "Dental fluoride treatment (procedure)"
+      }
+    ],
+    "text": "Dental fluoride treatment (procedure)"
+  },
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-cd5b-28342e3e79be"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-cd5b-28342e3e79be"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-cd5b-28342e3e79be"
+  },
+  "performedPeriod": {
+    "start": "2018-11-10T23:40:56+00:00",
+    "end": "2018-11-11T00:19:05+00:00"
+  },
+  "location": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "MARLBOROUGH HOSPITAL CORP"
+  },
+  "reasonReference": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Condition/ac59c2e9-d108-03bd-cc1a-7cd9da808f73"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Condition/ac59c2e9-d108-03bd-cc1a-7cd9da808f73"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Condition/ac59c2e9-d108-03bd-cc1a-7cd9da808f73",
+      "display": "Gingivitis (disorder)"
+    }
+  ]
+}

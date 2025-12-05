@@ -1,0 +1,138 @@
+{
+  "category": {
+    "coding": [
+      {
+        "id": "d5e9c277-aa92-5f71-9201-2f8d25ad3731",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/medicationstatement/category",
+        "code": "derived_medication_statement",
+        "display": "b.Well Derived Medication Statement"
+      }
+    ]
+  },
+  "derivedFrom": [
+    {
+      "id": "f8c3a61c-c464-544c-b072-e437154375f2",
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-34e7-5f85bb74bbf8"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "MedicationRequest/ac59c2e9-d108-03bd-34e7-5f85bb74bbf8"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "MedicationRequest/ac59c2e9-d108-03bd-34e7-5f85bb74bbf8",
+      "type": "MedicationRequest"
+    }
+  ],
+  "dosage": [
+    {
+      "sequence": 1,
+      "text": "Take as needed.",
+      "asNeededBoolean": true
+    }
+  ],
+  "id": "1822ca19-559c-5b12-9e3e-ca8cefda6ac6",
+  "identifier": [
+    {
+      "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/medicationstatement/bwell",
+      "value": "bwell_derived_medicationstatement"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "1822ca19-559c-5b12-9e3e-ca8cefda6ac6"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "1822ca19-559c-5b12-9e3e-ca8cefda6ac6"
+    }
+  ],
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "id": "89f5ac60-b24f-5642-b74f-3696d6fb6d28",
+        "extension": [
+          {
+            "id": "preferred",
+            "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+            "valueCode": "preferred"
+          }
+        ],
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "849574",
+        "display": "Naproxen sodium 220 MG Oral Tablet"
+      }
+    ],
+    "text": "Naproxen sodium 220 MG Oral Tablet"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-11-21T18:09:16.024Z",
+    "source": "https://www.icanbwell.com/intelligence-layer-pipeline",
+    "security": [
+      {
+        "id": "70ae40c6-f2bd-54a0-aa66-656be4cce72b",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      },
+      {
+        "id": "2d1e0b6f-56fb-5dd9-bc38-f01b5902fde2",
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "id": "a49dbe6e-233b-5ae6-b71a-aaa3a06ed9b1",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "bwell"
+      },
+      {
+        "id": "33ced3c5-0807-582a-b03a-df7d6e95a41c",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "1822ca19-559c-5b12-9e3e-ca8cefda6ac6"
+      }
+    ]
+  },
+  "resourceType": "MedicationStatement",
+  "status": "completed",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell"
+      }
+    ],
+    "reference": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41",
+    "type": "Patient"
+  },
+  "text": {
+    "status": "generated",
+    "div": "MedicationStatement Summary Grouped by Medication Code"
+  }
+}

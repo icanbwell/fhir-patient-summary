@@ -1,0 +1,115 @@
+{
+  "context": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-2e3e-e2aaaeaaf767"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-2e3e-e2aaaeaaf767"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-2e3e-e2aaaeaaf767"
+  },
+  "effectiveDateTime": "2017-11-04T23:30:36+00:00",
+  "id": "0b6d2c48-78bd-ee39-f077-b6bd408ca543",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "0b6d2c48-78bd-ee39-f077-b6bd408ca543"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "0b6d2c48-78bd-ee39-f077-b6bd408ca543"
+    }
+  ],
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "id": "1644aee8-e789-5285-af77-2f80a49a93d0",
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "1535362",
+        "display": "sodium fluoride 0.0272 MG/MG Oral Gel"
+      }
+    ],
+    "text": "sodium fluoride 0.0272 MG/MG Oral Gel"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:38:53.773Z",
+    "source": "synthea",
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "0b6d2c48-78bd-ee39-f077-b6bd408ca543"
+      }
+    ]
+  },
+  "reasonCode": [
+    {
+      "coding": [
+        {
+          "id": "c04a53e4-88a1-552b-a9f6-642402534dea",
+          "system": "http://snomed.info/sct",
+          "code": "103697008",
+          "display": "Patient referral for dental care (procedure)"
+        }
+      ],
+      "text": "Patient referral for dental care (procedure)"
+    }
+  ],
+  "resourceType": "MedicationAdministration",
+  "status": "completed",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

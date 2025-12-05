@@ -49,6 +49,13 @@ export class IPSSectionResourceHelper {
     static getResourceFilterForSection(section: IPSSections): IPSSectionResourceFilter {
         return IPSSectionResourceFilters[section] as IPSSectionResourceFilter;
     }
+
+    static getSectionResources(section: IPSSections, resources: any[]): any[] {
+        const filter = IPSSectionResourceFilters[section];
+        if (!filter) return [];
+        return resources.filter(filter);
+    }
+
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         return IPSSectionSummaryCompositionFilter[section];
     }

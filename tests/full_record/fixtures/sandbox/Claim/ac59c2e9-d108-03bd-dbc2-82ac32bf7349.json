@@ -1,0 +1,456 @@
+{
+  "billablePeriod": {
+    "start": "2023-09-21T21:39:36+00:00",
+    "end": "2023-09-21T22:39:36+00:00"
+  },
+  "created": "2023-09-21T22:39:36+00:00",
+  "diagnosis": [
+    {
+      "sequence": 1,
+      "diagnosisReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Condition/ac59c2e9-d108-03bd-3ce8-39c301b39ab9"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Condition/ac59c2e9-d108-03bd-3ce8-39c301b39ab9"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Condition/ac59c2e9-d108-03bd-3ce8-39c301b39ab9"
+      }
+    },
+    {
+      "sequence": 2,
+      "diagnosisReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2"
+      }
+    }
+  ],
+  "facility": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+  },
+  "id": "ac59c2e9-d108-03bd-dbc2-82ac32bf7349",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+    }
+  ],
+  "insurance": [
+    {
+      "sequence": 1,
+      "focal": true,
+      "coverage": {
+        "display": "Humana"
+      }
+    }
+  ],
+  "item": [
+    {
+      "sequence": 1,
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "50849002",
+            "display": "Emergency room admission (procedure)"
+          }
+        ],
+        "text": "Emergency room admission (procedure)"
+      },
+      "encounter": [
+        {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "diagnosisSequence": [
+        1
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "125605004",
+            "display": "Fracture of bone (disorder)"
+          }
+        ],
+        "text": "Fracture of bone (disorder)"
+      }
+    },
+    {
+      "sequence": 3,
+      "diagnosisSequence": [
+        2
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "16114001",
+            "display": "Fracture of ankle (disorder)"
+          }
+        ],
+        "text": "Fracture of ankle (disorder)"
+      }
+    },
+    {
+      "sequence": 4,
+      "procedureSequence": [
+        1
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "1290459008",
+            "display": "Plain X-ray of ankle region (procedure)"
+          }
+        ],
+        "text": "Plain X-ray of ankle region (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 5,
+      "informationSequence": [
+        1
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "228869008",
+            "display": "Manual wheelchair (physical object)"
+          }
+        ],
+        "text": "Manual wheelchair (physical object)"
+      },
+      "net": {
+        "value": 0,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 6,
+      "informationSequence": [
+        2
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "705417005",
+            "display": "Wheelchair accessory (physical object)"
+          }
+        ],
+        "text": "Wheelchair accessory (physical object)"
+      },
+      "net": {
+        "value": 0,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 7,
+      "procedureSequence": [
+        2
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "274474001",
+            "display": "Bone immobilization (procedure)"
+          }
+        ],
+        "text": "Bone immobilization (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 8,
+      "procedureSequence": [
+        3
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "312681000",
+            "display": "Bone density scan (procedure)"
+          }
+        ],
+        "text": "Bone density scan (procedure)"
+      },
+      "net": {
+        "value": 6109.63,
+        "currency": "USD"
+      }
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:40:59.707Z",
+    "source": "synthea",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-dbc2-82ac32bf7349"
+      }
+    ]
+  },
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb",
+    "display": "Eula461 Quigley282"
+  },
+  "priority": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/processpriority",
+        "code": "normal"
+      }
+    ]
+  },
+  "procedure": [
+    {
+      "sequence": 1,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-2dea-64a4c9361285"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-2dea-64a4c9361285"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-2dea-64a4c9361285"
+      }
+    },
+    {
+      "sequence": 2,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-0216-a72042d2e665"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-0216-a72042d2e665"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-0216-a72042d2e665"
+      }
+    },
+    {
+      "sequence": 3,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-a588-4e19bf9ba059"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-a588-4e19bf9ba059"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-a588-4e19bf9ba059"
+      }
+    }
+  ],
+  "provider": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Organization/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Organization/unknown",
+    "display": "ALLIANCE HEALTH AT MARIE ESTHER"
+  },
+  "resourceType": "Claim",
+  "status": "active",
+  "supportingInfo": [
+    {
+      "sequence": 1,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 2,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      }
+    }
+  ],
+  "total": {
+    "value": 7118.61,
+    "currency": "USD"
+  },
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "institutional"
+      }
+    ]
+  },
+  "use": "claim"
+}

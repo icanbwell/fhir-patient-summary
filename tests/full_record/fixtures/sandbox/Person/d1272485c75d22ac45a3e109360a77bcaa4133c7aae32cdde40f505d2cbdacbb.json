@@ -1,0 +1,165 @@
+{
+  "resourceType": "Person",
+  "id": "d1272485c75d22ac45a3e109360a77bcaa4133c7aae32cdde40f505d2cbdacbb",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-10-29T14:41:16.226Z",
+    "source": "5aa198ff7b117de10e94e65709c7b11cd821b8228377e75b934ac816591a80bf",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "deidentified"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "deidentified"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "deidentified"
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+        "code": "REDACTED",
+        "display": "redacted"
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+        "code": "ABSTRED",
+        "display": "abstracted"
+      },
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+        "code": "CRYTOHASH",
+        "display": "cryptographic hash function"
+      },
+      {
+        "code": "PERTURBED",
+        "display": "exact value is replaced with another exact value"
+      },
+      {
+        "code": "SUBSTITUTED",
+        "display": "exact value is replaced with a predefined value"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "072b2b1c-942d-542c-8e51-f9dc0dadcc0a"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "id": "last-login-date",
+      "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/last-login-date",
+      "valueDateTime": "2024-05-28T00:00:00.000Z"
+    }
+  ],
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://www.icanbwell.com/identifier-types",
+            "code": "user-identifier"
+          }
+        ]
+      },
+      "system": "https://www.icanbwell.com/legacy/member_id",
+      "value": "0f8a25bbd25ee04974ee429c1b1114a5e2197f6b4998bcafb2c18dcee5b43f67"
+    },
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "d1272485c75d22ac45a3e109360a77bcaa4133c7aae32cdde40f505d2cbdacbb"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "072b2b1c-942d-542c-8e51-f9dc0dadcc0a"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "2002-11-12",
+  "address": [
+    {
+      "state": "MD",
+      "postalCode": "21700",
+      "country": "US"
+    }
+  ],
+  "active": true,
+  "link": [
+    {
+      "id": "782b7ab3-c540-404c-998b-7c3c171c1379",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/c829f75e-c230-493a-bed4-65ddedb51898"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/c829f75e-c230-493a-bed4-65ddedb51898"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "deidentified"
+          }
+        ],
+        "reference": "Patient/c829f75e-c230-493a-bed4-65ddedb51898"
+      }
+    },
+    {
+      "id": "5abd6db8-5536-5b38-9512-1549389b60b6",
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/d58b4c4d-e820-5935-adfc-4cb372a91c22"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/d58b4c4d-e820-5935-adfc-4cb372a91c22"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "deidentified"
+          }
+        ],
+        "reference": "Patient/d58b4c4d-e820-5935-adfc-4cb372a91c22",
+        "type": "Patient"
+      },
+      "assurance": "level4"
+    },
+    {
+      "target": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "deidentified"
+          }
+        ],
+        "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      }
+    }
+  ]
+}

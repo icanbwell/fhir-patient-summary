@@ -1,0 +1,789 @@
+{
+  "author": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d",
+      "type": "Organization",
+      "display": "bwell Connected Health"
+    }
+  ],
+  "date": "2025-11-21T18:08:58.937598+00:00",
+  "id": "f8074b1f-14d8-592f-b927-7d41c651678c",
+  "identifier": {
+    "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+    "value": "bwell_composition_for_health_data_summary"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-11-21T18:09:15.822Z",
+    "source": "https://www.icanbwell.com/intelligence-layer-pipeline",
+    "security": [
+      {
+        "id": "70ae40c6-f2bd-54a0-aa66-656be4cce72b",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      },
+      {
+        "id": "2d1e0b6f-56fb-5dd9-bc38-f01b5902fde2",
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "id": "a49dbe6e-233b-5ae6-b71a-aaa3a06ed9b1",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "bwell"
+      },
+      {
+        "id": "33ced3c5-0807-582a-b03a-df7d6e95a41c",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "f8074b1f-14d8-592f-b927-7d41c651678c"
+      }
+    ]
+  },
+  "resourceType": "Composition",
+  "section": [
+    {
+      "id": "ca8ed97a-625a-53fa-9b05-373495281801",
+      "title": "sodium fluoride 0.0272 MG/MG Oral Gel",
+      "code": {
+        "coding": [
+          {
+            "id": "1644aee8-e789-5285-af77-2f80a49a93d0",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "1535362",
+            "display": "sodium fluoride 0.0272 MG/MG Oral Gel"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by dosageInstruction[].timing.repeat.boundsPeriod.start|authoredOn|dispenseRequest.validityPeriod.start|whenHandedOver|whenPrepared|effectiveDateTime|effectivePeriod.end|effectivePeriod.start DESC"
+      },
+      "entry": [
+        {
+          "id": "4da23515-8b35-5a3a-8901-f133adfb2107",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "MedicationStatement/61789d8e-31f4-53d9-9596-185f7b980b84"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "MedicationStatement/61789d8e-31f4-53d9-9596-185f7b980b84"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "MedicationStatement/61789d8e-31f4-53d9-9596-185f7b980b84",
+          "type": "MedicationStatement"
+        }
+      ],
+      "section": [
+        {
+          "id": "368bf7ef-be60-52bb-bd64-1aedf19daea8",
+          "title": "Medication Name",
+          "text": {
+            "status": "generated",
+            "div": "sodium fluoride 0.0272 MG/MG Oral Gel"
+          }
+        },
+        {
+          "id": "102b0931-f7ee-529b-b9d2-8ee4a076dc37",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "ebfe6d10-d120-5f02-acf0-ef9e3960a869",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        },
+        {
+          "id": "cee1367c-445b-5e0c-878c-0e06f1e66905",
+          "title": "Authored On Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T23:43:18+00:00"
+          }
+        },
+        {
+          "id": "b66277f1-1373-55a0-8c54-ce8402f724a3",
+          "title": "Prescriber"
+        },
+        {
+          "id": "9844a942-86b1-50e3-b38a-aa9452f922c9",
+          "title": "Refills Remaining"
+        },
+        {
+          "id": "a5a152f8-f129-5d52-a537-08a606e96f94",
+          "title": "Total Refills"
+        },
+        {
+          "id": "9dbf22fc-f361-52ba-8240-409f244891e8",
+          "title": "Days Of Supply"
+        },
+        {
+          "id": "e5a861ff-3abb-5c78-ab18-a7664a2ba325",
+          "title": "Last Filled"
+        },
+        {
+          "id": "967b7511-6f0e-5d69-933b-609984736ee7",
+          "title": "Pharmacy Instruction"
+        },
+        {
+          "id": "421273af-faa6-54ca-aaa2-7e279b7a2d87",
+          "title": "Prescriber Instruction"
+        },
+        {
+          "id": "aa365fdf-075a-598d-a8b8-7026e6974a36",
+          "title": "Pharmacy Name"
+        },
+        {
+          "id": "b3d9a4ea-d2e1-5f1c-b5a7-b1273d560841",
+          "title": "Last Encounter Id",
+          "text": {
+            "status": "generated",
+            "div": "Encounter/ac59c2e9-d108-03bd-9f2c-14782cb31ccd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "95eb25ec-85f9-5152-bce4-3d6db5a0cd51",
+      "title": "Ibuprofen 400 MG Oral Tablet [Ibu]",
+      "code": {
+        "coding": [
+          {
+            "id": "b286343b-c030-5ba4-a940-948e918435cb",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "206905",
+            "display": "Ibuprofen 400 MG Oral Tablet [Ibu]"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by dosageInstruction[].timing.repeat.boundsPeriod.start|authoredOn|dispenseRequest.validityPeriod.start|whenHandedOver|whenPrepared|effectiveDateTime|effectivePeriod.end|effectivePeriod.start DESC"
+      },
+      "entry": [
+        {
+          "id": "a50c902c-a368-525d-9ca2-f0cb90a03b0d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "MedicationStatement/ba0251ab-277f-5f50-846f-1364134442a4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "MedicationStatement/ba0251ab-277f-5f50-846f-1364134442a4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "MedicationStatement/ba0251ab-277f-5f50-846f-1364134442a4",
+          "type": "MedicationStatement"
+        }
+      ],
+      "section": [
+        {
+          "id": "ff665d29-5c43-5582-97ce-0f89ca349984",
+          "title": "Medication Name",
+          "text": {
+            "status": "generated",
+            "div": "Ibuprofen 400 MG Oral Tablet [Ibu]"
+          }
+        },
+        {
+          "id": "03b658be-e8b9-5ed3-aa58-d275a556fd59",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "c68f8be2-4ba7-53c5-9d7a-65c288e90090",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "eb68000a-089d-5779-bbaa-49addc32c928",
+          "title": "Authored On Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "208f887b-164e-520c-8245-ea2d72df7c3c",
+          "title": "Prescriber"
+        },
+        {
+          "id": "93687457-2032-56bc-8325-6be26d179192",
+          "title": "Refills Remaining"
+        },
+        {
+          "id": "73917504-f06f-594e-8569-31d9c3db2f14",
+          "title": "Total Refills"
+        },
+        {
+          "id": "fa3c87e3-4c64-582f-a69f-68ed4a6b3ed0",
+          "title": "Days Of Supply"
+        },
+        {
+          "id": "b15049d4-81d6-5969-8c9a-df5200128bef",
+          "title": "Last Filled"
+        },
+        {
+          "id": "d6160a11-2fde-5615-a2e9-f47ff29cc77c",
+          "title": "Pharmacy Instruction"
+        },
+        {
+          "id": "3e68cdaf-4082-5a2b-93f4-bc99c530c4da",
+          "title": "Prescriber Instruction",
+          "text": {
+            "status": "generated",
+            "div": "Take as needed."
+          }
+        },
+        {
+          "id": "c7839d00-9b63-52d3-b806-92600585ae52",
+          "title": "Pharmacy Name"
+        },
+        {
+          "id": "d06a2fb0-1774-5900-b1b4-bd41c2e3b1c0",
+          "title": "Last Encounter Id",
+          "text": {
+            "status": "generated",
+            "div": "Encounter/ac59c2e9-d108-03bd-9198-c0f23ebd8981"
+          }
+        }
+      ]
+    },
+    {
+      "id": "1ab20a50-34b6-5424-994b-14b4088306b0",
+      "title": "Naproxen sodium 220 MG Oral Tablet",
+      "code": {
+        "coding": [
+          {
+            "id": "89f5ac60-b24f-5642-b74f-3696d6fb6d28",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "849574",
+            "display": "Naproxen sodium 220 MG Oral Tablet"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by dosageInstruction[].timing.repeat.boundsPeriod.start|authoredOn|dispenseRequest.validityPeriod.start|whenHandedOver|whenPrepared|effectiveDateTime|effectivePeriod.end|effectivePeriod.start DESC"
+      },
+      "entry": [
+        {
+          "id": "7a9fe00f-32c9-522a-9389-f7f11214f95d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "MedicationStatement/1822ca19-559c-5b12-9e3e-ca8cefda6ac6"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "MedicationStatement/1822ca19-559c-5b12-9e3e-ca8cefda6ac6"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "MedicationStatement/1822ca19-559c-5b12-9e3e-ca8cefda6ac6",
+          "type": "MedicationStatement"
+        }
+      ],
+      "section": [
+        {
+          "id": "9a833a44-f734-5f4d-a483-e6874a2d8590",
+          "title": "Medication Name",
+          "text": {
+            "status": "generated",
+            "div": "Naproxen sodium 220 MG Oral Tablet"
+          }
+        },
+        {
+          "id": "d8355143-fb3c-54f8-a601-b24eca56ddd1",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "2d11476f-1a03-5e1d-955a-9dc720edae68",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        },
+        {
+          "id": "2e75962c-7dcc-5cd7-8f59-ebf95d673c82",
+          "title": "Authored On Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-09-21T22:19:04+00:00"
+          }
+        },
+        {
+          "id": "9049a030-6895-5f8c-b4cf-8eeec101cf43",
+          "title": "Prescriber"
+        },
+        {
+          "id": "616abfc7-73fe-547a-930b-b299f20a9d60",
+          "title": "Refills Remaining"
+        },
+        {
+          "id": "6cdf492a-0c51-530f-bba6-45e59a447d07",
+          "title": "Total Refills"
+        },
+        {
+          "id": "0d6cbacd-1d90-50e3-955e-6b29d499ff9a",
+          "title": "Days Of Supply"
+        },
+        {
+          "id": "2bb57cce-e493-5011-942b-cb33d20b0a91",
+          "title": "Last Filled"
+        },
+        {
+          "id": "f36006f1-895d-5562-b830-6566ff1eac18",
+          "title": "Pharmacy Instruction"
+        },
+        {
+          "id": "60bd4a46-9b39-5faf-a89f-d09de984daa3",
+          "title": "Prescriber Instruction",
+          "text": {
+            "status": "generated",
+            "div": "Take as needed."
+          }
+        },
+        {
+          "id": "4fd4a40b-805d-51ad-8abb-eec824f6eff9",
+          "title": "Pharmacy Name"
+        },
+        {
+          "id": "ab313684-0e26-5227-935b-543359beb4f8",
+          "title": "Last Encounter Id",
+          "text": {
+            "status": "generated",
+            "div": "Encounter/ac59c2e9-d108-03bd-7391-83747dd04317"
+          }
+        }
+      ]
+    },
+    {
+      "id": "49099556-4a8b-524e-a220-c83d85f898c3",
+      "title": "Acetaminophen 325 MG Oral Tablet",
+      "code": {
+        "coding": [
+          {
+            "id": "64972a1f-59f9-5e92-af4b-5ee2557139f0",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "313782",
+            "display": "Acetaminophen 325 MG Oral Tablet"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by dosageInstruction[].timing.repeat.boundsPeriod.start|authoredOn|dispenseRequest.validityPeriod.start|whenHandedOver|whenPrepared|effectiveDateTime|effectivePeriod.end|effectivePeriod.start DESC"
+      },
+      "entry": [
+        {
+          "id": "c6fca4fe-862a-5e1b-ac3a-3301948e3ce6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "MedicationStatement/a7d4e798-9676-5bab-be61-bc263ab17b1c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "MedicationStatement/a7d4e798-9676-5bab-be61-bc263ab17b1c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "MedicationStatement/a7d4e798-9676-5bab-be61-bc263ab17b1c",
+          "type": "MedicationStatement"
+        }
+      ],
+      "section": [
+        {
+          "id": "3c0ddcbe-c0e4-5af8-9ec1-ed517fceca1e",
+          "title": "Medication Name",
+          "text": {
+            "status": "generated",
+            "div": "Acetaminophen 325 MG Oral Tablet"
+          }
+        },
+        {
+          "id": "1c3da648-c301-59a0-a9ec-7d5aa7fc560c",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "c04902d4-91db-57d6-82f8-424fc7240e12",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        },
+        {
+          "id": "bf75242d-c40c-5901-b76b-7c7213dff4b5",
+          "title": "Authored On Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-06-27T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "8eeff52e-3ba5-58cf-b1a4-6c855a7a856a",
+          "title": "Prescriber"
+        },
+        {
+          "id": "884e4bd9-63b3-5d02-bd49-13b517b21756",
+          "title": "Refills Remaining"
+        },
+        {
+          "id": "d0a55e8e-e601-525f-9848-568bbcca8831",
+          "title": "Total Refills"
+        },
+        {
+          "id": "06dc4add-1a8c-5c35-b37c-2f6fc75ebdf4",
+          "title": "Days Of Supply"
+        },
+        {
+          "id": "200cbee2-dbe3-5fff-80b8-e6241dc96ac4",
+          "title": "Last Filled"
+        },
+        {
+          "id": "a2b548a2-03e7-55cb-9849-cf6c6fa7c266",
+          "title": "Pharmacy Instruction"
+        },
+        {
+          "id": "49826812-dd5e-51f2-adfb-019ddda45777",
+          "title": "Prescriber Instruction",
+          "text": {
+            "status": "generated",
+            "div": "Take as needed."
+          }
+        },
+        {
+          "id": "ea1fbc33-7fca-57a4-9f02-6d711bb9299e",
+          "title": "Pharmacy Name"
+        },
+        {
+          "id": "523dae04-3627-53a7-9cc7-d58684caf74e",
+          "title": "Last Encounter Id",
+          "text": {
+            "status": "generated",
+            "div": "Encounter/ac59c2e9-d108-03bd-7789-f11bbf2837cd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "44eae06e-e67c-5802-bc23-5b872db0e11f",
+      "title": "Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet",
+      "code": {
+        "coding": [
+          {
+            "id": "3eb83f39-ddd8-5f0d-8694-bfd7874e68a4",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "856987",
+            "display": "Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by dosageInstruction[].timing.repeat.boundsPeriod.start|authoredOn|dispenseRequest.validityPeriod.start|whenHandedOver|whenPrepared|effectiveDateTime|effectivePeriod.end|effectivePeriod.start DESC"
+      },
+      "entry": [
+        {
+          "id": "086a6e1a-002c-50d8-9af8-c793857930a4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "MedicationStatement/53acbff0-2a1f-5c79-9a12-a3bdf41a55e6"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "MedicationStatement/53acbff0-2a1f-5c79-9a12-a3bdf41a55e6"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "MedicationStatement/53acbff0-2a1f-5c79-9a12-a3bdf41a55e6",
+          "type": "MedicationStatement"
+        }
+      ],
+      "section": [
+        {
+          "id": "f948a044-9145-554c-a42f-095c382be1f0",
+          "title": "Medication Name",
+          "text": {
+            "status": "generated",
+            "div": "Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet"
+          }
+        },
+        {
+          "id": "db636079-d37f-5a9c-b4ba-ffca0215e28f",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "7f4d3bc0-5ece-5ed2-b32c-5ccc44ca0c89",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        },
+        {
+          "id": "2146b37d-e9db-5a0d-a2d4-b07b7fb2d521",
+          "title": "Authored On Date",
+          "text": {
+            "status": "generated",
+            "div": "2014-03-17T13:58:10+00:00"
+          }
+        },
+        {
+          "id": "4f66dbf3-dc11-5a99-8ee2-bee45be568f1",
+          "title": "Prescriber"
+        },
+        {
+          "id": "73279044-5c85-5db5-b1d1-01c0515ebdee",
+          "title": "Refills Remaining"
+        },
+        {
+          "id": "bebaf00c-ac55-5bff-a96c-58721efffee8",
+          "title": "Total Refills"
+        },
+        {
+          "id": "09d32e5e-11cd-5f8a-83d7-0d438c03c7e3",
+          "title": "Days Of Supply"
+        },
+        {
+          "id": "6bb3fbde-8492-5fd1-a3e8-8dcfb1168989",
+          "title": "Last Filled"
+        },
+        {
+          "id": "3af707f3-baa1-5303-a5d3-41d831ba3926",
+          "title": "Pharmacy Instruction"
+        },
+        {
+          "id": "681b367b-52e2-542d-a1a0-8530eb88bb24",
+          "title": "Prescriber Instruction",
+          "text": {
+            "status": "generated",
+            "div": "Every four to six hours (qualifier value)"
+          }
+        },
+        {
+          "id": "054b4f01-e4a6-5bb4-958d-bbc9b04edd93",
+          "title": "Pharmacy Name"
+        },
+        {
+          "id": "2341a4ef-06b2-5b5c-b806-eb492345e3b7",
+          "title": "Last Encounter Id",
+          "text": {
+            "status": "generated",
+            "div": "Encounter/ac59c2e9-d108-03bd-ff44-05c190d9ded9"
+          }
+        }
+      ]
+    }
+  ],
+  "status": "preliminary",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell"
+      }
+    ],
+    "reference": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41",
+    "type": "Patient"
+  },
+  "text": {
+    "status": "generated",
+    "div": "Medication Summary Grouped by Medication Code"
+  },
+  "title": "Medication Summary Grouped by Medication Code",
+  "type": {
+    "coding": [
+      {
+        "id": "bcf5cd38-e9e5-5cad-8d2f-b8910b6a1a83",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+        "code": "medication_summary_document",
+        "display": "b.Well Medication Summary Composition Document"
+      },
+      {
+        "id": "c409acc5-f58c-5817-a704-5ee46125d0a0",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/type",
+        "code": "medication_group_code",
+        "display": "Medication Summary Composition Grouped by Medication Code"
+      },
+      {
+        "id": "bfa9ae4c-e789-56a9-941f-17151102c84b",
+        "system": "https://hl7.org/fhir/medicationstatement",
+        "code": "MedicationStatement",
+        "display": "FHIR resource type"
+      }
+    ],
+    "text": "Medication Summary Composition Document"
+  }
+}

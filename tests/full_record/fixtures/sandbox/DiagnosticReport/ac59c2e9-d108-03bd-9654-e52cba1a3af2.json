@@ -1,0 +1,315 @@
+{
+  "resourceType": "DiagnosticReport",
+  "id": "ac59c2e9-d108-03bd-9654-e52cba1a3af2",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2025-11-14T22:56:36.396Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-9654-e52cba1a3af2"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "Generated Text for DiagnosticReport"
+  },
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-9654-e52cba1a3af2"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-9654-e52cba1a3af2"
+    }
+  ],
+  "status": "final",
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "ccf9d50c-93ce-5b01-88d8-756556d59020",
+          "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+          "code": "LAB",
+          "display": "Laboratory"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "id": "782d5961-2164-5215-8a13-f18ca14c0401",
+        "system": "http://loinc.org",
+        "code": "51990-0",
+        "display": "Basic metabolic panel - Blood"
+      }
+    ],
+    "text": "Basic metabolic panel - Blood"
+  },
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-70d7-648855c36f4b"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-70d7-648855c36f4b"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-70d7-648855c36f4b"
+  },
+  "effectiveDateTime": "2018-10-27T20:58:10+00:00",
+  "issued": "2018-10-27T20:58:10.689Z",
+  "performer": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Organization/unknown"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Organization/unknown",
+      "display": "NEW ENGLAND FAMILY HEALTH LLC"
+    }
+  ],
+  "result": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-8e0d-d2e2959428ad"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-8e0d-d2e2959428ad"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-8e0d-d2e2959428ad",
+      "display": "Glucose [Mass/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-bb1f-2706227656fd"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-bb1f-2706227656fd"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-bb1f-2706227656fd",
+      "display": "Urea nitrogen [Mass/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-334c-e23b4997f8ea"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-334c-e23b4997f8ea"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-334c-e23b4997f8ea",
+      "display": "Creatinine [Mass/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-9817-eb1f37dcc724"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-9817-eb1f37dcc724"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-9817-eb1f37dcc724",
+      "display": "Calcium [Mass/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-9d5f-e648f00e93d5"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-9d5f-e648f00e93d5"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-9d5f-e648f00e93d5",
+      "display": "Sodium [Moles/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-703d-b26c1929daae"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-703d-b26c1929daae"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-703d-b26c1929daae",
+      "display": "Potassium [Moles/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-a095-a265aa518333"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-a095-a265aa518333"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-a095-a265aa518333",
+      "display": "Chloride [Moles/volume] in Blood"
+    },
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Observation/ac59c2e9-d108-03bd-e0d1-b5d4202c4cba"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Observation/ac59c2e9-d108-03bd-e0d1-b5d4202c4cba"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "synthea"
+        }
+      ],
+      "reference": "Observation/ac59c2e9-d108-03bd-e0d1-b5d4202c4cba",
+      "display": "Carbon dioxide, total [Moles/volume] in Blood"
+    }
+  ]
+}

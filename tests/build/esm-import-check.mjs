@@ -13,11 +13,14 @@ import('../../dist/index.js')
     if (!builder) {
       throw new Error('Failed to instantiate ComprehensiveIPSCompositionBuilder (ESM)');
     }
+     
     console.log('ESM import check passed, ComprehensiveIPSCompositionBuilder is available.');
+    // eslint-disable-next-line no-undef
     process.exit(0);
   })
   .catch((err) => {
+     
     console.error('ESM import check failed:', err);
+    // eslint-disable-next-line no-undef
     process.exit(1);
   });
-

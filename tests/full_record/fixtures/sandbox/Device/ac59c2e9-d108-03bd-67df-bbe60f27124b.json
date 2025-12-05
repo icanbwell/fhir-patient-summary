@@ -1,0 +1,96 @@
+{
+  "deviceName": [
+    {
+      "name": "Manual wheelchair (physical object)",
+      "type": "user-friendly-name"
+    }
+  ],
+  "distinctIdentifier": "97421347197771",
+  "expirationDate": "2048-09-14T21:39:36+00:00",
+  "id": "ac59c2e9-d108-03bd-67df-bbe60f27124b",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-67df-bbe60f27124b"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-67df-bbe60f27124b"
+    }
+  ],
+  "lotNumber": "59917",
+  "manufactureDate": "2023-08-31T21:39:36+00:00",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:40:55.945Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+    ],
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-67df-bbe60f27124b"
+      }
+    ]
+  },
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "resourceType": "Device",
+  "serialNumber": "2005893559",
+  "status": "active",
+  "type": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "228869008",
+        "display": "Manual wheelchair (physical object)"
+      }
+    ],
+    "text": "Manual wheelchair (physical object)"
+  },
+  "udiCarrier": [
+    {
+      "deviceIdentifier": "97421347197771",
+      "carrierHRF": "(01)97421347197771(11)230831(17)480914(10)59917(21)2005893559"
+    }
+  ]
+}

@@ -23,4 +23,5 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
       - run: yarn typecheck
-      - run: yarn test
+      - run: yarn test --ci --testLocationInResults
+        name: Run tests and show summary of failures

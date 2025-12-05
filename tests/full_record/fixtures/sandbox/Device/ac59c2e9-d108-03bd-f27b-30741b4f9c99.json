@@ -1,0 +1,96 @@
+{
+  "deviceName": [
+    {
+      "name": "Dental x-ray system (physical object)",
+      "type": "user-friendly-name"
+    }
+  ],
+  "distinctIdentifier": "74392678439555",
+  "expirationDate": "2044-11-09T22:50:19+00:00",
+  "id": "ac59c2e9-d108-03bd-f27b-30741b4f9c99",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-f27b-30741b4f9c99"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-f27b-30741b4f9c99"
+    }
+  ],
+  "lotNumber": "59558",
+  "manufactureDate": "2019-10-26T22:50:19+00:00",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:39:47.862Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+    ],
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-f27b-30741b4f9c99"
+      }
+    ]
+  },
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  },
+  "resourceType": "Device",
+  "serialNumber": "41813299437619102",
+  "status": "active",
+  "type": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "706298007",
+        "display": "Dental x-ray system (physical object)"
+      }
+    ],
+    "text": "Dental x-ray system (physical object)"
+  },
+  "udiCarrier": [
+    {
+      "deviceIdentifier": "74392678439555",
+      "carrierHRF": "(01)74392678439555(11)191026(17)441109(10)59558(21)41813299437619102"
+    }
+  ]
+}

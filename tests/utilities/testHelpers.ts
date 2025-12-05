@@ -22,20 +22,18 @@ async function beautifyHtml(html: string): Promise<string> {
 
         // Add configuration to prevent line breaks between text and adjacent elements
         return beautify(preprocessedHtml, {
-            indent_size: 4,
-            wrap_line_length: 100,
-            preserve_newlines: true,
-            max_preserve_newlines: 1,
-            unformatted: ['ul', 'li', 'span', 'a'], // Keep these tags inline
-            inline: ['span', 'a', 'ul'], // Treat these tags as inline elements
-            content_unformatted: ['pre', 'textarea', 'td'], // Preserve content formatting in these tags
-            indent_inner_html: true,
-            extra_liners: ['body', 'html', 'head', 'table', 'tbody', 'thead', 'tr']
+            preserve_newlines: false,
         });
     } catch (error) {
         console.error('Formatting Error:', error);
         return html;
     }
+}
+
+function getFileNameForSection(sectionTitle: string, codeValue: string, folder: string) {
+    const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
+    const filename = `${codeValue}_${safeSectionTitle}.html`;
+    return path.join(folder, filename);
 }
 
 /**
@@ -46,9 +44,7 @@ async function beautifyHtml(html: string): Promise<string> {
  */
 export function readNarrativeFile(folder: string, codeValue: string, sectionTitle: string): string | undefined {
     // Convert the section title to a filename-friendly format
-    const safeSectionTitle = sectionTitle.replace(/[^a-zA-Z0-9]/g, '_').replace(/_{2,}/g, '_');
-    const filename = `${codeValue}_${safeSectionTitle}.html`;
-    const filePath = path.join(folder, filename);
+    const filePath = getFileNameForSection(sectionTitle, codeValue, folder);
 
     try {
         return fs.readFileSync(filePath, 'utf-8');
@@ -68,15 +64,15 @@ export async function compareNarratives(generatedHtml: string | undefined, expec
     }
     // Beautify both HTML strings for comparison
     const generatedFormattedHtml = await beautifyHtml(generatedHtml);
-    const expectedFormattedHtml = expectedHtml;
+    const expectedFormattedHtml = await beautifyHtml(expectedHtml);
 
     // Compare the formatted HTML strings
     if (generatedFormattedHtml === expectedFormattedHtml) {
         console.info('Narrative matches expected output.');
     } else {
         console.info('Narrative does not match expected output.');
-        console.info(`Generated:\n${generatedFormattedHtml}`);
-        console.info(`Expected:\n${expectedFormattedHtml}`);
+        console.info(`Generated (beautified):\n${generatedFormattedHtml}`);
+        console.info(`Expected (beautified):\n${expectedFormattedHtml}`);
     }
 
     expect(generatedFormattedHtml).toStrictEqual(expectedFormattedHtml);

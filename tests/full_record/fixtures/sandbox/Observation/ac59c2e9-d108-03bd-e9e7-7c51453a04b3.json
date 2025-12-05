@@ -1,0 +1,605 @@
+{
+  "category": [
+    {
+      "coding": [
+        {
+          "id": "c0815183-1b97-50d4-b9e1-79ada529ea12",
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "survey",
+          "display": "Survey"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "id": "7bbd36e0-8277-578a-b1f1-6c11e04d599e",
+        "system": "http://loinc.org",
+        "code": "93025-5",
+        "display": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]"
+      }
+    ],
+    "text": "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]"
+  },
+  "component": [
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "988a7256-85cc-5dda-bb05-51a96ae312f6",
+            "system": "http://loinc.org",
+            "code": "76501-6",
+            "display": "Within the last year, have you been afraid of your partner or ex-partner?"
+          }
+        ],
+        "text": "Within the last year, have you been afraid of your partner or ex-partner?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "193e69c6-986b-5470-9e6b-d7f5415dc886",
+            "system": "http://loinc.org",
+            "code": "93026-3",
+            "display": "Do you feel physically and emotionally safe where you currently live?"
+          }
+        ],
+        "text": "Do you feel physically and emotionally safe where you currently live?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "db1f3c47-f36c-51ad-ad54-39ce65fd2e5a",
+            "system": "http://loinc.org",
+            "code": "LA33-6",
+            "display": "Yes"
+          }
+        ],
+        "text": "Yes"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "ee768268-d9ed-5151-90e2-9abfe857fc83",
+            "system": "http://loinc.org",
+            "code": "93027-1",
+            "display": "Are you a refugee?"
+          }
+        ],
+        "text": "Are you a refugee?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "eae525b0-b3a0-5248-9828-710166d5a8a2",
+            "system": "http://loinc.org",
+            "code": "93028-9",
+            "display": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?"
+          }
+        ],
+        "text": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "dc882bbc-f020-51dc-9178-0767014b4364",
+            "system": "http://loinc.org",
+            "code": "93038-8",
+            "display": "Stress level"
+          }
+        ],
+        "text": "Stress level"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "0e6d1761-f454-5b64-a4d7-b81d422ce9de",
+            "system": "http://loinc.org",
+            "code": "LA6568-5",
+            "display": "Not at all"
+          }
+        ],
+        "text": "Not at all"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "cdc359f8-773e-5513-9a17-5de6c0d776e8",
+            "system": "http://loinc.org",
+            "code": "93029-7",
+            "display": "How often do you see or talk to people that you care about and feel close to (For example: talking to friends on the phone, visiting friends or family, going to church or club meetings)?"
+          }
+        ],
+        "text": "How often do you see or talk to people that you care about and feel close to (For example: talking to friends on the phone, visiting friends or family, going to church or club meetings)?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "674d3f33-0927-5ab7-aa2b-3180215e1711",
+            "system": "http://loinc.org",
+            "code": "LA30131-9",
+            "display": "3 to 5 times a week"
+          }
+        ],
+        "text": "3 to 5 times a week"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "8d0c0893-cbf8-515e-9eb6-77f75cb42211",
+            "system": "http://loinc.org",
+            "code": "93030-5",
+            "display": "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living"
+          }
+        ],
+        "text": "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "84a85a02-dac9-51ce-811e-25b6a2ffe6a7",
+            "system": "http://loinc.org",
+            "code": "93031-3",
+            "display": "In the past year, have you or any family members you live with been unable to get any of the following when it was really needed?"
+          }
+        ],
+        "text": "In the past year, have you or any family members you live with been unable to get any of the following when it was really needed?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "1c397ee7-d1ee-5cef-87ca-0f9e1dea2b8f",
+            "system": "http://loinc.org",
+            "code": "LA30122-8",
+            "display": "I choose not to answer this question"
+          }
+        ],
+        "text": "I choose not to answer this question"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "7e4a703e-3654-5552-8586-cd4d34ca27c5",
+            "system": "http://loinc.org",
+            "code": "63586-2",
+            "display": "What was your best estimate of the total income of all family members from all sources, before taxes, in last year?"
+          }
+        ],
+        "text": "What was your best estimate of the total income of all family members from all sources, before taxes, in last year?"
+      },
+      "valueQuantity": {
+        "value": 125690,
+        "unit": "/a",
+        "system": "http://unitsofmeasure.org",
+        "code": "/a"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "1e4808d3-f146-5342-8f94-44a3e965ff39",
+            "system": "http://loinc.org",
+            "code": "76437-3",
+            "display": "Primary insurance"
+          }
+        ],
+        "text": "Primary insurance"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "88dd7015-2d33-5076-ae7f-7c3b30bc4304",
+            "system": "http://loinc.org",
+            "code": "LA6350-8",
+            "display": "Private insurance"
+          }
+        ],
+        "text": "Private insurance"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "6b5a9593-6378-58b3-8cf2-995b5428f18a",
+            "system": "http://loinc.org",
+            "code": "67875-5",
+            "display": "Employment status - current"
+          }
+        ],
+        "text": "Employment status - current"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "356a6099-8dcd-542d-9d76-a4d088d2d9bc",
+            "system": "http://loinc.org",
+            "code": "LA30136-8",
+            "display": "Full-time work"
+          }
+        ],
+        "text": "Full-time work"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "56c60ea4-fc24-5062-a065-6ca2ccd251a0",
+            "system": "http://loinc.org",
+            "code": "82589-3",
+            "display": "Highest level of education"
+          }
+        ],
+        "text": "Highest level of education"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "95162b54-87be-52ee-9a5b-02ef1d12372c",
+            "system": "http://loinc.org",
+            "code": "LA30193-9",
+            "display": "More than high school"
+          }
+        ],
+        "text": "More than high school"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "2265d605-0133-5343-87b2-901d8a3e7662",
+            "system": "http://loinc.org",
+            "code": "56799-0",
+            "display": "Address"
+          }
+        ],
+        "text": "Address"
+      },
+      "valueString": "444 Hahn Crossing Suite 13"
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "ad7df850-97ad-5e09-b3c6-1e1748d38eae",
+            "system": "http://loinc.org",
+            "code": "93033-9",
+            "display": "Are you worried about losing your housing?"
+          }
+        ],
+        "text": "Are you worried about losing your housing?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "65042e54-26c1-573f-a20c-62399c9fdcac",
+            "system": "http://loinc.org",
+            "code": "71802-3",
+            "display": "Housing status"
+          }
+        ],
+        "text": "Housing status"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "bc0a3275-669b-5da7-b41f-b5841c30b51c",
+            "system": "http://loinc.org",
+            "code": "LA30189-7",
+            "display": "I have housing"
+          }
+        ],
+        "text": "I have housing"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "9efadcb7-d344-5979-8d93-3b8600737016",
+            "system": "http://loinc.org",
+            "code": "63512-8",
+            "display": "How many people are living or staying at this address?"
+          }
+        ],
+        "text": "How many people are living or staying at this address?"
+      },
+      "valueQuantity": {
+        "value": 6,
+        "unit": "{#}",
+        "system": "http://unitsofmeasure.org",
+        "code": "{#}"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "71c68794-9c51-56dd-af26-387573b667e1",
+            "system": "http://loinc.org",
+            "code": "54899-0",
+            "display": "Preferred language"
+          }
+        ],
+        "text": "Preferred language"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "c703817a-45e6-5f9f-829e-ca319f982fa4",
+            "system": "http://loinc.org",
+            "code": "LA43-5",
+            "display": "English"
+          }
+        ],
+        "text": "English"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "30e309e2-70c3-5630-9f11-226f081a3328",
+            "system": "http://loinc.org",
+            "code": "93034-7",
+            "display": "Have you been discharged from the armed forces of the United States?"
+          }
+        ],
+        "text": "Have you been discharged from the armed forces of the United States?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "6786c2d5-2cf3-5b72-9a79-66ba49588655",
+            "system": "http://loinc.org",
+            "code": "93035-4",
+            "display": "At any point in the past 2 years, has season or migrant farm work been your or your family's main source of income?"
+          }
+        ],
+        "text": "At any point in the past 2 years, has season or migrant farm work been your or your family's main source of income?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "376c8dc5-57b1-50c8-a2ba-c8262f53b7e2",
+            "system": "http://loinc.org",
+            "code": "32624-9",
+            "display": "Race"
+          }
+        ],
+        "text": "Race"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "d8936754-47df-5f54-9f2f-f0d67863a71c",
+            "system": "http://loinc.org",
+            "code": "LA6156-9",
+            "display": "Asian"
+          }
+        ],
+        "text": "Asian"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "id": "8aa99003-e9b5-5ba6-b89b-915a55876d9f",
+            "system": "http://loinc.org",
+            "code": "56051-6",
+            "display": "Do you consider yourself Hispanic/Latino?"
+          }
+        ],
+        "text": "Do you consider yourself Hispanic/Latino?"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "id": "adb22b56-32e3-5ad4-9a06-a0f513b71188",
+            "system": "http://loinc.org",
+            "code": "LA32-8",
+            "display": "No"
+          }
+        ],
+        "text": "No"
+      }
+    }
+  ],
+  "effectiveDateTime": "2016-10-15T21:30:15+00:00",
+  "encounter": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-9554-836084659e6a"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Encounter/ac59c2e9-d108-03bd-9554-836084659e6a"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Encounter/ac59c2e9-d108-03bd-9554-836084659e6a"
+  },
+  "id": "ac59c2e9-d108-03bd-e9e7-7c51453a04b3",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-e9e7-7c51453a04b3"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-e9e7-7c51453a04b3"
+    }
+  ],
+  "issued": "2016-10-15T21:30:15.689Z",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:38:27.294Z",
+    "source": "synthea",
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment"
+    ],
+    "security": [
+      {
+        "id": "c90c2bc6-7d2d-564a-8b1f-4e7ea2e4674e",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "id": "be7572b0-aa9d-5c31-8875-ce6370a625ba",
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "id": "231ff57f-2dd1-5037-a3ba-0fa2d2c91939",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "id": "2762e847-4e8f-508b-a05f-76c65f6503e9",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-e9e7-7c51453a04b3"
+      }
+    ]
+  },
+  "resourceType": "Observation",
+  "status": "final",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+  }
+}

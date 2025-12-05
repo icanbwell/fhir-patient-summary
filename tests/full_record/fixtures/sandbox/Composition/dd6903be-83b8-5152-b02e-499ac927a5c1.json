@@ -1,0 +1,3680 @@
+{
+  "author": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d",
+      "type": "Organization",
+      "display": "bwell Connected Health"
+    }
+  ],
+  "date": "2025-11-21T18:08:58.937598+00:00",
+  "id": "dd6903be-83b8-5152-b02e-499ac927a5c1",
+  "identifier": {
+    "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+    "value": "bwell_composition_for_health_data_summary"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-11-21T18:09:09.504Z",
+    "source": "https://www.icanbwell.com/intelligence-layer-pipeline",
+    "security": [
+      {
+        "id": "70ae40c6-f2bd-54a0-aa66-656be4cce72b",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      },
+      {
+        "id": "2d1e0b6f-56fb-5dd9-bc38-f01b5902fde2",
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "id": "a49dbe6e-233b-5ae6-b71a-aaa3a06ed9b1",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "bwell"
+      },
+      {
+        "id": "33ced3c5-0807-582a-b03a-df7d6e95a41c",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "dd6903be-83b8-5152-b02e-499ac927a5c1"
+      }
+    ]
+  },
+  "resourceType": "Composition",
+  "section": [
+    {
+      "id": "45102c8b-a128-5f80-a3ea-28153c12817c",
+      "title": "Oral health education (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "b272273c-a0c0-54b7-b121-b720148ffaa6",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "243085009",
+            "display": "Oral health education (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "ddbec8ce-559c-517c-b5b0-35f2f0ea18ab",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-294d-8c5581f37532"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-294d-8c5581f37532"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-294d-8c5581f37532",
+          "type": "Procedure"
+        },
+        {
+          "id": "635117a1-efa1-52dd-b7ee-879a00813887",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0b9d-9157e1d7cd08"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0b9d-9157e1d7cd08"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-0b9d-9157e1d7cd08",
+          "type": "Procedure"
+        },
+        {
+          "id": "139f8524-3538-52e6-aa11-b5c24234ae29",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6324-b67c4bbd9964"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6324-b67c4bbd9964"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-6324-b67c4bbd9964",
+          "type": "Procedure"
+        },
+        {
+          "id": "6a03ff2a-2442-5e6f-8b88-afc39dbbe15a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7239-f642aa53a908"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7239-f642aa53a908"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-7239-f642aa53a908",
+          "type": "Procedure"
+        },
+        {
+          "id": "7da4ca92-518f-59d6-b1de-4a72d495de66",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7b11-d00927c04bdb"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7b11-d00927c04bdb"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-7b11-d00927c04bdb",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "21ca9b73-afae-59d6-abb4-9f38044cf173",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Oral health education (procedure)"
+          }
+        },
+        {
+          "id": "8278da9b-8da1-5065-b333-dd3f71e7e5c6",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "c9f88657-7b6b-5ed1-b214-7600f1dd2df8",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-15T00:07:52+00:00"
+          }
+        },
+        {
+          "id": "68659a22-2bfe-5ffa-b102-d35753ba1932",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "3d93644e-43c4-5c76-86fe-72c70cffb1e2",
+      "title": "Dental fluoride treatment (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "bc7c811b-852e-51b6-a7e6-b1128c16e161",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "68071007",
+            "display": "Dental fluoride treatment (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "ca6c94df-9421-59fd-938e-028b005982ad",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7c5e-687f0699b8b5"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7c5e-687f0699b8b5"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-7c5e-687f0699b8b5",
+          "type": "Procedure"
+        },
+        {
+          "id": "65b2efe3-a88b-5009-a0c4-3801afb12813",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-fd53-a968e8577fb8"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-fd53-a968e8577fb8"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-fd53-a968e8577fb8",
+          "type": "Procedure"
+        },
+        {
+          "id": "62dc5913-8fcb-5a86-a94a-8aa5e162aff9",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f713-317f0629facf"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f713-317f0629facf"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-f713-317f0629facf",
+          "type": "Procedure"
+        },
+        {
+          "id": "32ab25a7-227f-50d8-ab3a-706668823086",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-2a91-684d8967c045"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-2a91-684d8967c045"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-2a91-684d8967c045",
+          "type": "Procedure"
+        },
+        {
+          "id": "3afb3850-4ae1-5dfe-aa71-af1ac541891b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-63e5-dc2e9d6f339c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-63e5-dc2e9d6f339c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-63e5-dc2e9d6f339c",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "c59f3317-6e11-5f63-babc-a853cb64052c",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Dental fluoride treatment (procedure)"
+          }
+        },
+        {
+          "id": "cb9a52e2-5137-5d78-b73a-1b744f8e73e9",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "ca1ae906-05ff-5834-af4e-a9c58e4eef70",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T23:43:18+00:00"
+          }
+        },
+        {
+          "id": "66012046-54f6-525e-9429-4af44d2c29f4",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "bdf044bc-d77b-58bf-9335-835a9fb19da8",
+      "title": "Dental plain X-ray bitewing (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "43922ed3-1b84-57e7-88c1-556109129f99",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "241046008",
+            "display": "Dental plain X-ray bitewing (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "e75a03ae-1ddc-5c30-b9e6-4949d9c2d3d5",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-8eb3-85c3ed35c685"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-8eb3-85c3ed35c685"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-8eb3-85c3ed35c685",
+          "type": "Procedure"
+        },
+        {
+          "id": "566bd658-1604-5fd9-bf20-a354f134f07c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-90f3-eba6547fbed4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-90f3-eba6547fbed4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-90f3-eba6547fbed4",
+          "type": "Procedure"
+        },
+        {
+          "id": "f050d072-4e0b-5833-ab3a-75f0a2062312",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-fc26-1ccad6aaab22"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-fc26-1ccad6aaab22"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-fc26-1ccad6aaab22",
+          "type": "Procedure"
+        },
+        {
+          "id": "8e2c06df-d87a-5dd7-ab37-5accc732acb9",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-982a-0a0c3e7b44c4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-982a-0a0c3e7b44c4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-982a-0a0c3e7b44c4",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "119a4fd4-decd-59a5-abc0-44c81095981a",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Dental plain X-ray bitewing (procedure)"
+          }
+        },
+        {
+          "id": "84985e21-9749-5be0-aeb2-69a802854846",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "2923aff9-0863-5bfb-bb3f-deb02437fd41",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T23:05:41+00:00"
+          }
+        },
+        {
+          "id": "78218981-3808-5e16-a91e-5d99abc3f4df",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "78b0333b-81ea-557f-95cd-5512e0acaeb9",
+      "title": "Examination of gingivae (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "4b1f1012-3aea-59e5-918f-7e913e2713e2",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "274788003",
+            "display": "Examination of gingivae (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "bd0b624d-e91a-55a1-9c3f-785059499124",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-af4e-e58ef1d46db2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-af4e-e58ef1d46db2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-af4e-e58ef1d46db2",
+          "type": "Procedure"
+        },
+        {
+          "id": "5917ec0a-cb1f-5d5d-bca1-c4e395fe59e5",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0c24-efca5f9925ce"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0c24-efca5f9925ce"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-0c24-efca5f9925ce",
+          "type": "Procedure"
+        },
+        {
+          "id": "6fe07848-15fe-526e-8607-1aa0d235a857",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c63f-0b6c44c8b0da"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c63f-0b6c44c8b0da"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-c63f-0b6c44c8b0da",
+          "type": "Procedure"
+        },
+        {
+          "id": "1ebc3feb-8f5e-57b4-b68a-4d4709c59a05",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ba72-4a336eeac958"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ba72-4a336eeac958"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-ba72-4a336eeac958",
+          "type": "Procedure"
+        },
+        {
+          "id": "ab7b112b-d6c9-57c5-aba0-ac9b112df944",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ef40-08347f7fe3c3"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ef40-08347f7fe3c3"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-ef40-08347f7fe3c3",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "9ef8cc85-2068-5e78-9d4a-8b6fa0c7c994",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Examination of gingivae (procedure)"
+          }
+        },
+        {
+          "id": "97d92de7-5f60-5f60-800a-c2ff9766e236",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "64bc432c-d0d2-539a-925c-f24838637843",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T23:05:41+00:00"
+          }
+        },
+        {
+          "id": "cbdc0582-df66-5ba1-ac9e-828c788b00fb",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "6e56ac75-16f3-5f42-a2c6-80457abc1f27",
+      "title": "Removal of subgingival plaque and calculus from all teeth using dental instrument (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "54707d1c-9ce5-51df-949b-459b5cccfb85",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "1260010008",
+            "display": "Removal of subgingival plaque and calculus from all teeth using dental instrument (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "fd4a8e0f-5c56-5ca8-9262-63129ee23d60",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6c9e-298b26a9f7f3"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6c9e-298b26a9f7f3"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-6c9e-298b26a9f7f3",
+          "type": "Procedure"
+        },
+        {
+          "id": "20068de4-bfa3-5a86-8a23-224e543bc9f2",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ddfb-219e20bd74d3"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ddfb-219e20bd74d3"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-ddfb-219e20bd74d3",
+          "type": "Procedure"
+        },
+        {
+          "id": "1267dc8b-d2f4-5f28-8662-2038b9eab1eb",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6e97-370487f55c30"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6e97-370487f55c30"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-6e97-370487f55c30",
+          "type": "Procedure"
+        },
+        {
+          "id": "2190ebe4-c965-52e8-8dd2-0035ab5a3c69",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-808c-73338af17f3c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-808c-73338af17f3c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-808c-73338af17f3c",
+          "type": "Procedure"
+        },
+        {
+          "id": "10f07086-a465-5dc8-9022-7b9b0a897b4c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-16b5-b9550341b43a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-16b5-b9550341b43a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-16b5-b9550341b43a",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "c8693745-8615-5a7d-bc11-bdd938c1003b",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Removal of subgingival plaque and calculus from all teeth using dental instrument (procedure)"
+          }
+        },
+        {
+          "id": "ffc9be70-9f19-561b-bdfc-e8cfd75954f3",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "37d434f8-2891-5839-8185-989ef0dacadc",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T22:35:23+00:00"
+          }
+        },
+        {
+          "id": "10edb9a8-b802-50b0-a4c2-8e8416b3225b",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "57969756-2106-5e01-8fc7-3c74e1c7f7d8",
+      "title": "Removal of supragingival plaque and calculus from all teeth using dental instrument (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "07bf9b52-0147-5f79-a16a-ecb84f8b79bc",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "1260009003",
+            "display": "Removal of supragingival plaque and calculus from all teeth using dental instrument (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "1ccd301d-15f8-531e-986c-017942042b70",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f0c7-5f82d6f15925"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f0c7-5f82d6f15925"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-f0c7-5f82d6f15925",
+          "type": "Procedure"
+        },
+        {
+          "id": "896014b9-7406-55b2-a265-5c035f413aab",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-810b-0e3c42acd94e"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-810b-0e3c42acd94e"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-810b-0e3c42acd94e",
+          "type": "Procedure"
+        },
+        {
+          "id": "7dfd5ed1-a127-576a-8544-71907b8e7de0",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-b997-9547121dae61"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-b997-9547121dae61"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-b997-9547121dae61",
+          "type": "Procedure"
+        },
+        {
+          "id": "a5d3e111-0d5c-5a03-8d9b-35ebeff9d1ca",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1cb6-89cce66808c9"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1cb6-89cce66808c9"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-1cb6-89cce66808c9",
+          "type": "Procedure"
+        },
+        {
+          "id": "511facdb-802b-5989-a654-9cd7823699fd",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-e889-e99bf4ced1da"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-e889-e99bf4ced1da"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-e889-e99bf4ced1da",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "f0a43e4f-011e-5014-ba08-a0e5fe5ecfb7",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Removal of supragingival plaque and calculus from all teeth using dental instrument (procedure)"
+          }
+        },
+        {
+          "id": "116e76dc-59ef-5223-a856-1719c4cea85d",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "38dedbb0-556b-57c9-b082-a49dacc9a9a4",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T22:07:09+00:00"
+          }
+        },
+        {
+          "id": "4ddcff3a-16bd-5cbd-a12a-38ba7554de45",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "863f3055-f0f6-56a6-8f10-5bfabeadd16f",
+      "title": "Dental care (regime/therapy)",
+      "code": {
+        "coding": [
+          {
+            "id": "0e40de2a-1e5e-5346-8af5-70757ad34be4",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "225362009",
+            "display": "Dental care (regime/therapy)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "6f518483-fb75-53d7-b325-447b5dfebbca",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-850b-b8f136592730"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-850b-b8f136592730"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-850b-b8f136592730",
+          "type": "Procedure"
+        },
+        {
+          "id": "5ce787cf-7008-5787-964e-babce7f62d5b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-b8ef-62675f535753"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-b8ef-62675f535753"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-b8ef-62675f535753",
+          "type": "Procedure"
+        },
+        {
+          "id": "ef833a37-7e0e-5386-a762-42f086569a69",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-d38a-d857316439f7"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-d38a-d857316439f7"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-d38a-d857316439f7",
+          "type": "Procedure"
+        },
+        {
+          "id": "9c5619d5-ee7c-58c2-93a1-2102397a2baa",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-cbc7-12b0d39bd277"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-cbc7-12b0d39bd277"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-cbc7-12b0d39bd277",
+          "type": "Procedure"
+        },
+        {
+          "id": "ded5fc54-eabd-536c-b41a-6cfe238257ae",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-5fb9-9418bb20cee2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-5fb9-9418bb20cee2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-5fb9-9418bb20cee2",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "9cedb786-5a3b-5634-9717-1532c19b0386",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Dental care (regime/therapy)"
+          }
+        },
+        {
+          "id": "3883345c-96b9-5215-b485-85d4b7500cc0",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "fff54964-34f1-5e39-bc48-39f263205439",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T21:26:30+00:00"
+          }
+        },
+        {
+          "id": "f3d3cc89-3333-585c-a4c7-6e6cb1de355b",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "e3b6839f-1a98-5eeb-abbf-a6beda3683b1",
+      "title": "Dental consultation and report (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "84900c69-f881-5583-8df5-6c5cdc883308",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "34043003",
+            "display": "Dental consultation and report (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "79420e7e-8cd7-583d-9923-7b3e03a4da7f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-77b7-b8947f1fc970"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-77b7-b8947f1fc970"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-77b7-b8947f1fc970",
+          "type": "Procedure"
+        },
+        {
+          "id": "3ed448ba-50bd-5561-a308-c6fa6ed23ea1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4324-b6b93d329433"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4324-b6b93d329433"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-4324-b6b93d329433",
+          "type": "Procedure"
+        },
+        {
+          "id": "7f2e8901-8c70-5062-bac1-df122215a8eb",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ceec-0681e4e4dc75"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ceec-0681e4e4dc75"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-ceec-0681e4e4dc75",
+          "type": "Procedure"
+        },
+        {
+          "id": "0d811f8d-8960-5bea-95aa-849742b4e861",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1bbf-a5d8769b0444"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1bbf-a5d8769b0444"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-1bbf-a5d8769b0444",
+          "type": "Procedure"
+        },
+        {
+          "id": "dcf78426-5ede-536f-a9dd-017a46e60727",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f95d-d1cb206fbfd3"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f95d-d1cb206fbfd3"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-f95d-d1cb206fbfd3",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "68c4193e-4a7a-5ccb-983d-0fd2d0cf33ba",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Dental consultation and report (procedure)"
+          }
+        },
+        {
+          "id": "507e01a6-1f44-5f0f-b025-b2b36a3c8112",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "4697ce57-1f26-5ec6-b8c2-3dd09d6bcdef",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-12-14T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "6ebf8cb9-4f3c-514e-9d5d-95d0b17e7fe2",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "50981e68-70bd-5204-bb46-df766d9a8d86",
+      "title": "Patient referral for dental care (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "c04a53e4-88a1-552b-a9f6-642402534dea",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "103697008",
+            "display": "Patient referral for dental care (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "af21abd7-0b4c-545d-bf0b-b61f69a1631e",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-62e9-666a1a0712de"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-62e9-666a1a0712de"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-62e9-666a1a0712de",
+          "type": "Procedure"
+        },
+        {
+          "id": "03881ff8-da40-5468-836e-f4f4baa2dc38",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a94c-c1af3b0195f2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a94c-c1af3b0195f2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-a94c-c1af3b0195f2",
+          "type": "Procedure"
+        },
+        {
+          "id": "7502611d-f23c-51b7-83f6-8e45393ad55b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c4f2-d4d50b6905aa"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c4f2-d4d50b6905aa"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-c4f2-d4d50b6905aa",
+          "type": "Procedure"
+        },
+        {
+          "id": "fbce52ec-aa3b-52ce-a8ad-c70f65141c7c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-bfaa-736d267a82f2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-bfaa-736d267a82f2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-bfaa-736d267a82f2",
+          "type": "Procedure"
+        },
+        {
+          "id": "3fac0f40-e481-5286-b07f-cf42da6d3e5a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4f3c-f0c6da35d8af"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4f3c-f0c6da35d8af"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-4f3c-f0c6da35d8af",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "a8e67ce9-a750-5a67-b702-dd4c0f175e28",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Patient referral for dental care (procedure)"
+          }
+        },
+        {
+          "id": "c77adc9c-7f6b-50db-8776-78f2eaca4552",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "99a99556-bde0-54b6-889b-704a174f04a9",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T22:46:46+00:00"
+          }
+        },
+        {
+          "id": "03fb8f7e-fb4d-5001-b39a-8a79ca26c475",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "76c0b388-963b-5890-9872-00d67b28dbb9",
+      "title": "Depression screening (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "2ab87f86-de40-5e76-a628-b6ecdcbb0053",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "171207006",
+            "display": "Depression screening (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "2fc913e1-e24b-5443-a94b-63cc7c156279",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-04ea-879da810b2f4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-04ea-879da810b2f4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-04ea-879da810b2f4",
+          "type": "Procedure"
+        },
+        {
+          "id": "d7e356c5-74e4-53f6-9d72-7a2f7b33359c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a526-1216c8cb76f4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a526-1216c8cb76f4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-a526-1216c8cb76f4",
+          "type": "Procedure"
+        },
+        {
+          "id": "c81d947a-b81d-5d9c-bdca-66b65f13e86f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-52c5-75a840f2df30"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-52c5-75a840f2df30"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-52c5-75a840f2df30",
+          "type": "Procedure"
+        },
+        {
+          "id": "15481b13-4b18-5046-bfc1-d55b70a50e98",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-984d-23615a66f2e4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-984d-23615a66f2e4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-984d-23615a66f2e4",
+          "type": "Procedure"
+        },
+        {
+          "id": "c8895f34-ca70-5ac1-8a9e-9bddc788bafa",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-3711-54c874f9258b"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-3711-54c874f9258b"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-3711-54c874f9258b",
+          "type": "Procedure"
+        },
+        {
+          "id": "841bd4b8-8b85-5851-8c8e-2dac4b4dd58f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-8be9-43b1ada10ffa"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-8be9-43b1ada10ffa"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-8be9-43b1ada10ffa",
+          "type": "Procedure"
+        },
+        {
+          "id": "79bf4821-60aa-5864-be73-5bb1ae3acfa8",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-e443-1f55c3ca154a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-e443-1f55c3ca154a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-e443-1f55c3ca154a",
+          "type": "Procedure"
+        },
+        {
+          "id": "cf130f14-4946-5c14-8237-9c905fa33e61",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c669-98c3b4d9efe7"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c669-98c3b4d9efe7"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-c669-98c3b4d9efe7",
+          "type": "Procedure"
+        },
+        {
+          "id": "aa966304-6eb2-5af6-be9e-40cc7813fdf8",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-de50-9dfdcf2ac18c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-de50-9dfdcf2ac18c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-de50-9dfdcf2ac18c",
+          "type": "Procedure"
+        },
+        {
+          "id": "07e09334-be84-55bd-9e30-78501fb3c1b1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a627-9ed1bd634c4e"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a627-9ed1bd634c4e"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-a627-9ed1bd634c4e",
+          "type": "Procedure"
+        },
+        {
+          "id": "16603bcc-1c16-5515-b1bb-93ed625067b3",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-e204-14e425545931"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-e204-14e425545931"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-e204-14e425545931",
+          "type": "Procedure"
+        },
+        {
+          "id": "18e10401-a3a7-5549-a26d-ca78a218305b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4226-5f44d5b671e9"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4226-5f44d5b671e9"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-4226-5f44d5b671e9",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "7336cb34-1a3b-55b0-8641-196dd84c1d31",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Depression screening (procedure)"
+          }
+        },
+        {
+          "id": "b97d0793-edee-5f3e-9b85-164b4afe5ec6",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "b0cc14a7-209e-5df6-aa6f-f6df5b8af07c",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T22:20:26+00:00"
+          }
+        },
+        {
+          "id": "4bd10c80-5f91-53d1-8d67-b617e35883e6",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "c34488a6-1101-5423-a67b-01a985effbec",
+      "title": "Assessment of anxiety (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "dedaabc2-20f1-5e75-b455-3e1f7cce150d",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "710841007",
+            "display": "Assessment of anxiety (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "0f29e5de-6e69-5591-bbfc-6eaafcb3f275",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f753-c1f64c2748f3"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f753-c1f64c2748f3"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-f753-c1f64c2748f3",
+          "type": "Procedure"
+        },
+        {
+          "id": "3d089113-44d1-50d3-b767-c4d9c971c4ff",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-3da0-72ecef7dc110"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-3da0-72ecef7dc110"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-3da0-72ecef7dc110",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "78c0bd74-db8b-52e5-b6eb-044fbf9d15fc",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Assessment of anxiety (procedure)"
+          }
+        },
+        {
+          "id": "a29e6b2e-831f-5ab9-8bf1-1f5307fd3a93",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "27a1b576-61be-5133-8d6e-1bee407d6e40",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T21:46:04+00:00"
+          }
+        },
+        {
+          "id": "b752e0f4-6f7c-55cf-bad9-13d28913f2ad",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "3dfe4a88-07e2-5e80-a89b-c5ec236bcae9",
+      "title": "Medication reconciliation (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "fc6cd6b0-d7e2-5eb0-8408-c330be87bb84",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "430193006",
+            "display": "Medication reconciliation (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "8382bf48-cc41-5672-85d1-3d83aa78acac",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-b3bb-062e59ff5b3d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-b3bb-062e59ff5b3d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-b3bb-062e59ff5b3d",
+          "type": "Procedure"
+        },
+        {
+          "id": "a2dc84c0-34ac-5fb3-bc7f-f21ca8ff3df4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-56c9-4a70d0f86294"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-56c9-4a70d0f86294"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-56c9-4a70d0f86294",
+          "type": "Procedure"
+        },
+        {
+          "id": "a8a06b11-12a2-5928-b13e-ad8737d45e61",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c503-77c103fda0a4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c503-77c103fda0a4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-c503-77c103fda0a4",
+          "type": "Procedure"
+        },
+        {
+          "id": "8fef7114-dd48-569f-8aa5-4517a39819c6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7cc1-e5db03316547"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-7cc1-e5db03316547"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-7cc1-e5db03316547",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "1c748d4b-6bb6-5d51-9904-59f13e500f79",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Medication reconciliation (procedure)"
+          }
+        },
+        {
+          "id": "4bbe05e9-423e-5b2c-8f3b-a94dd625bc1c",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "7fd45768-990f-5219-a857-844f271325b8",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "1524350c-f72a-529d-882c-160549e0dee9",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "9702357c-3744-5219-b93f-5d113c847ba0",
+      "title": "Assessment of health and social care needs (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "05211507-105a-5197-987a-b015aa2af257",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "710824005",
+            "display": "Assessment of health and social care needs (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "11ba8747-e940-510f-9ebb-6ff8a61f7c0b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ac08-8abc9617a229"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-ac08-8abc9617a229"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-ac08-8abc9617a229",
+          "type": "Procedure"
+        },
+        {
+          "id": "603475b1-3e27-544e-8c7f-92f67f959fea",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-dcea-60a6ebfcf839"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-dcea-60a6ebfcf839"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-dcea-60a6ebfcf839",
+          "type": "Procedure"
+        },
+        {
+          "id": "5798d836-efe9-5441-b32d-aefa9068874d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-112f-a79e1ab744fd"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-112f-a79e1ab744fd"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-112f-a79e1ab744fd",
+          "type": "Procedure"
+        },
+        {
+          "id": "533c7402-739b-5db8-8f83-28e576dfaa2a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a2f2-6bcb6341be1f"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a2f2-6bcb6341be1f"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-a2f2-6bcb6341be1f",
+          "type": "Procedure"
+        },
+        {
+          "id": "579e1091-14b7-5610-9919-bc412e7fe130",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-af42-fd2f5140c3d1"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-af42-fd2f5140c3d1"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-af42-fd2f5140c3d1",
+          "type": "Procedure"
+        },
+        {
+          "id": "b220444e-cbc5-50df-8ee0-3d0d06128d24",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-682e-f03ae3a35c57"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-682e-f03ae3a35c57"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-682e-f03ae3a35c57",
+          "type": "Procedure"
+        },
+        {
+          "id": "9da07de3-3301-5c0a-8c22-6239096bb737",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6778-8191840d6fd4"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6778-8191840d6fd4"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-6778-8191840d6fd4",
+          "type": "Procedure"
+        },
+        {
+          "id": "e18802be-4b65-570b-ad0f-582167b0d28a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c184-2a77a647f95f"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c184-2a77a647f95f"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-c184-2a77a647f95f",
+          "type": "Procedure"
+        },
+        {
+          "id": "58b47ad7-e3fc-5764-ae76-1bbc881941b3",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6d1c-f04d4bc0198f"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-6d1c-f04d4bc0198f"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-6d1c-f04d4bc0198f",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "644ed80c-d4fb-5e6c-9894-302e2f884a4a",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Assessment of health and social care needs (procedure)"
+          }
+        },
+        {
+          "id": "060176d4-8349-5f34-b057-5ff35131ccc9",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "12963ff1-8c3e-50fd-9b3a-f452aefae3d4",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "e91c1229-8c15-5651-a693-8c636b0ea28f",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "7f8cac92-dfb6-54e5-a801-e053342527da",
+      "title": "Bone density scan (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "8b9b8f6d-9e2d-5407-be8e-3042b05c606b",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "312681000",
+            "display": "Bone density scan (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "c11cafb9-b2ac-5205-96a0-fb28cb4e9297",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a588-4e19bf9ba059"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-a588-4e19bf9ba059"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-a588-4e19bf9ba059",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "d263f2ed-5409-5728-a735-bf8d6b3a1be3",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Bone density scan (procedure)"
+          }
+        },
+        {
+          "id": "5575f10d-e6d7-5e7f-bfce-906d8ba933c1",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "3df640c4-d693-5953-b0a7-b974771be1a5",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-09-21T22:19:04+00:00"
+          }
+        },
+        {
+          "id": "30a74061-27fa-5e98-906c-96d4000c7aca",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "c414dd28-8b88-517a-a06b-85a8cd1a3d72",
+      "title": "Plain X-ray of ankle region (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "1e3e17c5-d377-58b2-8dc1-45733f751301",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "1290459008",
+            "display": "Plain X-ray of ankle region (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "82bb4889-1e95-55b3-9b1e-0194ef9b8253",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-2dea-64a4c9361285"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-2dea-64a4c9361285"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-2dea-64a4c9361285",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "4a02bbaf-5679-5dfb-b87b-d538bc14294b",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Plain X-ray of ankle region (procedure)"
+          }
+        },
+        {
+          "id": "b6277ea5-b8ed-5ff6-a099-866364b0fc1a",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "3861e4ef-5960-5fda-9a42-c61295039e5e",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-09-21T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "00480c07-8c7f-524c-8564-5845afcf01db",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "b93d0335-8358-5cdb-bc2a-a1d1f7c17c4c",
+      "title": "Bone immobilization (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "ee343c57-1cd2-5a97-9a6c-337c3790fbd7",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "274474001",
+            "display": "Bone immobilization (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "15938a96-beef-5211-988c-413ac1cbe518",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0216-a72042d2e665"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0216-a72042d2e665"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-0216-a72042d2e665",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "970ada16-a3cf-5832-afd1-1aede859bbe3",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Bone immobilization (procedure)"
+          }
+        },
+        {
+          "id": "5dbb6330-5fb4-5ec1-af05-71eb28a5e5de",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "2e654a39-954c-56f0-b8c7-4b7f201f96b6",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-09-21T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "6853cc87-81bc-5cd2-95b6-353bb1a08b8e",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "3af682bb-c5b7-5260-9704-34962360e4ab",
+      "title": "Screening for drug abuse (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "3d296911-01d2-5347-927e-79c151fe9370",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "713106006",
+            "display": "Screening for drug abuse (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "43f6647c-73d3-5427-b7fe-bae84526e28e",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1266-ef54ef2d62fa"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1266-ef54ef2d62fa"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-1266-ef54ef2d62fa",
+          "type": "Procedure"
+        },
+        {
+          "id": "e9367fc7-521a-5ecf-9aad-62fdabf5bcc3",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c0f9-111957b16490"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-c0f9-111957b16490"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-c0f9-111957b16490",
+          "type": "Procedure"
+        },
+        {
+          "id": "220bec49-77a2-5c07-92d0-27fbec202c0d",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4bc1-49888cc80891"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-4bc1-49888cc80891"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-4bc1-49888cc80891",
+          "type": "Procedure"
+        },
+        {
+          "id": "6ad6a319-e2f3-5590-b35b-82aec77d8da4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-40b3-047e7139dd38"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-40b3-047e7139dd38"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-40b3-047e7139dd38",
+          "type": "Procedure"
+        },
+        {
+          "id": "794c214a-2595-5ec7-975e-82b322314e08",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-49ff-38cc8d2b676f"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-49ff-38cc8d2b676f"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-49ff-38cc8d2b676f",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "46b43017-849c-5804-9c52-fe6e46c7e44a",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Screening for drug abuse (procedure)"
+          }
+        },
+        {
+          "id": "a388641b-90ef-59ff-bac4-258cc1a9c4f0",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "bdf4031f-7b50-5bba-b00c-d76e8ba58612",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2021-11-13T22:39:37+00:00"
+          }
+        },
+        {
+          "id": "9d96da7e-84df-50f7-8db7-cca399675851",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "a90edf2b-62b0-5ef6-810d-4762472bb4a7",
+      "title": "Assessment of substance use (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "2817a305-3029-5e3a-878a-f0ec7a612259",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "428211000124100",
+            "display": "Assessment of substance use (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "e6623400-a4f6-5a1f-a13f-721aa3df37b0",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-5714-d80eaca16d57"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-5714-d80eaca16d57"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-5714-d80eaca16d57",
+          "type": "Procedure"
+        },
+        {
+          "id": "6acedda0-156b-583b-b253-1ff6af56d4fc",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f38e-5c10442e5657"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f38e-5c10442e5657"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-f38e-5c10442e5657",
+          "type": "Procedure"
+        },
+        {
+          "id": "88fcde0f-6593-56b6-a802-50430a3606c6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-65c7-5dae60562d4f"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-65c7-5dae60562d4f"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-65c7-5dae60562d4f",
+          "type": "Procedure"
+        },
+        {
+          "id": "f06dcbf5-4f02-57d9-9de3-519f3410ccb8",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-2c53-cb46e763f92d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-2c53-cb46e763f92d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-2c53-cb46e763f92d",
+          "type": "Procedure"
+        },
+        {
+          "id": "96e10742-af87-5fee-99c7-95a5fbd417ed",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-02a6-428429078684"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-02a6-428429078684"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-02a6-428429078684",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "b9a7190d-9e31-55f5-a5fc-16e973ab06b1",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Assessment of substance use (procedure)"
+          }
+        },
+        {
+          "id": "5b87946d-3d4c-55de-91ad-9ac4b63e8439",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "325c6df5-c697-5ea1-8ecb-19ca2b7453bf",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2021-11-13T22:28:27+00:00"
+          }
+        },
+        {
+          "id": "b44490e7-f741-5a02-aa26-8afb813cde3c",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "b69d00f3-14c4-52ce-a222-e959ffbe01e0",
+      "title": "Colonoscopy (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "7e3dbd2c-55d9-526d-99de-dfd249cf7fee",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "73761001",
+            "display": "Colonoscopy (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "16a397e7-72ea-5f11-9130-bc6d37f18ea1",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-21b1-5ac4e87f72dd"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-21b1-5ac4e87f72dd"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-21b1-5ac4e87f72dd",
+          "type": "Procedure"
+        },
+        {
+          "id": "71e2e3e2-3f41-5225-b796-2ff558f3b635",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1215-3d775c1decfa"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-1215-3d775c1decfa"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-1215-3d775c1decfa",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "d2dede1b-d641-5dc6-b6d3-24be2889e06e",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Colonoscopy (procedure)"
+          }
+        },
+        {
+          "id": "3ddb12ba-9015-58e6-a1ac-e7937546f526",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "45a45045-8b20-5c42-8bce-aa2085fd8048",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2021-09-23T21:50:03+00:00"
+          }
+        },
+        {
+          "id": "c5385cb1-eb23-52ab-94bc-48004ceedf85",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "229243e1-2b03-5024-baff-5027d4b4e79a",
+      "title": "Postoperative care for dental procedure (regime/therapy)",
+      "code": {
+        "coding": [
+          {
+            "id": "1ff660d8-b502-59c4-8193-9acb2da55bec",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "456191000124101",
+            "display": "Postoperative care for dental procedure (regime/therapy)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "6598ccfd-ec90-521c-a3e2-5ccc87bc7bdf",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-9ee9-4a5178eb5261"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-9ee9-4a5178eb5261"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-9ee9-4a5178eb5261",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "eedf863e-fb15-5181-8bef-a27ad1a58380",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Postoperative care for dental procedure (regime/therapy)"
+          }
+        },
+        {
+          "id": "f2f45f8a-9f5c-53e9-9894-dd68f0974402",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "0d9afab4-1312-5392-87da-28e4ce6bbc79",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-17T01:11:36+00:00"
+          }
+        },
+        {
+          "id": "b25a9107-c3a1-5f09-9493-149824d2a734",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "592c35b0-7268-59ba-b177-1af0e7a76d34",
+      "title": "Gingivectomy or gingivoplasty, per tooth (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "c2de5a17-44c7-5653-87a8-7b34b790f542",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "64544008",
+            "display": "Gingivectomy or gingivoplasty, per tooth (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "25c4d1d0-2cf2-5d9d-96ac-abc4ce7779d0",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f7bb-796d218fb266"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-f7bb-796d218fb266"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-f7bb-796d218fb266",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "6d5bd702-6bce-58aa-b12c-aea6c2eab987",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Gingivectomy or gingivoplasty, per tooth (procedure)"
+          }
+        },
+        {
+          "id": "5a7c882a-e2e9-52c4-ba13-307d439fb6a6",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "cf8f8848-3af7-59ff-9755-5c1b10294f80",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-17T00:33:36+00:00"
+          }
+        },
+        {
+          "id": "fbfa993e-c726-51c6-b89a-540f3d009742",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "537af48c-ad10-5a91-8146-f3f20436679a",
+      "title": "Dental application of desensitizing medicament (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "b7231e23-329d-51a1-b4d8-4fd573f78733",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "3802001",
+            "display": "Dental application of desensitizing medicament (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "d1795afc-b4a8-5877-b5be-4fc8285e1594",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-596c-f40ad4795496"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-596c-f40ad4795496"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-596c-f40ad4795496",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "765732e2-9632-5e43-b820-c2427c1c2322",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Dental application of desensitizing medicament (procedure)"
+          }
+        },
+        {
+          "id": "fde39ef3-0959-5ce1-8468-3a3d29b2a8c0",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "83df77fa-3a14-5a64-8512-7ffb1de42acb",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-16T23:39:36+00:00"
+          }
+        },
+        {
+          "id": "9d5a44bb-5d42-582d-9f43-99f8205538f3",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "e216a4d8-caab-56e2-89f4-d00d6f365fbd",
+      "title": "Dental surgical procedure (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "c5bec652-0bbe-500b-b84f-bf14534c4737",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "81733005",
+            "display": "Dental surgical procedure (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "e95a65b6-45d2-5e9d-8d93-7a851f6fce4f",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0e44-c39bbffcd5b2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-0e44-c39bbffcd5b2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-0e44-c39bbffcd5b2",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "7a2b8f64-215d-5abd-a70a-67583ca30bf4",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Dental surgical procedure (procedure)"
+          }
+        },
+        {
+          "id": "6caf3eb6-06df-5b1c-84e5-403010429e09",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "5eac5e50-fcb7-533c-9f1b-6cc6e741195a",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-16T23:30:41+00:00"
+          }
+        },
+        {
+          "id": "cf98fea9-d67c-5780-9df5-c929a86d0aed",
+          "title": "Performer"
+        }
+      ]
+    },
+    {
+      "id": "993a616e-098c-5416-8918-b71afbd32ffa",
+      "title": "Screening for domestic abuse (procedure)",
+      "code": {
+        "coding": [
+          {
+            "id": "dbe4d8f8-9102-59b1-bd04-bf18cb727751",
+            "extension": [
+              {
+                "id": "preferred",
+                "url": "https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence",
+                "valueCode": "preferred"
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "866148006",
+            "display": "Screening for domestic abuse (procedure)"
+          }
+        ]
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by performedDateTime|performedPeriod.start|performedString DESC"
+      },
+      "entry": [
+        {
+          "id": "ed179e8a-8fbe-5219-8143-98e0335c9d2a",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-12f7-b6da95ad28e1"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Procedure/ac59c2e9-d108-03bd-12f7-b6da95ad28e1"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Procedure/ac59c2e9-d108-03bd-12f7-b6da95ad28e1",
+          "type": "Procedure"
+        }
+      ],
+      "section": [
+        {
+          "id": "b8b3049d-674b-592e-ae11-f1804134ddc5",
+          "title": "Procedure Name",
+          "text": {
+            "status": "generated",
+            "div": "Screening for domestic abuse (procedure)"
+          }
+        },
+        {
+          "id": "7bc89545-51cb-5b0d-a46b-2c49d661348b",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "be420d5f-562d-5cfb-8014-56f185266a92",
+          "title": "Performed Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-02T21:38:15+00:00"
+          }
+        },
+        {
+          "id": "9fd273d8-31e0-5d60-bafe-f229b3eef97e",
+          "title": "Performer"
+        }
+      ]
+    }
+  ],
+  "status": "preliminary",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell"
+      }
+    ],
+    "reference": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41",
+    "type": "Patient"
+  },
+  "text": {
+    "status": "generated",
+    "div": "Procedure Summary Grouped by Procedure Code"
+  },
+  "title": "Procedure Summary Grouped by Procedure Code",
+  "type": {
+    "coding": [
+      {
+        "id": "b6d0bc49-ed4e-5497-9c81-c1e260a8fd7d",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+        "code": "procedure_summary_document",
+        "display": "b.Well Procedure Summary Composition Document"
+      },
+      {
+        "id": "41209a1d-aea4-5c19-939d-45a598817ee2",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/type",
+        "code": "procedure_group_code",
+        "display": "Procedure Summary Composition Grouped by Procedure Code"
+      },
+      {
+        "id": "e78b2173-b3f7-5539-b9f2-de07ca721e15",
+        "system": "https://hl7.org/fhir/procedure",
+        "code": "Procedure",
+        "display": "FHIR resource type"
+      }
+    ],
+    "text": "Procedure Summary Composition Document"
+  }
+}

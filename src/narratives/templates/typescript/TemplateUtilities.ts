@@ -242,7 +242,7 @@ export class TemplateUtilities {
      * @returns Formatted date string (date only, no time component)
      */
     renderDate(date: string | Date | undefined): string {
-        return this.formatDateTime(date, undefined, true);
+        return this.formatDateTime(date, 'UTC', true);
     }
 
     /**
@@ -932,8 +932,10 @@ export class TemplateUtilities {
                 return String(dateValue);
             }
 
-            // Set timezone if provided
-            if (timezone && !dateOnly) {
+            // Always use UTC for dateOnly formatting to ensure consistency
+            if (dateOnly) {
+                dateTime = dateTime.toUTC();
+            } else if (timezone) {
                 dateTime = dateTime.toUTC().setZone(timezone);
             }
 

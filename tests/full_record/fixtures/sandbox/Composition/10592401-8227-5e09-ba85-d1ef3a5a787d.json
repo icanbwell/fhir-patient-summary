@@ -1,0 +1,571 @@
+{
+  "author": [
+    {
+      "extension": [
+        {
+          "id": "sourceId",
+          "url": "https://www.icanbwell.com/sourceId",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "uuid",
+          "url": "https://www.icanbwell.com/uuid",
+          "valueString": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d"
+        },
+        {
+          "id": "sourceAssigningAuthority",
+          "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+          "valueString": "bwell"
+        }
+      ],
+      "reference": "Organization/a7a9c609-6bef-4599-9f83-8aed9390a08d",
+      "type": "Organization",
+      "display": "bwell Connected Health"
+    }
+  ],
+  "date": "2025-11-21T18:08:58.937598+00:00",
+  "id": "10592401-8227-5e09-ba85-d1ef3a5a787d",
+  "identifier": {
+    "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+    "value": "bwell_composition_for_health_data_summary"
+  },
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-11-21T18:09:10.349Z",
+    "source": "https://www.icanbwell.com/intelligence-layer-pipeline",
+    "security": [
+      {
+        "id": "70ae40c6-f2bd-54a0-aa66-656be4cce72b",
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      },
+      {
+        "id": "2d1e0b6f-56fb-5dd9-bc38-f01b5902fde2",
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "id": "a49dbe6e-233b-5ae6-b71a-aaa3a06ed9b1",
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "bwell"
+      },
+      {
+        "id": "33ced3c5-0807-582a-b03a-df7d6e95a41c",
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "bwell"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "10592401-8227-5e09-ba85-d1ef3a5a787d"
+      }
+    ]
+  },
+  "resourceType": "Composition",
+  "section": [
+    {
+      "id": "04c72e11-8d5e-5873-9533-e3d0a006166d",
+      "title": "Flu (Influenza)",
+      "code": {
+        "coding": [
+          {
+            "id": "ba1fe419-a75b-58ef-87dd-8c9760bef7f7",
+            "system": "http://hl7.org/fhir/sid/cvx",
+            "code": "88",
+            "display": "Flu (Influenza)"
+          }
+        ],
+        "text": "Flu (Influenza)"
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by occurrenceDateTime|occurrenceString DESC"
+      },
+      "entry": [
+        {
+          "id": "e606ae84-1f43-57b9-80fa-e510815efcff",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-955a-4c71c035e1a2"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-955a-4c71c035e1a2"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-955a-4c71c035e1a2",
+          "type": "Immunization"
+        },
+        {
+          "id": "c87a019e-aef4-5e3a-9ab8-d3c5924854cf",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-7c49-0d3c97dd4d61"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-7c49-0d3c97dd4d61"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-7c49-0d3c97dd4d61",
+          "type": "Immunization"
+        },
+        {
+          "id": "7249b909-b899-59d6-9ee6-aa7278fcc44b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-cf71-629cd2d936a0"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-cf71-629cd2d936a0"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-cf71-629cd2d936a0",
+          "type": "Immunization"
+        },
+        {
+          "id": "84414040-c91b-5565-a6a9-2ca6697a5d17",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-048c-c2c8d3845d9d"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-048c-c2c8d3845d9d"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-048c-c2c8d3845d9d",
+          "type": "Immunization"
+        },
+        {
+          "id": "cca35620-3074-5981-8205-627b83b8dc9c",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-a4dc-d2e3f036b413"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-a4dc-d2e3f036b413"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-a4dc-d2e3f036b413",
+          "type": "Immunization"
+        },
+        {
+          "id": "8f60c746-5a25-5c33-9bc6-317f9a1cf5e6",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-9448-f89c6d863df0"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-9448-f89c6d863df0"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-9448-f89c6d863df0",
+          "type": "Immunization"
+        },
+        {
+          "id": "09fe3e6e-5dd8-5c8e-ae93-5cd729b1ad9b",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-9496-54a593d24820"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-9496-54a593d24820"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-9496-54a593d24820",
+          "type": "Immunization"
+        },
+        {
+          "id": "eee3603f-4a31-57ea-8142-a56cbad8c3c9",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-66bd-f5e0ba59c68c"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-66bd-f5e0ba59c68c"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-66bd-f5e0ba59c68c",
+          "type": "Immunization"
+        },
+        {
+          "id": "1cb37066-b446-525a-b052-f47e501a6460",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-90c4-c495265a9628"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-90c4-c495265a9628"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-90c4-c495265a9628",
+          "type": "Immunization"
+        }
+      ],
+      "section": [
+        {
+          "id": "273ad507-0f4d-51f0-9c9d-70bf5552ac00",
+          "title": "Immunization Name",
+          "text": {
+            "status": "generated",
+            "div": "Flu (Influenza)"
+          }
+        },
+        {
+          "id": "3485f5f8-e3f3-537e-a2bd-930cbd64d7d8",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "d5f5a50e-5f1c-545d-b220-bed420392cc9",
+          "title": "occurrenceDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "d6d8c01e-6bcb-5958-b5ee-76e8419723a1",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5ae1d6d6-4b2c-57af-8c35-58affd8ac588",
+      "title": "Tetanus and Diphtheria (Td)",
+      "code": {
+        "coding": [
+          {
+            "id": "7b21a4f6-5b58-5881-8c58-158bde5881b0",
+            "system": "http://hl7.org/fhir/sid/cvx",
+            "code": "139",
+            "display": "Tetanus and Diphtheria (Td)"
+          }
+        ],
+        "text": "Tetanus and Diphtheria (Td)"
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by occurrenceDateTime|occurrenceString DESC"
+      },
+      "entry": [
+        {
+          "id": "e3e7d376-de2b-593e-8896-d13ef506becd",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-708e-b48c9a1f64cb"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-708e-b48c9a1f64cb"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-708e-b48c9a1f64cb",
+          "type": "Immunization"
+        }
+      ],
+      "section": [
+        {
+          "id": "e706e37c-1e42-52f8-92a4-96a07f8cb0c0",
+          "title": "Immunization Name",
+          "text": {
+            "status": "generated",
+            "div": "Tetanus and Diphtheria (Td)"
+          }
+        },
+        {
+          "id": "bfb6182d-87f6-52f3-9a09-147bc4ce0216",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "e3de847a-91b4-5bce-9e36-dd052458bd11",
+          "title": "occurrenceDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2022-11-19T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "514534d3-5406-5419-8b2b-1c00abc5babd",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "964b0b2d-de8b-5db9-9aa5-d96436974cbf",
+      "title": "COVID-19",
+      "code": {
+        "coding": [
+          {
+            "id": "5178661b-0bf3-595b-affb-f56fa276cb4e",
+            "system": "http://hl7.org/fhir/sid/cvx",
+            "code": "213",
+            "display": "COVID-19"
+          }
+        ],
+        "text": "COVID-19"
+      },
+      "mode": "working",
+      "orderedBy": {
+        "coding": [
+          {
+            "id": "e7508d4d-398b-560a-9385-d256c4e26835",
+            "system": "http://terminology.hl7.org/CodeSystem/list-order",
+            "code": "event-date",
+            "display": "Sorted by Event Date"
+          }
+        ],
+        "text": "Sorted by occurrenceDateTime|occurrenceString DESC"
+      },
+      "entry": [
+        {
+          "id": "c9414874-b0cd-5be0-9810-7f5fd989d8c4",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-3cda-763ba15388dd"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-3cda-763ba15388dd"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-3cda-763ba15388dd",
+          "type": "Immunization"
+        },
+        {
+          "id": "0dff6130-92ca-59ee-a0d2-f74f6950dfc0",
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-5f69-84fa2dd84efa"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Immunization/ac59c2e9-d108-03bd-5f69-84fa2dd84efa"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Immunization/ac59c2e9-d108-03bd-5f69-84fa2dd84efa",
+          "type": "Immunization"
+        }
+      ],
+      "section": [
+        {
+          "id": "117b555f-ecdf-5e26-b28c-13889da6bf5c",
+          "title": "Immunization Name",
+          "text": {
+            "status": "generated",
+            "div": "COVID-19"
+          }
+        },
+        {
+          "id": "f8b2632e-3597-579c-a3c4-c814172540d8",
+          "title": "Source",
+          "text": {
+            "status": "generated",
+            "div": "synthea"
+          }
+        },
+        {
+          "id": "30a8b9c7-9be6-5b1b-8e79-ac9bdf433311",
+          "title": "occurrenceDateTime",
+          "text": {
+            "status": "generated",
+            "div": "2021-05-15T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "672dd9f0-6ce6-5e14-9328-9fe36cf46143",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "completed"
+          }
+        }
+      ]
+    }
+  ],
+  "status": "preliminary",
+  "subject": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "bwell"
+      }
+    ],
+    "reference": "Patient/person.142aef8f-3907-45ed-a7d1-ac80eb2c1d41",
+    "type": "Patient"
+  },
+  "text": {
+    "status": "generated",
+    "div": "Immunization Summary Grouped by Immunization Vaccinecode"
+  },
+  "title": "Immunization Summary Grouped by Immunization Vaccinecode",
+  "type": {
+    "coding": [
+      {
+        "id": "f6c48662-d35c-5920-a128-33882e2e0f0d",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+        "code": "immunization_summary_document",
+        "display": "b.Well Immunization Summary Composition Document"
+      },
+      {
+        "id": "64ea4611-6034-54a9-a8fc-0b08ea60ba0a",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/type",
+        "code": "immunization_group_code",
+        "display": "Immunization Summary Composition Grouped by Immunization Code"
+      },
+      {
+        "id": "f39039e2-1f85-5c55-a95d-73c3edba9a17",
+        "system": "https://hl7.org/fhir/immunization",
+        "code": "Immunization",
+        "display": "FHIR resource type"
+      }
+    ],
+    "text": "Immunization Summary Composition Document"
+  }
+}

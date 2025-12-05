@@ -1,0 +1,698 @@
+{
+  "billablePeriod": {
+    "start": "2024-11-30T20:58:10+00:00",
+    "end": "2024-11-30T21:46:04+00:00"
+  },
+  "created": "2024-11-30T21:46:04+00:00",
+  "diagnosis": [
+    {
+      "sequence": 1,
+      "diagnosisReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Condition/ac59c2e9-d108-03bd-8908-4e1c3103f684"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Condition/ac59c2e9-d108-03bd-8908-4e1c3103f684"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Condition/ac59c2e9-d108-03bd-8908-4e1c3103f684"
+      }
+    },
+    {
+      "sequence": 2,
+      "diagnosisReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Condition/ac59c2e9-d108-03bd-68d4-5606241e3cf5"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Condition/ac59c2e9-d108-03bd-68d4-5606241e3cf5"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Condition/ac59c2e9-d108-03bd-68d4-5606241e3cf5"
+      }
+    }
+  ],
+  "facility": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Location/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Location/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Location/unknown",
+    "display": "NEW ENGLAND FAMILY HEALTH LLC"
+  },
+  "id": "ac59c2e9-d108-03bd-a622-b52767c1f131",
+  "identifier": [
+    {
+      "id": "sourceId",
+      "system": "https://www.icanbwell.com/sourceId",
+      "value": "ac59c2e9-d108-03bd-a622-b52767c1f131"
+    },
+    {
+      "id": "uuid",
+      "system": "https://www.icanbwell.com/uuid",
+      "value": "ac59c2e9-d108-03bd-a622-b52767c1f131"
+    }
+  ],
+  "insurance": [
+    {
+      "sequence": 1,
+      "focal": true,
+      "coverage": {
+        "display": "Humana"
+      }
+    }
+  ],
+  "item": [
+    {
+      "sequence": 1,
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "162673000",
+            "display": "General examination of patient (procedure)"
+          }
+        ],
+        "text": "General examination of patient (procedure)"
+      },
+      "encounter": [
+        {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-9198-c0f23ebd8981"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Encounter/ac59c2e9-d108-03bd-9198-c0f23ebd8981"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Encounter/ac59c2e9-d108-03bd-9198-c0f23ebd8981"
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "informationSequence": [
+        1
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/sid/cvx",
+            "code": "140",
+            "display": "Influenza, seasonal, injectable, preservative free"
+          }
+        ],
+        "text": "Influenza, seasonal, injectable, preservative free"
+      },
+      "net": {
+        "value": 136,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 3,
+      "diagnosisSequence": [
+        1
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "314529007",
+            "display": "Medication review due (situation)"
+          }
+        ],
+        "text": "Medication review due (situation)"
+      }
+    },
+    {
+      "sequence": 4,
+      "procedureSequence": [
+        1
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "430193006",
+            "display": "Medication reconciliation (procedure)"
+          }
+        ],
+        "text": "Medication reconciliation (procedure)"
+      },
+      "net": {
+        "value": 741.25,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 5,
+      "informationSequence": [
+        2
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "337388004",
+            "display": "Blood glucose testing strips (physical object)"
+          }
+        ],
+        "text": "Blood glucose testing strips (physical object)"
+      },
+      "net": {
+        "value": 6.8,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 6,
+      "informationSequence": [
+        3
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "51990-0",
+            "display": "Basic metabolic panel - Blood"
+          }
+        ],
+        "text": "Basic metabolic panel - Blood"
+      },
+      "net": {
+        "value": 74.58,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 7,
+      "procedureSequence": [
+        2
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "710824005",
+            "display": "Assessment of health and social care needs (procedure)"
+          }
+        ],
+        "text": "Assessment of health and social care needs (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 8,
+      "diagnosisSequence": [
+        2
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "73595000",
+            "display": "Stress (finding)"
+          }
+        ],
+        "text": "Stress (finding)"
+      }
+    },
+    {
+      "sequence": 9,
+      "procedureSequence": [
+        3
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "710841007",
+            "display": "Assessment of anxiety (procedure)"
+          }
+        ],
+        "text": "Assessment of anxiety (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 10,
+      "informationSequence": [
+        4
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "69737-5",
+            "display": "Generalized anxiety disorder 7 item (GAD-7)"
+          }
+        ],
+        "text": "Generalized anxiety disorder 7 item (GAD-7)"
+      },
+      "net": {
+        "value": 74.58,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 11,
+      "procedureSequence": [
+        4
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "171207006",
+            "display": "Depression screening (procedure)"
+          }
+        ],
+        "text": "Depression screening (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 12,
+      "procedureSequence": [
+        5
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "171207006",
+            "display": "Depression screening (procedure)"
+          }
+        ],
+        "text": "Depression screening (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 13,
+      "informationSequence": [
+        5
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "55757-9",
+            "display": "Patient Health Questionnaire 2 item (PHQ-2) [Reported]"
+          }
+        ],
+        "text": "Patient Health Questionnaire 2 item (PHQ-2) [Reported]"
+      },
+      "net": {
+        "value": 74.58,
+        "currency": "USD"
+      }
+    },
+    {
+      "sequence": 14,
+      "procedureSequence": [
+        6
+      ],
+      "productOrService": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "103697008",
+            "display": "Patient referral for dental care (procedure)"
+          }
+        ],
+        "text": "Patient referral for dental care (procedure)"
+      },
+      "net": {
+        "value": 431.4,
+        "currency": "USD"
+      }
+    }
+  ],
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-29T03:41:34.042Z",
+    "source": "synthea",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "synthea"
+      },
+      {
+        "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "code": "synthea"
+      }
+    ],
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/uuid",
+        "code": "ac59c2e9-d108-03bd-a622-b52767c1f131"
+      }
+    ]
+  },
+  "patient": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Patient/ac59c2e9-d108-03bd-b501-c330d80054eb",
+    "display": "Eula461 Quigley282"
+  },
+  "priority": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/processpriority",
+        "code": "normal"
+      }
+    ]
+  },
+  "procedure": [
+    {
+      "sequence": 1,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-b3bb-062e59ff5b3d"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-b3bb-062e59ff5b3d"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-b3bb-062e59ff5b3d"
+      }
+    },
+    {
+      "sequence": 2,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-ac08-8abc9617a229"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-ac08-8abc9617a229"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-ac08-8abc9617a229"
+      }
+    },
+    {
+      "sequence": 3,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-f753-c1f64c2748f3"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-f753-c1f64c2748f3"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-f753-c1f64c2748f3"
+      }
+    },
+    {
+      "sequence": 4,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-a526-1216c8cb76f4"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-a526-1216c8cb76f4"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-a526-1216c8cb76f4"
+      }
+    },
+    {
+      "sequence": 5,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-04ea-879da810b2f4"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-04ea-879da810b2f4"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-04ea-879da810b2f4"
+      }
+    },
+    {
+      "sequence": 6,
+      "procedureReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-62e9-666a1a0712de"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Procedure/ac59c2e9-d108-03bd-62e9-666a1a0712de"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Procedure/ac59c2e9-d108-03bd-62e9-666a1a0712de"
+      }
+    }
+  ],
+  "provider": {
+    "extension": [
+      {
+        "id": "sourceId",
+        "url": "https://www.icanbwell.com/sourceId",
+        "valueString": "Organization/unknown"
+      },
+      {
+        "id": "uuid",
+        "url": "https://www.icanbwell.com/uuid",
+        "valueString": "Organization/9d8ad331-8657-51af-92ca-8de68dc7512d"
+      },
+      {
+        "id": "sourceAssigningAuthority",
+        "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+        "valueString": "synthea"
+      }
+    ],
+    "reference": "Organization/unknown",
+    "display": "NEW ENGLAND FAMILY HEALTH LLC"
+  },
+  "resourceType": "Claim",
+  "status": "active",
+  "supportingInfo": [
+    {
+      "sequence": 1,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      },
+      "valueReference": {
+        "extension": [
+          {
+            "id": "sourceId",
+            "url": "https://www.icanbwell.com/sourceId",
+            "valueString": "Immunization/ac59c2e9-d108-03bd-955a-4c71c035e1a2"
+          },
+          {
+            "id": "uuid",
+            "url": "https://www.icanbwell.com/uuid",
+            "valueString": "Immunization/ac59c2e9-d108-03bd-955a-4c71c035e1a2"
+          },
+          {
+            "id": "sourceAssigningAuthority",
+            "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+            "valueString": "synthea"
+          }
+        ],
+        "reference": "Immunization/ac59c2e9-d108-03bd-955a-4c71c035e1a2"
+      }
+    },
+    {
+      "sequence": 2,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 3,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 4,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 5,
+      "category": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+            "code": "info"
+          }
+        ]
+      }
+    }
+  ],
+  "total": {
+    "value": 1526.83,
+    "currency": "USD"
+  },
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "professional"
+      }
+    ]
+  },
+  "use": "claim"
+}
