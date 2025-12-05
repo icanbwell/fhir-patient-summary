@@ -242,7 +242,7 @@ export class TemplateUtilities {
      * @returns Formatted date string (date only, no time component)
      */
     renderDate(date: string | Date | undefined): string {
-        return this.formatDateTime(date, undefined, true);
+        return this.formatDateTime(date, 'UTC', true);
     }
 
     /**
