@@ -932,8 +932,10 @@ export class TemplateUtilities {
                 return String(dateValue);
             }
 
-            // Set timezone if provided
-            if (timezone && !dateOnly) {
+            // Always use UTC for dateOnly formatting to ensure consistency
+            if (dateOnly) {
+                dateTime = dateTime.toUTC();
+            } else if (timezone) {
                 dateTime = dateTime.toUTC().setZone(timezone);
             }
 
