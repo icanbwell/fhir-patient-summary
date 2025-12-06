@@ -918,11 +918,13 @@ export class TemplateUtilities {
                 dateTime = DateTime.fromJSDate(dateValue);
             } else if (typeof dateValue === 'string') {
                 // Luxon can handle ISO format dates correctly
-                dateTime = DateTime.fromISO(dateValue);
 
                 // For date-only strings (YYYY-MM-DD), use date-only formatting
                 if (!dateValue.includes('T')) {
                     dateOnly = true;
+                    dateTime = DateTime.fromISO(dateValue, { zone: 'utc' });
+                } else {
+                    dateTime = DateTime.fromISO(dateValue);
                 }
             } else {
                 dateTime = DateTime.fromISO(String(dateValue));

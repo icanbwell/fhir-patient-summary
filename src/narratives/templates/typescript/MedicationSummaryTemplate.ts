@@ -155,7 +155,6 @@ export class MedicationSummaryTemplate implements ITemplate {
      * Render HTML table for combined MedicationRequest and MedicationStatement resources
      * @param templateUtilities - Instance of TemplateUtilities for utility functions
      * @param medications - Array of combined medication resources
-     * @param sectionTitle - Title for the section
      * @returns HTML string for rendering
      */
     private static renderCombinedMedications(
