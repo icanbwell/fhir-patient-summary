@@ -3,13 +3,14 @@ import {TemplateUtilities} from './TemplateUtilities';
 import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TMedicationRequest} from '../../../types/resources/MedicationRequest';
 import {TMedicationStatement} from '../../../types/resources/MedicationStatement';
-import {ITemplate} from './interfaces/ITemplate';
+import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Medication resources
  * This replaces the Jinja2 medicationsummary.j2 template
  */
-export class MedicationSummaryTemplate implements ITemplate {
+export class MedicationSummaryTemplate implements ISummaryTemplate {
     /**
      * Generate HTML narrative for Medication resources
      * @param resources - FHIR Medication resources
@@ -18,6 +19,84 @@ export class MedicationSummaryTemplate implements ITemplate {
      */
     generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
         return MedicationSummaryTemplate.generateStaticNarrative(resources, timezone);
+    }
+
+    /**
+     * Generate HTML narrative for Medication resources using summary
+     * @param resources - FHIR Composition resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns HTML string for rendering
+     */
+    public generateSummaryNarrative(
+        resources: TComposition[],
+        timezone: string | undefined
+    ): string {
+        const templateUtilities = new TemplateUtilities(resources);
+
+        let html = `
+        <div>
+            <table>
+            <thead>
+                <tr>
+                <th>Medication</th>
+                <th>Sig</th>
+                <th>Days of Supply</th>
+                <th>Refills</th>
+                <th>Start Date</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        for (const resourceItem of resources) {
+            for (const rowData of resourceItem.section ?? []) {
+                const data: Record<string, string> = {};
+                for (const columnData of rowData.section ?? []) {
+                    switch (columnData.title) {
+                        case 'Medication Name':
+                            data['medication'] = columnData.text?.div ?? '';
+                            break;
+                        case 'Status':
+                            data['status'] = columnData.text?.div ?? '';
+                            break;
+                        case 'Prescriber Instruction':
+                            data['sig-prescriber'] = columnData.text?.div ?? '';
+                            break;
+                        case 'Pharmacy Instruction':
+                            data['sig-pharmacy'] = columnData.text?.div ?? '';
+                            break;
+                        case 'Days Of Supply':
+                            data['daysOfSupply'] = columnData.text?.div ?? '';
+                            break;
+                        case 'Refills Remaining':
+                            data['refills'] = columnData.text?.div ?? '';
+                            break;
+                        case 'Authored On Date':
+                            data['startDate'] = columnData.text?.div ?? '';
+                            break;
+                        default:
+                        break;
+                    }
+                }
+
+                if (data['status'] === 'active') {
+                html += `
+                    <tr>
+                        <td>${data['medication']}</td>
+                        <td>${data['sig-prescriber'] || data['sig-pharmacy']}</td>
+                        <td>${data['daysOfSupply']}</td>
+                        <td>${data['refills']}</td>
+                        <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
+                    </tr>`;
+                }
+            }
+        }
+
+        html += `
+            </tbody>
+            </table>
+        </div>`;
+
+        return html;
     }
 
     /**
