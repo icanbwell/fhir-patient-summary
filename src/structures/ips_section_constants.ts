@@ -6,6 +6,9 @@ const VITAL_SIGNS_SUMMARY_COMPONENT_MAP = {
   "Default": 'valueString'
 };
 
+const IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM = "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/";
+
 export { 
     VITAL_SIGNS_SUMMARY_COMPONENT_MAP,
+    IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM
 };

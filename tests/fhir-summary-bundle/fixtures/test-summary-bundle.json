@@ -427,6 +427,176 @@
       }
     },
     {
+      "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/Composition/07182dfd-caad-4064-a871-87c3aca10b6a",
+      "resource": {
+        "id": "07182dfd-caad-4064-a871-87c3aca10b6a",
+        "resourceType": "Composition",
+        "section": [
+          {
+            "entry": [
+              {
+                "reference": "MedicationStatement/14fef4a8-8307-5e67-bedb-70cff47b6e11"
+              }
+            ],
+            "section": [
+              {
+                "title": "Medication Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Insulin Glargine 100 UNT/ML Injectable Solution"
+                }
+              },
+              {
+                "title": "Status",
+                "text": {
+                  "status": "generated",
+                  "div": "active"
+                }
+              },
+              {
+                "title": "Authored On Date",
+                "text": {
+                  "status": "generated",
+                  "div": "2025-10-20T10:00:00+00:00"
+                }
+              },
+              {
+                "title": "Refills Remaining",
+                "text": {
+                  "status": "generated",
+                  "div": "11"
+                }
+              },
+              {
+                "title": "Days Of Supply",
+                "text": {
+                  "status": "generated",
+                  "div": "90"
+                }
+              },
+              {
+                "title": "Prescriber Instruction",
+                "text": {
+                  "status": "generated",
+                  "div": "30 units daily at bedtime"
+                }
+              }
+            ]
+          },
+          {
+            "entry": [
+              {
+                "reference": "MedicationStatement/96ad3e22-01dc-53c6-93d2-2560a6b1ea09"
+              }
+            ],
+            "section": [
+              {
+                "title": "Medication Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Lorazepam 1 MG Oral Tablet"
+                }
+              },
+              {
+                "title": "Status",
+                "text": {
+                  "status": "generated",
+                  "div": "inactive"
+                }
+              },
+              {
+                "title": "Authored On Date",
+                "text": {
+                  "status": "generated",
+                  "div": "2025-07-15T10:00:00+00:00"
+                }
+              },
+              {
+                "title": "Refills Remaining",
+                "text": {
+                  "status": "generated",
+                  "div": "11"
+                }
+              },
+              {
+                "title": "Days Of Supply",
+                "text": {
+                  "status": "generated",
+                  "div": "90"
+                }
+              },
+              {
+                "title": "Prescriber Instruction",
+                "text": {
+                  "status": "generated",
+                  "div": "1 mg as needed for anxiety"
+                }
+              }
+            ]
+          },
+          {
+            "entry": [
+              {
+                "reference": "MedicationStatement/7693a507-d9f1-58b3-a3e4-b96a3dc281a1"
+              }
+            ],
+            "section": [
+              {
+                "title": "Medication Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Metformin hydrochloride 1000 MG Oral Tablet"
+                }
+              },
+              {
+                "title": "Status",
+                "text": {
+                  "status": "generated",
+                  "div": "active"
+                }
+              },
+              {
+                "title": "Authored On Date",
+                "text": {
+                  "status": "generated",
+                  "div": "2025-07-08T10:00:00+00:00"
+                }
+              },
+              {
+                "title": "Refills Remaining",
+                "text": {
+                  "status": "generated",
+                  "div": "11"
+                }
+              },
+              {
+                "title": "Days Of Supply",
+                "text": {
+                  "status": "generated",
+                  "div": "90"
+                }
+              },
+              {
+                "title": "Pharmacy Instruction",
+                "text": {
+                  "status": "generated",
+                  "div": "1000 mg twice daily"
+                }
+              }
+            ]
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "medication_summary_document"
+            }
+          ]
+        }
+      }
+    },
+    {
       "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/AllergyIntolerance/eWnSvqVtUdx9Y08zZy-RCwekkG16SLp1A9E5OJknfJX43",
       "resource": {
         "resourceType": "AllergyIntolerance",
