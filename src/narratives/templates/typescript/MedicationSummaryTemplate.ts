@@ -81,11 +81,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 if (data['status'] === 'active') {
                 html += `
                     <tr>
-                        <td>${data['medication'] ?? '-'}</td>
-                        <td>${data['sig-prescriber'] ?? data['sig-pharmacy'] ?? '-'}</td>
-                        <td>${data['daysOfSupply'] ?? '-'}</td>
-                        <td>${data['refills'] ?? '-'}</td>
-                        <td>${templateUtilities.renderTime(data['startDate'], timezone) ?? '-'}</td>
+                        <td>${data['medication']}</td>
+                        <td>${data['sig-prescriber'] || data['sig-pharmacy']}</td>
+                        <td>${data['daysOfSupply']}</td>
+                        <td>${data['refills']}</td>
+                        <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
                     </tr>`;
                 }
             }
