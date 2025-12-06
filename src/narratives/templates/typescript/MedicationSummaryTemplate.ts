@@ -36,70 +36,6 @@ export class MedicationSummaryTemplate implements ITemplate {
     }
 
     /**
-     * Determine if a MedicationRequest is active
-     * @param medicationRequest - The MedicationRequest resource
-     * @returns boolean indicating if the medication request is active
-     */
-    private static isActiveMedicationRequest(medicationRequest: TMedicationRequest): boolean {
-        // Consider active if status is 'active' or if no end date is specified
-        const status = medicationRequest.status?.toLowerCase();
-        if (status === 'active' || status === 'unknown') {
-            return true;
-        }
-        if (status === 'completed' || status === 'cancelled' || status === 'stopped' || status === 'draft') {
-            return false;
-        }
-        
-        // Check if there's an end date - if no end date, consider active
-        const endDate = medicationRequest.dispenseRequest?.validityPeriod?.end;
-        if (!endDate) {
-            return true;
-        }
-        
-        // If there's an end date, check if it's in the future
-        const parsedEndDate = this.parseDate(endDate);
-        if (!parsedEndDate) {
-            return true; // If we can't parse the end date, assume active
-        }
-        
-        return parsedEndDate.getTime() > Date.now();
-    }
-
-    /**
-     * Determine if a MedicationStatement is active
-     * @param medicationStatement - The MedicationStatement resource
-     * @returns boolean indicating if the medication statement is active
-     */
-    private static isActiveMedicationStatement(medicationStatement: TMedicationStatement): boolean {
-        // Consider active if status is 'active', 'intended', or 'unknown'
-        const status = medicationStatement.status?.toLowerCase();
-        if (status === 'active' || status === 'intended' || status === 'unknown') {
-            return true;
-        }
-        if (status === 'completed' || status === 'stopped' || status === 'not-taken') {
-            return false;
-        }
-        
-        // Check if there's an end date
-        let endDate: string | undefined;
-        if (medicationStatement.effectivePeriod?.end) {
-            endDate = medicationStatement.effectivePeriod.end;
-        }
-        
-        if (!endDate) {
-            return true; // No end date, consider active
-        }
-        
-        // If there's an end date, check if it's in the future
-        const parsedEndDate = this.parseDate(endDate);
-        if (!parsedEndDate) {
-            return true; // If we can't parse the end date, assume active
-        }
-        
-        return parsedEndDate.getTime() > Date.now();
-    }
-
-    /**
      * Internal static implementation that actually generates the narrative
      * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
@@ -114,14 +50,8 @@ export class MedicationSummaryTemplate implements ITemplate {
         const medicationRequests = this.getMedicationRequests(templateUtilities, resources);
         const medicationStatements = this.getMedicationStatements(templateUtilities, resources);
 
-        // Combine and separate active and inactive medications
+        // Combine active medications
         const allActiveMedications: Array<{
-            type: 'request' | 'statement',
-            resource: TMedicationRequest | TMedicationStatement,
-            extension?: any
-        }> = [];
-        
-        const allInactiveMedications: Array<{
             type: 'request' | 'statement',
             resource: TMedicationRequest | TMedicationStatement,
             extension?: any
@@ -129,20 +59,12 @@ export class MedicationSummaryTemplate implements ITemplate {
 
         // Process medication requests
         medicationRequests.forEach(mr => {
-            if (this.isActiveMedicationRequest(mr.resource)) {
-                allActiveMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
-            } else {
-                allInactiveMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
-            }
+            allActiveMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
         });
 
         // Process medication statements
         medicationStatements.forEach(ms => {
-            if (this.isActiveMedicationStatement(ms.resource)) {
-                allActiveMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
-            } else {
-                allInactiveMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
-            }
+            allActiveMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
         });
 
         // Sort both groups by start date in descending order
@@ -182,13 +104,7 @@ export class MedicationSummaryTemplate implements ITemplate {
         // Render active medications section
         if (allActiveMedications.length > 0) {
             sortMedications(allActiveMedications);
-            html += this.renderCombinedMedications(templateUtilities, allActiveMedications, true);
-        }
-
-        // Render inactive medications section
-        if (allInactiveMedications.length > 0) {
-            sortMedications(allInactiveMedications);
-            html += this.renderCombinedMedications(templateUtilities, allInactiveMedications, false);
+            html += this.renderCombinedMedications(templateUtilities, allActiveMedications);
         }
 
         return html;
@@ -249,10 +165,8 @@ export class MedicationSummaryTemplate implements ITemplate {
             resource: TMedicationRequest | TMedicationStatement,
             extension?: any
         }>,
-        isActiveSection: boolean
     ): string {
         let html = `
-    <h3>${isActiveSection ? 'Active Medications' : 'Inactive Medications'}</h3>
       <table>
         <thead>
           <tr>
@@ -261,9 +175,7 @@ export class MedicationSummaryTemplate implements ITemplate {
             <th>Sig</th>
             <th>Dispense Quantity</th>
             <th>Refills</th>
-            <th>Start Date</th>${isActiveSection ? '' : `
-            <th>End Date</th>`}
-            <th>Status</th>
+            <th>Start Date</th>
           </tr>
         </thead>
         <tbody>`;
@@ -278,14 +190,11 @@ export class MedicationSummaryTemplate implements ITemplate {
             let dispenseQuantity: string = '-';
             let refills: string = '-';
             let startDate: string = '-';
-            let endDate: string = '-';
-            let status: string;
 
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
                 
                 type = 'Request';
-                status = mr.status ? String(mr.status) : '-';
                 
                 // Get medication name
                 medicationName = templateUtilities.getMedicationName(
@@ -309,7 +218,6 @@ export class MedicationSummaryTemplate implements ITemplate {
                 // Get dates
                 if (mr.dispenseRequest?.validityPeriod) {
                     startDate = mr.dispenseRequest.validityPeriod.start || '-';
-                    endDate = mr.dispenseRequest.validityPeriod.end || '-';
                 } else {
                     // Use authored date as fallback for start date
                     startDate = mr.authoredOn || '-';
@@ -318,7 +226,6 @@ export class MedicationSummaryTemplate implements ITemplate {
                 const ms = medication.resource as TMedicationStatement;
                 
                 type = 'Statement';
-                status = ms.status ? String(ms.status) : '-';
                 
                 // Get medication name
                 medicationName = templateUtilities.getMedicationName(
@@ -333,7 +240,6 @@ export class MedicationSummaryTemplate implements ITemplate {
                     startDate = ms.effectiveDateTime;
                 } else if (ms.effectivePeriod) {
                     startDate = ms.effectivePeriod.start || '-';
-                    endDate = ms.effectivePeriod.end || '-';
                 }
             }
 
@@ -345,9 +251,7 @@ export class MedicationSummaryTemplate implements ITemplate {
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>
           <td>${refills}</td>
-          <td>${startDate}</td>${isActiveSection ? '' : `
-          <td>${endDate}</td>`}
-          <td>${status}</td>
+          <td>${startDate}</td>
         </tr>`;
         }
 

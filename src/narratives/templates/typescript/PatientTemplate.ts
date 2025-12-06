@@ -4,10 +4,10 @@ import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TPatient } from '../../../types/resources/Patient';
 import { ITemplate } from './interfaces/ITemplate';
 import { THumanName } from '../../../types/partials/HumanName';
-import { TIdentifier } from '../../../types/partials/Identifier';
 import { TContactPoint } from '../../../types/partials/ContactPoint';
 import { TAddress } from '../../../types/partials/Address';
 import { TPatientCommunication } from '../../../types/partials/PatientCommunication';
+import { ADDRESS_SIMILARITY_THRESHOLD } from '../../../constants';
 
 /**
  * Class to generate HTML narrative for Patient resources
@@ -41,7 +41,6 @@ export class PatientTemplate implements ITemplate {
         <li><strong>Name(s):</strong>${this.renderNames(combinedPatient)}</li>
         <li><strong>Gender:</strong>${combinedPatient.gender ? this.capitalize(combinedPatient.gender) : ''}</li>
         <li><strong>Date of Birth:</strong>${combinedPatient.birthDate || ''}</li>
-        <li><strong>Identifier(s):</strong>${this.renderIdentifiers(combinedPatient)}</li>
         <li><strong>Telecom:</strong><ul>${this.renderTelecom(combinedPatient)}</ul></li>
         <li><strong>Address(es):</strong>${this.renderAddresses(combinedPatient)}</li>
         <li><strong>Marital Status:</strong> ${combinedPatient.maritalStatus?.text || ''}</li>
@@ -67,7 +66,6 @@ export class PatientTemplate implements ITemplate {
 
     // Merge arrays that need deduplication
     const allNames = [] as THumanName[];
-    const allIdentifiers = [] as TIdentifier[];
     const allTelecom = [] as TContactPoint[];
     const allAddresses = [] as TAddress[];
     const allCommunication = [] as TPatientCommunication[];
@@ -76,11 +74,6 @@ export class PatientTemplate implements ITemplate {
       // Merge names
       if (patient.name) {
         allNames.push(...patient.name);
-      }
-
-      // Merge identifiers
-      if (patient.identifier) {
-        allIdentifiers.push(...patient.identifier);
       }
 
       // Merge telecom
@@ -118,7 +111,6 @@ export class PatientTemplate implements ITemplate {
 
     // Set combined arrays
     combined.name = allNames;
-    combined.identifier = allIdentifiers;
     combined.telecom = allTelecom;
     combined.address = allAddresses;
     combined.communication = allCommunication;
@@ -151,23 +143,6 @@ export class PatientTemplate implements ITemplate {
     return Array.from(uniqueNames)
         .map(nameText => `<ul><li>${nameText}</li></ul>`)
         .join('');
-  }
-
-  /**
-   * Renders patient identifiers as HTML list items
-   * @param patient - Patient resources
-   * @returns HTML string of list items
-   */
-  private static renderIdentifiers(patient: TPatient): string {
-    if (!patient.identifier || patient.identifier.length === 0) {
-      return '';
-    }
-
-    return patient.identifier.map(id => {
-      const system = id.system || '';
-      const value = id.value || '';
-      return `<ul><li>${system}: ${value}</li></ul>`;
-    }).join('');
   }
 
   /**
@@ -301,9 +276,110 @@ export class PatientTemplate implements ITemplate {
       }
     });
 
-    return Array.from(uniqueAddresses)
+    // deduplicate similar addresses
+    const deduplicatedAddresses = this.deduplicateSimilarAddresses(Array.from(uniqueAddresses));
+
+    return deduplicatedAddresses
       .map(addressText => `<ul><li>${addressText}</li></ul>`)
       .join('');
+  }
+
+  /**
+   * Calculates the similarity between two strings using Levenshtein distance
+   * Returns a percentage (0-100) indicating how similar the strings are
+   * @param str1 - First string
+   * @param str2 - Second string
+   * @returns Similarity percentage (0-100)
+   */
+  private static calculateStringSimilarity(str1: string, str2: string): number {
+    const longer = str1.length > str2.length ? str1 : str2;
+    const shorter = str1.length > str2.length ? str2 : str1;
+    
+    if (longer.length === 0) {
+      return 100.0;
+    }
+    
+    const editDistance = this.levenshteinDistance(longer.toLowerCase(), shorter.toLowerCase());
+    return ((longer.length - editDistance) / longer.length) * 100;
+  }
+
+  /**
+   * Calculates the Levenshtein distance between two strings
+   * @param str1 - First string
+   * @param str2 - Second string
+   * @returns The Levenshtein distance
+   */
+  private static levenshteinDistance(str1: string, str2: string): number {
+    const matrix: number[][] = [];
+
+    // Initialize the matrix
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j;
+    }
+
+    // Fill in the matrix
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1, // substitution
+            matrix[i][j - 1] + 1,     // insertion
+            matrix[i - 1][j] + 1      // deletion
+          );
+        }
+      }
+    }
+
+    return matrix[str2.length][str1.length];
+  }
+
+  /**
+   * Deduplicates addresses that are more than ADDRESS_SIMILARITY_THRESHOLD% similar
+   * @param addresses - Array of address strings
+   * @returns Array of deduplicated addresses
+   */
+  private static deduplicateSimilarAddresses(addresses: string[]): string[] {
+    if (addresses.length <= 1) {
+      return addresses;
+    }
+
+    const deduplicated: string[] = [];
+    const processed = new Set<number>();
+
+    for (let i = 0; i < addresses.length; i++) {
+      if (processed.has(i)) {
+        continue;
+      }
+
+      let keepAddress = addresses[i];
+      processed.add(i);
+
+      // Check if any remaining addresses are similar
+      for (let j = i + 1; j < addresses.length; j++) {
+        if (processed.has(j)) {
+          continue;
+        }
+
+        const similarity = this.calculateStringSimilarity(addresses[i], addresses[j]);
+        
+        if (similarity > ADDRESS_SIMILARITY_THRESHOLD) {
+          // Mark as processed and keep the longer/more complete address
+          processed.add(j);
+          if (addresses[j].length > keepAddress.length) {
+            keepAddress = addresses[j];
+          }
+        }
+      }
+
+      deduplicated.push(keepAddress);
+    }
+
+    return deduplicated;
   }
 
   /**
