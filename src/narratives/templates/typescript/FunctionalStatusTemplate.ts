@@ -95,7 +95,6 @@ export class FunctionalStatusTemplate implements ITemplate {
               <th>Problem</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
-              <th>Notes</th>
             </tr>
           </thead>
           <tbody>`;
@@ -105,7 +104,6 @@ export class FunctionalStatusTemplate implements ITemplate {
           <td class="Name">${templateUtilities.codeableConcept(cond.code)}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
-          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone, { styled: true, warning: true })}</td>
         </tr>`;
       }
 
@@ -123,7 +121,6 @@ export class FunctionalStatusTemplate implements ITemplate {
             <th>Description</th>
             <th>Summary</th>
             <th>Findings</th>
-            <th>Notes</th>
           </tr>
         </thead>
         <tbody>`;
@@ -166,10 +163,6 @@ export class FunctionalStatusTemplate implements ITemplate {
           findingsHtml += '</ul>';
         }
 
-  
-
-        // Format notes
-        const notes = templateUtilities.renderNotes(impression.note, timezone);
 
         html += `
           <tr id="${templateUtilities.narrativeLinkId(impression)}">
@@ -178,7 +171,6 @@ export class FunctionalStatusTemplate implements ITemplate {
             <td>${impression.description || ''}</td>
             <td>${impression.summary || ''}</td>
             <td>${findingsHtml}</td>
-            <td>${notes}</td>
           </tr>`;
       }
 

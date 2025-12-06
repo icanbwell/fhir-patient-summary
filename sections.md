@@ -10,7 +10,6 @@ Note: All **mandatory** sections must be present in the patient summary
 - **Name(s):** `name.text` or `name.given + name.family` (excluding use='old' & all unique only)
 - **Gender:** `gender`
 - **Date of Birth:** `birthDate`
-- **Identifier(s):** `identifier.system + identifier.value`
 - **Telecom:** `telecom.system + telecom.value` (grouped by system and unique values for each)
 - **Address(es):** `address.text` or concatenated `address.line + address.city + address.country` (all unique only)
 - **Marital Status:** `maritalStatus.text`
@@ -28,7 +27,6 @@ This section contains the list of all the active/current issues the patient is s
 - **Problem:** `code` (CodeableConcept)
 - **Onset Date:** `onsetDateTime`
 - **Recorded Date:** `recordedDate`
-- **Notes:** `note.text`
 
 ## Allergies and Intolerances (Mandatory)
 **LOINC Code:** `48765-2` - Allergies and Intolerances
@@ -62,8 +60,6 @@ This section contains information about the patient's current and past medicatio
 - **Dispense Quantity:** `dispenseRequest.quantity.value + quantity.unit` (MedicationRequest only)
 - **Refills:** `dispenseRequest.numberOfRepeatsAllowed` (MedicationRequest only)
 - **Start Date:** `dispenseRequest.validityPeriod.start` or `authoredOn` (MedicationRequest) / `effectiveDateTime` or `effectivePeriod.start` (MedicationStatement)
-- **End Date:** `dispenseRequest.validityPeriod.end` (MedicationRequest) / `effectivePeriod.end` (MedicationStatement)
-- **Status:** `status`
 
 ## Immunizations (Recommended)
 **LOINC Code:** `11369-6` - Immunizations
@@ -187,7 +183,6 @@ This section contains information about the patient's functional status.
 - **Problem:** `code` (CodeableConcept)
 - **Onset Date:** `onsetDateTime`
 - **Recorded Date:** `recordedDate`
-- **Notes:** `note.text`
 
 ### Clinical Impressions:
 - **Date:** `date`
@@ -195,7 +190,6 @@ This section contains information about the patient's functional status.
 - **Description:** `description`
 - **Summary:** `summary`
 - **Findings:** `finding.itemCodeableConcept` or `finding.itemReference`
-- **Notes:** `note.text`
 
 ## History of Past Illness (Optional)
 **LOINC Code:** `11348-0` - History of Past Illness
@@ -209,7 +203,6 @@ This section contains information about the patient's past medical conditions.
 - **Onset Date:** `onsetDateTime`
 - **Recorded Date:** `recordedDate`
 - **Resolved Date:** `abatementDateTime`
-- **Notes:** `note.text`
 
 ## Plan of Care (Optional)
 **LOINC Code:** `18776-5` - Plan of Care

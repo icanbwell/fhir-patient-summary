@@ -2092,6 +2092,107 @@
       }
     },
     {
+      "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/Observation/pregnancy-observation-1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "pregnancy-observation-1",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "82810-3",
+              "display": "Pregnancy status"
+            }
+          ],
+          "text": "Pregnancy status"
+        },
+        "subject": {
+          "reference": "Patient/e5ZHnklVuYuT85PnDVOepOg3",
+          "display": "FHIR, Automation"
+        },
+        "effectiveDateTime": "2024-11-15T10:30:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "LA15173-0",
+              "display": "Pregnant"
+            }
+          ],
+          "text": "Pregnant"
+        },
+        "note": [
+          {
+            "text": "Patient confirmed pregnancy during routine visit"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/Observation/pregnancy-observation-2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "pregnancy-observation-2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11636-8",
+              "display": "Number of live births"
+            }
+          ],
+          "text": "Number of live births"
+        },
+        "subject": {
+          "reference": "Patient/e5ZHnklVuYuT85PnDVOepOg3",
+          "display": "FHIR, Automation"
+        },
+        "effectivePeriod": {
+          "start": "2020-01-15T00:00:00Z",
+          "end": "2020-01-15T23:59:59Z"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11636-8",
+              "display": "Live Birth"
+            }
+          ],
+          "text": "Live Birth"
+        },
+        "note": [
+          {
+            "text": "Previous successful pregnancy outcome"
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "https://connectathon.epic.com/Interconnect-Fhir-Unsecure/api/FHIR/R4/Organization/ePioZEeqCYv.F5W96swOaXA3",
       "resource": {
         "resourceType": "Organization",
@@ -2377,6 +2478,33 @@
             "city": "VERONA",
             "district": "DANE",
             "state": "WI",
+            "postalCode": "53593",
+            "country": "USA",
+            "period": {
+              "start": "2020-03-04"
+            }
+          },
+          {
+            "use": "home",
+            "line": [
+              "Milky Way"
+            ],
+            "city": "VERONA",
+            "district": "DANE",
+            "state": "WI",
+            "postalCode": "53593",
+            "country": "USA",
+            "period": {
+              "start": "2020-03-04"
+            }
+          },
+          {
+            "use": "home",
+            "line": [
+              "Milky Way"
+            ],
+            "city": "VERONA",
+            "district": "DANE",
             "postalCode": "53593",
             "country": "USA",
             "period": {

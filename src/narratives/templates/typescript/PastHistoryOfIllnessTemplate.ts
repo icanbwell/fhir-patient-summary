@@ -15,6 +15,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resources);
 
@@ -40,7 +41,6 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
               <th>Onset Date</th>
               <th>Recorded Date</th>
               <th>Resolved Date</th>
-              <th>Notes</th>
             </tr>
           </thead>
           <tbody>`;
@@ -51,7 +51,6 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
           <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
-          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone)}</td>
         </tr>`;
     }
 

@@ -10,7 +10,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include allergies
     [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'AllergyIntolerance',
     // includes MedicationRequest, MedicationStatement. Medication is needed for medication names
-    [IPSSections.MEDICATIONS]: (resource) => ['MedicationRequest', 'MedicationStatement', 'Medication'].includes(resource.resourceType),
+    [IPSSections.MEDICATIONS]: (resource) => (['MedicationRequest', 'MedicationStatement'].includes(resource.resourceType) && resource.status === 'active') || resource.resourceType === 'Medication',
     // Only include active conditions
     [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition'  && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
     // Only include completed immunizations

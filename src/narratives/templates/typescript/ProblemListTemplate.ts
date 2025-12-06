@@ -25,10 +25,8 @@ export class ProblemListTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  private static generateStaticNarrative(
-    resources: TDomainResource[],
-    timezone: string | undefined
-  ): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resources);
 
     // Start building the HTML
@@ -52,7 +50,6 @@ export class ProblemListTemplate implements ITemplate {
               <th>Problem</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
-              <th>Notes</th>
             </tr>
           </thead>
           <tbody>`;
@@ -62,7 +59,6 @@ export class ProblemListTemplate implements ITemplate {
           <td class="Name">${templateUtilities.codeableConcept(cond.code)}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
-          <td class="Notes">${templateUtilities.renderNotes(cond.note, timezone)}</td>
         </tr>`;
     }
 
