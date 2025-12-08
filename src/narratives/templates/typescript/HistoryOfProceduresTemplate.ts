@@ -2,13 +2,14 @@
 import {TemplateUtilities} from './TemplateUtilities';
 import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TProcedure} from '../../../types/resources/Procedure';
-import {ITemplate} from './interfaces/ITemplate';
+import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Procedure resources
  * This replaces the Jinja2 historyofprocedures.j2 template
  */
-export class HistoryOfProceduresTemplate implements ITemplate {
+export class HistoryOfProceduresTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Procedure resources
    * @param resources - FHIR Procedure resources
@@ -24,6 +25,66 @@ export class HistoryOfProceduresTemplate implements ITemplate {
     });
 
     return HistoryOfProceduresTemplate.generateStaticNarrative(resources, timezone);
+  }
+
+  /**
+   * Generate HTML narrative for Procedure resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  public generateSummaryNarrative(
+    resources: TComposition[],
+    timezone: string | undefined
+  ): string {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    let html = `
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Procedure</th>
+              <th>Performer</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []) {
+        const data: Record<string, string> = {};
+        for (const columnData of rowData.section ?? []) {
+          switch (columnData.title) {
+            case 'Procedure Name':
+              data['procedure'] = columnData.text?.div ?? '';
+              break;
+            case 'Performer':
+              data['performer'] = columnData.text?.div ?? '';
+              break;
+            case 'Performed Date':
+              data['date'] = columnData.text?.div ?? '';
+              break;
+            default:
+              break;
+          }
+        }
+
+        html += `
+            <tr>
+              <td>${data['procedure'] ?? '-'}</td>
+              <td>${data['performer'] ?? '-'}</td>
+              <td>${templateUtilities.renderTime(data['date'], timezone) ?? '-'}</td>
+            </tr>`;
+      }
+    }
+
+    html += `
+          </tbody>
+        </table>
+      </div>`;
+
+    return html;
   }
 
   /**
