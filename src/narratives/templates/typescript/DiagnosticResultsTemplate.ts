@@ -463,13 +463,15 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
       html += observationhtml;
       html += `
             </tbody>
-          </table>`;
+          </table>
+          </div>`;
     }
     if (diagnosticReportExists) {
       html += diagnosticReporthtml;
       html += `
             </tbody>
-          </table>`;
+          </table>
+          </div>`;
     }
 
     html += `
