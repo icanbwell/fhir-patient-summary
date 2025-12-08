@@ -3,13 +3,14 @@ import {TemplateUtilities} from './TemplateUtilities';
 import {TDomainResource} from '../../../types/resources/DomainResource';
 import {TObservation} from '../../../types/resources/Observation';
 import {TDiagnosticReport} from '../../../types/resources/DiagnosticReport';
-import {ITemplate} from './interfaces/ITemplate';
+import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Diagnostic Results (Observation resources)
  * This replaces the Jinja2 diagnosticresults.j2 template
  */
-export class DiagnosticResultsTemplate implements ITemplate {
+export class DiagnosticResultsTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Diagnostic Results
    * @param resources - FHIR resources array containing Observation and DiagnosticReport resources
@@ -18,6 +19,463 @@ export class DiagnosticResultsTemplate implements ITemplate {
    */
   generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     return DiagnosticResultsTemplate.generateStaticNarrative(resources, timezone);
+  }
+
+  /**
+   * Helper function to format observation data fields
+   * @param obsData - Record containing observation data fields
+   */
+  private formatSummaryObservationData(obsData: Record<string, string>): void {
+    // Format value based on valueType
+    const valueType = obsData['valueType'];
+    
+    switch (valueType) {
+      case 'valueQuantity':
+        if (obsData['value'] && obsData['unit']) {
+          obsData['formattedValue'] = `${obsData['value']} ${obsData['unit']}`;
+        } else if (obsData['value']) {
+          obsData['formattedValue'] = obsData['value'];
+        }
+        break;
+      
+      case 'valueCodeableConcept':
+      case 'valueString':
+      case 'valueBoolean':
+      case 'valueInteger':
+      case 'valueDateTime':
+      case 'valueTime':
+        obsData['formattedValue'] = obsData['value'] ?? '';
+        break;
+      
+      case 'valuePeriod':
+        if (obsData['valuePeriodStart'] && obsData['valuePeriodEnd']) {
+          obsData['formattedValue'] = `${obsData['valuePeriodStart']} - ${obsData['valuePeriodEnd']}`;
+        } else if (obsData['valuePeriodStart']) {
+          obsData['formattedValue'] = `From ${obsData['valuePeriodStart']}`;
+        } else if (obsData['valuePeriodEnd']) {
+          obsData['formattedValue'] = `Until ${obsData['valuePeriodEnd']}`;
+        }
+        break;
+      
+      case 'valueSampledData': {
+        const sampledParts: string[] = [];
+        if (obsData['sampledDataOriginValue']) {
+          sampledParts.push(`Origin: ${obsData['sampledDataOriginValue']}${obsData['sampledDataOriginUnit'] ? ' ' + obsData['sampledDataOriginUnit'] : ''}`);
+        }
+        if (obsData['sampledDataPeriod']) {
+          sampledParts.push(`Period: ${obsData['sampledDataPeriod']}`);
+        }
+        if (obsData['sampledDataFactor']) {
+          sampledParts.push(`Factor: ${obsData['sampledDataFactor']}`);
+        }
+        if (obsData['sampledDataLowerLimit']) {
+          sampledParts.push(`Lower: ${obsData['sampledDataLowerLimit']}`);
+        }
+        if (obsData['sampledDataUpperLimit']) {
+          sampledParts.push(`Upper: ${obsData['sampledDataUpperLimit']}`);
+        }
+        if (obsData['sampledDataData']) {
+          sampledParts.push(`Data: ${obsData['sampledDataData']}`);
+        }
+        obsData['formattedValue'] = sampledParts.join(', ');
+        break;
+      }
+      
+      case 'valueRange': {
+        const rangeParts: string[] = [];
+        if (obsData['valueRangeLowValue']) {
+          rangeParts.push(`${obsData['valueRangeLowValue']}${obsData['valueRangeLowUnit'] ? ' ' + obsData['valueRangeLowUnit'] : ''}`);
+        }
+        if (obsData['valueRangeHighValue']) {
+          rangeParts.push(`${obsData['valueRangeHighValue']}${obsData['valueRangeHighUnit'] ? ' ' + obsData['valueRangeHighUnit'] : ''}`);
+        }
+        obsData['formattedValue'] = rangeParts.join(' - ');
+        break;
+      }
+      
+      case 'valueRatio': {
+        const numerator = obsData['valueRatioNumeratorValue'] 
+          ? `${obsData['valueRatioNumeratorValue']}${obsData['valueRatioNumeratorUnit'] ? ' ' + obsData['valueRatioNumeratorUnit'] : ''}`
+          : '';
+        const denominator = obsData['valueRatioDenominatorValue']
+          ? `${obsData['valueRatioDenominatorValue']}${obsData['valueRatioDenominatorUnit'] ? ' ' + obsData['valueRatioDenominatorUnit'] : ''}`
+          : '';
+        if (numerator && denominator) {
+          obsData['formattedValue'] = `${numerator} / ${denominator}`;
+        } else if (numerator) {
+          obsData['formattedValue'] = numerator;
+        }
+        break;
+      }
+      
+      default:
+        // Fallback to raw value if valueType is not set
+        obsData['formattedValue'] = obsData['value'] ?? '';
+        break;
+    }
+    
+    // Format reference range
+    if (obsData['referenceRangeLow']) {
+      obsData['referenceRange'] = obsData['referenceRangeLow'] + ' ' + obsData['referenceRangeLowUnit'];
+    }
+    if (obsData['referenceRangeHigh']) {
+      if (obsData['referenceRange']) {
+        obsData['referenceRange'] += ' - ';
+      } else {
+        obsData['referenceRange'] = '';
+      }
+      obsData['referenceRange'] += obsData['referenceRangeHigh'] + ' ' + obsData['referenceRangeHighUnit'];
+    }
+    
+    // Add reference range age information if present
+    if (obsData['referenceRangeAgeLowValue'] || obsData['referenceRangeAgeHighValue']) {
+      const ageParts: string[] = [];
+      if (obsData['referenceRangeAgeLowValue']) {
+        ageParts.push(`${obsData['referenceRangeAgeLowValue']}${obsData['referenceRangeAgeLowUnit'] ? ' ' + obsData['referenceRangeAgeLowUnit'] : ''}`);
+      }
+      if (obsData['referenceRangeAgeHighValue']) {
+        ageParts.push(`${obsData['referenceRangeAgeHighValue']}${obsData['referenceRangeAgeHighUnit'] ? ' ' + obsData['referenceRangeAgeHighUnit'] : ''}`);
+      }
+      if (obsData['referenceRange']) {
+        obsData['referenceRange'] += ` (Age: ${ageParts.join(' - ')})`;
+      } else {
+        obsData['referenceRange'] = `Age: ${ageParts.join(' - ')}`;
+      }
+    }
+  };
+
+
+  /**
+   * Helper function to extract observation field data
+   * @param column - Column data from the summary
+   * @param targetData - Record to populate with extracted data
+   */
+  private extractSummaryObservationFields(column: any, targetData: Record<string, string>): void {
+    switch (column.title) {
+      case 'Labs Name':
+        targetData['code'] = column.text?.div ?? '';
+        break;
+      case 'effectiveDateTime':
+        targetData['effectiveDateTime'] = column.text?.div ?? '';
+        break;
+      case 'effectivePeriod.start':
+        targetData['effectivePeriodStart'] = column.text?.div ?? '';
+        break;
+      case 'effectivePeriod.end':
+        targetData['effectivePeriodEnd'] = column.text?.div ?? '';
+        break;
+      
+      // valueQuantity
+      case 'valueQuantity.value':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueQuantity';
+        break;
+      case 'valueQuantity.unit':
+        targetData['unit'] = column.text?.div ?? '';
+        break;
+      
+      // valueCodeableConcept
+      case 'valueCodeableConcept.text':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueCodeableConcept';
+        break;
+      case 'valueCodeableConcept.coding.display':
+        if (!targetData['value']) {
+          targetData['value'] = column.text?.div ?? '';
+          targetData['valueType'] = 'valueCodeableConcept';
+        }
+        break;
+      
+      // valueString
+      case 'valueString':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueString';
+        break;
+      
+      // valueBoolean
+      case 'valueBoolean':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueBoolean';
+        break;
+      
+      // valueInteger
+      case 'valueInteger':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueInteger';
+        break;
+      
+      // valueDateTime
+      case 'valueDateTime':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueDateTime';
+        break;
+      
+      // valuePeriod
+      case 'valuePeriod.start':
+        targetData['valuePeriodStart'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valuePeriod';
+        break;
+      case 'valuePeriod.end':
+        targetData['valuePeriodEnd'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valuePeriod';
+        break;
+      
+      // valueTime
+      case 'valueTime':
+        targetData['value'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueTime';
+        break;
+      
+      // valueSampledData
+      case 'valueSampledData.origin.value':
+        targetData['sampledDataOriginValue'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueSampledData';
+        break;
+      case 'valueSampledData.origin.unit':
+        targetData['sampledDataOriginUnit'] = column.text?.div ?? '';
+        break;
+      case 'valueSampledData.period':
+        targetData['sampledDataPeriod'] = column.text?.div ?? '';
+        break;
+      case 'valueSampledData.factor':
+        targetData['sampledDataFactor'] = column.text?.div ?? '';
+        break;
+      case 'valueSampledData.lowerLimit':
+        targetData['sampledDataLowerLimit'] = column.text?.div ?? '';
+        break;
+      case 'valueSampledData.upperLimit':
+        targetData['sampledDataUpperLimit'] = column.text?.div ?? '';
+        break;
+      case 'valueSampledData.data':
+        targetData['sampledDataData'] = column.text?.div ?? '';
+        break;
+      
+      // valueRange
+      case 'valueRange.low.value':
+        targetData['valueRangeLowValue'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueRange';
+        break;
+      case 'valueRange.low.unit':
+        targetData['valueRangeLowUnit'] = column.text?.div ?? '';
+        break;
+      case 'valueRange.high.value':
+        targetData['valueRangeHighValue'] = column.text?.div ?? '';
+        break;
+      case 'valueRange.high.unit':
+        targetData['valueRangeHighUnit'] = column.text?.div ?? '';
+        break;
+      
+      // valueRatio
+      case 'valueRatio.numerator.value':
+        targetData['valueRatioNumeratorValue'] = column.text?.div ?? '';
+        targetData['valueType'] = 'valueRatio';
+        break;
+      case 'valueRatio.numerator.unit':
+        targetData['valueRatioNumeratorUnit'] = column.text?.div ?? '';
+        break;
+      case 'valueRatio.denominator.value':
+        targetData['valueRatioDenominatorValue'] = column.text?.div ?? '';
+        break;
+      case 'valueRatio.denominator.unit':
+        targetData['valueRatioDenominatorUnit'] = column.text?.div ?? '';
+        break;
+      
+      // referenceRange
+      case 'referenceRange.low.value':
+        targetData['referenceRangeLow'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.low.unit':
+        targetData['referenceRangeLowUnit'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.high.value':
+        targetData['referenceRangeHigh'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.high.unit':
+        targetData['referenceRangeHighUnit'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.age.low.value':
+        targetData['referenceRangeAgeLowValue'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.age.low.unit':
+        targetData['referenceRangeAgeLowUnit'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.age.high.value':
+        targetData['referenceRangeAgeHighValue'] = column.text?.div ?? '';
+        break;
+      case 'referenceRange.age.high.unit':
+        targetData['referenceRangeAgeHighUnit'] = column.text?.div ?? '';
+        break;
+      
+      default:
+        break;
+    }
+  };
+
+  /**
+   * Generate HTML narrative for Diagnostic Results & Observation resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  public generateSummaryNarrative(
+    resources: TComposition[],
+    timezone: string | undefined
+  ): string {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    let html = `
+      <div>`;
+
+    let observationhtml = `
+      <div>
+        <h3>Observations</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Result</th>
+              <th>Reference Range</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    let diagnosticReporthtml = `
+      <div>
+        <h3>Diagnostic Reports</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Report</th>
+              <th>Performer</th>
+              <th>Issued</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    let observationExists = false;
+    let diagnosticReportExists = false;
+
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []) {
+        const data: Record<string, string> = {};
+        const components: Array<Record<string, string>> = [];
+        
+        for (const columnData of rowData.section ?? []) {
+          if (
+            resourceItem.title === 'Observation|Labs Summary Grouped by Lab Code'
+          ) {
+            // Check if this is an Observation.component
+            if (columnData.text?.div === 'Observation.component' && columnData.section) {
+              // Extract nested component data
+              for (const componentSection of columnData.section) {
+                const componentData: Record<string, string> = {};
+                for (const nestedColumn of componentSection.section ?? []) {
+                  this.extractSummaryObservationFields(nestedColumn, componentData);
+                }
+                if (Object.keys(componentData).length > 0) {
+                  components.push(componentData);
+                }
+              }
+            } else {
+              // Process top-level observation data
+              this.extractSummaryObservationFields(columnData, data);
+            }
+          } else if (
+            resourceItem.title ===
+            'DiagnosticReportLab Summary Grouped by DiagnosticReport|Lab Code'
+          ) {
+            switch (columnData.title) {
+              case 'Diagnostic Report Name':
+                data['report'] = columnData.text?.div ?? '';
+                break;
+              case 'Performer':
+                data['performer'] = columnData.text?.div ?? '';
+                break;
+              case 'Issued Date':
+                data['issued'] = columnData.text?.div ?? '';
+                break;
+              case 'Status':
+                data['status'] = columnData.text?.div ?? '';
+                break;
+              default:
+                break;
+            }
+          }
+        }
+        
+        if (
+            resourceItem.title === 'Observation|Labs Summary Grouped by Lab Code'
+          ) {
+            observationExists = true;
+            
+            // handle date formatting for effectiveDateTime or effectivePeriod
+            let date = data['effectiveDateTime'] ? templateUtilities.renderTime(data['effectiveDateTime'], timezone) : '';
+            if (!date && data['effectivePeriodStart']) {
+              date = templateUtilities.renderTime(data['effectivePeriodStart'], timezone);
+              if (data['effectivePeriodEnd']) {
+                date += ' - ' + templateUtilities.renderTime(data['effectivePeriodEnd'], timezone);
+              }
+            }
+
+            // If we have components, render them
+            if (components.length > 0) {
+              const groupName = data['code'] ?? '';
+              for (const component of components) {
+                this.formatSummaryObservationData(component);
+                observationhtml += `
+                <tr>
+                  <td>${groupName ? groupName + ' - ' : ''}${component['code'] ?? '-'}</td>
+                  <td>${component['formattedValue'] ?? '-'}</td>
+                  <td>${component['referenceRange']?.trim() ?? '-'}</td>
+                  <td>${date ?? '-'}</td>
+                </tr>`;
+              }
+            } else {
+              // Render top-level observation data
+              this.formatSummaryObservationData(data);
+              observationhtml += `
+                <tr>
+                  <td>${data['code'] ?? '-'}</td>
+                  <td>${data['formattedValue'] ?? '-'}</td>
+                  <td>${data['referenceRange']?.trim() ?? '-'}</td>
+                  <td>${date ?? '-'}</td>
+                </tr>`;
+            }
+          } else if (
+            resourceItem.title ===
+            'DiagnosticReportLab Summary Grouped by DiagnosticReport|Lab Code'
+          ) {
+            if (data['status'] === 'final') {
+              diagnosticReportExists = true;
+              diagnosticReporthtml += `
+                  <tr>
+                    <td>${data['report'] ?? '-'}</td>
+                    <td>${data['performer'] ?? '-'}</td>
+                    <td>${templateUtilities.renderTime(data['issued'], timezone) ?? '-'}</td>
+                  </tr>`;
+            }
+          }
+      }
+    }
+
+    if (observationExists) {
+      html += observationhtml;
+      html += `
+            </tbody>
+          </table>`;
+    }
+    if (diagnosticReportExists) {
+      html += diagnosticReporthtml;
+      html += `
+            </tbody>
+          </table>`;
+    }
+
+    html += `
+      </div>`;
+
+    return html;
   }
 
   /**
