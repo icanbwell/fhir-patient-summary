@@ -36,8 +36,9 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
   public generateSummaryNarrative(
     resources: TComposition[],
     timezone: string | undefined
-  ): string {
+  ): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
+    let isSummaryCreated = false;
 
     let html = `
       <div>
@@ -70,6 +71,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
           }
         }
 
+        isSummaryCreated = true;
         html += `
             <tr>
               <td>${data['procedure'] ?? '-'}</td>
@@ -84,7 +86,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
         </table>
       </div>`;
 
-    return html;
+    return isSummaryCreated ? html : undefined;
   }
 
   /**

@@ -59,7 +59,7 @@ export class NarrativeGenerator {
 
         try {
             // Use the TypeScript template mapper to generate HTML
-            const content: string = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary);
+            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary);
             if (!content) {
                 return undefined; // No content generated
             }

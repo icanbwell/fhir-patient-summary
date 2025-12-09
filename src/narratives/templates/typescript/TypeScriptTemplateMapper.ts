@@ -57,7 +57,7 @@ export class TypeScriptTemplateMapper {
     resources: TDomainResource[],
     timezone: string | undefined,
     useSectionSummary: boolean = false
-  ): string {
+  ): string | undefined {
     const templateClass: ITemplate = this.sectionToTemplate[section];
 
     if (!templateClass) {

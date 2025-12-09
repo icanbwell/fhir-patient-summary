@@ -30,8 +30,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
     public generateSummaryNarrative(
         resources: TComposition[],
         timezone: string | undefined
-    ): string {
+    ): string | undefined {
         const templateUtilities = new TemplateUtilities(resources);
+        let isSummaryCreated = false;
 
         let html = `
         <div>
@@ -79,6 +80,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
 
                 if (data['status'] === 'active') {
+                isSummaryCreated = true;
                 html += `
                     <tr>
                         <td>${data['medication']}</td>
@@ -96,7 +98,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             </table>
         </div>`;
 
-        return html;
+        return isSummaryCreated ? html : undefined;
     }
 
     /**
