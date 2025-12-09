@@ -28,8 +28,9 @@ export class VitalSignsTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string {
+  generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
+    let isSummaryCreated = false;
 
     let html = `
       <div>
@@ -78,6 +79,8 @@ export class VitalSignsTemplate implements ISummaryTemplate {
           }
         }
 
+        isSummaryCreated = true;
+
         html += `
           <tr>
             <td>${data['Vital Name'] ?? '-'}</td>
@@ -93,7 +96,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
         </table>
       </div>`;
 
-    return html;
+    return isSummaryCreated ? html : undefined;
   }
 
   /**

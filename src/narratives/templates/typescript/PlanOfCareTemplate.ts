@@ -70,8 +70,9 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string {
+  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
+    let isSummaryCreated = false;
 
     let html = `
       <div>
@@ -99,6 +100,7 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
           continue; // Skip non-active care plans
         }
 
+        isSummaryCreated = true;
         html += `
             <tr>
               <td>${data["CarePlan Name"] ?? "-"}</td>
@@ -114,6 +116,6 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
         </table>
       </div>`;
 
-    return html;
+    return isSummaryCreated ? html : undefined;
   }
 }

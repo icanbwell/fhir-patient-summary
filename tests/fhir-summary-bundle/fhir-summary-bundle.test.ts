@@ -113,4 +113,41 @@ describe('FHIR Patient Summary Generation', () => {
         expect(bundle.entry).toBeDefined();
         await compare_bundles(path.join(__dirname, 'fixtures/narratives/summary'), bundle, expectedBundle);
     });
+
+    it('should generate the correct summary for bundle having summary composition with completed medications', async () => {
+        // Read the test bundle JSON
+        const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-summary-bundle-no-medication.json'), 'utf-8'));
+        const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-summary-bundle-no-medication.json'), 'utf-8'));
+
+        // Extract resources from the bundle
+        const resources = inputBundle.entry.map((e: any) => e.resource);
+
+        // extract the patient resource
+        const mockPatient = resources.find((r: any) => r.resourceType === 'Patient');
+
+        // Generate the summary
+        const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
+        const timezone = 'America/New_York';
+        await builder.readBundleAsync(inputBundle, timezone, true);
+
+        const bundle = await builder.buildBundleAsync(
+            'example-organization',
+            'Example Organization',
+            'https://fhir.icanbwell.com/4_0_0/',
+            timezone
+        );
+        console.info('---- Bundle ----');
+        console.info(JSON.stringify(bundle, (key, value) => {
+            if (value === undefined) {
+                return undefined; // This will omit undefined properties
+            }
+            return value;
+        }));
+        console.info('-----------------');
+
+        // Compare the generated summary to the expected output in the bundle
+        // (Assume the expected output is the Composition resource in the bundle)
+        expect(bundle.entry).toBeDefined();
+        await compare_bundles(path.join(__dirname, 'fixtures/narratives/summary-no-medication'), bundle, expectedBundle);
+    });
 });

@@ -320,7 +320,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
   public generateSummaryNarrative(
     resources: TComposition[],
     timezone: string | undefined
-  ): string {
+  ): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
 
     let html = `
@@ -477,7 +477,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     html += `
       </div>`;
 
-    return html;
+    return (observationExists || diagnosticReportExists) ? html : undefined;
   }
 
   /**

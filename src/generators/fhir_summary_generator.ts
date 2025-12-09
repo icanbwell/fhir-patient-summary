@@ -94,13 +94,15 @@ export class ComprehensiveIPSCompositionBuilder {
                 timezone,
                 true
               );
-            } else if (sectionType in IPSMandatorySections) {
+            }
+            if (!narrative && sectionType in IPSMandatorySections) {
               narrative = await NarrativeGenerator.createNarrativeAsync(
                 IPSMissingMandatorySectionContent[
                   sectionType as keyof typeof IPSMissingMandatorySectionContent
                 ]
               );
-            } else {
+            }
+            if (!narrative) {
                 return this; // Skip empty sections
             }
 
@@ -127,13 +129,23 @@ export class ComprehensiveIPSCompositionBuilder {
             });
         }
 
-        const narrative = await NarrativeGenerator.generateNarrativeAsync(
+        let narrative = await NarrativeGenerator.generateNarrativeAsync(
             sectionType,
             summaryCompositions,
             timezone,
             true,
             true
         );
+        if (!narrative && sectionType in IPSMandatorySections) {
+            narrative = await NarrativeGenerator.createNarrativeAsync(
+                IPSMissingMandatorySectionContent[
+                    sectionType as keyof typeof IPSMissingMandatorySectionContent
+                ]
+            );
+        }
+        if (!narrative) {
+            return this; // Skip empty sections
+        }
 
         this.addSectionAsync(narrative as TNarrative, sectionType, sectionResources);
         return this;

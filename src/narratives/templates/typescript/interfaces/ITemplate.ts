@@ -25,5 +25,5 @@ export interface ISummaryTemplate extends ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateSummaryNarrative(resource: TComposition[], timezone: string | undefined): string;
+  generateSummaryNarrative(resource: TComposition[], timezone: string | undefined): string | undefined;
 }
