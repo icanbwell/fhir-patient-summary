@@ -353,8 +353,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
           </thead>
           <tbody>`;
 
-    let observationExists = false;
-    let diagnosticReportExists = false;
+    const observationAdded = new Set<string>();
+    const diagnosticReportAdded = new Set<string>();
 
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
@@ -407,8 +407,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         if (
             resourceItem.title === 'Observation|Labs Summary Grouped by Lab Code'
           ) {
-            observationExists = true;
-            
             // handle date formatting for effectiveDateTime or effectivePeriod
             let date = data['effectiveDateTime'] ? templateUtilities.renderTime(data['effectiveDateTime'], timezone) : '';
             if (!date && data['effectivePeriodStart']) {
@@ -420,53 +418,64 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
 
             // If we have components, render them
             if (components.length > 0) {
-              const groupName = data['code'] ?? '';
+              const groupName = data['code'] ? `${data['code']} - ` : '';
               for (const component of components) {
-                this.formatSummaryObservationData(component);
-                observationhtml += `
-                <tr>
-                  <td>${groupName ? groupName + ' - ' : ''}${component['code'] ?? '-'}</td>
-                  <td>${component['formattedValue'] ?? '-'}</td>
-                  <td>${component['referenceRange']?.trim() ?? '-'}</td>
-                  <td>${date ?? '-'}</td>
-                </tr>`;
+                const componentCode = `${groupName}${component['code'] ?? ''}`;
+                if (componentCode && !observationAdded.has(componentCode)) {
+                  observationAdded.add(componentCode);
+                  this.formatSummaryObservationData(component);
+                  observationhtml += `
+                  <tr>
+                    <td>${componentCode}</td>
+                    <td>${component['formattedValue'] ?? '-'}</td>
+                    <td>${component['referenceRange']?.trim() ?? '-'}</td>
+                    <td>${date ?? '-'}</td>
+                  </tr>`;
+                }
               }
             } else {
               // Render top-level observation data
-              this.formatSummaryObservationData(data);
-              observationhtml += `
-                <tr>
-                  <td>${data['code'] ?? '-'}</td>
-                  <td>${data['formattedValue'] ?? '-'}</td>
-                  <td>${data['referenceRange']?.trim() ?? '-'}</td>
-                  <td>${date ?? '-'}</td>
-                </tr>`;
+              const code = data['code'] ?? '';
+              if (code && !observationAdded.has(code)) {
+                observationAdded.add(code);
+                this.formatSummaryObservationData(data);
+                observationhtml += `
+                  <tr>
+                    <td>${data['code'] ?? '-'}</td>
+                    <td>${data['formattedValue'] ?? '-'}</td>
+                    <td>${data['referenceRange']?.trim() ?? '-'}</td>
+                    <td>${date ?? '-'}</td>
+                  </tr>`;
+              }
             }
           } else if (
             resourceItem.title ===
             'DiagnosticReportLab Summary Grouped by DiagnosticReport|Lab Code'
           ) {
             if (data['status'] === 'final') {
-              diagnosticReportExists = true;
-              diagnosticReporthtml += `
-                  <tr>
-                    <td>${data['report'] ?? '-'}</td>
-                    <td>${data['performer'] ?? '-'}</td>
-                    <td>${templateUtilities.renderTime(data['issued'], timezone) ?? '-'}</td>
-                  </tr>`;
+              const reportName = data['report'] ?? '';
+              if (reportName && !diagnosticReportAdded.has(reportName)) {
+                diagnosticReportAdded.add(reportName);
+                diagnosticReporthtml += `
+                    <tr>
+                      <td>${data['report'] ?? '-'}</td>
+                      <td>${data['performer'] ?? '-'}</td>
+                      <td>${templateUtilities.renderTime(data['issued'], timezone) ?? '-'}</td>
+                    </tr>`;
+              }
             }
           }
       }
     }
 
-    if (observationExists) {
+    if (observationAdded.size > 0) {
       html += observationhtml;
       html += `
             </tbody>
           </table>
           </div>`;
     }
-    if (diagnosticReportExists) {
+    if (diagnosticReportAdded.size > 0) {
       html += diagnosticReporthtml;
       html += `
             </tbody>
@@ -477,7 +486,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     html += `
       </div>`;
 
-    return (observationExists || diagnosticReportExists) ? html : undefined;
+    return (observationAdded.size > 0 || diagnosticReportAdded.size > 0) ? html : undefined;
   }
 
   /**
@@ -495,8 +504,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     if (observations.length > 0) {
       // sort observations by date descending
       observations.sort((a, b) => {
-        const dateA = a.effectiveDateTime || a.effectivePeriod?.start;
-        const dateB = b.effectiveDateTime || b.effectivePeriod?.start;
+        const dateA = a.effectiveDateTime || a.effectivePeriod?.start || a.effectivePeriod?.end;
+        const dateB = b.effectiveDateTime || b.effectivePeriod?.start || b.effectivePeriod?.end;
         return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
       });
       html += this.renderObservations(templateUtilities, observations, timezone);
@@ -563,19 +572,25 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         </thead>
         <tbody>`;
 
+    const observationAdded = new Set<string>();
+
     for (const obs of observations) {
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Add table row
-      html += `
-        <tr id="${templateUtilities.narrativeLinkId(obs)}">
-          <td>${templateUtilities.codeableConcept(obs.code)}</td>
-          <td>${templateUtilities.extractObservationValue(obs)}</td>
-          <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
-          <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
-          <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
-          <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
-          <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
-        </tr>`;
+      const obsCode = templateUtilities.codeableConcept(obs.code);
+      if (!observationAdded.has(obsCode)) {
+        observationAdded.add(obsCode);
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        // Add table row
+        html += `
+          <tr id="${templateUtilities.narrativeLinkId(obs)}">
+            <td>${obsCode}</td>
+            <td>${templateUtilities.extractObservationValue(obs)}</td>
+            <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
+            <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
+            <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
+            <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
+            <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+          </tr>`;
+      }
     }
 
     html += `
@@ -605,23 +620,29 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
           </tr>
         </thead>
         <tbody>`;
+    
+    const diagnosticReportAdded = new Set<string>();
 
     for (const report of reports) {
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Format result count
-      let resultCount = '';
-      if (report.result && Array.isArray(report.result)) {
-        resultCount = `${report.result.length} result${report.result.length !== 1 ? 's' : ''}`;
+      const reportName = templateUtilities.codeableConcept(report.code);
+      if (!diagnosticReportAdded.has(reportName)) {
+        diagnosticReportAdded.add(reportName);
+        // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
+        // Format result count
+        let resultCount = '';
+        if (report.result && Array.isArray(report.result)) {
+          resultCount = `${report.result.length} result${report.result.length !== 1 ? 's' : ''}`;
+        }
+  
+        // Add table row
+        html += `
+          <tr id="${(templateUtilities.narrativeLinkId(report))}">
+            <td>${reportName}</td>
+            <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
+            <td>${resultCount}</td>
+            <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>
+          </tr>`;
       }
-
-      // Add table row
-      html += `
-        <tr id="${(templateUtilities.narrativeLinkId(report))}">
-          <td>${templateUtilities.codeableConcept(report.code)}</td>
-          <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
-          <td>${resultCount}</td>
-          <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>
-        </tr>`;
     }
 
     html += `

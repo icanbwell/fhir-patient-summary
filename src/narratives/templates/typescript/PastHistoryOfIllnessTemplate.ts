@@ -27,8 +27,8 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
 
     // sort conditions by onset date in descending order
     resolvedConditions.sort((a, b) => {
-      const dateA = a.onsetDateTime ? new Date(a.onsetDateTime).getTime() : 0;
-      const dateB = b.onsetDateTime ? new Date(b.onsetDateTime).getTime() : 0;
+      const dateA = a.recordedDate ? new Date(a.recordedDate).getTime() : 0;
+      const dateB = b.recordedDate ? new Date(b.recordedDate).getTime() : 0;
       return dateB - dateA;
     });
 
@@ -45,13 +45,19 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
           </thead>
           <tbody>`;
 
+    const addedConditionCodes = new Set<string>();
+
     for (const cond of resolvedConditions) {
-      html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
-          <td class="Name">${templateUtilities.codeableConcept(cond.code)}</td>
-          <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
-          <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
-          <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
-        </tr>`;
+      const conditionCode = templateUtilities.codeableConcept(cond.code);
+      if (!addedConditionCodes.has(conditionCode)) {
+        addedConditionCodes.add(conditionCode);
+        html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+            <td class="Name">${conditionCode}</td>
+            <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
+            <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
+            <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
+          </tr>`;
+      }
     }
 
     html += `</tbody>
