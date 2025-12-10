@@ -29,7 +29,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include pregnancy history Observations
     [IPSSections.PREGNANCY_HISTORY]: (resource) => resource.resourceType === 'Observation' && (resource.code?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code)) || resource.valueCodeableConcept?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code))),
     // Only include Conditions or completed ClinicalImpressions
-    [IPSSections.FUNCTIONAL_STATUS]: (resource) => (resource.resourceType === 'Condition') || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
+    [IPSSections.FUNCTIONAL_STATUS]: (resource) => (resource.resourceType === 'Condition'  && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code))) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
     // Only include resolved medical history Conditions
     [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code)),
     // Only include active care plans
