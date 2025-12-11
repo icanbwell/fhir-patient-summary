@@ -94,7 +94,7 @@ export const LAB_LOINC_MAP = {
     '3024-7', // Thyroxine (T4) free [Mass/volume] in Serum or Plasma
   ],
   'Total T4': [
-    '3053-6', // Thyroxine (T4) [Mass/volume] in Serum or Plasma
+    '3026-2', // Thyroxine (T4) [Mass/volume] in Serum or Plasma
   ],
   'Free T3': [
     '3051-0', // Triiodothyronine (T3) free [Mass/volume] in Serum or Plasma

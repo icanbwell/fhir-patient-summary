@@ -6,6 +6,15 @@ import {TDiagnosticReport} from '../../../types/resources/DiagnosticReport';
 import {ISummaryTemplate} from './interfaces/ITemplate';
 import { TComposition } from '../../../types/resources/Composition';
 import { LAB_LOINC_MAP } from '../../../constants';
+import { RESULT_SUMMARY_OBSERVATION_DATE_FILTER } from '../../../structures/ips_section_constants';
+
+ // Build reverse lookup: LOINC code -> lab name
+const loincToLabName: Record<string, string> = {};
+for (const [labName, loincCodes] of Object.entries(LAB_LOINC_MAP)) {
+  for (const code of loincCodes) {
+    loincToLabName[code] = labName;
+  }
+}
 
 /**
  * Class to generate HTML narrative for Diagnostic Results (Observation resources)
@@ -509,7 +518,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         const dateB = this.getObservationDate(b);
         return dateA && dateB ? dateB.getTime() - dateA.getTime() : 0;
       });
-      this.filterObservationForLonicCodes(observations);
+      this.filterObservationForLoincCodes(observations);
       html += this.renderObservations(templateUtilities, observations, timezone);
     }
 
@@ -530,21 +539,16 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     return html;
   }
 
-  private static filterObservationForLonicCodes(observations: TObservation[]): void {
+  private static filterObservationForLoincCodes(observations: TObservation[]): void {
     const labsAdded = new Set<string>();
     const filteredObservations: TObservation[] = [];
     for (const obs of observations) {
       const loincCode = this.getObservationLoincCode(obs);
-      if (loincCode) {
-        // Check if this LOINC code is in our LAB_LOINC_MAP
-        for (const [labName, loincCodes] of Object.entries(LAB_LOINC_MAP)) {
-          if (loincCodes.includes(loincCode)) {
-            if (!labsAdded.has(labName)) {
-              labsAdded.add(labName);
-              filteredObservations.push(obs);
-            }
-            break;
-          }
+      if (loincCode && loincToLabName[loincCode]) {
+        const labName = loincToLabName[loincCode];
+        if (!labsAdded.has(labName)) {
+          labsAdded.add(labName);
+          filteredObservations.push(obs);
         }
       }
     }
@@ -588,12 +592,13 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     return resources
       .filter(resourceItem => {
         if (resourceItem.resourceType === 'Observation') {
-          const obsDate = this.getObservationDate(resourceItem as TObservation)
+          const obsDate = this.getObservationDate(resourceItem as TObservation);
           // Date should be within last 2 years
-          if (obsDate && obsDate >= new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000)) {
+          if (obsDate && obsDate >= new Date(Date.now() - RESULT_SUMMARY_OBSERVATION_DATE_FILTER)) {
             return true;
           }
         }
+        return false;
       })
       .map(resourceItem => resourceItem as TObservation);
   }
