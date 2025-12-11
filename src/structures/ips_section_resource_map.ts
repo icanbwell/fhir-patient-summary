@@ -1,4 +1,4 @@
-import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM } from "./ips_section_constants";
+import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
 import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 
@@ -21,7 +21,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Includes DeviceUseStatement. Device is needed for linked device details
     [IPSSections.MEDICAL_DEVICES]: (resource) => ['DeviceUseStatement', 'Device'].includes(resource.resourceType),
     // Only include finalized diagnostic reports
-    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => ["DiagnosticReport", "Observation"].includes(resource.resourceType) && resource.status === 'final',
+    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === "Observation" && resource.category?.some((cat: any) => cat.coding?.some((c: any) => RESULT_SUMMARY_OBSERVATION_CATEGORIES.includes(c.code))),
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
     // Only include social history Observations
@@ -44,7 +44,7 @@ export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPS
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "careplan_summary_document"),
     [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "immunization_summary_document"),
     [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "medication_summary_document"),
-    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && ["lab_summary_document", "diagnosticreportlab_summary_document"].includes(c.code)),
+    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && ["lab_summary_document", "diagnosticreportlab_summary_document"].includes(c.code)),
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "procedure_summary_document"),
 }
 

@@ -5,6 +5,16 @@ import {TObservation} from '../../../types/resources/Observation';
 import {TDiagnosticReport} from '../../../types/resources/DiagnosticReport';
 import {ISummaryTemplate} from './interfaces/ITemplate';
 import { TComposition } from '../../../types/resources/Composition';
+import { LAB_LOINC_MAP } from '../../../constants';
+import { RESULT_SUMMARY_OBSERVATION_DATE_FILTER } from '../../../structures/ips_section_constants';
+
+ // Build reverse lookup: LOINC code -> lab name
+const loincToLabName: Record<string, string> = {};
+for (const [labName, loincCodes] of Object.entries(LAB_LOINC_MAP)) {
+  for (const code of loincCodes) {
+    loincToLabName[code] = labName;
+  }
+}
 
 /**
  * Class to generate HTML narrative for Diagnostic Results (Observation resources)
@@ -504,26 +514,73 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     if (observations.length > 0) {
       // sort observations by date descending
       observations.sort((a, b) => {
-        const dateA = a.effectiveDateTime || a.effectivePeriod?.start || a.effectivePeriod?.end;
-        const dateB = b.effectiveDateTime || b.effectivePeriod?.start || b.effectivePeriod?.end;
-        return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+        const dateA = this.getObservationDate(a);
+        const dateB = this.getObservationDate(b);
+        return dateA && dateB ? dateB.getTime() - dateA.getTime() : 0;
       });
+      this.filterObservationForLoincCodes(observations);
       html += this.renderObservations(templateUtilities, observations, timezone);
     }
 
-    // Generate DiagnosticReports section if we have any DiagnosticReport resources
-    const diagnosticReports = this.getDiagnosticReports(resources);
-    if (diagnosticReports.length > 0) {
-      // sort diagnostic reports by date descending
-      diagnosticReports.sort((a, b) => {
-        const dateA = a.issued;
-        const dateB = b.issued;
-        return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
-      });
-      html += this.renderDiagnosticReports(templateUtilities, diagnosticReports, timezone);
+    if (process.env.ENABLE_DIAGNOSTIC_REPORTS_IN_SUMMARY === 'true') {
+      // Generate DiagnosticReports section if we have any DiagnosticReport resources
+      const diagnosticReports = this.getDiagnosticReports(resources);
+      if (diagnosticReports.length > 0) {
+        // sort diagnostic reports by date descending
+        diagnosticReports.sort((a, b) => {
+          const dateA = a.issued;
+          const dateB = b.issued;
+          return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+        });
+        html += this.renderDiagnosticReports(templateUtilities, diagnosticReports, timezone);
+      }
     }
 
     return html;
+  }
+
+  private static filterObservationForLoincCodes(observations: TObservation[]): void {
+    const labsAdded = new Set<string>();
+    const filteredObservations: TObservation[] = [];
+    for (const obs of observations) {
+      const loincCode = this.getObservationLoincCode(obs);
+      if (loincCode && loincToLabName[loincCode]) {
+        const labName = loincToLabName[loincCode];
+        if (!labsAdded.has(labName)) {
+          labsAdded.add(labName);
+          filteredObservations.push(obs);
+        }
+      }
+    }
+
+    // Update the observations array to only include the filtered observations
+    observations.length = 0;
+    observations.push(...filteredObservations);
+  }
+
+  private static getObservationLoincCode(obs: TObservation): string | undefined {
+    if (obs.code && obs.code.coding) {
+      for (const coding of obs.code.coding) {
+        if (coding.system && coding.system.toLowerCase().includes('loinc') && coding.code) {
+          return coding.code;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  private static getObservationDate(obs: TObservation): Date | undefined {
+    let obsDate = undefined;
+    if (obs.effectiveDateTime) {
+      obsDate = new Date(obs.effectiveDateTime);
+    } else if (obs.effectivePeriod) {
+      if (obs.effectivePeriod.start) {
+        obsDate = new Date(obs.effectivePeriod.start);
+      } else if (obs.effectivePeriod.end) {
+        obsDate = new Date(obs.effectivePeriod.end);
+      }
+    }
+    return obsDate;
   }
 
     /**
@@ -533,7 +590,16 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
    */
   private static getObservations(resources: TDomainResource[]): Array<TObservation> {
     return resources
-      .filter(resourceItem => resourceItem.resourceType === 'Observation')
+      .filter(resourceItem => {
+        if (resourceItem.resourceType === 'Observation') {
+          const obsDate = this.getObservationDate(resourceItem as TObservation);
+          // Date should be within last 2 years
+          if (obsDate && obsDate >= new Date(Date.now() - RESULT_SUMMARY_OBSERVATION_DATE_FILTER)) {
+            return true;
+          }
+        }
+        return false;
+      })
       .map(resourceItem => resourceItem as TObservation);
   }
 
@@ -556,17 +622,20 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
    * @returns HTML string for rendering
    */
   private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone: string | undefined): string {
-    let html = `
-      <h3>Observations</h3>
+    let html = '';
+
+    if (process.env.ENABLE_DIAGNOSTIC_REPORTS_IN_SUMMARY === 'true') {
+      html += `
+      <h3>Observations</h3>`;
+    }
+
+    html += `
       <table>
         <thead>
           <tr>
             <th>Code</th>
             <th>Result</th>
-            <th>Unit</th>
-            <th>Interpretation</th>
             <th>Reference Range</th>
-            <th>Comments</th>
             <th>Date</th>
           </tr>
         </thead>
@@ -584,10 +653,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
             <td>${obsCode}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
-            <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
-            <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
             <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
-            <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
           </tr>`;
       }
