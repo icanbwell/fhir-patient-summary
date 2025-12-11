@@ -599,10 +599,21 @@ export class TemplateUtilities {
         return status;
     }
 
+    private formatFloatValue(value: any): string {
+        // Format to maximum 2 decimal places, removing trailing zeros
+        if (typeof value === 'number') {
+            return value.toFixed(2).replace(/\.?0+$/, '');
+        } else if (typeof value === 'string' && !isNaN(Number(value))) {
+            return parseFloat(value).toFixed(2).replace(/\.?0+$/, '');
+        }
+        return value;
+    }
+
     public extractObservationSummaryValue(data: Record<string, any>, timezone: string | undefined): string {
         // valueQuantity
         if (data["valueQuantity.value"] !== undefined) {
-            const value = data["valueQuantity.value"];
+            let value = data["valueQuantity.value"];
+            value = this.formatFloatValue(value);
             const unit = data["valueQuantity.unit"];
             return unit ? `${value} ${unit}` : `${value}`;
         }
@@ -627,7 +638,9 @@ export class TemplateUtilities {
 
         // valueInteger
         if (data["valueInteger"] !== undefined) {
-            return String(data["valueInteger"]);
+            let value = String(data["valueInteger"]);
+            value = this.formatFloatValue(value);
+            return value;
         }
 
         // valueDateTime
@@ -655,7 +668,8 @@ export class TemplateUtilities {
 
         // valueSampledData
         if (data["valueSampledData.origin.value"] !== undefined || data["valueSampledData.origin.unit"] !== undefined) {
-            const originValue = data["valueSampledData.origin.value"];
+            let originValue = data["valueSampledData.origin.value"];
+            originValue = this.formatFloatValue(originValue);
             const originUnit = data["valueSampledData.origin.unit"];
             let result = '';
             if (originValue !== undefined && originUnit !== undefined) {
@@ -666,10 +680,10 @@ export class TemplateUtilities {
                 result = `${originUnit}`;
             }
             // Add other sampledData fields if present
-            const period = data["valueSampledData.period"];
-            const factor = data["valueSampledData.factor"];
-            const lowerLimit = data["valueSampledData.lowerLimit"];
-            const upperLimit = data["valueSampledData.upperLimit"];
+            const period = this.formatFloatValue(data["valueSampledData.period"]);
+            const factor = this.formatFloatValue(data["valueSampledData.factor"]);
+            const lowerLimit = this.formatFloatValue(data["valueSampledData.lowerLimit"]);
+            const upperLimit = this.formatFloatValue(data["valueSampledData.upperLimit"]);
             const sampledData = data["valueSampledData.data"];
             const extras: string[] = [];
             if (period !== undefined) extras.push(`period: ${period}`);
@@ -709,14 +723,14 @@ export class TemplateUtilities {
         if (data["valueRatio.numerator.value"] !== undefined || data["valueRatio.denominator.value"] !== undefined) {
             let ratio = '';
             if (data["valueRatio.numerator.value"] !== undefined) {
-                ratio += `${data["valueRatio.numerator.value"]}`;
+                ratio += `${this.formatFloatValue(data["valueRatio.numerator.value"])}`;
                 if (data["valueRatio.numerator.unit"] !== undefined) {
                     ratio += ` ${data["valueRatio.numerator.unit"]}`;
                 }
             }
             if (data["valueRatio.denominator.value"] !== undefined) {
                 ratio += ' / ';
-                ratio += `${data["valueRatio.denominator.value"]}`;
+                ratio += `${this.formatFloatValue(data["valueRatio.denominator.value"])}`;
                 if (data["valueRatio.denominator.unit"] !== undefined) {
                     ratio += ` ${data["valueRatio.denominator.unit"]}`;
                 }
