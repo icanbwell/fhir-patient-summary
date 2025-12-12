@@ -10,7 +10,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const bundlePath = path.resolve(__dirname, 'fixtures/production/bundle.json');
-const outputBase = path.resolve(__dirname, 'fixtures/production');
+const outputBase = path.resolve(__dirname, 'fixtures/production/resources');
+
+// Remove all files and folders in outputBase before proceeding
+if (fs.existsSync(outputBase)) {
+  fs.rmSync(outputBase, { recursive: true, force: true });
+  console.log(`Cleared outputBase: ${outputBase}`);
+}
 
 console.log('Resolved bundlePath:', bundlePath);
 console.log('Resolved outputBase:', outputBase);
