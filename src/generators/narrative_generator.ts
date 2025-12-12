@@ -84,7 +84,7 @@ export class NarrativeGenerator {
             return await htmlMinify(html, options);
         } catch (error) {
             console.warn('HTML minification failed', error, html);
-            return html;
+            return `${error instanceof Error ? error.message : String(error)}`;
         }
     }
 
