@@ -21,6 +21,7 @@ import {TRatio} from "../../../types/partials/Ratio";
 import {BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES} from '../../../structures/ips_section_loinc_codes';
 import {TCoding} from '../../../types/partials/Coding';
 import CODING_SYSTEM_DISPLAY_NAMES from "../../../structures/codingSystemDisplayNames";
+import {TResource} from "../../../types/resources/Resource";
 
 type ObservationValueType =
     | string
@@ -863,6 +864,19 @@ export class TemplateUtilities {
         }
 
         return '';
+    }
+
+    /**
+     * Returns the owner tag from the resource meta.security array.
+     * @param resource - FHIR resource with meta tag
+     * @returns The owner code if found, otherwise undefined
+     */
+    getOwnerTag(resource: TResource): string | undefined {
+        if (!resource?.meta?.security) return undefined;
+        const ownerEntry = resource.meta.security.find(
+            (sec) => sec.system === 'https://www.icanbwell.com/owner' && !!sec.code
+        );
+        return ownerEntry?.code;
     }
 
     /**

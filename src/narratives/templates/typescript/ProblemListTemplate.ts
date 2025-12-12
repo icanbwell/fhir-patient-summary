@@ -51,6 +51,7 @@ export class ProblemListTemplate implements ITemplate {
               <th>Code (System)</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -69,6 +70,7 @@ export class ProblemListTemplate implements ITemplate {
             <td class="CodeSystem">${codeSystemDisplay}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
+            <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
           </tr>`;
       }
     }
