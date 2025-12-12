@@ -53,6 +53,7 @@ export class SocialHistoryTemplate implements ITemplate {
             <th>Unit</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -69,6 +70,7 @@ export class SocialHistoryTemplate implements ITemplate {
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
     }
 
