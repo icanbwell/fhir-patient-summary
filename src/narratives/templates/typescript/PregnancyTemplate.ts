@@ -92,18 +92,20 @@ export class PregnancyTemplate implements ITemplate {
                   <th>Code (System)</th>
                   <th>Comments</th>
                   <th>Date</th>
+                  <th>Source</th>
                 </tr>
               </thead>
               <tbody>`;
 
         // Helper to render a row
-        function renderRow({ id, result, comments, date, codeSystem }: { id: string, result: string, comments: string, date: string, codeSystem: string }) {
+        function renderRow({ id, result, comments, date, codeSystem, owner }: { id: string, result: string, comments: string, date: string, codeSystem: string, owner?: string }) {
             html += `
                 <tr id="${id}">
                   <td class="Result">${result}</td>
                   <td class="CodeSystem">${codeSystem}</td>
                   <td class="Comments">${comments}</td>
                   <td class="Date">${date}</td>
+                  <td class="Source">${owner}</td>
                 </tr>`;
         }
 
@@ -162,7 +164,8 @@ export class PregnancyTemplate implements ITemplate {
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TCondition).code));
             }
-            renderRow({ id, result, comments, date: dateStr, codeSystem });
+            const owner = templateUtilities.getOwnerTag(resource);
+            renderRow({ id, result, comments, date: dateStr, codeSystem, owner });
         }
 
         html += `
