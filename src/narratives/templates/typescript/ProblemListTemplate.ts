@@ -60,14 +60,24 @@ export class ProblemListTemplate implements ITemplate {
           </thead>
           <tbody>`;
 
+    // Track seen codeAndSystem values to avoid duplicates
+    const seenCodeAndSystems = new Set<string>();
+
     for (const cond of activeConditions) {
       // Use display value for Problem column
       const conditionDisplay = templateUtilities.codeableConceptDisplay(cond.code);
       // Use code + system for Code (System) column
-      const codeSystemDisplay = templateUtilities.codeableConceptCoding(cond.code);
+      const codeAndSystem = templateUtilities.codeableConceptCoding(cond.code);
+
+      // Skip if this codeAndSystem has already been rendered
+      if (seenCodeAndSystems.has(codeAndSystem)) {
+        continue;
+      }
+      seenCodeAndSystems.add(codeAndSystem);
+
       html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
           <td class="Name">${conditionDisplay}</td>
-          <td class="CodeSystem">${codeSystemDisplay}</td>
+          <td class="CodeSystem">${codeAndSystem}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
           <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
