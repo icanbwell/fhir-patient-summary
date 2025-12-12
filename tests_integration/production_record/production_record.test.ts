@@ -6,7 +6,7 @@ import { ipsBundleToMarkdown } from '../../src/generators/IPSBundleToMarkdown';
 describe('Full Record Bundle Generation', () => {
     it('should generate the correct summary for the concatenated full record bundle', async () => {
         // Path to the sandbox fixtures
-        const sandboxDir = path.join(__dirname, 'fixtures/sandbox');
+        const sandboxDir = path.join(__dirname, 'fixtures/production');
         const resourceDirs = fs.readdirSync(sandboxDir).filter(f => fs.statSync(path.join(sandboxDir, f)).isDirectory());
         const resources: any[] = [];
         for (const dir of resourceDirs) {
