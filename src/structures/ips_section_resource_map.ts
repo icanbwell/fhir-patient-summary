@@ -45,8 +45,18 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
             codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         )
     ),
-    // Only include Conditions or completed ClinicalImpressions
-    [IPSSections.FUNCTIONAL_STATUS]: (resource) => (resource.resourceType === 'Condition'  && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code))) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
+    // Only include Observations with LOINC 47420-5, category 'functional-status', or category display containing 'functional', and completed ClinicalImpressions
+    [IPSSections.FUNCTIONAL_STATUS]: (resource) => (
+        resource.resourceType === 'Observation' && (
+            codeableConceptMatches(resource.code, '47420-5', 'http://loinc.org') ||
+            resource.category?.some((cat: any) =>
+                cat.coding?.some((c: any) =>
+                    (c.code === 'functional-status' && c.system === 'http://terminology.hl7.org/CodeSystem/observation-category') ||
+                    (typeof c.display === 'string' && c.display.toLowerCase().includes('functional'))
+                )
+            )
+        )
+    ) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
     // Only include resolved medical history Conditions
     [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code)),
     // Only include active care plans
