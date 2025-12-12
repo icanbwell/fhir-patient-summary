@@ -127,7 +127,7 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
     });
 
     // Start building the HTML with proper XHTML namespace
-    let html = '';
+    let html = `<p>This list includes all AllergyIntolerance resources, with no additional filtering, sorted as provided.</p>\n`;
 
     // Active Allergies section
     html += `

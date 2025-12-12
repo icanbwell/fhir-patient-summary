@@ -42,8 +42,10 @@ export class SocialHistoryTemplate implements ITemplate {
         : 0;
     });
 
+    let html = `<p>This list includes all information about the patient's social history, sorted by effective date (most recent first).</p>\n`;
+
     // Start building the HTML table
-    let html = `
+    html += `
       <table>
         <thead>
           <tr>

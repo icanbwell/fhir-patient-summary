@@ -407,8 +407,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             }
         }
 
-        let html = `
-      <div>`;
+        let html = `<p>This section includes Observations from the last 2 years (one per lab name, using LOINC code mapping) and DiagnosticReports with status 'final' issued in the last 2 years. Both are sorted by date (most recent first). Older results are counted and noted below the tables.</p>\n`;
 
         let observationhtml = `
       <div>

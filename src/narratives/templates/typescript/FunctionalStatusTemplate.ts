@@ -31,7 +31,16 @@ export class FunctionalStatusTemplate implements ITemplate {
     timezone: string | undefined
   ): string {
     const templateUtilities = new TemplateUtilities(resources);
-    let html = '';
+    let html = `<div class="functional-status-summary">
+      <h2>Functional Status Summary</h2>
+      <p>This summary gives an easy-to-understand overview of a person's ability to do daily activities and any changes in their physical abilities. It is designed for people, caregivers, and digital assistants to read and use.</p>
+      <ul>
+        <li>Shows important observations about how a person functions, like moving around or taking care of themselves.</li>
+        <li>Includes professional assessments (Clinical Impressions) with the latest information first.</li>
+        <li>Explains each item simply: what was observed, when, and any important notes.</li>
+      </ul>
+      <p>If there is no information, this summary will clearly say so.</p>
+    </div>`;
 
     // Only include relevant Observations (LOINC 47420-5 or category 'functional-status') and completed ClinicalImpressions
     let functionalObservations = resources

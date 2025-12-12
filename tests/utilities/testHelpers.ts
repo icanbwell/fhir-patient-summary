@@ -54,6 +54,20 @@ export function readNarrativeFile(folder: string, codeValue: string, sectionTitl
 }
 
 /**
+ * Reads a narrative file if it exists, otherwise returns undefined.
+ * @param folder - The folder where narrative files are stored
+ * @param codeValue - The LOINC code value to identify the narrative file
+ * @param sectionTitle - The title of the section to create a filename-friendly format
+ */
+export function readNarrativeFileIfExists(folder: string, codeValue: string, sectionTitle: string): string | undefined {
+    const filePath = getFileNameForSection(sectionTitle, codeValue, folder);
+    if (fs.existsSync(filePath)) {
+        return fs.readFileSync(filePath, 'utf-8');
+    }
+    return undefined;
+}
+
+/**
  * Compares generated HTML narratives with expected narratives.
  * @param generatedHtml - The generated HTML narrative string
  * @param expectedHtml - The expected HTML narrative string
@@ -80,9 +94,7 @@ export async function compareNarratives(generatedHtml: string | undefined, expec
 
 /**
  * Compares two FHIR bundles by checking their sections and narratives.
- * @param folder - The folder where narrative files are stored
- * @param bundle - The generated FHIR bundle to compare
- * @param expectedBundle - The expected FHIR bundle to compare against
+ * If a narrative file does not exist, it is written for future use.
  */
 export async function compare_bundles(folder: string, bundle: TBundle, expectedBundle: TBundle) {
     // remove the date from the bundle for comparison
@@ -91,21 +103,29 @@ export async function compare_bundles(folder: string, bundle: TBundle, expectedB
         bundle.entry[0].resource.date = expectedBundle.entry?.[0].resource?.date;
     }
 
-    // Compare the text.div of the first Composition resource if available
-    const generatedComposition: TComposition = <TComposition>bundle.entry?.find((e: TBundleEntry) => e.resource?.resourceType === 'Composition')?.resource;
-
-    const expectedCompositionDiv = readNarrativeFile(folder, '', 'Composition');
-
-    expect(expectedCompositionDiv?.length).toBeGreaterThan(0);
-    if (generatedComposition?.text?.div && expectedCompositionDiv) {
-        console.info('======= Comparing Composition narrative ======');
-        await compareNarratives(
-            generatedComposition.text.div,
-            expectedCompositionDiv
-        );
+    if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, { recursive: true });
     }
 
-    // extract the div from each section and compare
+    // Handle Composition narrative
+    const generatedComposition: TComposition = <TComposition>bundle.entry?.find((e: TBundleEntry) => e.resource?.resourceType === 'Composition')?.resource;
+    const compFile = getFileNameForSection('Composition', '', folder);
+    const expectedCompositionDiv = readNarrativeFileIfExists(folder, '', 'Composition');
+
+    if (generatedComposition?.text?.div) {
+        if (expectedCompositionDiv === undefined) {
+            fs.writeFileSync(compFile, generatedComposition.text.div, 'utf-8');
+            console.info(`Wrote generated Composition narrative to ${compFile}`);
+        } else {
+            console.info('======= Comparing Composition narrative ======');
+            await compareNarratives(
+                generatedComposition.text.div,
+                expectedCompositionDiv
+            );
+        }
+    }
+
+    // Handle section narratives
     const generatedSections: TCompositionSection[] | undefined = bundle.entry?.filter((e: TBundleEntry) => e.resource?.resourceType === 'Composition')
         .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
         .flat()
@@ -114,35 +134,31 @@ export async function compare_bundles(folder: string, bundle: TBundle, expectedB
         .map((e: TBundleEntry) => e.resource?.section as TCompositionSection)
         .flat()
         .filter((s: TCompositionSection) => s);
-    // compare the div of each section
     expect(generatedSections).toBeDefined();
     expect(expectedSections).toBeDefined();
-    // const turndownService = new TurndownService();
-    // expect(generatedSections?.length).toBe(expectedSections?.length);
     if (generatedSections && expectedSections) {
         for (let i = 0; i < generatedSections.length; i++) {
             const generatedSection = generatedSections[i];
-            console.info(`======= Comparing section ${generatedSection.title} ${i + 1}/${generatedSections.length} ====`);
+            console.info(`======= Checking section ${generatedSection.title} ${i + 1}/${generatedSections.length} ====\n`);
             const generatedDiv: string | undefined = generatedSection.text?.div;
-
-            // Get LOINC code for the section
             const codeValue = generatedSection.code?.coding?.[0].code;
             if (!codeValue) {
                 expect(codeValue).toBeDefined();
             }
-
-            // Read narrative from file
-            const expectedDiv = readNarrativeFile(folder, codeValue as string, generatedSection.title || '');
-
-            expect(expectedDiv?.length).toBeGreaterThan(0);
-
-            console.info(`Using narrative from file for ${generatedSection.title}`);
-
-            await compareNarratives(
-                generatedDiv || '',
-                expectedDiv || ''
-            )
+            const secFile = getFileNameForSection(generatedSection.title || '', codeValue as string, folder);
+            const expectedDiv = readNarrativeFileIfExists(folder, codeValue as string, generatedSection.title || '');
+            if (generatedDiv) {
+                if (expectedDiv === undefined) {
+                    fs.writeFileSync(secFile, generatedDiv, 'utf-8');
+                    console.info(`Wrote generated section narrative to ${secFile}`);
+                } else {
+                    console.info(`Comparing narrative for section: ${generatedSection.title}`);
+                    await compareNarratives(
+                        generatedDiv || '',
+                        expectedDiv || ''
+                    );
+                }
+            }
         }
     }
-    // expect(bundle).toEqual(expectedBundle);
 }

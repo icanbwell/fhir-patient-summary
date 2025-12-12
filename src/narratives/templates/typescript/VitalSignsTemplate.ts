@@ -126,8 +126,10 @@ export class VitalSignsTemplate implements ISummaryTemplate {
         : 0;
     });
 
+    let html = `<p>This list includes the latest vital signs, sorted by effective date (most recent first).</p>\n`;
+
     // Start building the HTML table
-    let html = `
+    html += `
       <table>
         <thead>
           <tr>

@@ -107,7 +107,8 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
   private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
-    let html = `
+    let html = `<p>This list includes all Procedure resources, sorted by performed date (most recent first).</p>\n`;
+    html += `
       <table>
         <thead>
           <tr>
@@ -119,7 +120,6 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
           </tr>
         </thead>
         <tbody>`;
-
     for (const resourceItem of resources) {
       const proc = resourceItem as TProcedure;
 

@@ -37,8 +37,8 @@ export class AdvanceDirectivesTemplate implements ITemplate {
 
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
-    let html = `
-      <table>
+    let html = `<p>This list includes all Consent resources, sorted by date (most recent first).</p>\n'
+    html += '<table>
         <thead>
           <tr>
             <th>Scope</th>
@@ -47,7 +47,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
             <th>Date</th>
           </tr>
         </thead>
-        <tbody>`;
+        <tbody`;
 
     for (const resourceItem of resources) {
       const consent = resourceItem as TConsent;

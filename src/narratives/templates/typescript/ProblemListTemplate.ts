@@ -30,7 +30,7 @@ export class ProblemListTemplate implements ITemplate {
     const templateUtilities = new TemplateUtilities(resources);
 
     // Start building the HTML
-    let html = ``;
+    let html = `<p>This list includes patient problems, sorted by recorded date (most recent first)</p>\n`;
 
     const activeConditions: TCondition[] =
       resources.map(entry => entry as TCondition) || [];

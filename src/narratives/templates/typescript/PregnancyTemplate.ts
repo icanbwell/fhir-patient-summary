@@ -83,8 +83,10 @@ export class PregnancyTemplate implements ITemplate {
             return `<p>No history of pregnancy found.</p>`;
         }
 
+        let html = `<p>This list includes Observation and Condition resources relevant to pregnancy, sorted by date (most recent first).</p>`;
+
         // Start building the HTML table using template literals for readability
-        let html = `
+        html += `
             <table>
               <thead>
                 <tr>

@@ -36,7 +36,9 @@ export class PatientTemplate implements ITemplate {
     // For multiple patients, merge their data
     const combinedPatient = this.combinePatients(resources);
     
-    return `<div>
+    // Start building the HTML
+    let html = `<p>This section merges all Patient resources into a single combined patient record, preferring non-empty values for each field.</p>`;
+    html += `<div>
       <ul>
         <li><strong>Name(s):</strong>${this.renderNames(combinedPatient)}</li>
         <li><strong>Gender:</strong>${combinedPatient.gender ? this.capitalize(combinedPatient.gender) : ''}</li>
@@ -48,6 +50,7 @@ export class PatientTemplate implements ITemplate {
         <li><strong>Language(s):</strong>${this.renderCommunication(templateUtilities, combinedPatient)}</li>
       </ul>
     </div>`;
+    return html;
   }
 
   /**
