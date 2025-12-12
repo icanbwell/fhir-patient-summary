@@ -347,7 +347,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         <table>
           <thead>
             <tr>
-              <th>Code</th>
+              <th>Name</th>
+              <th>Code (System)</th>
               <th>Result</th>
               <th>Reference Range</th>
               <th>Date</th>
@@ -373,7 +374,9 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
 
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         const components: Array<Record<string, string>> = [];
         
         for (const columnData of rowData.section ?? []) {
@@ -442,6 +445,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                   observationhtml += `
                   <tr>
                     <td>${componentCode}</td>
+                    <td></td>
                     <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? '-'}</td>
                     <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
@@ -457,6 +461,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                 observationhtml += `
                   <tr>
                     <td>${data['code'] ?? '-'}</td>
+                    <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                     <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? '-'}</td>
                     <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
@@ -638,7 +643,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
       <table>
         <thead>
           <tr>
-            <th>Code</th>
+            <th>Name</th>
+            <th>Code (System)</th>
             <th>Result</th>
             <th>Reference Range</th>
             <th>Date</th>
@@ -657,6 +663,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
             <td>${obsCode}</td>
+            <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
