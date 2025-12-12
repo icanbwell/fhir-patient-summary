@@ -33,9 +33,6 @@ export class FunctionalStatusTemplate implements ITemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let html = '';
 
-    // Section title per IPS
-    html += `<h3>Functional Status</h3>`;
-
     // Only include relevant Observations (LOINC 47420-5 or category 'functional-status') and completed ClinicalImpressions
     const functionalObservations = resources
       .filter((r): r is any => r.resourceType === 'Observation')
