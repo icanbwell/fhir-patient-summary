@@ -70,7 +70,7 @@ export class ProblemListTemplate implements ITemplate {
       const codeAndSystem = templateUtilities.codeableConceptCoding(cond.code);
 
       // Skip if this codeAndSystem has already been rendered
-      if (seenCodeAndSystems.has(codeAndSystem)) {
+      if (codeAndSystem && seenCodeAndSystems.has(codeAndSystem)) {
         continue;
       }
       seenCodeAndSystems.add(codeAndSystem);
