@@ -442,8 +442,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                   observationhtml += `
                   <tr>
                     <td>${componentCode}</td>
-                    <td>${component['formattedValue'] ?? '-'}</td>
-                    <td>${component['referenceRange']?.trim() ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
                   </tr>`;
                 }
@@ -457,8 +457,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                 observationhtml += `
                   <tr>
                     <td>${data['code'] ?? '-'}</td>
-                    <td>${data['formattedValue'] ?? '-'}</td>
-                    <td>${data['referenceRange']?.trim() ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
                   </tr>`;
               }

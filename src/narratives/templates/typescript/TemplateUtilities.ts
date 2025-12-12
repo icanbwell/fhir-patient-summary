@@ -122,7 +122,7 @@ export class TemplateUtilities {
         const organization: TOrganization | null = orgRef && this.resolveReference(orgRef);
 
         if (organization && organization.resourceType === 'Organization' && organization.name) {
-            return organization.name;
+            return this.renderTextAsHtml(organization.name);
         }
 
         return '';
@@ -137,7 +137,7 @@ export class TemplateUtilities {
         const organization: TOrganization | undefined = immunization.manufacturer && this.resolveReference(immunization.manufacturer) as TOrganization;
 
         if (organization && organization.resourceType === 'Organization' && organization.name) {
-            return organization.name;
+            return this.renderTextAsHtml(organization.name);
         }
 
         return '';
@@ -184,7 +184,7 @@ export class TemplateUtilities {
      */
     renderMedicationCode(medication: TMedication): string {
         if (medication && medication.code) {
-            return this.codeableConcept(medication.code, 'display');
+            return this.renderTextAsHtml(this.codeableConcept(medication.code, 'display'));
         }
 
         return '';
@@ -197,7 +197,7 @@ export class TemplateUtilities {
      */
     renderDoseNumber(doseNumber: any): string {
         if (doseNumber && doseNumber.value !== undefined) {
-            return doseNumber.value.toString();
+            return this.renderTextAsHtml(doseNumber.value.toString());
         }
 
         return '';
@@ -210,7 +210,7 @@ export class TemplateUtilities {
      */
     renderValueUnit(value: any): string {
         if (value && value.constructor?.name === 'Quantity' && value.unit) {
-            return value.unit;
+            return this.renderTextAsHtml(value.unit);
         }
 
         return '';
@@ -288,7 +288,7 @@ export class TemplateUtilities {
      * @returns Comma-separated string of items
      */
     safeConcat(list?: any[] | null, attr?: string): string {
-        return this.concat(list || [], attr);
+        return this.renderTextAsHtml(this.concat(list || [], attr));
     }
 
     /**
@@ -309,7 +309,7 @@ export class TemplateUtilities {
             }
         }
 
-        return items.join(', ');
+        return this.renderTextAsHtml(items.join(', '));
     }
 
     /**
@@ -337,7 +337,7 @@ export class TemplateUtilities {
             }
         }
 
-        return texts.join(', ');
+        return this.renderTextAsHtml(texts.join(', '));
     }
 
     /**
@@ -358,7 +358,7 @@ export class TemplateUtilities {
             }
         }
 
-        return doseNumbers.join(', ');
+        return this.renderTextAsHtml(doseNumbers.join(', '));
     }
 
     /**
@@ -379,7 +379,7 @@ export class TemplateUtilities {
             }
         }
 
-        return routes.join(', ');
+        return this.renderTextAsHtml(routes.join(', '));
     }
 
     /**
@@ -389,7 +389,7 @@ export class TemplateUtilities {
      */
     firstFromCodeableConceptList(list?: TCodeableConcept[] | null): string {
         if (list && Array.isArray(list) && list[0]) {
-            return this.codeableConcept(list[0], 'display');
+            return this.renderTextAsHtml(this.codeableConcept(list[0], 'display'));
         }
 
         return '';
@@ -413,7 +413,7 @@ export class TemplateUtilities {
             }
         }
 
-        return texts.join(', ');
+        return this.renderTextAsHtml(texts.join(', '));
     }
 
     /**
@@ -944,7 +944,7 @@ export class TemplateUtilities {
             }
 
             if (!dateTime.isValid) {
-                return String(dateValue);
+                return this.renderTextAsHtml(String(dateValue));
             }
 
             // Always use UTC for dateOnly formatting to ensure consistency
@@ -967,9 +967,9 @@ export class TemplateUtilities {
                     timeZoneName: 'short'
                 };
 
-            return dateTime.toLocaleString(formatOptions);
+            return this.renderTextAsHtml(dateTime.toLocaleString(formatOptions));
         } catch {
-            return String(dateValue);
+            return this.renderTextAsHtml(String(dateValue));
         }
     }
 
