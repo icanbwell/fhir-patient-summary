@@ -46,6 +46,31 @@ export class TemplateUtilities {
     }
 
     /**
+     * Returns the preferred coding from a list of codings.
+     * If a coding has an extension with url 'https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence' and valueCode 'preferred', returns that coding.
+     * Otherwise, returns the first coding if it exists, else null.
+     * @param codings Array of coding objects
+     * @returns The preferred coding object or null
+     */
+    getPreferredCoding(codings: any[]): any | null {
+        if (!Array.isArray(codings) || codings.length === 0) return null;
+        for (const coding of codings) {
+            if (Array.isArray(coding.extension)) {
+                for (const ext of coding.extension) {
+                    if (
+                        ext.url === 'https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence' &&
+                        ext.valueCode === 'preferred'
+                    ) {
+                        return coding;
+                    }
+                }
+            }
+        }
+        return codings[0] || null;
+    }
+
+
+    /**
      * Returns the display value from a CodeableConcept
      * @param cc - The CodeableConcept object
      * @param field - Optional specific field to extract (e.g., 'text', 'display', 'code')
@@ -57,13 +82,19 @@ export class TemplateUtilities {
         if (field) {
             if (cc[field as keyof TCodeableConcept]) {
                 return cc[field as keyof TCodeableConcept] as string;
-            } else if (cc.coding && cc.coding[0] && cc.coding[0][field as keyof typeof cc.coding[0]]) {
-                return cc.coding[0][field as keyof typeof cc.coding[0]] as string;
+            } else if (cc.coding && cc.coding.length > 0) {
+                const preferredCoding = this.getPreferredCoding(cc.coding);
+                if (preferredCoding && preferredCoding[field as keyof typeof preferredCoding]) {
+                    return preferredCoding[field as keyof typeof preferredCoding] as string;
+                }
             }
         }
 
         if (cc.text) return cc.text;
-        if (cc.coding && cc.coding[0] && cc.coding[0].display) return cc.coding[0].display;
+        if (cc.coding && cc.coding.length > 0) {
+            const preferredCoding = this.getPreferredCoding(cc.coding);
+            if (preferredCoding && preferredCoding.display) return preferredCoding.display;
+        }
         return '';
     }
 
@@ -73,10 +104,11 @@ export class TemplateUtilities {
      * @returns Object with code and system, or empty strings if not present
      */
     codeableConceptCoding(cc?: TCodeableConcept | null): string {
-        if (!cc || !cc.coding || !cc.coding[0]) return '';
-        const coding = cc.coding[0];
-        const code = coding.code || '';
-        const system = coding.system || '';
+        if (!cc || !cc.coding || !cc.coding.length) return '';
+        const preferredCoding = this.getPreferredCoding(cc.coding);
+        if (!preferredCoding) return '';
+        const code = preferredCoding.code || '';
+        const system = preferredCoding.system || '';
         const systemDisplay = CODING_SYSTEM_DISPLAY_NAMES[system] || system;
         return code ? `${code} (${systemDisplay})` : '';
     }
