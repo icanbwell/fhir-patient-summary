@@ -44,7 +44,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
 
     let html = `
       <div>
-      <p>This list includes all vaccinations, sorted by occurrence date (most recent first).</p>\n
+      <p>This list includes all vaccinations, sorted by occurrence date (most recent first).</p>
         <table>
           <thead>
             <tr>
