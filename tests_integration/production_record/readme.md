@@ -9,4 +9,4 @@
 
 The `tests_integration/production_record/fixtures/production` folder and `.env.local` are excluded from GitHub.
 
-Be sure to delete the in the `tests_integration/production_record/fixtures/production` as soon as you're done testing.
+Be sure to delete the files in the `tests_integration/production_record/fixtures/production` as soon as you're done testing.
