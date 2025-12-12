@@ -48,6 +48,10 @@ export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPS
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "procedure_summary_document"),
 }
 
+export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
+    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "ips_vital_summary_document"),
+}
+
 // Helper class to get resource types for a section
 export class IPSSectionResourceHelper {
     static getResourceFilterForSection(section: IPSSections): IPSSectionResourceFilter {
@@ -62,5 +66,9 @@ export class IPSSectionResourceHelper {
 
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         return IPSSectionSummaryCompositionFilter[section];
+    }
+
+    static getSummaryIPSCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
+        return IPSSectionSummaryIPSCompositionFilter[section];
     }
 }

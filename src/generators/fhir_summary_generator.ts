@@ -189,6 +189,12 @@ export class ComprehensiveIPSCompositionBuilder {
             if (sectionType === IPSSections.PATIENT) {
                 continue; // Patient section is handled separately
             }
+            const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
+            const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
+            if (sectionIPSSummary.length > 0) {
+                await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone);
+                continue;
+            }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
