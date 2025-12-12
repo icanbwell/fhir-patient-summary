@@ -29,19 +29,19 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
     // Only include social history Observations
-    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && codeableConceptMatches(resource.code, Object.keys(SOCIAL_HISTORY_LOINC_CODES), Object.values(SOCIAL_HISTORY_LOINC_CODES)[0]),
+    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && codeableConceptMatches(resource.code, Object.keys(SOCIAL_HISTORY_LOINC_CODES), 'http://loinc.org'),
     // Only include pregnancy history Observations or relevant Conditions
     [IPSSections.PREGNANCY_HISTORY]: (resource) => (
         resource.resourceType === 'Observation' && (
-            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS)[0]) ||
-            codeableConceptMatches(resource.valueCodeableConcept, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME)[0]) ||
+            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), 'http://loinc.org') ||
+            codeableConceptMatches(resource.valueCodeableConcept, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
             codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct') ||
             codingMatches(resource.valueCodeableConcept?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         )
     ) || (
         resource.resourceType === 'Condition' && (
-            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS)[0]) ||
-            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME)[0]) ||
+            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), 'http://loinc.org') ||
+            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
             codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         )
     ),
