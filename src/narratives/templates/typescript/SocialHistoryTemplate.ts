@@ -47,7 +47,8 @@ export class SocialHistoryTemplate implements ITemplate {
       <table>
         <thead>
           <tr>
-            <th>Code</th>
+            <th>Name</th>
+            <th>Code (System)</th>
             <th>Result</th>
             <th>Unit</th>
             <th>Comments</th>
@@ -63,6 +64,7 @@ export class SocialHistoryTemplate implements ITemplate {
       html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code))}</td>
+            <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
