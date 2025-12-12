@@ -20,6 +20,7 @@ import {TRange} from "../../../types/partials/Range";
 import {TRatio} from "../../../types/partials/Ratio";
 import { BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES } from '../../../structures/ips_section_loinc_codes';
 import { TCoding } from '../../../types/partials/Coding';
+import CODING_SYSTEM_DISPLAY_NAMES from '../../../structures/codingSystemDisplayNames';
 
 type ObservationValueType =
     | string
@@ -64,14 +65,26 @@ export class TemplateUtilities {
             }
         }
 
-        // Default order: text, coding[0].display, coding[0].code
+        // Always append code (SystemName) if coding exists
+        let codeSystemDisplay = '';
+        if (cc.coding && cc.coding[0]) {
+            const coding = cc.coding[0];
+            const code = coding.code || '';
+            const system = coding.system || '';
+            const systemDisplay = CODING_SYSTEM_DISPLAY_NAMES[system] || system;
+            if (code) {
+                codeSystemDisplay = `<span class="CodeSystemBlock"><span class="Code">${code}</span> <span class="System">(${systemDisplay})</span></span>`;
+            }
+        }
+
         if (cc.text) {
-            return cc.text;
+            return codeSystemDisplay ? `<span class="ConceptText">${cc.text}</span> ${codeSystemDisplay}` : `<span class="ConceptText">${cc.text}</span>`;
         } else if (cc.coding && cc.coding[0]) {
-            if (cc.coding[0].display) {
-                return cc.coding[0].display;
-            } else if (cc.coding[0].code) {
-                return cc.coding[0].code;
+            const coding = cc.coding[0];
+            if (coding.display) {
+                return codeSystemDisplay ? `<span class="ConceptText">${coding.display}</span> ${codeSystemDisplay}` : `<span class="ConceptText">${coding.display}</span>`;
+            } else if (codeSystemDisplay) {
+                return codeSystemDisplay;
             }
         }
 
