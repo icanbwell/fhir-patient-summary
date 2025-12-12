@@ -707,6 +707,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <th>Category</th>
             <th>Result</th>
             <th>Issued</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -732,6 +733,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
             <td>${resultCount}</td>
             <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(report)}</td>
           </tr>`;
       }
     }

@@ -49,6 +49,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Performer</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -69,6 +70,9 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
             case 'Performed Date':
               data['date'] = columnData.text?.div ?? '';
               break;
+              case 'Source':
+                data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                break;
             default:
               break;
           }
@@ -81,6 +85,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
                <td>${data['codeSystem'] ?? ''}</td>
               <td>${data['performer'] ?? ''}</td>
               <td>${templateUtilities.renderTime(data['date'], timezone) ?? '-'}</td>
+                <td>${data['source'] ?? ''}</td>
             </tr>`;
       }
     }
@@ -110,6 +115,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
             <th>Code (System)</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -125,6 +131,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
            <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
           <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
           <td>${proc.performedDateTime ? templateUtilities.renderTime(proc.performedDateTime, timezone) : proc.performedPeriod ? templateUtilities.renderPeriod(proc.performedPeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(proc)}</td>
         </tr>`;
     }
 
