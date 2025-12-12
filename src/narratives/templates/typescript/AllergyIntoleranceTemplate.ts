@@ -39,6 +39,7 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Criticality</th>
               <th>Recorded Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -59,6 +60,9 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
             case 'Recorded Date':
               data["recordedDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
+            case 'Source':
+              data["source"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
+              break;
             default:
               break;
           }
@@ -70,7 +74,8 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <td>${data["allergen"] ?? ""}</td>
                <td>${data["codeSystem"] ?? ""}</td>
               <td>${data["criticality"] ?? ""}</td>
-              <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? "-"}</td>
+              <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? ""}</td>
+              <td>${data["source"] ?? ""}</td>
             </tr>`;
       }
     }
@@ -138,6 +143,7 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <th>Reaction</th>
               <th>Onset Date</th>
               <th>Comments</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -173,6 +179,7 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <th>Onset Date</th>
               <th>Comments</th>
               <th>Resolved Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -223,7 +230,8 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
           <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || '-'}</td>
           <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || '-'}</td>
           <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || '-'}</td>
-          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>`;
+          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>
+           <td class="Source">${templateUtilities.getOwnerTag(allergy)}</td>`;
 
       // Add resolved date column for resolved allergies
       if (includeResolved) {
