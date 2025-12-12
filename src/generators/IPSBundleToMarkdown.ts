@@ -1,11 +1,13 @@
 // Utility to convert HTML to Markdown
 import TurndownService from 'turndown';
+import { gfm } from 'turndown-plugin-gfm';
 import {TBundle} from "../types/resources/Bundle";
 import {TComposition} from "../types/resources/Composition";
 import {TBundleEntry} from "../types/partials/BundleEntry";
 import {TResource} from "../types/resources/Resource";
 
 const turndownService = new TurndownService();
+turndownService.use(gfm);
 function htmlToMarkdown(html: string): string {
     return turndownService.turndown(html || '');
 }
