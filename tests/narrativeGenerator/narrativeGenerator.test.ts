@@ -5,7 +5,6 @@ import {TMedicationStatement} from '../../src/types/resources/MedicationStatemen
 import {TCondition} from '../../src/types/resources/Condition';
 import {TImmunization} from '../../src/types/resources/Immunization';
 import {TObservation} from '../../src/types/resources/Observation';
-import {NarrativeGenerator} from '../../src/generators/narrative_generator';
 import {IPSSections} from '../../src/structures/ips_sections';
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../../src/structures/ips_section_loinc_codes";
 import {compareNarratives, readNarrativeFile} from "../utilities/testHelpers";
@@ -14,6 +13,7 @@ import {TDiagnosticReport} from '../../src/types/resources/DiagnosticReport';
 import {TProcedure} from '../../src/types/resources/Procedure';
 import {TCarePlan} from '../../src/types/resources/CarePlan';
 import {TConsent} from '../../src/types/resources/Consent';
+import {NarrativeGenerator} from "../../src";
 
 describe('Narrative Generator Tests', () => {
     // Generate dynamic dates relative to current date
