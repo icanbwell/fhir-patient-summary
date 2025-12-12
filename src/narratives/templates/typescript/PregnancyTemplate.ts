@@ -83,29 +83,62 @@ export class PregnancyTemplate implements ITemplate {
             return `<p>No history of pregnancy found.</p>`;
         }
 
-        let html = '<table><thead><tr><th>Result</th><th>Comments</th><th>Date</th></tr></thead><tbody>';
+        // Collect all rows with their date for sorting
+        type Row = {
+            html: string;
+            date: string | undefined;
+        };
+        const rows: Row[] = [];
 
         // Pregnancy status row
         if (pregnancyStatusObs) {
-            html += `<tr id="${templateUtilities.narrativeLinkId(pregnancyStatusObs)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(pregnancyStatusObs))}</td><td>${templateUtilities.renderNotes(pregnancyStatusObs.note, timezone)}</td><td>${pregnancyStatusObs.effectiveDateTime ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(pregnancyStatusObs.effectiveDateTime, timezone)) : pregnancyStatusObs.effectivePeriod ? templateUtilities.renderTextAsHtml(templateUtilities.renderPeriod(pregnancyStatusObs.effectivePeriod, timezone)) : ''}</td></tr>`;
+            const date = pregnancyStatusObs.effectiveDateTime || pregnancyStatusObs.effectivePeriod?.start;
+            rows.push({
+                html: `<tr id="${templateUtilities.narrativeLinkId(pregnancyStatusObs)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(pregnancyStatusObs))}</td><td>${templateUtilities.renderNotes(pregnancyStatusObs.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
+                date
+            });
         }
 
         // Estimated Delivery Date row
         if (eddObs) {
-            html += `<tr id="${templateUtilities.narrativeLinkId(eddObs)}"><td>Estimated Delivery Date: ${templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(eddObs, timezone))}</td><td>${templateUtilities.renderNotes(eddObs.note, timezone)}</td><td>${eddObs.effectiveDateTime ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(eddObs.effectiveDateTime, timezone)) : eddObs.effectivePeriod ? templateUtilities.renderTextAsHtml(templateUtilities.renderPeriod(eddObs.effectivePeriod, timezone)) : ''}</td></tr>`;
+            const date = eddObs.effectiveDateTime || eddObs.effectivePeriod?.start;
+            rows.push({
+                html: `<tr id="${templateUtilities.narrativeLinkId(eddObs)}"><td>Estimated Delivery Date: ${templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(eddObs, timezone))}</td><td>${templateUtilities.renderNotes(eddObs.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
+                date
+            });
         }
 
         // Pregnancy history/outcome rows
         for (const obs of historyObs) {
-            html += `<tr id="${templateUtilities.narrativeLinkId(obs)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(obs))}</td><td>${templateUtilities.renderNotes(obs.note, timezone)}</td><td>${obs.effectiveDateTime ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(obs.effectiveDateTime, timezone)) : obs.effectivePeriod ? templateUtilities.renderTextAsHtml(templateUtilities.renderPeriod(obs.effectivePeriod, timezone)) : ''}</td></tr>`;
+            const date = obs.effectiveDateTime || obs.effectivePeriod?.start;
+            rows.push({
+                html: `<tr id="${templateUtilities.narrativeLinkId(obs)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(obs))}</td><td>${templateUtilities.renderNotes(obs.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
+                date
+            });
         }
 
         // Add Condition rows if present
         for (const cond of conditions) {
-          const condition = cond as TCondition;
-          html += `<tr id="${templateUtilities.narrativeLinkId(condition)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(condition.code))}</td><td>${templateUtilities.renderNotes(condition.note, timezone)}</td><td>${condition.onsetDateTime ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(condition.onsetDateTime, timezone)) : condition.onsetPeriod ? templateUtilities.renderTextAsHtml(templateUtilities.renderPeriod(condition.onsetPeriod, timezone)) : ''}</td></tr>`;
+            const condition = cond as TCondition;
+            const date = condition.onsetDateTime || condition.onsetPeriod?.start;
+            rows.push({
+                html: `<tr id="${templateUtilities.narrativeLinkId(condition)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(condition.code))}</td><td>${templateUtilities.renderNotes(condition.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
+                date
+            });
         }
 
+        // Sort rows descending by date (most recent first)
+        rows.sort((a, b) => {
+            if (!a.date && !b.date) return 0;
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+
+        let html = '<table><thead><tr><th>Result</th><th>Comments</th><th>Date</th></tr></thead><tbody>';
+        for (const row of rows) {
+            html += row.html;
+        }
         html += '</tbody></table>';
 
         return html;
