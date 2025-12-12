@@ -48,10 +48,20 @@ export class TemplateUtilities {
     /**
      * Returns the display value from a CodeableConcept
      * @param cc - The CodeableConcept object
+     * @param field - Optional specific field to extract (e.g., 'text', 'display', 'code')
      * @returns Display string or empty string
      */
-    codeableConceptDisplay(cc?: TCodeableConcept | null): string {
+    codeableConceptDisplay(cc?: TCodeableConcept | null, field?: string): string {
         if (!cc) return '';
+                // If a specific field is requested, use it if available
+        if (field) {
+            if (cc[field as keyof TCodeableConcept]) {
+                return cc[field as keyof TCodeableConcept] as string;
+            } else if (cc.coding && cc.coding[0] && cc.coding[0][field as keyof typeof cc.coding[0]]) {
+                return cc.coding[0][field as keyof typeof cc.coding[0]] as string;
+            }
+        }
+
         if (cc.text) return cc.text;
         if (cc.coding && cc.coding[0] && cc.coding[0].display) return cc.coding[0].display;
         return '';

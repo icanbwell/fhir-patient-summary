@@ -12,6 +12,7 @@ const CODING_SYSTEM_DISPLAY_NAMES: Record<string, string> = {
   'http://www.ama-assn.org/go/cpt': 'CPT',
   'http://unitsofmeasure.org': 'UCUM',
   'http://e-imo.com/products/problem-it': 'IMO Problem IT',
+  '2.16.840.1.113883.6.285': 'HCPCS Level II',
   // Add more as needed
 };
 
