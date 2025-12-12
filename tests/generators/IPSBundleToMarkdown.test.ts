@@ -37,7 +37,7 @@ describe('ipsBundleToMarkdown', () => {
         };
         const md = ipsBundleToMarkdown(bundle);
         expect(md).toContain('# Test Summary');
-        expect(md).toContain('Some narrative text.');
+        expect(md).toContain('Some **narrative** text.');
     });
 
     it('renders default title if Composition.title is missing', () => {

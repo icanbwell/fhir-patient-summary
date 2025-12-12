@@ -1,11 +1,13 @@
-// Utility to strip HTML tags from a string
+// Utility to convert HTML to Markdown
+import TurndownService from 'turndown';
 import {TBundle} from "../types/resources/Bundle";
 import {TComposition} from "../types/resources/Composition";
 import {TBundleEntry} from "../types/partials/BundleEntry";
 import {TResource} from "../types/resources/Resource";
 
-function stripHtml(html: string): string {
-    return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+const turndownService = new TurndownService();
+function htmlToMarkdown(html: string): string {
+    return turndownService.turndown(html || '');
 }
 
 /**
@@ -33,7 +35,7 @@ function ipsBundleToMarkdown(bundle: TBundle): string {
     }
     // Add composition narrative if present
     if (composition.text?.div) {
-        md += stripHtml(composition.text.div) + '\n\n';
+        md += htmlToMarkdown(composition.text.div) + '\n\n';
     }
     // Process sections
     const sections = (composition as any).section || [];
@@ -41,7 +43,7 @@ function ipsBundleToMarkdown(bundle: TBundle): string {
         const title = section.title || `Section ${idx + 1}`;
         md += `\n## ${title}\n`;
         if (section.text?.div) {
-            md += stripHtml(section.text.div) + '\n';
+            md += htmlToMarkdown(section.text.div) + '\n';
         }
     });
     // List all resources by type (excluding Composition)
