@@ -7,6 +7,8 @@ import {ISummaryTemplate} from './interfaces/ITemplate';
 import { TComposition } from '../../../types/resources/Composition';
 import { LAB_LOINC_MAP } from '../../../constants';
 import { RESULT_SUMMARY_OBSERVATION_DATE_FILTER } from '../../../structures/ips_section_constants';
+import { ESSENTIAL_LAB_PANELS } from '../../../structures/ips_section_loinc_codes';
+import {TCoding} from "../../../types/partials/Coding";
 
  // Build reverse lookup: LOINC code -> lab name
 const loincToLabName: Record<string, string> = {};
@@ -275,6 +277,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         break;
       case 'valueRange.high.value':
         targetData['valueRangeHighValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
+        targetData['valueType'] = 'valueRange';
         break;
       case 'valueRange.high.unit':
         targetData['valueRangeHighUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
@@ -290,6 +293,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         break;
       case 'valueRatio.denominator.value':
         targetData['valueRatioDenominatorValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
+        targetData['valueType'] = 'valueRatio';
         break;
       case 'valueRatio.denominator.unit':
         targetData['valueRatioDenominatorUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
@@ -534,7 +538,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
 
     // Generate DiagnosticReports section if we have any DiagnosticReport resources
     const diagnosticReports = this.getDiagnosticReports(resources)
-      .filter(report => !this.isPanelDiagnosticReport(report));
+      .filter((resource) => !this.isPanelDiagnosticReport(resource));
     if (diagnosticReports.length > 0) {
       // sort diagnostic reports by date descending
       diagnosticReports.sort((a, b) => {
@@ -731,20 +735,26 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
 
   /**
    * Helper to determine if a DiagnosticReport is just a panel (i.e., only references Observations, has no conclusion, and code is a known panel code)
-   * @param report - DiagnosticReport resource
    * @returns true if the report is just a panel
    */
   private static isPanelDiagnosticReport(report: TDiagnosticReport): boolean {
-    // LOINC panel codes typically end with '-3' or have a category of 'panel', but this can be customized
-    const panelCodeRegex = /-3$/;
-    const isPanelCode = report.code && report.code.coding && report.code.coding.some(coding =>
-      coding.system && coding.system.toLowerCase().includes('loinc') &&
-      coding.code && panelCodeRegex.test(coding.code)
+    return this.hasEssentialLabPanelLoinc(
+        report
+    )
+  }
+
+  /**
+   * Check if a DiagnosticReport or Observation has a LOINC code in ESSENTIAL_LAB_PANELS
+   * @param resource - DiagnosticReport or Observation
+   * @returns true if any LOINC code is in ESSENTIAL_LAB_PANELS, false otherwise
+   */
+  public static hasEssentialLabPanelLoinc(resource: TDiagnosticReport | TObservation): boolean {
+    const codings = resource?.code?.coding ?? [];
+    return codings.some(
+      (coding: TCoding) =>
+        coding && coding.system && coding.code &&
+        coding.system.toLowerCase().includes('loinc') &&
+        Object.keys(ESSENTIAL_LAB_PANELS).includes(coding.code)
     );
-    const hasNoConclusion = !report.conclusion && !report.conclusionCode;
-    const onlyReferencesObservations = Array.isArray(report.result) && report.result.length > 0 && (!report.presentedForm || report.presentedForm.length === 0);
-    // Optionally, check category for 'panel' if used in your data
-    // const isPanelCategory = report.category && Array.isArray(report.category) && report.category.some(cat => cat.coding && cat.coding.some(coding => coding.code === 'panel'));
-    return !!isPanelCode && hasNoConclusion && onlyReferencesObservations;
   }
 }
