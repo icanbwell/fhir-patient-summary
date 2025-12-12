@@ -49,8 +49,7 @@ export class ProblemListTemplate implements ITemplate {
           <thead>
             <tr>
               <th>Problem</th>
-              <th>System</th>
-              <th>Code</th>
+              <th>Code (System)</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
             </tr>
@@ -70,12 +69,12 @@ export class ProblemListTemplate implements ITemplate {
         code = cond.code.coding[0].code || '';
         systemDisplay = CODING_SYSTEM_DISPLAY_NAMES[system] || system;
       }
+      const codeSystemDisplay = code ? `${code} (${systemDisplay})` : '';
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
         html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
             <td class="Name">${conditionCode}</td>
-            <td class="System">${systemDisplay}</td>
-            <td class="Code">${code}</td>
+            <td class="CodeSystem">${codeSystemDisplay}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
           </tr>`;
