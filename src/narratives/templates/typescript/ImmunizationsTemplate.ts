@@ -48,8 +48,8 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           <thead>
             <tr>
               <th>Immunization</th>
-              <th>Status</th>
               <th>Code (System)</th>
+              <th>Status</th>
               <th>Date</th>
             </tr>
           </thead>
@@ -81,8 +81,8 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           html += `
               <tr>
                 <td>${data['immunization'] ?? '-'}</td>
-                <td>${data['status'] ?? '-'}</td>
                 <td>${data['codeSystem'] ?? '-'}</td>
+                <td>${data['status'] ?? '-'}</td>
                 <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? '-'}</td>
               </tr>`;
         }
@@ -111,8 +111,8 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         <thead>
           <tr>
             <th>Immunization</th>
-            <th>Status</th>
             <th>Code (System)</th>
+            <th>Status</th>
             <th>Dose Number</th>
             <th>Manufacturer</th>
             <th>Lot Number</th>
@@ -135,8 +135,8 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(imm))}">
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode))}</td>
-            <td>${imm.status || ''}</td>
             <td>${templateUtilities.codeableConceptCoding(imm.vaccineCode)}</td>
+            <td>${imm.status || ''}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
             <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
             <td>${imm.lotNumber || ''}</td>
