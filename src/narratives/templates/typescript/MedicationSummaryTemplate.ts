@@ -45,8 +45,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <thead>
                 <tr>
                 <th>Medication</th>
-                <th>Status</th>
                 <th>Code (System)</th>
+                <th>Status</th>
                 <th>Sig</th>
                 <th>Days of Supply</th>
                 <th>Refills</th>
@@ -104,8 +104,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                         html += `
                             <tr>
                                 <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
-                                <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
                                 <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
