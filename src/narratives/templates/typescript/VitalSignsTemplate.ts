@@ -41,15 +41,16 @@ export class VitalSignsTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Result</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
     
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
-                const sectionCodeableConcept = rowData.code;
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
-                data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         for (const columnData of rowData.section ?? []) {
           const columnTitle = columnData.title;
           if (columnTitle) {
@@ -89,6 +90,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <td>${data['codeSystem'] ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
+            <td>${data['Source'] ?? ''}</td>
           </tr>`;
       }
     }
@@ -113,7 +115,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
   ): string {
     const templateUtilities = new TemplateUtilities(resources);
 
-    const observations =
+    const observations: TObservation[] =
       resources.map(entry => entry as TObservation) || [];
 
     observations.sort((a, b) => {
@@ -137,6 +139,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <th>Component(s)</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -155,6 +158,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.renderComponent(obs.component)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
     }
 
