@@ -21,7 +21,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
     const templateUtilities = new TemplateUtilities(resources);
 
     // Start building the HTML
-    let html = ``;
+    let html = `<p>This list includes past problems for the patient with a recorded date within the last 5 years, sorted by recorded date (most recent first).</p>\n`;
 
     const resolvedConditions: TCondition[] =
       resources.map(entry => entry as TCondition) || [];
@@ -69,7 +69,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
       const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(cond.code));
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
-        html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+        html += `<tr>
             <td class="Name">${conditionCode}</td>
             <td class="CodeSystem">${templateUtilities.codeableConceptCoding(cond.code)}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>

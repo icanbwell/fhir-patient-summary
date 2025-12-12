@@ -40,7 +40,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         const currentDate = now || new Date();
         const twoYearsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 24, currentDate.getDate());
 
-        let html = `
+        let html = '<p>This list includes all the medications that were ordered for the patient, the medications they filled from the pharmacy and the medications they reported, filtered to past 2 years and sorted by start date.</p>';
+        html += `
         <div>
             <table>
             <thead>
@@ -56,7 +57,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 </tr>
             </thead>
             <tbody>`;
-
         let skippedMedications = 0;
         for (const resourceItem of resources) {
             // The resources are actually Composition resources with sections

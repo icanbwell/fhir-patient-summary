@@ -32,7 +32,9 @@ export class VitalSignsTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `
+    let html = `<p>This list includes the latest vital signs, sorted by effective date (most recent first).</p>\n`;
+
+    html += `
       <div>
         <table>
           <thead>
@@ -126,8 +128,10 @@ export class VitalSignsTemplate implements ISummaryTemplate {
         : 0;
     });
 
+    let html = `<p>This list includes the latest vital signs, sorted by effective date (most recent first).</p>\n`;
+
     // Start building the HTML table
-    let html = `
+    html += `
       <table>
         <thead>
           <tr>
@@ -146,10 +150,8 @@ export class VitalSignsTemplate implements ISummaryTemplate {
 
     // Loop through entries in the resources
     for (const obs of observations) {
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Add a table row for this observation
       html += `
-          <tr id="${templateUtilities.narrativeLinkId(obs)}">
+          <tr>
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code, 'display'))}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>

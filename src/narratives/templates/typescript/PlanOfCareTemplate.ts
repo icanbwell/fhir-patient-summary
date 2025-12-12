@@ -28,8 +28,9 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
       return endB - endA;
     });
 
+    let html = `<p>This list includes all CarePlan resources, sorted by planned end date (most recent first).</p>\n`;
     // Start building the HTML table
-    let html = `
+    html += `
       <table>
         <thead>
           <tr>
@@ -76,7 +77,9 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `
+    let html = `<p>This list includes all CarePlan resources, sorted by planned end date (most recent first).</p>\n`;
+
+    html += `
       <div>
         <table>
           <thead>

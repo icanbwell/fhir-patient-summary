@@ -37,8 +37,8 @@ export class AdvanceDirectivesTemplate implements ITemplate {
 
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
-    let html = `
-      <table>
+    let html = `<p>This list includes all Consent resources, sorted by date (most recent first).</p>\n`;
+    html += `<table>
         <thead>
           <tr>
             <th>Scope</th>
@@ -51,11 +51,8 @@ export class AdvanceDirectivesTemplate implements ITemplate {
 
     for (const resourceItem of resources) {
       const consent = resourceItem as TConsent;
-
-      // Use the enhanced narrativeLinkId utility function to extract the ID
-      // Add a table row for this consent
       html += `
-        <tr id="${(templateUtilities.narrativeLinkId(consent))}">
+        <tr>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display'))}</td>
           <td>${consent.status || ''}</td>
           <td>${consent.provision?.action ? templateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>

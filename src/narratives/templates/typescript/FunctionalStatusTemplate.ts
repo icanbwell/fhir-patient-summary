@@ -30,8 +30,8 @@ export class FunctionalStatusTemplate implements ITemplate {
     resources: TDomainResource[],
     timezone: string | undefined
   ): string {
-    const templateUtilities = new TemplateUtilities(resources);
-    let html = '';
+     const templateUtilities = new TemplateUtilities(resources);
+    let html = `<p>This section summarizes key observations and assessments related to the person's functional status and ability to perform daily activities.</p>`;
 
     // Only include relevant Observations (LOINC 47420-5 or category 'functional-status') and completed ClinicalImpressions
     let functionalObservations = resources

@@ -40,7 +40,8 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `
+    let html = `<p>This list includes all Procedure resources, sorted by performed date (most recent first).</p>\n`;
+    html += `
       <div>
         <table>
           <thead>
@@ -107,7 +108,8 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
   private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
-    let html = `
+    let html = `<p>This list includes all Procedure resources, sorted by performed date (most recent first).</p>\n`;
+    html += `
       <table>
         <thead>
           <tr>
@@ -119,19 +121,15 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
           </tr>
         </thead>
         <tbody>`;
-
     for (const resourceItem of resources) {
       const proc = resourceItem as TProcedure;
-
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Add a table row for this procedure
       html += `
-        <tr id="${(templateUtilities.narrativeLinkId(proc))}">
+        <tr>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(proc.code, 'display'))}</td>
-           <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
+          <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
           <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
-          <td>${proc.performedDateTime ? templateUtilities.renderTime(proc.performedDateTime, timezone) : proc.performedPeriod ? templateUtilities.renderPeriod(proc.performedPeriod, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(proc)}</td>
+          <td>${templateUtilities.renderTime(proc.performedDateTime || proc.performedPeriod?.start, timezone)}</td>
+          <td>${templateUtilities.getOwnerTag(proc)}</td>
         </tr>`;
     }
 

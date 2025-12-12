@@ -42,8 +42,10 @@ export class SocialHistoryTemplate implements ITemplate {
         : 0;
     });
 
+    let html = `<p>This list includes all information about the patient's social history, sorted by effective date (most recent first).</p>\n`;
+
     // Start building the HTML table
-    let html = `
+    html += `
       <table>
         <thead>
           <tr>
@@ -60,10 +62,9 @@ export class SocialHistoryTemplate implements ITemplate {
 
     // Loop through entries in the resources
     for (const obs of observations) {
-      // Find the narrative link ID if it exists
       // Add a table row for this observation
       html += `
-          <tr id="${templateUtilities.narrativeLinkId(obs)}">
+          <tr>
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code))}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>

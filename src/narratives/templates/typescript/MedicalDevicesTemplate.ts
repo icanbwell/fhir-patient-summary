@@ -29,7 +29,7 @@ export class MedicalDevicesTemplate implements ITemplate {
   private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
-    let html = `
+    let html = `<p>This list includes all DeviceUseStatement resources, sorted by recorded date (most recent first).</p>
       <table>
         <thead>
           <tr>
@@ -55,10 +55,8 @@ export class MedicalDevicesTemplate implements ITemplate {
 
     // Loop through DeviceUseStatement resources
     for (const dus of deviceStatements) {
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Add a table row for this device use statement
       html += `
-        <tr id="${templateUtilities.narrativeLinkId(dus)}">
+        <tr>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderDevice(dus.device))}</td>
           <td>${templateUtilities.renderTextAsHtml(dus.status || '')}</td>
           <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
