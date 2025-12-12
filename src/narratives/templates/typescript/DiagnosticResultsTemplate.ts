@@ -356,6 +356,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               <th>Result</th>
               <th>Reference Range</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -369,6 +370,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               <th>Report</th>
               <th>Performer</th>
               <th>Issued</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -420,6 +422,9 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               case 'Status':
                 data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                 break;
+                case 'Source':
+                    data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
               default:
                 break;
             }
@@ -453,6 +458,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                     <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? '-'}</td>
                     <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
+                    <td>${data['source'] ?? '-'}</td>
                   </tr>`;
                 }
               }
@@ -469,6 +475,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                     <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? '-'}</td>
                     <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
+                    <td>${data['source'] ?? '-'}</td>
                   </tr>`;
               }
             }
@@ -485,6 +492,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                       <td>${data['report'] ?? '-'}</td>
                       <td>${data['performer'] ?? '-'}</td>
                       <td>${templateUtilities.renderTime(data['issued'], timezone) ?? '-'}</td>
+                        <td>${data['source'] ?? '-'}</td>
                     </tr>`;
               }
             }
@@ -649,6 +657,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <th>Result</th>
             <th>Reference Range</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -668,6 +677,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
       }
     }
