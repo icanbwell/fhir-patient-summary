@@ -38,6 +38,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
           <thead>
             <tr>
               <th>Problem</th>
+              <th>Code (System)</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
               <th>Resolved Date</th>
@@ -53,6 +54,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
         addedConditionCodes.add(conditionCode);
         html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
             <td class="Name">${conditionCode}</td>
+            <td class="CodeSystem">${templateUtilities.codeableConceptCoding(cond.code)}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
             <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
