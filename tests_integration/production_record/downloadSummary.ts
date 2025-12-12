@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
+import graphDefinition from './graphDefinition.json' assert { type: 'json' };
+logWithTimestamp('INFO', `Loaded GraphDefinition from ./graphDefinition.json`);
 
 function logWithTimestamp(level: 'INFO' | 'ERROR', ...args: any[]) {
   const ts = new Date().toISOString();
@@ -22,6 +24,8 @@ const __dirname = path.dirname(__filename);
 // Load environment variables from .env.local
 logWithTimestamp('INFO', 'Loading environment variables from .env.local');
 dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
+
+// Remove old fs.readFileSync/JSON.parse block
 
 // Set Patient ID and Bearer Token here
 const PERSON_ID: string | undefined = process.env.PERSON_ID;
@@ -148,71 +152,6 @@ req.on('error', (err) => {
 });
 
 logWithTimestamp('INFO', 'Writing GraphDefinition body and sending request...');
-req.write(JSON.stringify({
-  resourceType: 'GraphDefinition',
-  id: 'o',
-  name: 'patient_everything',
-  status: 'active',
-  start: 'Patient',
-  link: [
-    {target: [{type: 'AllergyIntolerance', params: 'patient={ref}'}]},
-    {target: [{type: 'CarePlan', params: 'patient={ref}'}]},
-    {target: [{type: 'ClinicalImpression', params: 'patient={ref}'}]},
-    {target: [{type: 'Composition', params: 'patient={ref}'}]},
-    {target: [{type: 'Condition', params: 'patient={ref}'}]},
-    {target: [{type: 'Consent', params: 'patient={ref}'}]},
-    {target: [{type: 'Device', params: 'patient={ref}'}]},
-    {
-      target: [
-        {
-          type: 'DeviceUseStatement',
-          params: 'patient={ref}',
-          link: [{path: 'device', target: [{type: 'Device'}]}]
-        }
-      ]
-    },
-    {target: [{type: 'DiagnosticReport', params: 'patient={ref}'}]},
-    {
-      target: [
-        {
-          type: 'Immunization',
-          params: 'patient={ref}',
-          link: [{path: 'manufacturer', target: [{type: 'Organization'}]}]
-        }
-      ]
-    },
-    {target: [{type: 'MedicationDispense', params: 'patient={ref}'}]},
-    {
-      target: [
-        {
-          type: 'MedicationRequest',
-          params: 'patient={ref}',
-          link: [{path: 'medicationReference', target: [{type: 'Medication'}]}]
-        }
-      ]
-    },
-    {
-      target: [
-        {
-          type: 'MedicationStatement',
-          params: 'patient={ref}',
-          link: [{path: 'medicationReference', target: [{type: 'Medication'}]}]
-        }
-      ]
-    },
-    {target: [{type: 'Observation', params: 'patient={ref}'}]},
-    {target: [{type: 'Patient', params: 'link={ref}'}]},
-    {
-      target: [
-        {
-          type: 'Person',
-          params: 'patient={ref}',
-          link: [{target: [{type: 'Person', params: 'link={ref}'}]}]
-        }
-      ]
-    },
-    {target: [{type: 'Procedure', params: 'patient={ref}'}]}
-  ]
-}));
+req.write(JSON.stringify(graphDefinition));
 logWithTimestamp('INFO', 'Request sent. Waiting for response...');
 req.end();

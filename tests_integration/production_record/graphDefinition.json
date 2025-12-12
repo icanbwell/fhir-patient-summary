@@ -1,0 +1,57 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "patient_everything",
+  "status": "active",
+  "start": "Patient",
+  "link": [
+    {"target": [{"type": "AllergyIntolerance", "params": "patient={ref}"}]},
+    {"target": [{"type": "CarePlan", "params": "patient={ref}"}]},
+    {"target": [{"type": "ClinicalImpression", "params": "patient={ref}"}]},
+    {"target": [{"type": "Composition", "params": "patient={ref}"}]},
+    {"target": [{"type": "Condition", "params": "patient={ref}"}]},
+    {"target": [{"type": "Consent", "params": "patient={ref}"}]},
+    {"target": [{"type": "Device", "params": "patient={ref}"}]},
+    {"target": [
+      {
+        "type": "DeviceUseStatement",
+        "params": "patient={ref}",
+        "link": [{"path": "device", "target": [{"type": "Device"}]}]
+      }
+    ]},
+    {"target": [{"type": "DiagnosticReport", "params": "patient={ref}"}]},
+    {"target": [
+      {
+        "type": "Immunization",
+        "params": "patient={ref}",
+        "link": [{"path": "manufacturer", "target": [{"type": "Organization"}]}]
+      }
+    ]},
+    {"target": [{"type": "MedicationDispense", "params": "patient={ref}"}]},
+    {"target": [
+      {
+        "type": "MedicationRequest",
+        "params": "patient={ref}",
+        "link": [{"path": "medicationReference", "target": [{"type": "Medication"}]}]
+      }
+    ]},
+    {"target": [
+      {
+        "type": "MedicationStatement",
+        "params": "patient={ref}",
+        "link": [{"path": "medicationReference", "target": [{"type": "Medication"}]}]
+      }
+    ]},
+    {"target": [{"type": "Observation", "params": "patient={ref}"}]},
+    {"target": [{"type": "Patient", "params": "link={ref}"}]},
+    {"target": [
+      {
+        "type": "Person",
+        "params": "patient={ref}",
+        "link": [{"target": [{"type": "Person", "params": "link={ref}"}]}]
+      }
+    ]},
+    {"target": [{"type": "Procedure", "params": "patient={ref}"}]}
+  ]
+}
+
