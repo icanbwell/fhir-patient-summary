@@ -2,6 +2,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {TBundle} from "../../src/types/resources/Bundle";
+import {TBundleEntry} from "../../src/types/partials/BundleEntry";
+// Import FHIR types
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,21 +20,21 @@ let errorCount = 0;
 
 try {
   const json = fs.readFileSync(bundlePath, 'utf8');
-  const bundle = JSON.parse(json);
+  const bundle: TBundle = JSON.parse(json);
   if (!Array.isArray(bundle.entry)) {
     throw new Error('No entry array found in bundle.json');
   }
   if (bundle.entry.length === 0) {
     throw new Error('No entries in bundle.json');
   }
-  for (const entry of bundle.entry) {
+  for (const entry of bundle.entry as TBundleEntry[]) {
     if (!entry.resource || !entry.resource.resourceType || !entry.resource.id) {
       errorCount++;
       console.error('Entry missing resourceType or id:', entry);
       continue;
     }
-    const resourceType = entry.resource.resourceType;
-    const resourceId = entry.resource.id;
+    const resourceType: string = entry.resource.resourceType as string;
+    const resourceId: string = entry.resource.id as string;
     const resourceFolder = path.join(outputBase, resourceType);
     try {
       if (!fs.existsSync(resourceFolder)) {
