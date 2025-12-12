@@ -37,17 +37,20 @@ export class VitalSignsTemplate implements ISummaryTemplate {
         <table>
           <thead>
             <tr>
-              <th>Vital Name</th>
+              <th>Name</th>
+              <th>Code (System)</th>
               <th>Result</th>
-              <th>Reference Range</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
     
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         for (const columnData of rowData.section ?? []) {
           const columnTitle = columnData.title;
           if (columnTitle) {
@@ -83,10 +86,11 @@ export class VitalSignsTemplate implements ISummaryTemplate {
 
         html += `
           <tr>
-            <td>${data['Vital Name'] ?? '-'}</td>
-            <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? '-'}</td>
-            <td>${templateUtilities.extractObservationSummaryReferenceRange(data) ?? '-'}</td>
-            <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? '-'}</td>
+            <td>${data['Vital Name'] ?? ''}</td>
+            <td>${data['codeSystem'] ?? ''}</td>
+            <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
+            <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
+            <td>${data['Source'] ?? ''}</td>
           </tr>`;
       }
     }
@@ -111,7 +115,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
   ): string {
     const templateUtilities = new TemplateUtilities(resources);
 
-    const observations =
+    const observations: TObservation[] =
       resources.map(entry => entry as TObservation) || [];
 
     observations.sort((a, b) => {
@@ -127,13 +131,15 @@ export class VitalSignsTemplate implements ISummaryTemplate {
       <table>
         <thead>
           <tr>
-            <th>Vital Name</th>
+            <th>Name</th>
+            <th>Code (System)</th>
             <th>Result</th>
             <th>Unit</th>
             <th>Interpretation</th>
             <th>Component(s)</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -144,13 +150,15 @@ export class VitalSignsTemplate implements ISummaryTemplate {
       // Add a table row for this observation
       html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code, 'display'))}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code, 'display'))}</td>
+            <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>
             <td>${templateUtilities.renderComponent(obs.component)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
     }
 

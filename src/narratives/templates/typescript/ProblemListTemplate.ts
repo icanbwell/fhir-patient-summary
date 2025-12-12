@@ -37,8 +37,12 @@ export class ProblemListTemplate implements ITemplate {
 
     // sort conditions by onset date in descending order
     activeConditions.sort((a, b) => {
-      const dateA = a.recordedDate ? new Date(a.recordedDate).getTime() : 0;
-      const dateB = b.recordedDate ? new Date(b.recordedDate).getTime() : 0;
+      // If a.recordedDate is missing, treat as most recent (active)
+      if (!a.recordedDate && b.recordedDate) return -1;
+      if (a.recordedDate && !b.recordedDate) return 1;
+      if (!a.recordedDate && !b.recordedDate) return 0;
+      const dateA = new Date(a.recordedDate!).getTime();
+      const dateB = new Date(b.recordedDate!).getTime();
       return dateB - dateA;
     });
 
@@ -48,24 +52,36 @@ export class ProblemListTemplate implements ITemplate {
           <thead>
             <tr>
               <th>Problem</th>
+              <th>Code (System)</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
 
-    const addedConditionCodes = new Set<string>();
+    // Track seen codeAndSystem values to avoid duplicates
+    const seenCodeAndSystems = new Set<string>();
 
     for (const cond of activeConditions) {
-      const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(cond.code));
-      if (!addedConditionCodes.has(conditionCode)) {
-        addedConditionCodes.add(conditionCode);
-        html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
-            <td class="Name">${conditionCode}</td>
-            <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
-            <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
-          </tr>`;
+      // Use display value for Problem column
+      const conditionDisplay = templateUtilities.codeableConceptDisplay(cond.code);
+      // Use code + system for Code (System) column
+      const codeAndSystem = templateUtilities.codeableConceptCoding(cond.code);
+
+      // Skip if this codeAndSystem has already been rendered
+      if (codeAndSystem && seenCodeAndSystems.has(codeAndSystem)) {
+        continue;
       }
+      seenCodeAndSystems.add(codeAndSystem);
+
+      html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+          <td class="Name">${conditionDisplay}</td>
+          <td class="CodeSystem">${codeAndSystem}</td>
+          <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
+          <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
+          <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
+        </tr>`;
     }
 
     html += `</tbody>

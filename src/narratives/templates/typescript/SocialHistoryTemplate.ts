@@ -47,11 +47,13 @@ export class SocialHistoryTemplate implements ITemplate {
       <table>
         <thead>
           <tr>
-            <th>Code</th>
+            <th>Name</th>
+            <th>Code (System)</th>
             <th>Result</th>
             <th>Unit</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -62,11 +64,13 @@ export class SocialHistoryTemplate implements ITemplate {
       // Add a table row for this observation
       html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code))}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code))}</td>
+            <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
     }
 

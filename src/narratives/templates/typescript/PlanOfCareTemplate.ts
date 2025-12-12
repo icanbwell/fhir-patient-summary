@@ -38,6 +38,7 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
             <th>Comments</th>
             <th>Planned Start</th>
             <th>Planned End</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -53,6 +54,7 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
             <td>${templateUtilities.concat(cp.note, 'text')}</td>
             <td>${cp.period?.start ? templateUtilities.renderTime(cp.period?.start, timezone) : ''}</td>
             <td>${cp.period?.end ? templateUtilities.renderTime(cp.period?.end, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(cp)}</td>
           </tr>`;
     }
 
@@ -83,6 +85,7 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
               <th>Created</th>
               <th>Planned Start</th>
               <th>Planned End</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -103,10 +106,11 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data["CarePlan Name"] ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["created"], timezone) ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? "-"}</td>
+              <td>${data["CarePlan Name"] ?? ''}</td>
+              <td>${templateUtilities.renderTime(data["created"], timezone) ?? ''}</td>
+              <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? ''}</td>
+              <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? ''}</td>
+                <td>${data["source"] ?? ''}</td>
             </tr>`;
       }
     }

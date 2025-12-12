@@ -18,8 +18,10 @@ import {TAnnotation} from "../../../types/partials/Annotation";
 import {TPeriod} from "../../../types/partials/Period";
 import {TRange} from "../../../types/partials/Range";
 import {TRatio} from "../../../types/partials/Ratio";
-import { BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES } from '../../../structures/ips_section_loinc_codes';
-import { TCoding } from '../../../types/partials/Coding';
+import {BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES} from '../../../structures/ips_section_loinc_codes';
+import {TCoding} from '../../../types/partials/Coding';
+import CODING_SYSTEM_DISPLAY_NAMES from "../../../structures/codingSystemDisplayNames";
+import {TResource} from "../../../types/resources/Resource";
 
 type ObservationValueType =
     | string
@@ -45,57 +47,71 @@ export class TemplateUtilities {
     }
 
     /**
-     * Formats a CodeableConcept object
-     * @param cc - The CodeableConcept object
-     * @param field - Optional specific field to return
-     * @returns Formatted string representation
+     * Returns the preferred coding from a list of codings.
+     * If a coding has an extension with url 'https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence' and valueCode 'preferred', returns that coding.
+     * Otherwise, returns the first coding if it exists, else null.
+     * @param codings Array of coding objects
+     * @returns The preferred coding object or null
      */
-    codeableConcept(cc?: TCodeableConcept | null, field?: string): string {
-        if (!cc) {
-            return '';
+    getPreferredCoding(codings: any[]): any | null {
+        if (!Array.isArray(codings) || codings.length === 0) return null;
+        for (const coding of codings) {
+            if (Array.isArray(coding.extension)) {
+                for (const ext of coding.extension) {
+                    if (
+                        ext.url === 'https://fhir.icanbwell.com/4_0_0/StructureDefinition/intelligence' &&
+                        ext.valueCode === 'preferred'
+                    ) {
+                        return coding;
+                    }
+                }
+            }
         }
+        return codings[0] || null;
+    }
 
-        // If a specific field is requested, use it if available
+
+    /**
+     * Returns the display value from a CodeableConcept
+     * @param cc - The CodeableConcept object
+     * @param field - Optional specific field to extract (e.g., 'text', 'display', 'code')
+     * @returns Display string or empty string
+     */
+    codeableConceptDisplay(cc?: TCodeableConcept | null, field?: string): string {
+        if (!cc) return '';
+                // If a specific field is requested, use it if available
         if (field) {
             if (cc[field as keyof TCodeableConcept]) {
                 return cc[field as keyof TCodeableConcept] as string;
-            } else if (cc.coding && cc.coding[0] && cc.coding[0][field as keyof typeof cc.coding[0]]) {
-                return cc.coding[0][field as keyof typeof cc.coding[0]] as string;
+            } else if (cc.coding && cc.coding.length > 0) {
+                const preferredCoding = this.getPreferredCoding(cc.coding);
+                if (preferredCoding && preferredCoding[field as keyof typeof preferredCoding]) {
+                    return preferredCoding[field as keyof typeof preferredCoding] as string;
+                }
             }
         }
 
-        // Default order: text, coding[0].display, coding[0].code
-        if (cc.text) {
-            return cc.text;
-        } else if (cc.coding && cc.coding[0]) {
-            if (cc.coding[0].display) {
-                return cc.coding[0].display;
-            } else if (cc.coding[0].code) {
-                return cc.coding[0].code;
-            }
+        if (cc.text) return cc.text;
+        if (cc.coding && cc.coding.length > 0) {
+            const preferredCoding = this.getPreferredCoding(cc.coding);
+            if (preferredCoding && preferredCoding.display) return preferredCoding.display;
         }
-
         return '';
     }
 
-    resolveReference<T extends TDomainResource>(ref: TReference): T | null {
-        // find the resource that matches the reference
-        if (!ref || !this.resources) {
-            return null;
-        }
-        // split the reference into referenceResourceType and id on /
-        const referenceParts = ref.reference?.split('/');
-        if (!referenceParts || referenceParts.length !== 2) {
-            return null;
-        }
-        const referenceResourceType = referenceParts[0];
-        const referenceResourceId = referenceParts[1];
-
-        const resource = this.resources.find(entry => {
-            return entry.resourceType === referenceResourceType &&
-                entry.id === referenceResourceId;
-        });
-        return resource ? (resource as T) : null;
+    /**
+     * Returns the code and system from a CodeableConcept
+     * @param cc - The CodeableConcept object
+     * @returns Object with code and system, or empty strings if not present
+     */
+    codeableConceptCoding(cc?: TCodeableConcept | null): string {
+        if (!cc || !cc.coding || !cc.coding.length) return '';
+        const preferredCoding = this.getPreferredCoding(cc.coding);
+        if (!preferredCoding) return '';
+        const code = preferredCoding.code || '';
+        const system = preferredCoding.system || '';
+        const systemDisplay = CODING_SYSTEM_DISPLAY_NAMES[system] || system;
+        return code ? `${code} (${systemDisplay})` : '';
     }
 
     /**
@@ -154,7 +170,7 @@ export class TemplateUtilities {
         }
 
         if (medicationType.medicationCodeableConcept) {
-            return this.codeableConcept(medicationType.medicationCodeableConcept);
+            return this.codeableConceptDisplay(medicationType.medicationCodeableConcept);
         } else if (medicationType.medicationReference) {
             return this.renderMedicationRef(medicationType.medicationReference);
         }
@@ -184,7 +200,7 @@ export class TemplateUtilities {
      */
     renderMedicationCode(medication: TMedication): string {
         if (medication && medication.code) {
-            return this.renderTextAsHtml(this.codeableConcept(medication.code, 'display'));
+            return this.renderTextAsHtml(this.codeableConceptDisplay(medication.code));
         }
 
         return '';
@@ -389,7 +405,7 @@ export class TemplateUtilities {
      */
     firstFromCodeableConceptList(list?: TCodeableConcept[] | null): string {
         if (list && Array.isArray(list) && list[0]) {
-            return this.renderTextAsHtml(this.codeableConcept(list[0], 'display'));
+            return this.renderTextAsHtml(this.codeableConceptDisplay(list[0]));
         }
 
         return '';
@@ -836,18 +852,31 @@ export class TemplateUtilities {
 
         // Case 2: It's a CodeableConcept (medicationCodeableConcept)
         if (typeof medicationSource === 'object' && ('coding' in medicationSource || 'text' in medicationSource)) {
-            return this.codeableConcept(medicationSource as TCodeableConcept);
+            return this.codeableConceptDisplay(medicationSource as TCodeableConcept);
         }
 
         // Case 3: It's a Reference to a Medication resource (medicationReference)
         if (typeof medicationSource === 'object' && 'reference' in medicationSource) {
             const medication = this.resolveReference<TMedication>(medicationSource);
             if (medication && medication.code) {
-                return this.codeableConcept(medication.code);
+                return this.codeableConceptDisplay(medication.code);
             }
         }
 
         return '';
+    }
+
+    /**
+     * Returns the owner tag from the resource meta.security array.
+     * @param resource - FHIR resource with meta tag
+     * @returns The owner code if found, otherwise undefined
+     */
+    getOwnerTag(resource: TResource): string | undefined {
+        if (!resource?.meta?.security) return '';
+        const ownerEntry = resource.meta.security.find(
+            (sec) => sec.system === 'https://www.icanbwell.com/owner' && !!sec.code
+        );
+        return ownerEntry?.code;
     }
 
     /**
@@ -1070,5 +1099,21 @@ export class TemplateUtilities {
         const denominatorUnit = valueRatio.denominator.unit ? ` ${valueRatio.denominator.unit}` : '';
 
         return `${numerator}${numeratorUnit} / ${denominator}${denominatorUnit}`;
+    }
+
+    /**
+     * Finds the resource that matches the reference
+     * @param ref - Reference to a resource
+     * @returns The resource or null
+     */
+    resolveReference<T extends TDomainResource>(ref: TReference): T | null {
+        if (!ref || !this.resources) {
+            return null;
+        }
+        const refId = ref.reference?.split('/')[1];
+        const refType = ref.reference?.split('/')[0];
+        return (this.resources.find(
+            (resource: any) => resource.resourceType === refType && resource.id === refId
+        ) as T) || null;
     }
 }

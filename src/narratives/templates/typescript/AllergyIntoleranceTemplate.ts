@@ -36,15 +36,19 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
           <thead>
             <tr>
               <th>Allergen</th>
+              <th>Code (System)</th>
               <th>Criticality</th>
               <th>Recorded Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
     
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []){
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {}
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         for (const columnData of rowData.section ?? []){
           switch (columnData.title){
             case 'Allergen Name':
@@ -56,6 +60,9 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
             case 'Recorded Date':
               data["recordedDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
+            case 'Source':
+              data["source"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
+              break;
             default:
               break;
           }
@@ -64,9 +71,11 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data["allergen"] ?? "-"}</td>
-              <td>${data["criticality"] ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? "-"}</td>
+              <td>${data["allergen"] ?? ""}</td>
+               <td>${data["codeSystem"] ?? ""}</td>
+              <td>${data["criticality"] ?? ""}</td>
+              <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? ""}</td>
+              <td>${data["source"] ?? ""}</td>
             </tr>`;
       }
     }
@@ -129,10 +138,12 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
             <tr>
               <th>Allergen</th>
               <th>Status</th>
+               <th>Code (System)</th>
               <th>Category</th>
               <th>Reaction</th>
               <th>Onset Date</th>
               <th>Comments</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -162,11 +173,13 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
             <tr>
               <th>Allergen</th>
               <th>Status</th>
+              <th>Code (System)</th>
               <th>Category</th>
               <th>Reaction</th>
               <th>Onset Date</th>
               <th>Comments</th>
               <th>Resolved Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -211,17 +224,19 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
       // Add a table row for this allergy with appropriate classes
       html += `
         <tr id="${templateUtilities.narrativeLinkId(allergy.extension)}">
-          <td class="Name"><span class="AllergenName">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(allergy.code))}</span></td>
-          <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(allergy.clinicalStatus)) || '-'}</td>
-          <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || '-'}</td>
-          <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || '-'}</td>
-          <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || '-'}</td>
-          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>`;
+          <td class="Name"><span class="AllergenName">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.code))}</span></td>
+          <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.clinicalStatus)) || ''}</td>
+          <td class="CodeSystem">${templateUtilities.codeableConceptCoding(allergy.code)}</td>
+          <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || ''}</td>
+          <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || ''}</td>
+          <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || ''}</td>
+          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>
+           <td class="Source">${templateUtilities.getOwnerTag(allergy)}</td>`;
 
       // Add resolved date column for resolved allergies
       if (includeResolved) {
-        // Try to find end date from extension or use '-' if not found
-        let endDate = '-';
+        // Try to find end date from extension or use '' if not found
+        let endDate = '';
         if (allergy.extension && Array.isArray(allergy.extension)) {
           const endDateExt = allergy.extension.find(ext =>
             ext.url === 'http://hl7.org/fhir/StructureDefinition/allergyintolerance-resolutionDate'

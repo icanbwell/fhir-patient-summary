@@ -48,15 +48,19 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           <thead>
             <tr>
               <th>Immunization</th>
+              <th>Code (System)</th>
               <th>Status</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
 
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         for (const columnData of rowData.section ?? []) {
           switch (columnData.title) {
             case 'Immunization Name':
@@ -68,6 +72,9 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             case 'occurrenceDateTime':
               data['occurrenceDateTime'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
               break;
+              case 'Source':
+                data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                break;
             default:
               break;
           }
@@ -77,9 +84,11 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           isSummaryCreated = true;
           html += `
               <tr>
-                <td>${data['immunization'] ?? '-'}</td>
-                <td>${data['status'] ?? '-'}</td>
-                <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? '-'}</td>
+                <td>${data['immunization'] ?? ''}</td>
+                <td>${data['codeSystem'] ?? ''}</td>
+                <td>${data['status'] ?? ''}</td>
+                <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? ''}</td>
+                <td>${data['source'] ?? ''}</td>
               </tr>`;
         }
       }
@@ -107,12 +116,14 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         <thead>
           <tr>
             <th>Immunization</th>
+            <th>Code (System)</th>
             <th>Status</th>
             <th>Dose Number</th>
             <th>Manufacturer</th>
             <th>Lot Number</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -129,13 +140,15 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         // Add a table row for this immunization
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(imm))}">
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(imm.vaccineCode))}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode))}</td>
+            <td>${templateUtilities.codeableConceptCoding(imm.vaccineCode)}</td>
             <td>${imm.status || ''}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
             <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
             <td>${imm.lotNumber || ''}</td>
             <td>${templateUtilities.renderNotes(imm.note, timezone)}</td>
             <td>${templateUtilities.renderTime(imm.occurrenceDateTime, timezone)}</td>
+            <td>${templateUtilities.getOwnerTag(imm)}</td>
           </tr>`;
       }
     }

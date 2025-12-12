@@ -46,15 +46,19 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
           <thead>
             <tr>
               <th>Procedure</th>
+              <th>Code (System)</th>
               <th>Performer</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
 
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         for (const columnData of rowData.section ?? []) {
           switch (columnData.title) {
             case 'Procedure Name':
@@ -66,6 +70,9 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
             case 'Performed Date':
               data['date'] = columnData.text?.div ?? '';
               break;
+              case 'Source':
+                data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                break;
             default:
               break;
           }
@@ -74,9 +81,11 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data['procedure'] ?? '-'}</td>
-              <td>${data['performer'] ?? '-'}</td>
-              <td>${templateUtilities.renderTime(data['date'], timezone) ?? '-'}</td>
+              <td>${data['procedure'] ?? ''}</td>
+               <td>${data['codeSystem'] ?? ''}</td>
+              <td>${data['performer'] ?? ''}</td>
+              <td>${templateUtilities.renderTime(data['date'], timezone) ?? ''}</td>
+                <td>${data['source'] ?? ''}</td>
             </tr>`;
       }
     }
@@ -103,8 +112,10 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
         <thead>
           <tr>
             <th>Procedure</th>
+            <th>Code (System)</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -116,9 +127,11 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
       // Add a table row for this procedure
       html += `
         <tr id="${(templateUtilities.narrativeLinkId(proc))}">
-          <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(proc.code, 'display'))}</td>
+          <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(proc.code, 'display'))}</td>
+           <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
           <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
           <td>${proc.performedDateTime ? templateUtilities.renderTime(proc.performedDateTime, timezone) : proc.performedPeriod ? templateUtilities.renderPeriod(proc.performedPeriod, timezone) : ''}</td>
+            <td>${templateUtilities.getOwnerTag(proc)}</td>
         </tr>`;
     }
 

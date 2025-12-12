@@ -59,6 +59,12 @@ const PREGNANCY_LOINC_CODES = {
   },
 };
 
+const PREGNANCY_SNOMED_CODES: string[] = [
+  // Add SNOMED CT codes for pregnancy history here, e.g.:
+  '72892002', // Pregnancy (finding)
+  '77386006', // History of pregnancy (situation)
+];
+
 const SOCIAL_HISTORY_LOINC_CODES = {
   '72166-2': 'Tobacco Use',
   '74013-4': 'Alcohol Use',
@@ -70,10 +76,37 @@ const BLOOD_PRESSURE_LOINC_CODES = {
   DIASTOLIC: '8462-4',
 };
 
+// Essential Lab Panels (Top 20 Most Ordered)
+const ESSENTIAL_LAB_PANELS: Record<string, string> = {
+  // Top 20 Most Ordered Panels
+  "24323-8": "Comprehensive Metabolic Panel (CMP)",
+  "24320-4": "Basic Metabolic Panel (BMP)",
+  "58410-2": "Complete Blood Count (CBC)",
+  "57021-8": "CBC with Differential",
+  "24331-1": "Lipid Panel",
+  "57698-3": "Lipid Panel with Direct LDL",
+  "24325-3": "Hepatic Function Panel",
+  "24362-6": "Renal Function Panel",
+  "24326-1": "Electrolyte Panel",
+  "24348-5": "Thyroid Panel",
+  "24356-8": "Urinalysis Complete",
+  "24352-7": "Iron Studies Panel",
+  "34714-6": "Coagulation Panel",
+  "24364-2": "Prenatal Panel",
+  "24108-3": "Acute Hepatitis Panel",
+  "24110-9": "Hepatitis B Panel",
+  "34574-4": "Arthritis Panel",
+  "24360-0": "Anemia Panel",
+  "80235-8": "Cardiac Markers Panel",
+  "69738-3": "CBC with Auto Differential",
+};
+
 export {
   IPS_SECTION_LOINC_CODES,
   IPS_SECTION_DISPLAY_NAMES,
   PREGNANCY_LOINC_CODES,
+  PREGNANCY_SNOMED_CODES,
   BLOOD_PRESSURE_LOINC_CODES,
   SOCIAL_HISTORY_LOINC_CODES,
+  ESSENTIAL_LAB_PANELS
 };

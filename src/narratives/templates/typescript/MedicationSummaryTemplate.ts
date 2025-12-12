@@ -15,10 +15,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * Generate HTML narrative for Medication resources
      * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
-    generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
-        return MedicationSummaryTemplate.generateStaticNarrative(resources, timezone);
+    generateNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date): string {
+        return MedicationSummaryTemplate.generateStaticNarrative(resources, timezone, now);
     }
 
     /**
@@ -37,7 +38,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         let isSummaryCreated = false;
 
         const currentDate = now || new Date();
-        const twelveMonthsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 12, currentDate.getDate());
+        const twoYearsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 24, currentDate.getDate());
 
         let html = `
         <div>
@@ -45,17 +46,22 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <thead>
                 <tr>
                 <th>Medication</th>
+                <th>Code (System)</th>
                 <th>Status</th>
                 <th>Sig</th>
                 <th>Days of Supply</th>
                 <th>Refills</th>
                 <th>Start Date</th>
+                <th>Source</th>
                 </tr>
             </thead>
             <tbody>`;
 
+        let skippedMedications = 0;
         for (const resourceItem of resources) {
+            // The resources are actually Composition resources with sections
             for (const rowData of resourceItem.section ?? []) {
+                const sectionCodeableConcept = rowData.code;
                 const data: Record<string, string> = {};
                 for (const columnData of rowData.section ?? []) {
                     switch (columnData.title) {
@@ -80,6 +86,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                         case 'Authored On Date':
                             data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
+                            case 'Source':
+                            data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                            break;
                         default:
                         break;
                     }
@@ -95,17 +104,24 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                     }
                 }
 
+                // Count skipped medications
+                if (!(data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo))) {
+                    skippedMedications++;
+                }
+
                 // Check if status is 'active' and startDate is within the past 12 months
-                if (data['status'] === 'active' || (startDateObj && startDateObj >= twelveMonthsAgo)) {
+                if (data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo)) {
                         isSummaryCreated = true;
                         html += `
                             <tr>
                                 <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
+                                <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
                                 <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['source'])}</td>
                             </tr>`;
 
                 }
@@ -116,8 +132,16 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             </tbody>
             </table>
         </div>`;
+        // Always show the additional medications message if any are skipped, even if none are shown in the table
+        if (skippedMedications > 0) {
+            html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
+        }
 
-        return isSummaryCreated ? html : undefined;
+        // Always return the HTML, even if isSummaryCreated is false, if skippedMedications > 0
+        if (isSummaryCreated || skippedMedications > 0) {
+            return html;
+        }
+        return undefined;
     }
 
     /**
@@ -139,10 +163,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * Internal static implementation that actually generates the narrative
      * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+     
+    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date ): string {
         const templateUtilities = new TemplateUtilities(resources);
         let html = '';
 
@@ -157,15 +182,44 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             extension?: any
         }> = [];
 
+        // Count skipped medications (older than 2 years)
+        const currentDate = now || new Date();
+        const twoYearsAgo = new Date(currentDate);
+        twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
+        let skippedMedications = 0;
+        const allMedications: Array<{
+            type: 'request' | 'statement',
+            resource: TMedicationRequest | TMedicationStatement,
+            extension?: any
+        }> = [];
+
         // Process medication requests
         medicationRequests.forEach(mr => {
-            allActiveMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
+            allMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
         });
 
         // Process medication statements
         medicationStatements.forEach(ms => {
-            allActiveMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
+            allMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
         });
+
+        // Count skipped
+        for (const med of allMedications) {
+            let dateString: string | undefined;
+            if (med.type === 'request') {
+                const mr = med.resource as TMedicationRequest;
+                dateString = mr.dispenseRequest?.validityPeriod?.start || mr.authoredOn;
+            } else {
+                const ms = med.resource as TMedicationStatement;
+                dateString = ms.effectiveDateTime || ms.effectivePeriod?.start;
+            }
+            const dateObj = this.parseDate(dateString);
+            if (!dateObj || dateObj < twoYearsAgo) {
+                skippedMedications++;
+            } else {
+                allActiveMedications.push(med);
+            }
+        }
 
         // Sort both groups by start date in descending order
         const sortMedications = (medications: typeof allActiveMedications) => {
@@ -206,8 +260,15 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             sortMedications(allActiveMedications);
             html += this.renderCombinedMedications(templateUtilities, allActiveMedications);
         }
-
-        return html;
+        // Always show the additional medications message if any are skipped, even if none are shown in the table
+        if (skippedMedications > 0) {
+            html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
+        }
+        // Always return the HTML, even if no active medications, if skippedMedications > 0
+        if (allActiveMedications.length > 0 || skippedMedications > 0) {
+            return html;
+        }
+        return '';
     }
 
     /**
@@ -271,10 +332,12 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
           <tr>
             <th>Type</th>
             <th>Medication</th>
+            <th>Code (System)</th>
             <th>Sig</th>
             <th>Dispense Quantity</th>
             <th>Refills</th>
             <th>Start Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -286,10 +349,10 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             let type: string;
             let medicationName: string;
             let sig: string;
-            let dispenseQuantity: string = '-';
-            let refills: string = '-';
-            let startDate: string = '-';
-
+            let dispenseQuantity: string = '';
+            let refills: string = '';
+            let startDate: string = '';
+            let codeSystemDisplay: string = '';
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
 
@@ -301,7 +364,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 );
 
                 // Get Sig/dosage instructions
-                sig = templateUtilities.concat(mr.dosageInstruction, 'text') || '-';
+                sig = templateUtilities.concat(mr.dosageInstruction, 'text') || '';
 
                 // Get dispense quantity
                 if (mr.dispenseRequest?.quantity) {
@@ -312,14 +375,19 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
 
                 // Get refills
-                refills = mr.dispenseRequest?.numberOfRepeatsAllowed?.toString() || '-';
+                refills = mr.dispenseRequest?.numberOfRepeatsAllowed?.toString() || '';
 
                 // Get dates
                 if (mr.dispenseRequest?.validityPeriod) {
-                    startDate = mr.dispenseRequest.validityPeriod.start || '-';
+                    startDate = mr.dispenseRequest.validityPeriod.start || '';
                 } else {
                     // Use authored date as fallback for start date
-                    startDate = mr.authoredOn || '-';
+                    startDate = mr.authoredOn || '';
+                }
+
+                // Get code/system from medicationCodeableConcept or medicationReference
+                if (mr.medicationCodeableConcept && mr.medicationCodeableConcept.coding && mr.medicationCodeableConcept.coding[0]) {
+                    codeSystemDisplay = templateUtilities.codeableConceptCoding(mr.medicationCodeableConcept);
                 }
             } else {
                 const ms = medication.resource as TMedicationStatement;
@@ -332,13 +400,18 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 );
 
                 // Get Sig/dosage instructions
-                sig = templateUtilities.concat(ms.dosage, 'text') || '-';
+                sig = templateUtilities.concat(ms.dosage, 'text') || '';
 
                 // Get dates
                 if (ms.effectiveDateTime) {
                     startDate = ms.effectiveDateTime;
                 } else if (ms.effectivePeriod) {
-                    startDate = ms.effectivePeriod.start || '-';
+                    startDate = ms.effectivePeriod.start || '';
+                }
+
+                // Get code/system from medicationCodeableConcept or medicationReference
+                if (ms.medicationCodeableConcept && ms.medicationCodeableConcept.coding && ms.medicationCodeableConcept.coding[0]) {
+                    codeSystemDisplay = templateUtilities.codeableConceptCoding(ms.medicationCodeableConcept);
                 }
             }
 
@@ -347,10 +420,12 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
           <td>${type}</td>
           <td>${medicationName}<ul></ul></td>
+          <td>${codeSystemDisplay}</td>
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>
           <td>${refills}</td>
           <td>${startDate}</td>
+           <td>${templateUtilities.getOwnerTag(medication.resource)}</td>
         </tr>`;
         }
 

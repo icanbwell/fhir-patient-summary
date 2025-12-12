@@ -5,7 +5,6 @@ import {TMedicationStatement} from '../../src/types/resources/MedicationStatemen
 import {TCondition} from '../../src/types/resources/Condition';
 import {TImmunization} from '../../src/types/resources/Immunization';
 import {TObservation} from '../../src/types/resources/Observation';
-import {NarrativeGenerator} from '../../src/generators/narrative_generator';
 import {IPSSections} from '../../src/structures/ips_sections';
 import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../../src/structures/ips_section_loinc_codes";
 import {compareNarratives, readNarrativeFile} from "../utilities/testHelpers";
@@ -14,6 +13,7 @@ import {TDiagnosticReport} from '../../src/types/resources/DiagnosticReport';
 import {TProcedure} from '../../src/types/resources/Procedure';
 import {TCarePlan} from '../../src/types/resources/CarePlan';
 import {TConsent} from '../../src/types/resources/Consent';
+import {NarrativeGenerator} from "../../src";
 
 describe('Narrative Generator Tests', () => {
     // Generate dynamic dates relative to current date
@@ -84,7 +84,11 @@ describe('Narrative Generator Tests', () => {
             id: 'med-01',
             status: 'active',
             medicationCodeableConcept: {text: 'Aspirin'},
-            subject: {reference: 'Patient/test-patient-01'}
+            subject: {reference: 'Patient/test-patient-01'},
+            effectivePeriod: {
+                start: '2023-12-01',
+                end: '2023-12-10'
+            }
         },
         {
             resourceType: 'MedicationStatement',
@@ -103,7 +107,11 @@ describe('Narrative Generator Tests', () => {
                         }
                     }
                 }
-            ]
+            ],
+            effectivePeriod: {
+                start: '2023-12-01',
+                end: '2023-12-10'
+            }
         },
         {
             resourceType: 'MedicationStatement',
@@ -145,7 +153,7 @@ describe('Narrative Generator Tests', () => {
             verificationStatus: {coding: [{code: 'confirmed'}]},
             code: {text: 'Type 2 Diabetes Mellitus'},
             subject: {reference: 'Patient/test-patient-01'},
-            onsetDateTime: '2020-03-15'
+            onsetDateTime: '2025-03-15'
         },
         {
             resourceType: 'Condition',
@@ -496,7 +504,11 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for medications using NarrativeGenerator', async () => {
         const section = IPSSections.MEDICATIONS;
-        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockMedications, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(
+            section, mockMedications, 'America/New_York',
+            false,
+            new Date('2023-12-15')
+        );
         expect(result).toBeDefined();
         expect(result).toContain('Medication');
         expect(result).toContain('Aspirin');
@@ -518,7 +530,11 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for problem list using NarrativeGenerator', async () => {
         const section = IPSSections.PROBLEMS;
-        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockConditions, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(
+            section, mockConditions, 'America/New_York',
+            false,
+            new Date('2023-12-15')
+        );
         expect(result).toBeDefined();
         expect(result).toContain('Hypertension');
         expect(result).toContain('Type 2 Diabetes Mellitus');
@@ -601,7 +617,11 @@ describe('Narrative Generator Tests', () => {
         // Only observations with LOINC codes in LAB_LOINC_MAP are included
         expect(result).toContain('Hemoglobin A1c');
         expect(result).toContain('6.5 %');
-        expect(result).toContain(new Date(currentYear, 0, 1).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'}));
+        expect(result).toContain(new Date(currentYear, 0, 1).toLocaleDateString('en-US', {
+            month: '2-digit',
+            day: '2-digit',
+            year: 'numeric'
+        }));
         console.info(result);
     });
 
