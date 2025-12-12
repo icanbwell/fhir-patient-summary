@@ -159,161 +159,166 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
    * Helper function to extract observation field data
    * @param column - Column data from the summary
    * @param targetData - Record to populate with extracted data
+   * @param templateUtilities - Instance of TemplateUtilities for utility functions
    */
-  private extractSummaryObservationFields(column: any, targetData: Record<string, string>): void {
+  private extractSummaryObservationFields(
+    column: any,
+    targetData: Record<string, string>,
+    templateUtilities: TemplateUtilities
+  ): void {
     switch (column.title) {
       case 'Labs Name':
-        targetData['code'] = column.text?.div ?? '';
+        targetData['code'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'effectiveDateTime':
-        targetData['effectiveDateTime'] = column.text?.div ?? '';
+        targetData['effectiveDateTime'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'effectivePeriod.start':
-        targetData['effectivePeriodStart'] = column.text?.div ?? '';
+        targetData['effectivePeriodStart'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'effectivePeriod.end':
-        targetData['effectivePeriodEnd'] = column.text?.div ?? '';
+        targetData['effectivePeriodEnd'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       // valueQuantity
       case 'valueQuantity.value':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueQuantity';
         break;
       case 'valueQuantity.unit':
-        targetData['unit'] = column.text?.div ?? '';
+        targetData['unit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       // valueCodeableConcept
       case 'valueCodeableConcept.text':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueCodeableConcept';
         break;
       case 'valueCodeableConcept.coding.display':
         if (!targetData['value']) {
-          targetData['value'] = column.text?.div ?? '';
+          targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
           targetData['valueType'] = 'valueCodeableConcept';
         }
         break;
       
       // valueString
       case 'valueString':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueString';
         break;
       
       // valueBoolean
       case 'valueBoolean':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueBoolean';
         break;
       
       // valueInteger
       case 'valueInteger':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueInteger';
         break;
       
       // valueDateTime
       case 'valueDateTime':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueDateTime';
         break;
       
       // valuePeriod
       case 'valuePeriod.start':
-        targetData['valuePeriodStart'] = column.text?.div ?? '';
+        targetData['valuePeriodStart'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valuePeriod';
         break;
       case 'valuePeriod.end':
-        targetData['valuePeriodEnd'] = column.text?.div ?? '';
+        targetData['valuePeriodEnd'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valuePeriod';
         break;
       
       // valueTime
       case 'valueTime':
-        targetData['value'] = column.text?.div ?? '';
+        targetData['value'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueTime';
         break;
       
       // valueSampledData
       case 'valueSampledData.origin.value':
-        targetData['sampledDataOriginValue'] = column.text?.div ?? '';
+        targetData['sampledDataOriginValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueSampledData';
         break;
       case 'valueSampledData.origin.unit':
-        targetData['sampledDataOriginUnit'] = column.text?.div ?? '';
+        targetData['sampledDataOriginUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueSampledData.period':
-        targetData['sampledDataPeriod'] = column.text?.div ?? '';
+        targetData['sampledDataPeriod'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueSampledData.factor':
-        targetData['sampledDataFactor'] = column.text?.div ?? '';
+        targetData['sampledDataFactor'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueSampledData.lowerLimit':
-        targetData['sampledDataLowerLimit'] = column.text?.div ?? '';
+        targetData['sampledDataLowerLimit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueSampledData.upperLimit':
-        targetData['sampledDataUpperLimit'] = column.text?.div ?? '';
+        targetData['sampledDataUpperLimit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueSampledData.data':
-        targetData['sampledDataData'] = column.text?.div ?? '';
+        targetData['sampledDataData'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       // valueRange
       case 'valueRange.low.value':
-        targetData['valueRangeLowValue'] = column.text?.div ?? '';
+        targetData['valueRangeLowValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueRange';
         break;
       case 'valueRange.low.unit':
-        targetData['valueRangeLowUnit'] = column.text?.div ?? '';
+        targetData['valueRangeLowUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueRange.high.value':
-        targetData['valueRangeHighValue'] = column.text?.div ?? '';
+        targetData['valueRangeHighValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueRange.high.unit':
-        targetData['valueRangeHighUnit'] = column.text?.div ?? '';
+        targetData['valueRangeHighUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       // valueRatio
       case 'valueRatio.numerator.value':
-        targetData['valueRatioNumeratorValue'] = column.text?.div ?? '';
+        targetData['valueRatioNumeratorValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         targetData['valueType'] = 'valueRatio';
         break;
       case 'valueRatio.numerator.unit':
-        targetData['valueRatioNumeratorUnit'] = column.text?.div ?? '';
+        targetData['valueRatioNumeratorUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueRatio.denominator.value':
-        targetData['valueRatioDenominatorValue'] = column.text?.div ?? '';
+        targetData['valueRatioDenominatorValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'valueRatio.denominator.unit':
-        targetData['valueRatioDenominatorUnit'] = column.text?.div ?? '';
+        targetData['valueRatioDenominatorUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       // referenceRange
       case 'referenceRange.low.value':
-        targetData['referenceRangeLow'] = column.text?.div ?? '';
+        targetData['referenceRangeLow'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.low.unit':
-        targetData['referenceRangeLowUnit'] = column.text?.div ?? '';
+        targetData['referenceRangeLowUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.high.value':
-        targetData['referenceRangeHigh'] = column.text?.div ?? '';
+        targetData['referenceRangeHigh'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.high.unit':
-        targetData['referenceRangeHighUnit'] = column.text?.div ?? '';
+        targetData['referenceRangeHighUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.age.low.value':
-        targetData['referenceRangeAgeLowValue'] = column.text?.div ?? '';
+        targetData['referenceRangeAgeLowValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.age.low.unit':
-        targetData['referenceRangeAgeLowUnit'] = column.text?.div ?? '';
+        targetData['referenceRangeAgeLowUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.age.high.value':
-        targetData['referenceRangeAgeHighValue'] = column.text?.div ?? '';
+        targetData['referenceRangeAgeHighValue'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'referenceRange.age.high.unit':
-        targetData['referenceRangeAgeHighUnit'] = column.text?.div ?? '';
+        targetData['referenceRangeAgeHighUnit'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       default:
@@ -381,7 +386,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               for (const componentSection of columnData.section) {
                 const componentData: Record<string, string> = {};
                 for (const nestedColumn of componentSection.section ?? []) {
-                  this.extractSummaryObservationFields(nestedColumn, componentData);
+                  this.extractSummaryObservationFields(nestedColumn, componentData, templateUtilities);
                 }
                 if (Object.keys(componentData).length > 0) {
                   components.push(componentData);
@@ -389,7 +394,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               }
             } else {
               // Process top-level observation data
-              this.extractSummaryObservationFields(columnData, data);
+              this.extractSummaryObservationFields(columnData, data, templateUtilities);
             }
           } else if (
             resourceItem.title ===
@@ -397,16 +402,16 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
           ) {
             switch (columnData.title) {
               case 'Diagnostic Report Name':
-                data['report'] = columnData.text?.div ?? '';
+                data['report'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                 break;
               case 'Performer':
-                data['performer'] = columnData.text?.div ?? '';
+                data['performer'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                 break;
               case 'Issued Date':
-                data['issued'] = columnData.text?.div ?? '';
+                data['issued'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                 break;
               case 'Status':
-                data['status'] = columnData.text?.div ?? '';
+                data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                 break;
               default:
                 break;
@@ -437,8 +442,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                   observationhtml += `
                   <tr>
                     <td>${componentCode}</td>
-                    <td>${component['formattedValue'] ?? '-'}</td>
-                    <td>${component['referenceRange']?.trim() ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
                   </tr>`;
                 }
@@ -452,8 +457,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                 observationhtml += `
                   <tr>
                     <td>${data['code'] ?? '-'}</td>
-                    <td>${data['formattedValue'] ?? '-'}</td>
-                    <td>${data['referenceRange']?.trim() ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? '-'}</td>
                     <td>${date ?? '-'}</td>
                   </tr>`;
               }
@@ -644,7 +649,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const observationAdded = new Set<string>();
 
     for (const obs of observations) {
-      const obsCode = templateUtilities.codeableConcept(obs.code);
+      const obsCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code));
       if (!observationAdded.has(obsCode)) {
         observationAdded.add(obsCode);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
@@ -690,7 +695,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const diagnosticReportAdded = new Set<string>();
 
     for (const report of reports) {
-      const reportName = templateUtilities.codeableConcept(report.code);
+      const reportName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(report.code));
       if (!diagnosticReportAdded.has(reportName)) {
         diagnosticReportAdded.add(reportName);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource

@@ -92,7 +92,7 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
         const data: Record<string, string> = {}
         for (const columnData of rowData.section ?? []){
           if (columnData.title) {
-            data[columnData.title] = columnData.text?.div ?? '';
+            data[columnData.title] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
           }
         }
 

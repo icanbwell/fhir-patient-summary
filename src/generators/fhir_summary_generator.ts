@@ -209,13 +209,15 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @param patientId - Optional patient ID to use as primary patient for composition reference
+     * @param now - Optional current date to use for composition date (defaults to new Date())
      */
     async buildBundleAsync(
         authorOrganizationId: string,
         authorOrganizationName: string,
         baseUrl: string,
         timezone: string | undefined,
-        patientId?: string
+        patientId?: string,
+        now?: Date
     ): Promise<TBundle> {
         if (baseUrl.endsWith('/')) {
             baseUrl = baseUrl.slice(0, -1); // Remove trailing slash if present
@@ -246,14 +248,16 @@ export class ComprehensiveIPSCompositionBuilder {
                 reference: `Organization/${authorOrganizationId}`, // Assuming patient is also a practitioner for simplicity
                 display: authorOrganizationName
             }],
-            date: new Date().toISOString(),
+            date: (now || new Date()).toISOString(),
             title: 'International Patient Summary',
             section: this.sections,
             text: await NarrativeGenerator.generateNarrativeAsync(
                 IPSSections.PATIENT,
                 this.patients,
                 timezone,
-                true
+                true,
+                false,
+                now
             )
         };
 
@@ -261,7 +265,7 @@ export class ComprehensiveIPSCompositionBuilder {
         const bundle: TBundle = {
             resourceType: 'Bundle',
             type: 'document',
-            timestamp: new Date().toISOString(),
+            timestamp: (now || new Date()).toISOString(),
             identifier: {
                 "system": "urn:ietf:rfc:3986",
                 "value": "urn:uuid:4dcfd353-49fd-4ab0-b521-c8d57ced74d6"

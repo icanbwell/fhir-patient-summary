@@ -62,7 +62,7 @@ export class SocialHistoryTemplate implements ITemplate {
       // Add a table row for this observation
       html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${templateUtilities.codeableConcept(obs.code)}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code))}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>

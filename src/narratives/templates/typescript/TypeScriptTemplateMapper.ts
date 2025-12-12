@@ -50,13 +50,15 @@ export class TypeScriptTemplateMapper {
    * @param resources - FHIR resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @param useSectionSummary - Whether to use the section summary for narrative generation
+   * @param now - Optional current date to use for generating relative dates in the narrative
    * @returns HTML string for rendering
    */
   static generateNarrative(
     section: IPSSections,
     resources: TDomainResource[],
     timezone: string | undefined,
-    useSectionSummary: boolean = false
+    useSectionSummary: boolean = false,
+    now?: Date
   ): string | undefined {
     const templateClass: ITemplate = this.sectionToTemplate[section];
 
@@ -67,7 +69,8 @@ export class TypeScriptTemplateMapper {
     return useSectionSummary
       ? (templateClass as ISummaryTemplate).generateSummaryNarrative(
           resources as TComposition[],
-          timezone
+          timezone,
+          now
         )
       : templateClass.generateNarrative(resources, timezone);
   }

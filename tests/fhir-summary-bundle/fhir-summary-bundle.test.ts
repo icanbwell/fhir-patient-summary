@@ -24,7 +24,9 @@ describe('FHIR Patient Summary Generation', () => {
             'example-organization',
             'Example Organization',
             'https://fhir.icanbwell.com/4_0_0/',
-            timezone
+            timezone,
+            undefined,
+            new Date('2025-12-12T00:00:00Z')
         );
         console.info('---- Bundle ----');
         console.info(JSON.stringify(bundle, (key, value) => {
@@ -60,7 +62,9 @@ describe('FHIR Patient Summary Generation', () => {
             'example-organization',
             'Example Organization',
             'https://fhir.icanbwell.com/4_0_0/',
-            timezone
+            timezone,
+            undefined,
+            new Date('2025-12-12T00:00:00Z')
         );
         console.info('---- Bundle ----');
         console.info(JSON.stringify(bundle, (key, value) => {
@@ -97,7 +101,9 @@ describe('FHIR Patient Summary Generation', () => {
             'example-organization',
             'Example Organization',
             'https://fhir.icanbwell.com/4_0_0/',
-            timezone
+            timezone,
+            undefined,
+            new Date('2025-12-12T00:00:00Z')
         );
         console.info('---- Bundle ----');
         console.info(JSON.stringify(bundle, (key, value) => {
@@ -134,7 +140,9 @@ describe('FHIR Patient Summary Generation', () => {
             'example-organization',
             'Example Organization',
             'https://fhir.icanbwell.com/4_0_0/',
-            timezone
+            timezone,
+            undefined,
+            new Date('2025-12-12T00:00:00Z')
         );
         console.info('---- Bundle ----');
         console.info(JSON.stringify(bundle, (key, value) => {

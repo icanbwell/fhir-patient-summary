@@ -59,7 +59,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
               const vitalData: Record<string, string> = {};
               for (const component of columnData.section?.[0]?.section ?? []) {
                 if (component.title) {
-                  vitalData[component.title] = component.text?.div ?? '';
+                    vitalData[component.title] = templateUtilities.renderTextAsHtml(component.text?.div ?? '');
                 }
               }
               const vitalValue =
@@ -75,7 +75,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
                 data[dataKey] = vitalValue;
               }
             }
-            data[columnTitle] = columnData.text?.div ?? '';
+            data[columnTitle] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
           }
         }
 
@@ -144,7 +144,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
       // Add a table row for this observation
       html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${templateUtilities.codeableConcept(obs.code, 'display')}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code, 'display'))}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
             <td>${templateUtilities.firstFromCodeableConceptList(obs.interpretation)}</td>

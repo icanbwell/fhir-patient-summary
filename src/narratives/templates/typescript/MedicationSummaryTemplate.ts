@@ -25,14 +25,19 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * Generate HTML narrative for Medication resources using summary
      * @param resources - FHIR Composition resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
     public generateSummaryNarrative(
         resources: TComposition[],
-        timezone: string | undefined
+        timezone: string | undefined,
+        now?: Date
     ): string | undefined {
         const templateUtilities = new TemplateUtilities(resources);
         let isSummaryCreated = false;
+
+        const currentDate = now || new Date();
+        const twelveMonthsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 12, currentDate.getDate());
 
         let html = `
         <div>
@@ -40,6 +45,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <thead>
                 <tr>
                 <th>Medication</th>
+                <th>Status</th>
                 <th>Sig</th>
                 <th>Days of Supply</th>
                 <th>Refills</th>
@@ -54,41 +60,54 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 for (const columnData of rowData.section ?? []) {
                     switch (columnData.title) {
                         case 'Medication Name':
-                            data['medication'] = columnData.text?.div ?? '';
+                            data['medication'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Status':
-                            data['status'] = columnData.text?.div ?? '';
+                            data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Prescriber Instruction':
-                            data['sig-prescriber'] = columnData.text?.div ?? '';
+                            data['sig-prescriber'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Pharmacy Instruction':
-                            data['sig-pharmacy'] = columnData.text?.div ?? '';
+                            data['sig-pharmacy'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Days Of Supply':
-                            data['daysOfSupply'] = columnData.text?.div ?? '';
+                            data['daysOfSupply'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Refills Remaining':
-                            data['refills'] = columnData.text?.div ?? '';
+                            data['refills'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Authored On Date':
-                            data['startDate'] = columnData.text?.div ?? '';
+                            data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         default:
                         break;
                     }
                 }
 
-                if (data['status'] === 'active') {
-                isSummaryCreated = true;
-                html += `
-                    <tr>
-                        <td>${data['medication']}</td>
-                        <td>${data['sig-prescriber'] || data['sig-pharmacy']}</td>
-                        <td>${data['daysOfSupply']}</td>
-                        <td>${data['refills']}</td>
-                        <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
-                    </tr>`;
+                // Get start date of medication
+                let startDateObj: Date | undefined;
+                if (data['startDate']) {
+                    // Try to parse startDate (assume ISO or recognizable format)
+                    startDateObj = new Date(data['startDate']);
+                    if (isNaN(startDateObj.getTime())) {
+                        startDateObj = undefined;
+                    }
+                }
+
+                // Check if status is 'active' and startDate is within the past 12 months
+                if (data['status'] === 'active' || (startDateObj && startDateObj >= twelveMonthsAgo)) {
+                        isSummaryCreated = true;
+                        html += `
+                            <tr>
+                                <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
+                                <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
+                            </tr>`;
+
                 }
             }
         }
@@ -110,7 +129,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         if (!dateString || dateString.trim() === '') {
             return null;
         }
-        
+
         const date = new Date(dateString);
         // Check if the date is valid
         return !isNaN(date.getTime()) ? date : null;
@@ -169,15 +188,15 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                     const ms = b.resource as TMedicationStatement;
                     dateStringB = ms.effectiveDateTime || ms.effectivePeriod?.start;
                 }
-                
+
                 const dateA = this.parseDate(dateStringA);
                 const dateB = this.parseDate(dateStringB);
-                
+
                 // Handle null dates - put items without dates at the end
                 if (!dateA && !dateB) return 0;
                 if (!dateA) return 1;
                 if (!dateB) return -1;
-                
+
                 return dateB.getTime() - dateA.getTime();
             });
         };
@@ -273,9 +292,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
-                
+
                 type = 'Request';
-                
+
                 // Get medication name
                 medicationName = templateUtilities.getMedicationName(
                     mr.medicationReference || mr.medicationCodeableConcept
@@ -304,9 +323,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
             } else {
                 const ms = medication.resource as TMedicationStatement;
-                
+
                 type = 'Statement';
-                
+
                 // Get medication name
                 medicationName = templateUtilities.getMedicationName(
                     ms.medicationReference || ms.medicationCodeableConcept

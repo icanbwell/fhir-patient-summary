@@ -121,3 +121,6 @@ lib/
 /**/temp/
 
 /.idea/
+
+
+/tests_integration/production_record/fixtures/production/

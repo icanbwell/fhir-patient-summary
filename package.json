@@ -32,7 +32,8 @@
     "prepare": "husky",
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
-    "test": "jest --coverage",
+    "test": "jest --coverage --testPathIgnorePatterns=tests_integration/",
+    "test:integration": "jest tests_integration",
     "typecheck": "tsc --noEmit",
     "check:cjs-import": "node tests/build/cjs-import-check.cjs",
     "check:esm-import": "node --experimental-vm-modules tests/build/esm-import-check.mjs",
@@ -70,7 +71,8 @@
   "dependencies": {
     "html-minifier-terser": "^7.2.0",
     "luxon": "^3.7.2",
-    "turndown": "^7.2.2"
+    "turndown": "^7.2.2",
+    "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -78,10 +80,11 @@
     "@types/jest": "^30.0.0",
     "@types/js-beautify": "^1.14.3",
     "@types/luxon": "^3.7.1",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.1",
     "@types/turndown": "^5.0.6",
     "commitizen": "^4.3.1",
     "conventional-changelog-conventionalcommits": "^9.1.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-node": "^11.1.0",
@@ -96,7 +99,7 @@
     "ts-node": "^10.9.2",
     "tsup": "8.5.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1"
+    "typescript-eslint": "^8.49.0"
   },
   "lint-staged": {
     "src/**/*.{ts,js}": "eslint --cache --cache-location .eslintcache --fix",

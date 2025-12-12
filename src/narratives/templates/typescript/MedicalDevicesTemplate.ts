@@ -58,11 +58,11 @@ export class MedicalDevicesTemplate implements ITemplate {
       // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
       // Add a table row for this device use statement
       html += `
-        <tr id="${(templateUtilities.narrativeLinkId(dus))}">
-          <td>${templateUtilities.renderDevice(dus.device)}</td>
-          <td>${dus.status || ''}</td>
+        <tr id="${templateUtilities.narrativeLinkId(dus)}">
+          <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderDevice(dus.device))}</td>
+          <td>${templateUtilities.renderTextAsHtml(dus.status || '')}</td>
           <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
-          <td>${templateUtilities.renderRecorded(dus.recordedOn, timezone)}</td>
+          <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderRecorded(dus.recordedOn, timezone))}</td>
         </tr>`;
     }
 

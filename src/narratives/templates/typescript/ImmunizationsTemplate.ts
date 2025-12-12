@@ -60,13 +60,13 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         for (const columnData of rowData.section ?? []) {
           switch (columnData.title) {
             case 'Immunization Name':
-              data['immunization'] = columnData.text?.div ?? '';
+              data['immunization'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
               break;
             case 'Status':
-              data['status'] = columnData.text?.div ?? '';
+              data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
               break;
             case 'occurrenceDateTime':
-              data['occurrenceDateTime'] = columnData.text?.div ?? '';
+              data['occurrenceDateTime'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
               break;
             default:
               break;
@@ -129,7 +129,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         // Add a table row for this immunization
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(imm))}">
-            <td>${templateUtilities.codeableConcept(imm.vaccineCode)}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(imm.vaccineCode))}</td>
             <td>${imm.status || ''}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
             <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
