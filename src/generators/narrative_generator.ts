@@ -83,7 +83,7 @@ export class NarrativeGenerator {
             const options = aggressive ? AGGRESSIVE_MINIFY_OPTIONS : DEFAULT_MINIFY_OPTIONS;
             return await htmlMinify(html, options);
         } catch (error) {
-            console.warn('HTML minification failed', error);
+            console.warn('HTML minification failed', error, html);
             return html;
         }
     }
