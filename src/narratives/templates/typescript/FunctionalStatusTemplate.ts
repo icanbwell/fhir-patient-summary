@@ -59,7 +59,7 @@ export class FunctionalStatusTemplate implements ITemplate {
       html += `<table><thead><tr><th>Observation</th><th>Value</th><th>Date</th><th>Interpretation</th><th>Comments</th></tr></thead><tbody>`;
       for (const obs of functionalObservations) {
         const observation = obs as any;
-        const obsName = templateUtilities.codeableConcept(observation.code);
+        const obsName = templateUtilities.codeableConceptDisplay(observation.code);
         const value = templateUtilities.extractObservationValue(observation);
         const date = observation.effectiveDateTime
           ? templateUtilities.renderDate(observation.effectiveDateTime)
@@ -67,7 +67,7 @@ export class FunctionalStatusTemplate implements ITemplate {
             ? templateUtilities.renderDate(observation.issued)
             : '';
         const interpretation = observation.interpretation
-          ? templateUtilities.codeableConcept(observation.interpretation[0])
+          ? templateUtilities.codeableConceptDisplay(observation.interpretation[0])
           : '';
         const comments = observation.comment || observation.note?.map((n: any) => n.text).join('; ') || '';
         html += `<tr id="${templateUtilities.narrativeLinkId(observation)}">
@@ -98,7 +98,7 @@ export class FunctionalStatusTemplate implements ITemplate {
           findingsHtml = '<ul>';
           for (const finding of impression.finding) {
             const findingText = finding.itemCodeableConcept
-              ? templateUtilities.codeableConcept(finding.itemCodeableConcept)
+              ? templateUtilities.codeableConceptDisplay(finding.itemCodeableConcept)
               : finding.itemReference
                 ? templateUtilities.renderReference(finding.itemReference)
                 : '';

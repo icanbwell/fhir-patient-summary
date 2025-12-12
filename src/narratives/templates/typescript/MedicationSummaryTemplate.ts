@@ -46,6 +46,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 <tr>
                 <th>Medication</th>
                 <th>Status</th>
+                <th>Code (System)</th>
                 <th>Sig</th>
                 <th>Days of Supply</th>
                 <th>Refills</th>
@@ -55,7 +56,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <tbody>`;
 
         for (const resourceItem of resources) {
+            // The resources are actually Composition resources with sections
             for (const rowData of resourceItem.section ?? []) {
+                const sectionCodeableConcept = rowData.code;
                 const data: Record<string, string> = {};
                 for (const columnData of rowData.section ?? []) {
                     switch (columnData.title) {
@@ -102,6 +105,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                             <tr>
                                 <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
+                                <td>${templateUtilities.codeableConceptDisplay(sectionCodeableConcept)}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
@@ -271,6 +275,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
           <tr>
             <th>Type</th>
             <th>Medication</th>
+            <th>Code (System)</th>
             <th>Sig</th>
             <th>Dispense Quantity</th>
             <th>Refills</th>
@@ -289,7 +294,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             let dispenseQuantity: string = '-';
             let refills: string = '-';
             let startDate: string = '-';
-
+            let codeSystemDisplay: string = '-';
+            let coding: any = undefined;
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
 
@@ -321,6 +327,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                     // Use authored date as fallback for start date
                     startDate = mr.authoredOn || '-';
                 }
+
+                // Get code/system from medicationCodeableConcept or medicationReference
+                if (mr.medicationCodeableConcept && mr.medicationCodeableConcept.coding && mr.medicationCodeableConcept.coding[0]) {
+                    coding = mr.medicationCodeableConcept.coding[0];
+                }
             } else {
                 const ms = medication.resource as TMedicationStatement;
 
@@ -340,6 +351,17 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 } else if (ms.effectivePeriod) {
                     startDate = ms.effectivePeriod.start || '-';
                 }
+
+                // Get code/system from medicationCodeableConcept or medicationReference
+                if (ms.medicationCodeableConcept && ms.medicationCodeableConcept.coding && ms.medicationCodeableConcept.coding[0]) {
+                    coding = ms.medicationCodeableConcept.coding[0];
+                }
+            }
+            if (coding) {
+                const code = coding.code || '';
+                const system = coding.system || '';
+                const systemDisplay = templateUtilities.renderTextAsHtml((window as any).CODING_SYSTEM_DISPLAY_NAMES?.[system] || system);
+                codeSystemDisplay = code ? `${code} (${systemDisplay})` : '-';
             }
 
             // Add table row
@@ -347,6 +369,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
           <td>${type}</td>
           <td>${medicationName}<ul></ul></td>
+          <td>${codeSystemDisplay}</td>
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>
           <td>${refills}</td>

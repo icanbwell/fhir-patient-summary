@@ -129,7 +129,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         // Add a table row for this immunization
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(imm))}">
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(imm.vaccineCode))}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode))}</td>
             <td>${imm.status || ''}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
             <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>

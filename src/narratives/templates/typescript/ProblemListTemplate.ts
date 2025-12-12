@@ -58,13 +58,14 @@ export class ProblemListTemplate implements ITemplate {
     const addedConditionCodes = new Set<string>();
 
     for (const cond of activeConditions) {
-      const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(cond.code));
-      // Extract system and code from the first coding, if available
-      const codeSystemDisplay = templateUtilities.codeableConcept(cond.code);
-      if (!addedConditionCodes.has(conditionCode)) {
-        addedConditionCodes.add(conditionCode);
+      // Use display value for Problem column
+      const conditionDisplay = templateUtilities.codeableConceptDisplay(cond.code);
+      // Use code + system for Code (System) column
+      const codeSystemDisplay = templateUtilities.codeableConceptCoding(cond.code);
+      if (!addedConditionCodes.has(codeSystemDisplay)) {
+        addedConditionCodes.add(codeSystemDisplay);
         html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
-            <td class="Name">${conditionCode}</td>
+            <td class="Name">${conditionDisplay}</td>
             <td class="CodeSystem">${codeSystemDisplay}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>

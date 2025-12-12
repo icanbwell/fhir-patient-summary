@@ -649,7 +649,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const observationAdded = new Set<string>();
 
     for (const obs of observations) {
-      const obsCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code));
+      const obsCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code));
       if (!observationAdded.has(obsCode)) {
         observationAdded.add(obsCode);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
@@ -695,7 +695,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const diagnosticReportAdded = new Set<string>();
 
     for (const report of reports) {
-      const reportName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(report.code));
+      const reportName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(report.code));
       if (!diagnosticReportAdded.has(reportName)) {
         diagnosticReportAdded.add(reportName);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource

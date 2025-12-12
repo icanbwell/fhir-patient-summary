@@ -211,8 +211,8 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
       // Add a table row for this allergy with appropriate classes
       html += `
         <tr id="${templateUtilities.narrativeLinkId(allergy.extension)}">
-          <td class="Name"><span class="AllergenName">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(allergy.code))}</span></td>
-          <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(allergy.clinicalStatus)) || '-'}</td>
+          <td class="Name"><span class="AllergenName">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.code))}</span></td>
+          <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.clinicalStatus)) || '-'}</td>
           <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || '-'}</td>
           <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || '-'}</td>
           <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || '-'}</td>
