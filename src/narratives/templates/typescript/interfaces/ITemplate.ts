@@ -10,9 +10,10 @@ export interface ITemplate {
    * Generate HTML narrative for FHIR resources
    * @param resource - FHIR resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @param now - Optional current date to use for calculations (defaults to new Date())
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TDomainResource[], timezone: string | undefined): string;
+  generateNarrative(resource: TDomainResource[], timezone: string | undefined, now?: Date): string;
 }
 
 /**

@@ -15,10 +15,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * Generate HTML narrative for Medication resources
      * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
-    generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
-        return MedicationSummaryTemplate.generateStaticNarrative(resources, timezone);
+    generateNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date): string {
+        return MedicationSummaryTemplate.generateStaticNarrative(resources, timezone, now);
     }
 
     /**
@@ -131,11 +132,16 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             </tbody>
             </table>
         </div>`;
+        // Always show the additional medications message if any are skipped, even if none are shown in the table
         if (skippedMedications > 0) {
             html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
         }
 
-        return isSummaryCreated ? html : undefined;
+        // Always return the HTML, even if isSummaryCreated is false, if skippedMedications > 0
+        if (isSummaryCreated || skippedMedications > 0) {
+            return html;
+        }
+        return undefined;
     }
 
     /**
@@ -157,10 +163,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * Internal static implementation that actually generates the narrative
      * @param resources - FHIR Medication resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+     
+    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date ): string {
         const templateUtilities = new TemplateUtilities(resources);
         let html = '';
 
@@ -176,7 +183,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         }> = [];
 
         // Count skipped medications (older than 2 years)
-        const currentDate = new Date();
+        const currentDate = now || new Date();
         const twoYearsAgo = new Date(currentDate);
         twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
         let skippedMedications = 0;
@@ -250,12 +257,16 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         if (allActiveMedications.length > 0) {
             sortMedications(allActiveMedications);
             html += this.renderCombinedMedications(templateUtilities, allActiveMedications);
-            if (skippedMedications > 0) {
-                html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
-            }
         }
-
-        return html;
+        // Always show the additional medications message if any are skipped, even if none are shown in the table
+        if (skippedMedications > 0) {
+            html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
+        }
+        // Always return the HTML, even if no active medications, if skippedMedications > 0
+        if (allActiveMedications.length > 0 || skippedMedications > 0) {
+            return html;
+        }
+        return '';
     }
 
     /**

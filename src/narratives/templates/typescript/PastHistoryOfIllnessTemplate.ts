@@ -13,10 +13,11 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
    * Generate HTML narrative for Past History of Illnesses
    * @param resources - FHIR Condition resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @param now - Optional current date to use for generating relative dates in the narrative
    * @returns HTML string for rendering
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+   
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date): string {
     const templateUtilities = new TemplateUtilities(resources);
 
     // Start building the HTML
@@ -25,9 +26,9 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
     const resolvedConditions: TCondition[] =
       resources.map(entry => entry as TCondition) || [];
 
-    const now = new Date();
-    const fiveYearsAgo = new Date(now);
-    fiveYearsAgo.setFullYear(now.getFullYear() - 5);
+    const currentDate = now || new Date();
+    const fiveYearsAgo = new Date(currentDate);
+    fiveYearsAgo.setFullYear(currentDate.getFullYear() - 5);
 
     // Count skipped conditions
     let skippedConditions = 0;

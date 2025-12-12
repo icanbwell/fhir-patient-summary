@@ -72,6 +72,6 @@ export class TypeScriptTemplateMapper {
           timezone,
           now
         )
-      : templateClass.generateNarrative(resources, timezone);
+      : templateClass.generateNarrative(resources, timezone, now);
   }
 }
