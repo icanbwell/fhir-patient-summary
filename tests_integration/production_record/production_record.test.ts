@@ -5,32 +5,12 @@ import { ipsBundleToMarkdown } from '../../src/generators/IPSBundleToMarkdown';
 
 describe('Full Record Bundle Generation', () => {
     it('should generate the correct summary for the concatenated full record bundle', async () => {
-        // Path to the sandbox fixtures
-        const sandboxDir = path.join(__dirname, 'fixtures/production');
-        const resourceDirs = fs.readdirSync(sandboxDir).filter(f => fs.statSync(path.join(sandboxDir, f)).isDirectory());
-        const resources: any[] = [];
-        for (const dir of resourceDirs) {
-            const dirPath = path.join(sandboxDir, dir);
-            const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.json'));
-            for (const file of files) {
-                const filePath = path.join(dirPath, file);
-                const content = fs.readFileSync(filePath, 'utf-8');
-                try {
-                    resources.push(JSON.parse(content));
-                } catch (e) {
-                    // skip invalid JSON
-                    console.warn(`Skipping invalid JSON file: ${filePath}: ${e}`);
-                }
-            }
-        }
-        // Compose a FHIR bundle
-        const inputBundle = {
-            resourceType: 'Bundle',
-            type: 'collection',
-            entry: resources.map(resource => ({ resource }))
-        };
+        // Path to the bundle.json fixture
+        const bundlePath = path.join(__dirname, 'fixtures/production/bundle.json');
+        const bundleContent = fs.readFileSync(bundlePath, 'utf-8');
+        const inputBundle = JSON.parse(bundleContent);
         // Find the patient resource
-        const mockPatient = resources.find((r: any) => r.resourceType === 'Patient');
+        const mockPatient = inputBundle.entry.find((e: any) => e.resource.resourceType === 'Patient')?.resource;
         expect(mockPatient).toBeDefined();
         // Generate the summary
         const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
