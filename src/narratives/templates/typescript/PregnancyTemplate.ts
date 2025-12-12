@@ -83,98 +83,91 @@ export class PregnancyTemplate implements ITemplate {
             return `<p>No history of pregnancy found.</p>`;
         }
 
-        // Collect all rows with their date for sorting
-        type Row = {
-            html: string;
-            date: string | undefined;
-        };
-        const rows: Row[] = [];
+        // Start building the HTML table using template literals for readability
+        let html = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Result</th>
+                  <th>Comments</th>
+                  <th>Date</th>
+                  <th>Code (System)</th>
+                </tr>
+              </thead>
+              <tbody>`;
 
-        // Pregnancy status row
+        // Helper to render a row
+        function renderRow({ id, result, comments, date, codeSystem }: { id: string, result: string, comments: string, date: string, codeSystem: string }) {
+            html += `
+                <tr id="${id}">
+                  <td class="Result">${result}</td>
+                  <td class="Comments">${comments}</td>
+                  <td class="Date">${date}</td>
+                  <td class="CodeSystem">${codeSystem}</td>
+                </tr>`;
+        }
+
+        // Collect all resources with their date for sorting
+        type RowResource = { resource: TDomainResource, date: string | undefined, type: 'status' | 'edd' | 'history' | 'condition' };
+        const rowResources: RowResource[] = [];
+
         if (pregnancyStatusObs) {
             const date = pregnancyStatusObs.effectiveDateTime || pregnancyStatusObs.effectivePeriod?.start;
-            rows.push({
-                html: `<tr id="${templateUtilities.narrativeLinkId(pregnancyStatusObs)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(pregnancyStatusObs))}</td><td>${templateUtilities.renderNotes(pregnancyStatusObs.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
-                date
-            });
+            rowResources.push({ resource: pregnancyStatusObs, date, type: 'status' });
         }
-
-        // Estimated Delivery Date row
         if (eddObs) {
             const date = eddObs.effectiveDateTime || eddObs.effectivePeriod?.start;
-            rows.push({
-                html: `<tr id="${templateUtilities.narrativeLinkId(eddObs)}"><td>Estimated Delivery Date: ${templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(eddObs, timezone))}</td><td>${templateUtilities.renderNotes(eddObs.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
-                date
-            });
+            rowResources.push({ resource: eddObs, date, type: 'edd' });
         }
-
-        // Pregnancy history/outcome rows
         for (const obs of historyObs) {
             const date = obs.effectiveDateTime || obs.effectivePeriod?.start;
-            rows.push({
-                html: `<tr id="${templateUtilities.narrativeLinkId(obs)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(obs))}</td><td>${templateUtilities.renderNotes(obs.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
-                date
-            });
+            rowResources.push({ resource: obs, date, type: 'history' });
         }
-
-        // Add Condition rows if present
         for (const cond of conditions) {
             const condition = cond as TCondition;
             const date = condition.onsetDateTime || condition.onsetPeriod?.start;
-            rows.push({
-                html: `<tr id="${templateUtilities.narrativeLinkId(condition)}"><td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(condition.code))}</td><td>${templateUtilities.renderNotes(condition.note, timezone)}</td><td>${date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : ''}</td></tr>`,
-                date
-            });
+            rowResources.push({ resource: condition, date, type: 'condition' });
         }
 
-        // Sort rows descending by date (most recent first)
-        rows.sort((a, b) => {
+        // Sort by date descending
+        rowResources.sort((a, b) => {
             if (!a.date && !b.date) return 0;
             if (!a.date) return 1;
             if (!b.date) return -1;
             return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
 
-        // Start building the HTML table using template literals for readability
-        let html = `
-          <table>
-            <thead>
-              <tr>
-                <th>Result</th>
-                <th>Comments</th>
-                <th>Date</th>
-                <th>Code (System)</th>
-              </tr>
-            </thead>
-            <tbody>`;
-
-        for (const row of rows) {
-            let resource = undefined;
-            if (row.html.includes('id="')) {
-                const idMatch = row.html.match(/id="([^"]+)"/);
-                if (idMatch) {
-                    const id = idMatch[1];
-                    resource = resources.find(r => templateUtilities.narrativeLinkId(r) === id);
-                }
+        // Render each row
+        for (const { resource, date, type } of rowResources) {
+            let result = '', comments = '', dateStr = '', codeSystem = '';
+            const id = templateUtilities.narrativeLinkId(resource);
+            if (type === 'status') {
+                result = templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(resource as TObservation));
+                comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
+                dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
+                codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
+            } else if (type === 'edd') {
+                result = 'Estimated Delivery Date: ' + templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(resource as TObservation, timezone));
+                comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
+                dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
+                codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
+            } else if (type === 'history') {
+                result = templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(resource as TObservation));
+                comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
+                dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
+                codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
+            } else if (type === 'condition') {
+                result = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay((resource as TCondition).code));
+                comments = templateUtilities.renderNotes((resource as TCondition).note, timezone);
+                dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
+                codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TCondition).code));
             }
-            let codeSystem = '';
-            if (resource && (resource.resourceType === 'Observation' || resource.resourceType === 'Condition') && 'code' in resource) {
-                codeSystem = templateUtilities.codeableConceptCoding(resource.code as any);
-            }
-            // Parse the row HTML and extract the <td>...</td> cells
-            const tdMatches = Array.from(row.html.matchAll(/<td>(.*?)<\/td>/g)).map(m => m[1]);
-            html += `
-              <tr id="${resource ? templateUtilities.narrativeLinkId(resource) : ''}">
-                <td>${tdMatches[0] || ''}</td>
-                <td>${tdMatches[1] || ''}</td>
-                <td>${tdMatches[2] || ''}</td>
-                <td>${templateUtilities.renderTextAsHtml(codeSystem)}</td>
-              </tr>`;
+            renderRow({ id, result, comments, date: dateStr, codeSystem });
         }
 
         html += `
-            </tbody>
-          </table>`;
+              </tbody>
+            </table>`;
 
         return html;
     }
