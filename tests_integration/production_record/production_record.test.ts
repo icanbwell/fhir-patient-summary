@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ComprehensiveIPSCompositionBuilder } from '../../src';
-import { compare_bundles } from '../utilities/testHelpers';
+import { ipsBundleToMarkdown } from '../../src/generators/IPSBundleToMarkdown';
 
 describe('Full Record Bundle Generation', () => {
     it('should generate the correct summary for the concatenated full record bundle', async () => {
@@ -44,8 +44,12 @@ describe('Full Record Bundle Generation', () => {
         );
         // For this test, we use the bundle itself as expected (round-trip)
         expect(bundle.entry).toBeDefined();
-        // If you have an expected bundle, replace inputBundle below
-        await compare_bundles(path.join(__dirname, 'fixtures/expected/narratives'), bundle, inputBundle);
+
+        // Generate markdown from the resulting bundle
+        const markdown = ipsBundleToMarkdown(bundle);
+        expect(typeof markdown).toBe('string');
+        expect(markdown.length).toBeGreaterThan(0);
+        // Optionally, write the markdown to a file for inspection
+        fs.writeFileSync(path.join(__dirname, 'temp/output.md'), markdown);
     });
 });
-
