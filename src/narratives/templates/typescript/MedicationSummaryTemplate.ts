@@ -37,7 +37,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         let isSummaryCreated = false;
 
         const currentDate = now || new Date();
-        const twelveMonthsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 12, currentDate.getDate());
+        const twoYearsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 24, currentDate.getDate());
 
         let html = `
         <div>
@@ -103,7 +103,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
 
                 // Check if status is 'active' and startDate is within the past 12 months
-                if (data['status'] === 'active' || (startDateObj && startDateObj >= twelveMonthsAgo)) {
+                if (data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo)) {
                         isSummaryCreated = true;
                         html += `
                             <tr>
