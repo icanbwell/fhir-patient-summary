@@ -3,6 +3,7 @@ import { TemplateUtilities } from './TemplateUtilities';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TCondition } from '../../../types/resources/Condition';
 import { ITemplate } from './interfaces/ITemplate';
+import CODING_SYSTEM_DISPLAY_NAMES from "../../../structures/codingSystemDisplayNames";
 
 /**
  * Class to generate HTML narrative for Problem List (Condition resources)
@@ -48,6 +49,8 @@ export class ProblemListTemplate implements ITemplate {
           <thead>
             <tr>
               <th>Problem</th>
+              <th>System</th>
+              <th>Code</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
             </tr>
@@ -58,10 +61,21 @@ export class ProblemListTemplate implements ITemplate {
 
     for (const cond of activeConditions) {
       const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(cond.code));
+      // Extract system and code from the first coding, if available
+      let system = '';
+      let code = '';
+      let systemDisplay = '';
+      if (cond.code && Array.isArray(cond.code.coding) && cond.code.coding.length > 0) {
+        system = cond.code.coding[0].system || '';
+        code = cond.code.coding[0].code || '';
+        systemDisplay = CODING_SYSTEM_DISPLAY_NAMES[system] || system;
+      }
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
         html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
             <td class="Name">${conditionCode}</td>
+            <td class="System">${systemDisplay}</td>
+            <td class="Code">${code}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
           </tr>`;
