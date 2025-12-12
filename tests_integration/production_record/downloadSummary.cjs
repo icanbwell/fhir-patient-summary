@@ -1,10 +1,21 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
+// Load environment variables from .env.local
+const path = require('path');
+
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
+
 const http = require('https');
 const fs = require('fs');
-const path = require('path');
 
 // Set Patient ID and Bearer Token here
 const PATIENT_ID = 'person.c9ab6abe-ae18-4226-b60f-99cfacff7171';
-const BEARER_TOKEN = 'foo';
+const BEARER_TOKEN = process.env.BEARER_TOKEN;
+
+if (!BEARER_TOKEN) {
+  throw new Error('BEARER_TOKEN is not set in .env.local');
+}
 
 const options = {
   method: 'POST',
@@ -18,10 +29,16 @@ const options = {
 };
 
 const req = http.request(options, function (res) {
+  // Check if transfer-encoding is chunked
+  const isChunked = res.headers['transfer-encoding'] && res.headers['transfer-encoding'].toLowerCase().includes('chunked');
   const chunks = [];
 
   res.on('data', function (chunk) {
+    // For chunked transfer, each chunk is processed as it arrives
     chunks.push(chunk);
+    if (isChunked) {
+      process.stdout.write(chunk); // Optionally stream to stdout as it arrives
+    }
   });
 
   res.on('end', function () {
@@ -30,7 +47,7 @@ const req = http.request(options, function (res) {
     const outputPath = path.join(outputDir, 'bundle.json');
     fs.mkdirSync(outputDir, { recursive: true });
     fs.writeFileSync(outputPath, body);
-    console.log(`Bundle saved to ${outputPath}`);
+    console.log(`\nBundle saved to ${outputPath}`);
   });
 });
 
