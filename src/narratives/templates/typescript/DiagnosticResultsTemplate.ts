@@ -534,10 +534,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                   <tr>
                     <td>${componentCode}</td>
                     <td></td>
-                    <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? '-'}</td>
-                    <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? '-'}</td>
-                    <td>${date ?? '-'}</td>
-                    <td>${data['source'] ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? ''}</td>
+                    <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? ''}</td>
+                    <td>${date ?? ''}</td>
+                    <td>${data['source'] ?? ''}</td>
                   </tr>`;
                             }
                         }
@@ -550,12 +550,12 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                                 this.formatSummaryObservationData(data);
                                 observationhtml += `
                   <tr>
-                    <td>${data['code'] ?? '-'}</td>
+                    <td>${data['code'] ?? ''}</td>
                     <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
-                    <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? '-'}</td>
-                    <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? '-'}</td>
-                    <td>${date ?? '-'}</td>
-                    <td>${data['source'] ?? '-'}</td>
+                    <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? ''}</td>
+                    <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? ''}</td>
+                    <td>${date ?? ''}</td>
+                    <td>${data['source'] ?? ''}</td>
                   </tr>`;
                             }
                         }
@@ -575,10 +575,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                             diagnosticReportAdded.add(reportName);
                             diagnosticReporthtml += `
                     <tr>
-                      <td>${data['report'] ?? '-'}</td>
-                      <td>${data['performer'] ?? '-'}</td>
-                      <td>${templateUtilities.renderTime(data['issued'], timezone) ?? '-'}</td>
-                        <td>${data['source'] ?? '-'}</td>
+                      <td>${data['report'] ?? ''}</td>
+                      <td>${data['performer'] ?? ''}</td>
+                      <td>${templateUtilities.renderTime(data['issued'], timezone) ?? ''}</td>
+                        <td>${data['source'] ?? ''}</td>
                     </tr>`;
                         }
                     }

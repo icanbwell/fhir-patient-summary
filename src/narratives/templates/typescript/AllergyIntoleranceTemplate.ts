@@ -225,18 +225,18 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
       html += `
         <tr id="${templateUtilities.narrativeLinkId(allergy.extension)}">
           <td class="Name"><span class="AllergenName">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.code))}</span></td>
-          <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.clinicalStatus)) || '-'}</td>
+          <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.clinicalStatus)) || ''}</td>
           <td class="CodeSystem">${templateUtilities.codeableConceptCoding(allergy.code)}</td>
-          <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || '-'}</td>
-          <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || '-'}</td>
-          <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || '-'}</td>
+          <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || ''}</td>
+          <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || ''}</td>
+          <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || ''}</td>
           <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>
            <td class="Source">${templateUtilities.getOwnerTag(allergy)}</td>`;
 
       // Add resolved date column for resolved allergies
       if (includeResolved) {
-        // Try to find end date from extension or use '-' if not found
-        let endDate = '-';
+        // Try to find end date from extension or use '' if not found
+        let endDate = '';
         if (allergy.extension && Array.isArray(allergy.extension)) {
           const endDateExt = allergy.extension.find(ext =>
             ext.url === 'http://hl7.org/fhir/StructureDefinition/allergyintolerance-resolutionDate'

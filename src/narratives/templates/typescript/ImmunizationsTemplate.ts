@@ -84,11 +84,11 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           isSummaryCreated = true;
           html += `
               <tr>
-                <td>${data['immunization'] ?? '-'}</td>
-                <td>${data['codeSystem'] ?? '-'}</td>
-                <td>${data['status'] ?? '-'}</td>
-                <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? '-'}</td>
-                <td>${data['source'] ?? '-'}</td>
+                <td>${data['immunization'] ?? ''}</td>
+                <td>${data['codeSystem'] ?? ''}</td>
+                <td>${data['status'] ?? ''}</td>
+                <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? ''}</td>
+                <td>${data['source'] ?? ''}</td>
               </tr>`;
         }
       }

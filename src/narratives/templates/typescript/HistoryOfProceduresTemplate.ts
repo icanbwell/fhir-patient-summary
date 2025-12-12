@@ -84,7 +84,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
               <td>${data['procedure'] ?? ''}</td>
                <td>${data['codeSystem'] ?? ''}</td>
               <td>${data['performer'] ?? ''}</td>
-              <td>${templateUtilities.renderTime(data['date'], timezone) ?? '-'}</td>
+              <td>${templateUtilities.renderTime(data['date'], timezone) ?? ''}</td>
                 <td>${data['source'] ?? ''}</td>
             </tr>`;
       }

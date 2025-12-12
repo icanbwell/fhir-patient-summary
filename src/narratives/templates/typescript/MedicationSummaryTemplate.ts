@@ -336,10 +336,10 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             let type: string;
             let medicationName: string;
             let sig: string;
-            let dispenseQuantity: string = '-';
-            let refills: string = '-';
-            let startDate: string = '-';
-            let codeSystemDisplay: string = '-';
+            let dispenseQuantity: string = '';
+            let refills: string = '';
+            let startDate: string = '';
+            let codeSystemDisplay: string = '';
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
 
@@ -351,7 +351,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 );
 
                 // Get Sig/dosage instructions
-                sig = templateUtilities.concat(mr.dosageInstruction, 'text') || '-';
+                sig = templateUtilities.concat(mr.dosageInstruction, 'text') || '';
 
                 // Get dispense quantity
                 if (mr.dispenseRequest?.quantity) {
@@ -362,14 +362,14 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
 
                 // Get refills
-                refills = mr.dispenseRequest?.numberOfRepeatsAllowed?.toString() || '-';
+                refills = mr.dispenseRequest?.numberOfRepeatsAllowed?.toString() || '';
 
                 // Get dates
                 if (mr.dispenseRequest?.validityPeriod) {
-                    startDate = mr.dispenseRequest.validityPeriod.start || '-';
+                    startDate = mr.dispenseRequest.validityPeriod.start || '';
                 } else {
                     // Use authored date as fallback for start date
-                    startDate = mr.authoredOn || '-';
+                    startDate = mr.authoredOn || '';
                 }
 
                 // Get code/system from medicationCodeableConcept or medicationReference
@@ -387,13 +387,13 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 );
 
                 // Get Sig/dosage instructions
-                sig = templateUtilities.concat(ms.dosage, 'text') || '-';
+                sig = templateUtilities.concat(ms.dosage, 'text') || '';
 
                 // Get dates
                 if (ms.effectiveDateTime) {
                     startDate = ms.effectiveDateTime;
                 } else if (ms.effectivePeriod) {
-                    startDate = ms.effectivePeriod.start || '-';
+                    startDate = ms.effectivePeriod.start || '';
                 }
 
                 // Get code/system from medicationCodeableConcept or medicationReference
