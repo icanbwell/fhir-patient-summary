@@ -62,9 +62,9 @@ export class PregnancyTemplate implements ITemplate {
       // Add a table row for this observation
       html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${templateUtilities.extractPregnancyStatus(obs)}</td>
+            <td>${templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(obs))}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
-            <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+            <td>${obs.effectiveDateTime ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(obs.effectiveDateTime, timezone)) : obs.effectivePeriod ? templateUtilities.renderTextAsHtml(templateUtilities.renderPeriod(obs.effectivePeriod, timezone)) : ''}</td>
           </tr>`;
     }
 

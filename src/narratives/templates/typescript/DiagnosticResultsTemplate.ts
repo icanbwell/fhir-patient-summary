@@ -159,20 +159,25 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
    * Helper function to extract observation field data
    * @param column - Column data from the summary
    * @param targetData - Record to populate with extracted data
+   * @param templateUtilities - Instance of TemplateUtilities for utility functions
    */
-  private extractSummaryObservationFields(column: any, targetData: Record<string, string>): void {
+  private extractSummaryObservationFields(
+    column: any,
+    targetData: Record<string, string>,
+    templateUtilities: TemplateUtilities
+  ): void {
     switch (column.title) {
       case 'Labs Name':
-        targetData['code'] = column.text?.div ?? '';
+        targetData['code'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'effectiveDateTime':
-        targetData['effectiveDateTime'] = column.text?.div ?? '';
+        targetData['effectiveDateTime'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'effectivePeriod.start':
-        targetData['effectivePeriodStart'] = column.text?.div ?? '';
+        targetData['effectivePeriodStart'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       case 'effectivePeriod.end':
-        targetData['effectivePeriodEnd'] = column.text?.div ?? '';
+        targetData['effectivePeriodEnd'] = templateUtilities.renderTextAsHtml(column.text?.div ?? '');
         break;
       
       // valueQuantity
@@ -381,7 +386,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               for (const componentSection of columnData.section) {
                 const componentData: Record<string, string> = {};
                 for (const nestedColumn of componentSection.section ?? []) {
-                  this.extractSummaryObservationFields(nestedColumn, componentData);
+                  this.extractSummaryObservationFields(nestedColumn, componentData, templateUtilities);
                 }
                 if (Object.keys(componentData).length > 0) {
                   components.push(componentData);
@@ -389,7 +394,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               }
             } else {
               // Process top-level observation data
-              this.extractSummaryObservationFields(columnData, data);
+              this.extractSummaryObservationFields(columnData, data, templateUtilities);
             }
           } else if (
             resourceItem.title ===
@@ -644,7 +649,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const observationAdded = new Set<string>();
 
     for (const obs of observations) {
-      const obsCode = templateUtilities.codeableConcept(obs.code);
+      const obsCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(obs.code));
       if (!observationAdded.has(obsCode)) {
         observationAdded.add(obsCode);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
@@ -690,7 +695,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const diagnosticReportAdded = new Set<string>();
 
     for (const report of reports) {
-      const reportName = templateUtilities.codeableConcept(report.code);
+      const reportName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(report.code));
       if (!diagnosticReportAdded.has(reportName)) {
         diagnosticReportAdded.add(reportName);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource

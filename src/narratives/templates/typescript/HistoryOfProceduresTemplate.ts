@@ -116,7 +116,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
       // Add a table row for this procedure
       html += `
         <tr id="${(templateUtilities.narrativeLinkId(proc))}">
-          <td>${templateUtilities.codeableConcept(proc.code, 'display')}</td>
+          <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(proc.code, 'display'))}</td>
           <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
           <td>${proc.performedDateTime ? templateUtilities.renderTime(proc.performedDateTime, timezone) : proc.performedPeriod ? templateUtilities.renderPeriod(proc.performedPeriod, timezone) : ''}</td>
         </tr>`;

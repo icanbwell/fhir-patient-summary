@@ -54,25 +54,25 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 for (const columnData of rowData.section ?? []) {
                     switch (columnData.title) {
                         case 'Medication Name':
-                            data['medication'] = columnData.text?.div ?? '';
+                            data['medication'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Status':
-                            data['status'] = columnData.text?.div ?? '';
+                            data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Prescriber Instruction':
-                            data['sig-prescriber'] = columnData.text?.div ?? '';
+                            data['sig-prescriber'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Pharmacy Instruction':
-                            data['sig-pharmacy'] = columnData.text?.div ?? '';
+                            data['sig-pharmacy'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Days Of Supply':
-                            data['daysOfSupply'] = columnData.text?.div ?? '';
+                            data['daysOfSupply'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Refills Remaining':
-                            data['refills'] = columnData.text?.div ?? '';
+                            data['refills'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         case 'Authored On Date':
-                            data['startDate'] = columnData.text?.div ?? '';
+                            data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         default:
                         break;

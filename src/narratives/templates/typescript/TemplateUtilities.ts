@@ -853,16 +853,12 @@ export class TemplateUtilities {
     /**
      * Renders text as HTML, escaping special characters and replacing newlines with <br />
      * @param text - The text to render
-     * @private
      */
-    private renderTextAsHtml(text: string | undefined | null): string {
-        // Check for empty string
+    public renderTextAsHtml(text: string | undefined | null): string {
         if (!text || text.trim() === '') {
             return '';
         }
-        // Escape
         const escapedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        // Replace newlines with <br />
         return escapedText.replace(/\n/g, '<br />');
     }
 

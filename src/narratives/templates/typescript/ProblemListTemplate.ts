@@ -57,7 +57,7 @@ export class ProblemListTemplate implements ITemplate {
     const addedConditionCodes = new Set<string>();
 
     for (const cond of activeConditions) {
-      const conditionCode = templateUtilities.codeableConcept(cond.code);
+      const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(cond.code));
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
         html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">

@@ -411,7 +411,7 @@ export class PatientTemplate implements ITemplate {
     const preferredLanguages = new Set<string>();
 
     patient.communication.forEach(comm => {
-      const language = templateUtilities.codeableConcept(comm.language);
+      const language = templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(comm.language));
       if (language) {
         if (comm.preferred) {
           preferredLanguages.add(language);

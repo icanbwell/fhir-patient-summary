@@ -56,7 +56,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
       // Add a table row for this consent
       html += `
         <tr id="${(templateUtilities.narrativeLinkId(consent))}">
-          <td>${templateUtilities.codeableConcept(consent.scope, 'display')}</td>
+          <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConcept(consent.scope, 'display'))}</td>
           <td>${consent.status || ''}</td>
           <td>${consent.provision?.action ? templateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>
           <td>${consent.dateTime || ''}</td>
