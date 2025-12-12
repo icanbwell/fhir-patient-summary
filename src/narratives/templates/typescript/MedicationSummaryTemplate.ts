@@ -34,6 +34,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         const templateUtilities = new TemplateUtilities(resources);
         let isSummaryCreated = false;
 
+        const now = new Date();
+        const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, now.getDate());
+
         let html = `
         <div>
             <table>
@@ -80,17 +83,29 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                     }
                 }
 
-                if (data['status'] === 'active') {
-                isSummaryCreated = true;
-                html += `
-                    <tr>
-                        <td>${data['medication']}</td>
-                        <td>${data['status']}</td>
-                        <td>${data['sig-prescriber'] || data['sig-pharmacy']}</td>
-                        <td>${data['daysOfSupply']}</td>
-                        <td>${data['refills']}</td>
-                        <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
-                    </tr>`;
+                // Get start date of medication
+                let startDateObj: Date | undefined;
+                if (data['startDate']) {
+                    // Try to parse startDate (assume ISO or recognizable format)
+                    startDateObj = new Date(data['startDate']);
+                    if (isNaN(startDateObj.getTime())) {
+                        startDateObj = undefined;
+                    }
+                }
+
+                // Check if status is 'active' and startDate is within the past 12 months
+                if (data['status'] === 'active' || (startDateObj && startDateObj >= twelveMonthsAgo)) {
+                        isSummaryCreated = true;
+                        html += `
+                            <tr>
+                                <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
+                                <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
+                                <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
+                            </tr>`;
+
                 }
             }
         }
@@ -112,7 +127,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         if (!dateString || dateString.trim() === '') {
             return null;
         }
-        
+
         const date = new Date(dateString);
         // Check if the date is valid
         return !isNaN(date.getTime()) ? date : null;
@@ -171,15 +186,15 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                     const ms = b.resource as TMedicationStatement;
                     dateStringB = ms.effectiveDateTime || ms.effectivePeriod?.start;
                 }
-                
+
                 const dateA = this.parseDate(dateStringA);
                 const dateB = this.parseDate(dateStringB);
-                
+
                 // Handle null dates - put items without dates at the end
                 if (!dateA && !dateB) return 0;
                 if (!dateA) return 1;
                 if (!dateB) return -1;
-                
+
                 return dateB.getTime() - dateA.getTime();
             });
         };
@@ -275,9 +290,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
-                
+
                 type = 'Request';
-                
+
                 // Get medication name
                 medicationName = templateUtilities.getMedicationName(
                     mr.medicationReference || mr.medicationCodeableConcept
@@ -306,9 +321,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
             } else {
                 const ms = medication.resource as TMedicationStatement;
-                
+
                 type = 'Statement';
-                
+
                 // Get medication name
                 medicationName = templateUtilities.getMedicationName(
                     ms.medicationReference || ms.medicationCodeableConcept
