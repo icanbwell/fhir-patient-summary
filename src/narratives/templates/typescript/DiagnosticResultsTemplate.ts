@@ -665,14 +665,16 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     const observationAdded = new Set<string>();
 
     for (const obs of observations) {
-      const obsCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code));
-      if (!observationAdded.has(obsCode)) {
-        observationAdded.add(obsCode);
+      const obsCodeDisplay = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code));
+      const obsCodeAndSystem = templateUtilities.codeableConceptCoding(obs.code);
+      if (!observationAdded.has(obsCodeDisplay) && !observationAdded.has(obsCodeAndSystem)) {
+        observationAdded.add(obsCodeDisplay);
+        observationAdded.add(obsCodeAndSystem);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
         // Add table row
         html += `
           <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${obsCode}</td>
+            <td>${obsCodeDisplay}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
@@ -716,8 +718,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
 
     for (const report of reports) {
       const reportName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(report.code));
-      if (!diagnosticReportAdded.has(reportName)) {
+      const codeAndSystem = templateUtilities.codeableConceptCoding(report.code);
+      if (!diagnosticReportAdded.has(reportName) && !diagnosticReportAdded.has(codeAndSystem)) {
         diagnosticReportAdded.add(reportName);
+        diagnosticReportAdded.add(codeAndSystem);
         // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
         // Format result count
         let resultCount = '';
@@ -729,7 +733,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(report))}">
             <td>${reportName}</td>
-            <td>${templateUtilities.codeableConceptCoding(report.code)}</td>
+            <td>${codeAndSystem}</td>
             <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
             <td>${resultCount}</td>
             <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>
