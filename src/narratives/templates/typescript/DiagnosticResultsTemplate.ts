@@ -532,18 +532,16 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
       html += this.renderObservations(templateUtilities, observations, timezone);
     }
 
-    if (process.env.ENABLE_DIAGNOSTIC_REPORTS_IN_SUMMARY === 'true') {
-      // Generate DiagnosticReports section if we have any DiagnosticReport resources
-      const diagnosticReports = this.getDiagnosticReports(resources);
-      if (diagnosticReports.length > 0) {
-        // sort diagnostic reports by date descending
-        diagnosticReports.sort((a, b) => {
-          const dateA = a.issued;
-          const dateB = b.issued;
-          return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
-        });
-        html += this.renderDiagnosticReports(templateUtilities, diagnosticReports, timezone);
-      }
+    // Generate DiagnosticReports section if we have any DiagnosticReport resources
+    const diagnosticReports = this.getDiagnosticReports(resources);
+    if (diagnosticReports.length > 0) {
+      // sort diagnostic reports by date descending
+      diagnosticReports.sort((a, b) => {
+        const dateA = a.issued;
+        const dateB = b.issued;
+        return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
+      });
+      html += this.renderDiagnosticReports(templateUtilities, diagnosticReports, timezone);
     }
 
     return html;
@@ -634,10 +632,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
   private static renderObservations(templateUtilities: TemplateUtilities, observations: Array<TObservation>, timezone: string | undefined): string {
     let html = '';
 
-    if (process.env.ENABLE_DIAGNOSTIC_REPORTS_IN_SUMMARY === 'true') {
-      html += `
-      <h3>Observations</h3>`;
-    }
+    html += `
+    <h3>Observations</h3>`;
 
     html += `
       <table>
