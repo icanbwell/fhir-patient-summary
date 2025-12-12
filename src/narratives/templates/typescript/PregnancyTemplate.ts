@@ -135,11 +135,46 @@ export class PregnancyTemplate implements ITemplate {
             return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
 
-        let html = '<table><thead><tr><th>Result</th><th>Comments</th><th>Date</th></tr></thead><tbody>';
+        // Start building the HTML table using template literals for readability
+        let html = `
+          <table>
+            <thead>
+              <tr>
+                <th>Result</th>
+                <th>Comments</th>
+                <th>Date</th>
+                <th>Code (System)</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
         for (const row of rows) {
-            html += row.html;
+            let resource = undefined;
+            if (row.html.includes('id="')) {
+                const idMatch = row.html.match(/id="([^"]+)"/);
+                if (idMatch) {
+                    const id = idMatch[1];
+                    resource = resources.find(r => templateUtilities.narrativeLinkId(r) === id);
+                }
+            }
+            let codeSystem = '';
+            if (resource && (resource.resourceType === 'Observation' || resource.resourceType === 'Condition') && 'code' in resource) {
+                codeSystem = templateUtilities.codeableConceptCoding(resource.code as any);
+            }
+            // Parse the row HTML and extract the <td>...</td> cells
+            const tdMatches = Array.from(row.html.matchAll(/<td>(.*?)<\/td>/g)).map(m => m[1]);
+            html += `
+              <tr id="${resource ? templateUtilities.narrativeLinkId(resource) : ''}">
+                <td>${tdMatches[0] || ''}</td>
+                <td>${tdMatches[1] || ''}</td>
+                <td>${tdMatches[2] || ''}</td>
+                <td>${templateUtilities.renderTextAsHtml(codeSystem)}</td>
+              </tr>`;
         }
-        html += '</tbody></table>';
+
+        html += `
+            </tbody>
+          </table>`;
 
         return html;
     }
