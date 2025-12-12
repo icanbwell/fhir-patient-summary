@@ -31,6 +31,17 @@ const options: https.RequestOptions = {
 };
 
 const req = https.request(options, function (res: http.IncomingMessage) {
+  // Check for 401 Unauthorized
+  if (res.statusCode === 401) {
+    let errorData = '';
+    res.on('data', (chunk: Buffer) => {
+      errorData += chunk.toString();
+    });
+    res.on('end', () => {
+      throw new Error(`Received 401 Unauthorized from server. Response: ${errorData}`);
+    });
+    return;
+  }
   // Check if transfer-encoding is chunked
   const isChunked = res.headers['transfer-encoding'] && res.headers['transfer-encoding'].toLowerCase().includes('chunked');
   const chunks: Buffer[] = [];
