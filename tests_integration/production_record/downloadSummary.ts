@@ -5,17 +5,23 @@ import https from 'https';
 import http from 'http';
 import fs from 'fs';
 
+console.log('[INFO] Starting downloadSummary.ts');
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env.local
+console.log('[INFO] Loading environment variables from .env.local');
 dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 // Set Patient ID and Bearer Token here
-const PATIENT_ID = 'person.c9ab6abe-ae18-4226-b60f-99cfacff7171';
+const PERSON_ID = '4f77a49a-d8a8-4153-a2e9-13d6d0b4b301';  // imr
+// c9ab6abe-ae18-4226-b60f-99cfacff7171
+const PATIENT_ID = `person.${PERSON_ID}`;
 const BEARER_TOKEN: string | undefined = process.env.BEARER_TOKEN;
 
 if (!BEARER_TOKEN) {
+  console.error('[ERROR] BEARER_TOKEN is not set in .env.local');
   throw new Error('BEARER_TOKEN is not set in .env.local');
 }
 
@@ -30,7 +36,12 @@ const options: https.RequestOptions = {
   }
 };
 
+console.log(`[INFO] Sending POST request to https://${options.hostname}${options.path}`);
+console.log(`[INFO] Using PATIENT_ID: ${PATIENT_ID}`);
+
 const req = https.request(options, function (res: http.IncomingMessage) {
+  console.log(`[INFO] Received response with status code: ${res.statusCode}`);
+  console.log('[INFO] Response headers:', res.headers);
   // Check for 401 Unauthorized
   if (res.statusCode === 401) {
     let errorData = '';
@@ -38,6 +49,7 @@ const req = https.request(options, function (res: http.IncomingMessage) {
       errorData += chunk.toString();
     });
     res.on('end', () => {
+      console.error(`[ERROR] Received 401 Unauthorized from server. Response: ${errorData}`);
       throw new Error(`Received 401 Unauthorized from server. Response: ${errorData}`);
     });
     return;
@@ -49,6 +61,7 @@ const req = https.request(options, function (res: http.IncomingMessage) {
       errorData += chunk.toString();
     });
     res.on('end', () => {
+      console.error(`[ERROR] Received error status code ${res.statusCode} from server. Response: ${errorData}`);
       throw new Error(`Received error status code ${res.statusCode} from server. Response: ${errorData}`);
     });
     return;
@@ -67,20 +80,33 @@ const req = https.request(options, function (res: http.IncomingMessage) {
       const chunkNumStr = chunkCount.toLocaleString();
       const chunkLenStr = chunk.length.toLocaleString();
       const totalLenStr = totalLength.toLocaleString();
-      console.log(`Chunk #${chunkNumStr}: length=${chunkLenStr}, total received=${totalLenStr}`);
+      console.log(`[INFO] Chunk #${chunkNumStr}: length=${chunkLenStr}, total received=${totalLenStr}`);
+    } else {
+      // For non-chunked, log progress every 1MB
+      if (totalLength % (1024 * 1024) < chunk.length) {
+        const totalLenStr = totalLength.toLocaleString();
+        console.log(`[INFO] Downloaded ${totalLenStr} bytes so far...`);
+      }
     }
   });
 
   res.on('end', function () {
+    console.log('[INFO] Response fully received. Writing to file...');
     const body = Buffer.concat(chunks);
     const outputDir = path.join(__dirname, 'fixtures', 'production');
     const outputPath = path.join(outputDir, 'bundle.json');
     fs.mkdirSync(outputDir, { recursive: true });
     fs.writeFileSync(outputPath, body);
-    console.log(`\nBundle saved to ${outputPath}`);
+    console.log(`\n[INFO] Bundle saved to ${outputPath}`);
+    console.log(`[INFO] Total bytes written: ${body.length.toLocaleString()}`);
   });
 });
 
+req.on('error', (err) => {
+  console.error('[ERROR] Request failed:', err);
+});
+
+console.log('[INFO] Writing GraphDefinition body and sending request...');
 req.write(JSON.stringify({
   resourceType: 'GraphDefinition',
   id: 'o',
@@ -147,4 +173,5 @@ req.write(JSON.stringify({
     {target: [{type: 'Procedure', params: 'patient={ref}'}]}
   ]
 }));
+console.log('[INFO] Request sent. Waiting for response...');
 req.end();
