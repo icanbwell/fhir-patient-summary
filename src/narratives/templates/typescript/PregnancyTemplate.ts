@@ -89,9 +89,9 @@ export class PregnancyTemplate implements ITemplate {
               <thead>
                 <tr>
                   <th>Result</th>
+                  <th>Code (System)</th>
                   <th>Comments</th>
                   <th>Date</th>
-                  <th>Code (System)</th>
                 </tr>
               </thead>
               <tbody>`;
@@ -101,9 +101,9 @@ export class PregnancyTemplate implements ITemplate {
             html += `
                 <tr id="${id}">
                   <td class="Result">${result}</td>
+                  <td class="CodeSystem">${codeSystem}</td>
                   <td class="Comments">${comments}</td>
                   <td class="Date">${date}</td>
-                  <td class="CodeSystem">${codeSystem}</td>
                 </tr>`;
         }
 
