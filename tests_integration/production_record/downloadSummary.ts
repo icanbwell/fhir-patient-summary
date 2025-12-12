@@ -1,5 +1,5 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 import dotenv from 'dotenv';
 import https from 'https';
 import http from 'http';
@@ -26,7 +26,6 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 // Set Patient ID and Bearer Token here
 const PERSON_ID: string | undefined = process.env.PERSON_ID;
 // PERSON_ID should be set in .env.local or environment
-const PATIENT_ID = PERSON_ID ? `person.${PERSON_ID}` : undefined;
 const BEARER_TOKEN: string | undefined = process.env.BEARER_TOKEN;
 
 if (!PERSON_ID) {
@@ -42,7 +41,7 @@ const options: https.RequestOptions = {
   method: 'POST',
   hostname: 'fhir.prod.icanbwell.com',
   port: undefined,
-  path: `/4_0_0/Patient/${PATIENT_ID}/$graph`,
+  path: `/4_0_0/Patient/person.${PERSON_ID}/$graph`,
   headers: {
     'content-type': 'application/fhir+json',
     authorization: `Bearer ${BEARER_TOKEN}`
@@ -50,7 +49,7 @@ const options: https.RequestOptions = {
 };
 
 logWithTimestamp('INFO', `Sending POST request to https://${options.hostname}${options.path}`);
-logWithTimestamp('INFO', `Using PATIENT_ID: ${PATIENT_ID}`);
+logWithTimestamp('INFO', `Using PATIENT_ID: person.${PERSON_ID}`);
 
 const req = https.request(options, function (res: http.IncomingMessage) {
   logWithTimestamp('INFO', `Received response with status code: ${res.statusCode}`);
