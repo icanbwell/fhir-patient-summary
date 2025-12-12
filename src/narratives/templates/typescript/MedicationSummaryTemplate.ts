@@ -214,8 +214,10 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 dateString = ms.effectiveDateTime || ms.effectivePeriod?.start;
             }
             const dateObj = this.parseDate(dateString);
-            if (!(dateObj && dateObj >= twoYearsAgo)) {
+            if (!dateObj || dateObj < twoYearsAgo) {
                 skippedMedications++;
+            } else {
+                allActiveMedications.push(med);
             }
         }
 
