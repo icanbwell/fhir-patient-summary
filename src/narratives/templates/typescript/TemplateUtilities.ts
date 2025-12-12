@@ -872,7 +872,7 @@ export class TemplateUtilities {
      * @returns The owner code if found, otherwise undefined
      */
     getOwnerTag(resource: TResource): string | undefined {
-        if (!resource?.meta?.security) return undefined;
+        if (!resource?.meta?.security) return '';
         const ownerEntry = resource.meta.security.find(
             (sec) => sec.system === 'https://www.icanbwell.com/owner' && !!sec.code
         );
