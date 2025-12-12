@@ -49,6 +49,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             <tr>
               <th>Immunization</th>
               <th>Status</th>
+              <th>Code (System)</th>
               <th>Date</th>
             </tr>
           </thead>
@@ -56,7 +57,9 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
 
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
         for (const columnData of rowData.section ?? []) {
           switch (columnData.title) {
             case 'Immunization Name':
@@ -79,6 +82,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
               <tr>
                 <td>${data['immunization'] ?? '-'}</td>
                 <td>${data['status'] ?? '-'}</td>
+                <td>${data['codeSystem'] ?? '-'}</td>
                 <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? '-'}</td>
               </tr>`;
         }
@@ -108,6 +112,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           <tr>
             <th>Immunization</th>
             <th>Status</th>
+            <th>Code (System)</th>
             <th>Dose Number</th>
             <th>Manufacturer</th>
             <th>Lot Number</th>
@@ -131,6 +136,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           <tr id="${(templateUtilities.narrativeLinkId(imm))}">
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode))}</td>
             <td>${imm.status || ''}</td>
+            <td>${templateUtilities.codeableConceptCoding(imm.vaccineCode)}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
             <td>${templateUtilities.renderVaccineManufacturer(imm)}</td>
             <td>${imm.lotNumber || ''}</td>
