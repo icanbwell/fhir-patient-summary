@@ -1,26 +1,25 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-require-imports */
+// ...existing code...
+import path from 'path';
+import dotenv from 'dotenv';
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
 
 // Load environment variables from .env.local
-const path = require('path');
-
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
-
-const http = require('https');
-const fs = require('fs');
+dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 // Set Patient ID and Bearer Token here
 const PATIENT_ID = 'person.c9ab6abe-ae18-4226-b60f-99cfacff7171';
-const BEARER_TOKEN = process.env.BEARER_TOKEN;
+const BEARER_TOKEN: string | undefined = process.env.BEARER_TOKEN;
 
 if (!BEARER_TOKEN) {
   throw new Error('BEARER_TOKEN is not set in .env.local');
 }
 
-const options = {
+const options: https.RequestOptions = {
   method: 'POST',
   hostname: 'fhir.prod.icanbwell.com',
-  port: null,
+  port: undefined,
   path: `/4_0_0/Patient/${PATIENT_ID}/$graph`,
   headers: {
     'content-type': 'application/fhir+json',
@@ -28,12 +27,12 @@ const options = {
   }
 };
 
-const req = http.request(options, function (res) {
+const req = https.request(options, function (res: http.IncomingMessage) {
   // Check if transfer-encoding is chunked
   const isChunked = res.headers['transfer-encoding'] && res.headers['transfer-encoding'].toLowerCase().includes('chunked');
-  const chunks = [];
+  const chunks: Buffer[] = [];
 
-  res.on('data', function (chunk) {
+  res.on('data', function (chunk: Buffer) {
     // For chunked transfer, each chunk is processed as it arrives
     chunks.push(chunk);
     if (isChunked) {
