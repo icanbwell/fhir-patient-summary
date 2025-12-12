@@ -106,6 +106,34 @@ const req = https.request(options, function (res: http.IncomingMessage) {
   res.on('end', function () {
     logWithTimestamp('INFO', 'Response fully received. Writing to file...');
     const body = Buffer.concat(chunks);
+    const bodyText = body.toString('utf8');
+    if (bodyText.includes('OperationOutcome')) {
+      logWithTimestamp('ERROR', 'Received OperationOutcome from server (detected in text):', bodyText);
+      throw new Error('Received OperationOutcome from server: ' + bodyText);
+    }
+    let parsed: any;
+    try {
+      parsed = JSON.parse(bodyText);
+    } catch (e) {
+      logWithTimestamp('ERROR', 'Failed to parse response as JSON:', e);
+      throw new Error('Failed to parse response as JSON');
+    }
+    // Check for OperationOutcome at top level or nested in entry[]
+    let operationOutcome: any = null;
+    if (parsed && parsed.resourceType === 'OperationOutcome') {
+      operationOutcome = parsed;
+    } else if (Array.isArray(parsed?.entry)) {
+      for (const entry of parsed.entry) {
+        if (entry?.resource?.resourceType === 'OperationOutcome') {
+          operationOutcome = entry.resource;
+          break;
+        }
+      }
+    }
+    if (operationOutcome) {
+      logWithTimestamp('ERROR', 'Received OperationOutcome from server:', JSON.stringify(operationOutcome, null, 2));
+      throw new Error('Received OperationOutcome from server: ' + JSON.stringify(operationOutcome));
+    }
     const outputDir = path.join(__dirname, 'fixtures', 'production');
     const outputPath = path.join(outputDir, 'bundle.json');
     fs.mkdirSync(outputDir, { recursive: true });
