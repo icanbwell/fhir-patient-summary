@@ -123,16 +123,13 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
         <tbody>`;
     for (const resourceItem of resources) {
       const proc = resourceItem as TProcedure;
-
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Add a table row for this procedure
       html += `
-        <tr id="${(templateUtilities.narrativeLinkId(proc))}">
+        <tr>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(proc.code, 'display'))}</td>
-           <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
+          <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
           <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
-          <td>${proc.performedDateTime ? templateUtilities.renderTime(proc.performedDateTime, timezone) : proc.performedPeriod ? templateUtilities.renderPeriod(proc.performedPeriod, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(proc)}</td>
+          <td>${templateUtilities.renderTime(proc.performedDateTime || proc.performedPeriod?.start, timezone)}</td>
+          <td>${templateUtilities.getOwnerTag(proc)}</td>
         </tr>`;
     }
 

@@ -136,11 +136,8 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
       // Loop through Immunization resources
       for (const resourceItem of immunizations) {
         const imm = resourceItem as TImmunization;
-
-        // Find the narrative link extension if it exists
-        // Add a table row for this immunization
         html += `
-          <tr id="${(templateUtilities.narrativeLinkId(imm))}">
+          <tr>
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode))}</td>
             <td>${templateUtilities.codeableConceptCoding(imm.vaccineCode)}</td>
             <td>${imm.status || ''}</td>

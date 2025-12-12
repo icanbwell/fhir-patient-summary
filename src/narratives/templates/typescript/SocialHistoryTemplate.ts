@@ -62,10 +62,9 @@ export class SocialHistoryTemplate implements ITemplate {
 
     // Loop through entries in the resources
     for (const obs of observations) {
-      // Find the narrative link ID if it exists
       // Add a table row for this observation
       html += `
-          <tr id="${templateUtilities.narrativeLinkId(obs)}">
+          <tr>
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code))}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>

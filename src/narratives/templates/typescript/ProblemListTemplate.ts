@@ -64,18 +64,13 @@ export class ProblemListTemplate implements ITemplate {
     const seenCodeAndSystems = new Set<string>();
 
     for (const cond of activeConditions) {
-      // Use display value for Problem column
       const conditionDisplay = templateUtilities.codeableConceptDisplay(cond.code);
-      // Use code + system for Code (System) column
       const codeAndSystem = templateUtilities.codeableConceptCoding(cond.code);
-
-      // Skip if this codeAndSystem has already been rendered
       if (codeAndSystem && seenCodeAndSystems.has(codeAndSystem)) {
         continue;
       }
       seenCodeAndSystems.add(codeAndSystem);
-
-      html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+      html += `<tr>
           <td class="Name">${conditionDisplay}</td>
           <td class="CodeSystem">${codeAndSystem}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>

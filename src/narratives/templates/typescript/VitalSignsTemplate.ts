@@ -150,10 +150,8 @@ export class VitalSignsTemplate implements ISummaryTemplate {
 
     // Loop through entries in the resources
     for (const obs of observations) {
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
-      // Add a table row for this observation
       html += `
-          <tr id="${templateUtilities.narrativeLinkId(obs)}">
+          <tr>
             <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code, 'display'))}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>

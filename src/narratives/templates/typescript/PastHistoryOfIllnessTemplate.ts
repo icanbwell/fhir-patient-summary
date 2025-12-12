@@ -69,7 +69,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
       const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(cond.code));
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
-        html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+        html += `<tr>
             <td class="Name">${conditionCode}</td>
             <td class="CodeSystem">${templateUtilities.codeableConceptCoding(cond.code)}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
