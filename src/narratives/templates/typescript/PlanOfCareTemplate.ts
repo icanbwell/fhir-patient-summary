@@ -106,11 +106,11 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data["CarePlan Name"] ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["created"], timezone) ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? "-"}</td>
-              <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? "-"}</td>
-                <td>${data["source"] ?? "-"}</td>
+              <td>${data["CarePlan Name"] ?? ''}</td>
+              <td>${templateUtilities.renderTime(data["created"], timezone) ?? ''}</td>
+              <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? ''}</td>
+              <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? ''}</td>
+                <td>${data["source"] ?? ''}</td>
             </tr>`;
       }
     }
