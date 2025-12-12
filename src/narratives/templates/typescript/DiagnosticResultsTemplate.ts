@@ -347,6 +347,66 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         const twoYearsAgo = new Date(currentDate);
         twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
 
+        // Count all observations (top-level and components) older than two years
+        let skippedObservations = 0;
+        // Count all diagnostic reports older than two years
+        let skippedDiagnosticReports = 0;
+        for (const resourceItem of resources) {
+            for (const rowData of resourceItem.section ?? []) {
+                if (resourceItem.title === 'Observation|Labs Summary Grouped by Lab Code') {
+                    for (const columnData of rowData.section ?? []) {
+                        if (columnData.text?.div === 'Observation.component' && columnData.section) {
+                            for (const componentSection of columnData.section) {
+                                const componentData: Record<string, string> = {};
+                                for (const nestedColumn of componentSection.section ?? []) {
+                                    this.extractSummaryObservationFields(nestedColumn, componentData, templateUtilities);
+                                }
+                                let compDate: Date | undefined = undefined;
+                                if (componentData['effectiveDateTime']) {
+                                    compDate = new Date(componentData['effectiveDateTime']);
+                                } else if (componentData['effectivePeriodStart']) {
+                                    compDate = new Date(componentData['effectivePeriodStart']);
+                                }
+                                if (compDate && compDate < twoYearsAgo) {
+                                    skippedObservations++;
+                                }
+                            }
+                        } else {
+                            const data: Record<string, string> = {};
+                            this.extractSummaryObservationFields(columnData, data, templateUtilities);
+                            let obsDate: Date | undefined = undefined;
+                            if (data['effectiveDateTime']) {
+                                obsDate = new Date(data['effectiveDateTime']);
+                            } else if (data['effectivePeriodStart']) {
+                                obsDate = new Date(data['effectivePeriodStart']);
+                            }
+                            if (obsDate && obsDate < twoYearsAgo) {
+                                skippedObservations++;
+                            }
+                        }
+                    }
+                } else if (resourceItem.title === 'DiagnosticReportLab Summary Grouped by DiagnosticReport|Lab Code') {
+                    let issuedDate: Date | undefined = undefined;
+                    let status: string | undefined = undefined;
+                    let reportFound = false;
+                    for (const columnData of rowData.section ?? []) {
+                        if (columnData.title === 'Issued Date') {
+                            issuedDate = columnData.text?.div ? new Date(columnData.text.div) : undefined;
+                        }
+                        if (columnData.title === 'Status') {
+                            status = columnData.text?.div;
+                        }
+                        if (columnData.title === 'Diagnostic Report Name') {
+                            reportFound = true;
+                        }
+                    }
+                    if (status === 'final' && issuedDate && issuedDate < twoYearsAgo && reportFound) {
+                        skippedDiagnosticReports++;
+                    }
+                }
+            }
+        }
+
         let html = `
       <div>`;
 
@@ -532,6 +592,9 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             </tbody>
           </table>
           </div>`;
+            if (skippedObservations > 0) {
+                html += `\n<p><em>${skippedObservations} additional observations older than 2 years ago are present</em></p>`;
+            }
         }
         if (diagnosticReportAdded.size > 0) {
             html += diagnosticReporthtml;
@@ -539,6 +602,9 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             </tbody>
           </table>
           </div>`;
+            if (skippedDiagnosticReports > 0) {
+                html += `\n<p><em>${skippedDiagnosticReports} additional diagnostic reports older than 2 years ago are present</em></p>`;
+            }
         }
 
         html += `
@@ -562,6 +628,25 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
         let html = '';
 
+        // Count all observations older than two years
+        let skippedObservations = 0;
+        // Count all diagnostic reports older than two years
+        let skippedDiagnosticReports = 0;
+        for (const resourceItem of resources) {
+            if (resourceItem.resourceType === 'Observation') {
+                const obsDate = this.getObservationDate(resourceItem as TObservation);
+                if (obsDate && obsDate < twoYearsAgo) {
+                    skippedObservations++;
+                }
+            } else if (resourceItem.resourceType === 'DiagnosticReport') {
+                const issued = (resourceItem as TDiagnosticReport).issued;
+                const status = (resourceItem as TDiagnosticReport).status;
+                if (status === 'final' && issued && new Date(issued) < twoYearsAgo) {
+                    skippedDiagnosticReports++;
+                }
+            }
+        }
+
         // Generate Observations section if we have any Observation resources
         const observations = this.getObservations(resources, twoYearsAgo);
         if (observations.length > 0) {
@@ -573,6 +658,9 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             });
             this.filterObservationForLoincCodes(observations);
             html += this.renderObservations(templateUtilities, observations, timezone);
+            if (skippedObservations > 0) {
+                html += `\n<p><em>${skippedObservations} additional observations older than 2 years ago are present</em></p>`;
+            }
         }
 
         // Generate DiagnosticReports section if we have any DiagnosticReport resources
@@ -586,6 +674,9 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                 return dateA && dateB ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
             });
             html += this.renderDiagnosticReports(templateUtilities, diagnosticReports, timezone);
+            if (skippedDiagnosticReports > 0) {
+                html += `\n<p><em>${skippedDiagnosticReports} additional diagnostic reports older than 2 years ago are present</em></p>`;
+            }
         }
 
         return html;
