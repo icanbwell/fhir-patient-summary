@@ -533,7 +533,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
     }
 
     // Generate DiagnosticReports section if we have any DiagnosticReport resources
-    const diagnosticReports = this.getDiagnosticReports(resources);
+    const diagnosticReports = this.getDiagnosticReports(resources)
+      .filter(report => !this.isPanelDiagnosticReport(report));
     if (diagnosticReports.length > 0) {
       // sort diagnostic reports by date descending
       diagnosticReports.sort((a, b) => {
@@ -688,6 +689,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         <thead>
           <tr>
             <th>Report</th>
+            <th>Code (System)</th>
             <th>Category</th>
             <th>Result</th>
             <th>Issued</th>
@@ -712,6 +714,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         html += `
           <tr id="${(templateUtilities.narrativeLinkId(report))}">
             <td>${reportName}</td>
+            <td>${templateUtilities.codeableConceptCoding(report.code)}</td>
             <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
             <td>${resultCount}</td>
             <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>
@@ -724,5 +727,24 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
       </table>`;
 
     return html;
+  }
+
+  /**
+   * Helper to determine if a DiagnosticReport is just a panel (i.e., only references Observations, has no conclusion, and code is a known panel code)
+   * @param report - DiagnosticReport resource
+   * @returns true if the report is just a panel
+   */
+  private static isPanelDiagnosticReport(report: TDiagnosticReport): boolean {
+    // LOINC panel codes typically end with '-3' or have a category of 'panel', but this can be customized
+    const panelCodeRegex = /-3$/;
+    const isPanelCode = report.code && report.code.coding && report.code.coding.some(coding =>
+      coding.system && coding.system.toLowerCase().includes('loinc') &&
+      coding.code && panelCodeRegex.test(coding.code)
+    );
+    const hasNoConclusion = !report.conclusion && !report.conclusionCode;
+    const onlyReferencesObservations = Array.isArray(report.result) && report.result.length > 0 && (!report.presentedForm || report.presentedForm.length === 0);
+    // Optionally, check category for 'panel' if used in your data
+    // const isPanelCategory = report.category && Array.isArray(report.category) && report.category.some(cat => cat.coding && cat.coding.some(coding => coding.code === 'panel'));
+    return !!isPanelCode && hasNoConclusion && onlyReferencesObservations;
   }
 }
