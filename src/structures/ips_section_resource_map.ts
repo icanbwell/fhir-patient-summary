@@ -1,5 +1,5 @@
 import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
-import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES } from "./ips_section_loinc_codes";
+import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 
 // Optionally, define custom filter functions for each section
@@ -31,14 +31,21 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include pregnancy history Observations or relevant Conditions
     [IPSSections.PREGNANCY_HISTORY]: (resource) => (
         resource.resourceType === 'Observation' && (
-            resource.code?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code)) ||
-            resource.valueCodeableConcept?.coding?.some((c: any) => Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code))
+            resource.code?.coding?.some((c: any) =>
+                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code) ||
+                PREGNANCY_SNOMED_CODES.includes(c.code)
+            ) ||
+            resource.valueCodeableConcept?.coding?.some((c: any) =>
+                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code) ||
+                PREGNANCY_SNOMED_CODES.includes(c.code)
+            )
         )
     ) || (
         resource.resourceType === 'Condition' && (
             resource.code?.coding?.some((c: any) =>
                 Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code) ||
-                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code)
+                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code) ||
+                PREGNANCY_SNOMED_CODES.includes(c.code)
             )
         )
     ),

@@ -59,6 +59,12 @@ const PREGNANCY_LOINC_CODES = {
   },
 };
 
+const PREGNANCY_SNOMED_CODES: string[] = [
+  // Add SNOMED CT codes for pregnancy history here, e.g.:
+  '72892002', // Pregnancy (finding)
+  '77386006', // History of pregnancy (situation)
+];
+
 const SOCIAL_HISTORY_LOINC_CODES = {
   '72166-2': 'Tobacco Use',
   '74013-4': 'Alcohol Use',
@@ -74,6 +80,7 @@ export {
   IPS_SECTION_LOINC_CODES,
   IPS_SECTION_DISPLAY_NAMES,
   PREGNANCY_LOINC_CODES,
+  PREGNANCY_SNOMED_CODES,
   BLOOD_PRESSURE_LOINC_CODES,
   SOCIAL_HISTORY_LOINC_CODES,
 };
