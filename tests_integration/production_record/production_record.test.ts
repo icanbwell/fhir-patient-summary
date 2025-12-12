@@ -30,6 +30,8 @@ describe('Full Record Bundle Generation', () => {
         expect(typeof markdown).toBe('string');
         expect(markdown.length).toBeGreaterThan(0);
         // Optionally, write the markdown to a file for inspection
-        fs.writeFileSync(path.join(__dirname, 'temp/output.md'), markdown);
+        const tempDir = path.join(__dirname, 'temp');
+        fs.mkdirSync(tempDir, { recursive: true });
+        fs.writeFileSync(path.join(tempDir, 'output.md'), markdown);
     });
 });
