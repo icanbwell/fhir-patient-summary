@@ -25,8 +25,23 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
     const resolvedConditions: TCondition[] =
       resources.map(entry => entry as TCondition) || [];
 
-    // sort conditions by onset date in descending order
-    resolvedConditions.sort((a, b) => {
+    const now = new Date();
+    const fiveYearsAgo = new Date(now);
+    fiveYearsAgo.setFullYear(now.getFullYear() - 5);
+
+    // Count skipped conditions
+    let skippedConditions = 0;
+    const filteredConditions: TCondition[] = [];
+    for (const cond of resolvedConditions) {
+      if (cond.recordedDate && new Date(cond.recordedDate) >= fiveYearsAgo) {
+        filteredConditions.push(cond);
+      } else {
+        skippedConditions++;
+      }
+    }
+
+    // sort filtered conditions by onset date in descending order
+    filteredConditions.sort((a, b) => {
       const dateA = a.recordedDate ? new Date(a.recordedDate).getTime() : 0;
       const dateB = b.recordedDate ? new Date(b.recordedDate).getTime() : 0;
       return dateB - dateA;
@@ -49,7 +64,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
 
     const addedConditionCodes = new Set<string>();
 
-    for (const cond of resolvedConditions) {
+    for (const cond of filteredConditions) {
       const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(cond.code));
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
@@ -66,6 +81,9 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
 
     html += `</tbody>
         </table>`;
+    if (skippedConditions > 0) {
+      html += `\n<p><em>${skippedConditions} additional past illnesses older than 5 years ago are present</em></p>`;
+    }
 
     return html;
   }
