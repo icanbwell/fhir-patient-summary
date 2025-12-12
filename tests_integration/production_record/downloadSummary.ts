@@ -45,12 +45,14 @@ const req = https.request(options, function (res: http.IncomingMessage) {
   // Check if transfer-encoding is chunked
   const isChunked = res.headers['transfer-encoding'] && res.headers['transfer-encoding'].toLowerCase().includes('chunked');
   const chunks: Buffer[] = [];
-
+  let chunkCount = 0;
+  let totalLength = 0;
   res.on('data', function (chunk: Buffer) {
-    // For chunked transfer, each chunk is processed as it arrives
+    chunkCount++;
+    totalLength += chunk.length;
     chunks.push(chunk);
     if (isChunked) {
-      process.stdout.write(chunk); // Optionally stream to stdout as it arrives
+      console.log(`Chunk #${chunkCount}: length=${chunk.length}, total received=${totalLength}`);
     }
   });
 
