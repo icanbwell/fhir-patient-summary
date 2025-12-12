@@ -153,7 +153,7 @@ describe('Narrative Generator Tests', () => {
             verificationStatus: {coding: [{code: 'confirmed'}]},
             code: {text: 'Type 2 Diabetes Mellitus'},
             subject: {reference: 'Patient/test-patient-01'},
-            onsetDateTime: '2020-03-15'
+            onsetDateTime: '2025-03-15'
         },
         {
             resourceType: 'Condition',
@@ -530,7 +530,11 @@ describe('Narrative Generator Tests', () => {
 
     it('should generate narrative content for problem list using NarrativeGenerator', async () => {
         const section = IPSSections.PROBLEMS;
-        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, mockConditions, 'America/New_York');
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(
+            section, mockConditions, 'America/New_York',
+            false,
+            new Date('2023-12-15')
+        );
         expect(result).toBeDefined();
         expect(result).toContain('Hypertension');
         expect(result).toContain('Type 2 Diabetes Mellitus');

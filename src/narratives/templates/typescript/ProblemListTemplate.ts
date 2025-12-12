@@ -37,8 +37,12 @@ export class ProblemListTemplate implements ITemplate {
 
     // sort conditions by onset date in descending order
     activeConditions.sort((a, b) => {
-      const dateA = a.recordedDate ? new Date(a.recordedDate).getTime() : 0;
-      const dateB = b.recordedDate ? new Date(b.recordedDate).getTime() : 0;
+      // If a.recordedDate is missing, treat as most recent (active)
+      if (!a.recordedDate && b.recordedDate) return -1;
+      if (a.recordedDate && !b.recordedDate) return 1;
+      if (!a.recordedDate && !b.recordedDate) return 0;
+      const dateA = new Date(a.recordedDate!).getTime();
+      const dateB = new Date(b.recordedDate!).getTime();
       return dateB - dateA;
     });
 
@@ -56,23 +60,18 @@ export class ProblemListTemplate implements ITemplate {
           </thead>
           <tbody>`;
 
-    const addedConditionCodes = new Set<string>();
-
     for (const cond of activeConditions) {
       // Use display value for Problem column
       const conditionDisplay = templateUtilities.codeableConceptDisplay(cond.code);
       // Use code + system for Code (System) column
       const codeSystemDisplay = templateUtilities.codeableConceptCoding(cond.code);
-      if (!addedConditionCodes.has(codeSystemDisplay)) {
-        addedConditionCodes.add(codeSystemDisplay);
-        html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
-            <td class="Name">${conditionDisplay}</td>
-            <td class="CodeSystem">${codeSystemDisplay}</td>
-            <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
-            <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
-            <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
-          </tr>`;
-      }
+      html += `<tr id="${templateUtilities.narrativeLinkId(cond)}">
+          <td class="Name">${conditionDisplay}</td>
+          <td class="CodeSystem">${codeSystemDisplay}</td>
+          <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
+          <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
+          <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
+        </tr>`;
     }
 
     html += `</tbody>
