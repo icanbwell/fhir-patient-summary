@@ -42,6 +42,17 @@ const req = https.request(options, function (res: http.IncomingMessage) {
     });
     return;
   }
+  // Raise error for any non-2xx status code
+  if (res.statusCode && (res.statusCode < 200 || res.statusCode >= 300)) {
+    let errorData = '';
+    res.on('data', (chunk: Buffer) => {
+      errorData += chunk.toString();
+    });
+    res.on('end', () => {
+      throw new Error(`Received error status code ${res.statusCode} from server. Response: ${errorData}`);
+    });
+    return;
+  }
   // Check if transfer-encoding is chunked
   const isChunked = res.headers['transfer-encoding'] && res.headers['transfer-encoding'].toLowerCase().includes('chunked');
   const chunks: Buffer[] = [];
@@ -52,7 +63,11 @@ const req = https.request(options, function (res: http.IncomingMessage) {
     totalLength += chunk.length;
     chunks.push(chunk);
     if (isChunked) {
-      console.log(`Chunk #${chunkCount}: length=${chunk.length}, total received=${totalLength}`);
+      // Format numbers with commas for easy reading
+      const chunkNumStr = chunkCount.toLocaleString();
+      const chunkLenStr = chunk.length.toLocaleString();
+      const totalLenStr = totalLength.toLocaleString();
+      console.log(`Chunk #${chunkNumStr}: length=${chunkLenStr}, total received=${totalLenStr}`);
     }
   });
 
