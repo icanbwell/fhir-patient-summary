@@ -56,6 +56,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             </thead>
             <tbody>`;
 
+        let skippedMedications = 0;
         for (const resourceItem of resources) {
             // The resources are actually Composition resources with sections
             for (const rowData of resourceItem.section ?? []) {
@@ -102,6 +103,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                     }
                 }
 
+                // Count skipped medications
+                if (!(data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo))) {
+                    skippedMedications++;
+                }
+
                 // Check if status is 'active' and startDate is within the past 12 months
                 if (data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo)) {
                         isSummaryCreated = true;
@@ -125,6 +131,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             </tbody>
             </table>
         </div>`;
+        if (skippedMedications > 0) {
+            html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
+        }
 
         return isSummaryCreated ? html : undefined;
     }
@@ -166,15 +175,42 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             extension?: any
         }> = [];
 
+        // Count skipped medications (older than 2 years)
+        const currentDate = new Date();
+        const twoYearsAgo = new Date(currentDate);
+        twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
+        let skippedMedications = 0;
+        const allMedications: Array<{
+            type: 'request' | 'statement',
+            resource: TMedicationRequest | TMedicationStatement,
+            extension?: any
+        }> = [];
+
         // Process medication requests
         medicationRequests.forEach(mr => {
-            allActiveMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
+            allMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
         });
 
         // Process medication statements
         medicationStatements.forEach(ms => {
-            allActiveMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
+            allMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
         });
+
+        // Count skipped
+        for (const med of allMedications) {
+            let dateString: string | undefined;
+            if (med.type === 'request') {
+                const mr = med.resource as TMedicationRequest;
+                dateString = mr.dispenseRequest?.validityPeriod?.start || mr.authoredOn;
+            } else {
+                const ms = med.resource as TMedicationStatement;
+                dateString = ms.effectiveDateTime || ms.effectivePeriod?.start;
+            }
+            const dateObj = this.parseDate(dateString);
+            if (!(dateObj && dateObj >= twoYearsAgo)) {
+                skippedMedications++;
+            }
+        }
 
         // Sort both groups by start date in descending order
         const sortMedications = (medications: typeof allActiveMedications) => {
@@ -214,6 +250,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         if (allActiveMedications.length > 0) {
             sortMedications(allActiveMedications);
             html += this.renderCombinedMedications(templateUtilities, allActiveMedications);
+            if (skippedMedications > 0) {
+                html += `\n<p><em>${skippedMedications} additional medications older than 2 years ago are present</em></p>`;
+            }
         }
 
         return html;
