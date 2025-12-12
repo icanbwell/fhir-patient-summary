@@ -40,6 +40,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <thead>
                 <tr>
                 <th>Medication</th>
+                <th>Status</th>
                 <th>Sig</th>
                 <th>Days of Supply</th>
                 <th>Refills</th>
@@ -84,6 +85,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 html += `
                     <tr>
                         <td>${data['medication']}</td>
+                        <td>${data['status']}</td>
                         <td>${data['sig-prescriber'] || data['sig-pharmacy']}</td>
                         <td>${data['daysOfSupply']}</td>
                         <td>${data['refills']}</td>

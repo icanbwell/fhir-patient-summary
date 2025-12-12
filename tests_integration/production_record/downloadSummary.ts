@@ -44,7 +44,8 @@ const options: https.RequestOptions = {
   path: `/4_0_0/Patient/person.${PERSON_ID}/$graph`,
   headers: {
     'content-type': 'application/fhir+json',
-    authorization: `Bearer ${BEARER_TOKEN}`
+    authorization: `Bearer ${BEARER_TOKEN}`,
+    prefer: 'global_id=true'
   }
 };
 
