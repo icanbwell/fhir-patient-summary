@@ -5,13 +5,22 @@ import https from 'https';
 import http from 'http';
 import fs from 'fs';
 
-console.log('[INFO] Starting downloadSummary.ts');
+function logWithTimestamp(level: 'INFO' | 'ERROR', ...args: any[]) {
+  const ts = new Date().toISOString();
+  if (level === 'ERROR') {
+    console.error(`[${ts}] [${level}]`, ...args);
+  } else {
+    console.log(`[${ts}] [${level}]`, ...args);
+  }
+}
+
+logWithTimestamp('INFO', 'Starting downloadSummary.ts');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env.local
-console.log('[INFO] Loading environment variables from .env.local');
+logWithTimestamp('INFO', 'Loading environment variables from .env.local');
 dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 // Set Patient ID and Bearer Token here
@@ -21,7 +30,7 @@ const PATIENT_ID = `person.${PERSON_ID}`;
 const BEARER_TOKEN: string | undefined = process.env.BEARER_TOKEN;
 
 if (!BEARER_TOKEN) {
-  console.error('[ERROR] BEARER_TOKEN is not set in .env.local');
+  logWithTimestamp('ERROR', 'BEARER_TOKEN is not set in .env.local');
   throw new Error('BEARER_TOKEN is not set in .env.local');
 }
 
@@ -36,12 +45,12 @@ const options: https.RequestOptions = {
   }
 };
 
-console.log(`[INFO] Sending POST request to https://${options.hostname}${options.path}`);
-console.log(`[INFO] Using PATIENT_ID: ${PATIENT_ID}`);
+logWithTimestamp('INFO', `Sending POST request to https://${options.hostname}${options.path}`);
+logWithTimestamp('INFO', `Using PATIENT_ID: ${PATIENT_ID}`);
 
 const req = https.request(options, function (res: http.IncomingMessage) {
-  console.log(`[INFO] Received response with status code: ${res.statusCode}`);
-  console.log('[INFO] Response headers:', res.headers);
+  logWithTimestamp('INFO', `Received response with status code: ${res.statusCode}`);
+  logWithTimestamp('INFO', 'Response headers:', res.headers);
   // Check for 401 Unauthorized
   if (res.statusCode === 401) {
     let errorData = '';
@@ -49,7 +58,7 @@ const req = https.request(options, function (res: http.IncomingMessage) {
       errorData += chunk.toString();
     });
     res.on('end', () => {
-      console.error(`[ERROR] Received 401 Unauthorized from server. Response: ${errorData}`);
+      logWithTimestamp('ERROR', `Received 401 Unauthorized from server. Response: ${errorData}`);
       throw new Error(`Received 401 Unauthorized from server. Response: ${errorData}`);
     });
     return;
@@ -61,7 +70,7 @@ const req = https.request(options, function (res: http.IncomingMessage) {
       errorData += chunk.toString();
     });
     res.on('end', () => {
-      console.error(`[ERROR] Received error status code ${res.statusCode} from server. Response: ${errorData}`);
+      logWithTimestamp('ERROR', `Received error status code ${res.statusCode} from server. Response: ${errorData}`);
       throw new Error(`Received error status code ${res.statusCode} from server. Response: ${errorData}`);
     });
     return;
@@ -80,33 +89,33 @@ const req = https.request(options, function (res: http.IncomingMessage) {
       const chunkNumStr = chunkCount.toLocaleString();
       const chunkLenStr = chunk.length.toLocaleString();
       const totalLenStr = totalLength.toLocaleString();
-      console.log(`[INFO] Chunk #${chunkNumStr}: length=${chunkLenStr}, total received=${totalLenStr}`);
+      logWithTimestamp('INFO', `Chunk #${chunkNumStr}: length=${chunkLenStr}, total received=${totalLenStr}`);
     } else {
       // For non-chunked, log progress every 1MB
       if (totalLength % (1024 * 1024) < chunk.length) {
         const totalLenStr = totalLength.toLocaleString();
-        console.log(`[INFO] Downloaded ${totalLenStr} bytes so far...`);
+        logWithTimestamp('INFO', `Downloaded ${totalLenStr} bytes so far...`);
       }
     }
   });
 
   res.on('end', function () {
-    console.log('[INFO] Response fully received. Writing to file...');
+    logWithTimestamp('INFO', 'Response fully received. Writing to file...');
     const body = Buffer.concat(chunks);
     const outputDir = path.join(__dirname, 'fixtures', 'production');
     const outputPath = path.join(outputDir, 'bundle.json');
     fs.mkdirSync(outputDir, { recursive: true });
     fs.writeFileSync(outputPath, body);
-    console.log(`\n[INFO] Bundle saved to ${outputPath}`);
-    console.log(`[INFO] Total bytes written: ${body.length.toLocaleString()}`);
+    logWithTimestamp('INFO', `\nBundle saved to ${outputPath}`);
+    logWithTimestamp('INFO', `Total bytes written: ${body.length.toLocaleString()}`);
   });
 });
 
 req.on('error', (err) => {
-  console.error('[ERROR] Request failed:', err);
+  logWithTimestamp('ERROR', 'Request failed:', err);
 });
 
-console.log('[INFO] Writing GraphDefinition body and sending request...');
+logWithTimestamp('INFO', 'Writing GraphDefinition body and sending request...');
 req.write(JSON.stringify({
   resourceType: 'GraphDefinition',
   id: 'o',
@@ -173,5 +182,5 @@ req.write(JSON.stringify({
     {target: [{type: 'Procedure', params: 'patient={ref}'}]}
   ]
 }));
-console.log('[INFO] Request sent. Waiting for response...');
+logWithTimestamp('INFO', 'Request sent. Waiting for response...');
 req.end();
