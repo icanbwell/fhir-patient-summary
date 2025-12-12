@@ -29,8 +29,7 @@ export class MedicalDevicesTemplate implements ITemplate {
   private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
-    let html = '<p>This list includes all DeviceUseStatement resources, sorted by recorded date (most recent first).</p>\n';
-    html += `
+    let html = `<p>This list includes all DeviceUseStatement resources, sorted by recorded date (most recent first).</p>
       <table>
         <thead>
           <tr>
