@@ -407,11 +407,12 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             }
         }
 
-        let html = `<p>This section includes Observations from the last 2 years (one per lab name, using LOINC code mapping) and DiagnosticReports with status 'final' issued in the last 2 years. Both are sorted by date (most recent first). Older results are counted and noted below the tables.</p>\n`;
+        let html = `<p>This section includes Observations from the last 2 years (one per lab name, using code mapping) and DiagnosticReports with status 'final' issued in the last 2 years. Both are sorted by date (most recent first). Older results are counted and noted below the tables.</p>\n`;
 
         let observationhtml = `
       <div>
         <h3>Observations</h3>
+      ${html}
         <table>
           <thead>
             <tr>
@@ -428,6 +429,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         let diagnosticReporthtml = `
       <div>
         <h3>Diagnostic Reports</h3>
+        ${html}
         <table>
           <thead>
             <tr>
@@ -625,7 +627,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
         // Compute two years ago from current date
         const twoYearsAgo = new Date(currentDate);
         twoYearsAgo.setFullYear(currentDate.getFullYear() - 2);
-        let html = '';
+        let html = `<p>This section includes Observations from the last 2 years (one per lab name, using code mapping) and DiagnosticReports with status 'final' issued in the last 2 years. Both are sorted by date (most recent first). Older results are counted and noted below the tables.</p>\n`;
 
         // Count all observations older than two years
         let skippedObservations = 0;

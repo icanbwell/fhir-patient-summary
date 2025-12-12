@@ -40,7 +40,8 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `
+    let html = `<p>This list includes all Procedure resources, sorted by performed date (most recent first).</p>\n`;
+    html += `
       <div>
         <table>
           <thead>

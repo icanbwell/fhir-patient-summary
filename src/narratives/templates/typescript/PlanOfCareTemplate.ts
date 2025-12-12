@@ -77,7 +77,9 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `
+    let html = `<p>This list includes all CarePlan resources, sorted by planned end date (most recent first).</p>\n`;
+
+    html += `
       <div>
         <table>
           <thead>

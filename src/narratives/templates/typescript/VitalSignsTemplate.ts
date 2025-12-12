@@ -32,7 +32,9 @@ export class VitalSignsTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `
+    let html = `<p>This list includes the latest vital signs, sorted by effective date (most recent first).</p>\n`;
+
+    html += `
       <div>
         <table>
           <thead>
