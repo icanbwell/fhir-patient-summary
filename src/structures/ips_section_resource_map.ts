@@ -1,6 +1,8 @@
 import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
 import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
+import {TCodeableConcept} from "../types/partials/CodeableConcept";
+import {TCoding} from "../types/partials/Coding";
 
 // Optionally, define custom filter functions for each section
 export type IPSSectionResourceFilter = (resource: any) => boolean;
@@ -17,36 +19,30 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include completed immunizations
     [IPSSections.IMMUNIZATIONS]: (resource) => (resource.resourceType === 'Immunization' && resource.status === 'completed') || (resource.resourceType === 'Organization'),
     // Only include vital sign Observations (category.coding contains 'vital-signs')
-    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => c.code === 'vital-signs')),
+    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, 'vital-signs', c.system))),
     // Includes DeviceUseStatement. Device is needed for linked device details
     [IPSSections.MEDICAL_DEVICES]: (resource) => ['DeviceUseStatement', 'Device'].includes(resource.resourceType),
     // Only include finalized diagnostic reports and relevant observations
     [IPSSections.DIAGNOSTIC_REPORTS]: (resource) =>
         (resource.resourceType === 'DiagnosticReport' && resource.status === 'final') ||
-        (resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => RESULT_SUMMARY_OBSERVATION_CATEGORIES.includes(c.code)))),
+        (resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, RESULT_SUMMARY_OBSERVATION_CATEGORIES, c.system)))),
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
     // Only include social history Observations
-    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && resource.code?.coding?.some((c: any) => Object.keys(SOCIAL_HISTORY_LOINC_CODES).includes(c.code)),
+    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && codeableConceptMatches(resource.code, Object.keys(SOCIAL_HISTORY_LOINC_CODES), Object.values(SOCIAL_HISTORY_LOINC_CODES)[0]),
     // Only include pregnancy history Observations or relevant Conditions
     [IPSSections.PREGNANCY_HISTORY]: (resource) => (
         resource.resourceType === 'Observation' && (
-            resource.code?.coding?.some((c: any) =>
-                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code) ||
-                PREGNANCY_SNOMED_CODES.includes(c.code)
-            ) ||
-            resource.valueCodeableConcept?.coding?.some((c: any) =>
-                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code) ||
-                PREGNANCY_SNOMED_CODES.includes(c.code)
-            )
+            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS)[0]) ||
+            codeableConceptMatches(resource.valueCodeableConcept, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME)[0]) ||
+            codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct') ||
+            codingMatches(resource.valueCodeableConcept?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         )
     ) || (
         resource.resourceType === 'Condition' && (
-            resource.code?.coding?.some((c: any) =>
-                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS).includes(c.code) ||
-                Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME).includes(c.code) ||
-                PREGNANCY_SNOMED_CODES.includes(c.code)
-            )
+            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS)[0]) ||
+            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), Object.values(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME)[0]) ||
+            codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         )
     ),
     // Only include Conditions or completed ClinicalImpressions
@@ -60,13 +56,13 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
 };
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
-    [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "allergy_summary_document"),
-    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "vital_summary_document"),
-    [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "careplan_summary_document"),
-    [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "immunization_summary_document"),
-    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "medication_summary_document"),
+    [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergy_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "careplan_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && ["lab_summary_document", "diagnosticreportlab_summary_document"].includes(c.code)),
-    [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "procedure_summary_document"),
+    [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "procedure_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
 }
 
 // Helper class to get resource types for a section
@@ -84,4 +80,25 @@ export class IPSSectionResourceHelper {
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         return IPSSectionSummaryCompositionFilter[section];
     }
+}
+
+/**
+ * Helper to match a coding object against a code (string or string[]) and system.
+ * Returns true if coding.system matches system and coding.code matches code or is in codes.
+ */
+export function codingMatches(coding: TCoding, code: string | string[], system: string): boolean {
+    if (!coding || !coding.system) return false;
+    if (Array.isArray(code)) {
+        return coding.system === system && code.includes(coding.code ?? '');
+    }
+    return coding.system === system && coding.code === code;
+}
+
+/**
+ * Helper to match a CodeableConcept object against a code (string or string[]) and system.
+ * Returns true if any coding in the CodeableConcept matches the code and system.
+ */
+export function codeableConceptMatches(codeableConcept: TCodeableConcept, code: string | string[], system: string): boolean {
+    if (!codeableConcept || !Array.isArray(codeableConcept.coding)) return false;
+    return codeableConcept.coding.some((coding: any) => codingMatches(coding, code, system));
 }
