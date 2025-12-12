@@ -105,7 +105,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                             <tr>
                                 <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
-                                <td>${templateUtilities.codeableConceptDisplay(sectionCodeableConcept)}</td>
+                                <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
@@ -295,7 +295,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             let refills: string = '-';
             let startDate: string = '-';
             let codeSystemDisplay: string = '-';
-            let coding: any = undefined;
             if (medication.type === 'request') {
                 const mr = medication.resource as TMedicationRequest;
 
@@ -330,7 +329,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
                 // Get code/system from medicationCodeableConcept or medicationReference
                 if (mr.medicationCodeableConcept && mr.medicationCodeableConcept.coding && mr.medicationCodeableConcept.coding[0]) {
-                    coding = mr.medicationCodeableConcept.coding[0];
+                    codeSystemDisplay = templateUtilities.codeableConceptCoding(mr.medicationCodeableConcept);
                 }
             } else {
                 const ms = medication.resource as TMedicationStatement;
@@ -354,14 +353,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
                 // Get code/system from medicationCodeableConcept or medicationReference
                 if (ms.medicationCodeableConcept && ms.medicationCodeableConcept.coding && ms.medicationCodeableConcept.coding[0]) {
-                    coding = ms.medicationCodeableConcept.coding[0];
+                    codeSystemDisplay = templateUtilities.codeableConceptCoding(ms.medicationCodeableConcept);
                 }
-            }
-            if (coding) {
-                const code = coding.code || '';
-                const system = coding.system || '';
-                const systemDisplay = templateUtilities.renderTextAsHtml((window as any).CODING_SYSTEM_DISPLAY_NAMES?.[system] || system);
-                codeSystemDisplay = code ? `${code} (${systemDisplay})` : '-';
             }
 
             // Add table row
