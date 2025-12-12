@@ -25,17 +25,19 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * Generate HTML narrative for Medication resources using summary
      * @param resources - FHIR Composition resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
     public generateSummaryNarrative(
         resources: TComposition[],
-        timezone: string | undefined
+        timezone: string | undefined,
+        now?: Date
     ): string | undefined {
         const templateUtilities = new TemplateUtilities(resources);
         let isSummaryCreated = false;
 
-        const now = new Date();
-        const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, now.getDate());
+        const currentDate = now || new Date();
+        const twelveMonthsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 12, currentDate.getDate());
 
         let html = `
         <div>
