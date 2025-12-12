@@ -34,7 +34,7 @@ export class FunctionalStatusTemplate implements ITemplate {
     let html = '';
 
     // Only include relevant Observations (LOINC 47420-5 or category 'functional-status') and completed ClinicalImpressions
-    const functionalObservations = resources
+    let functionalObservations = resources
       .filter((r): r is any => r.resourceType === 'Observation')
       .filter((r) => {
         // LOINC 47420-5 or category 'functional-status'
@@ -49,10 +49,27 @@ export class FunctionalStatusTemplate implements ITemplate {
         return hasFunctionalLoinc || hasFunctionalCategory;
       });
 
+    // Sort functionalObservations descending by date
+    functionalObservations = functionalObservations.sort((a, b) => {
+      const getObsDate = (obs: any) =>
+        obs.effectiveDateTime ? new Date(obs.effectiveDateTime).getTime() :
+        obs.issued ? new Date(obs.issued).getTime() : 0;
+      return getObsDate(b) - getObsDate(a);
+    });
+
     // Only include completed ClinicalImpressions
-    const clinicalImpressions: TClinicalImpression[] = resources
+    let clinicalImpressions: TClinicalImpression[] = resources
       .filter((r): r is TClinicalImpression => r.resourceType === 'ClinicalImpression')
       .filter((r) => r.status === 'completed');
+
+    // Sort clinicalImpressions descending by date
+    clinicalImpressions = clinicalImpressions.sort((a, b) => {
+      const getImpressionDate = (ci: any) =>
+        ci.effectiveDateTime ? new Date(ci.effectiveDateTime).getTime() :
+        ci.effectivePeriod?.end ? new Date(ci.effectivePeriod.end).getTime() :
+        ci.date ? new Date(ci.date).getTime() : 0;
+      return getImpressionDate(b) - getImpressionDate(a);
+    });
 
     // Render Observations table if any
     if (functionalObservations.length > 0) {
