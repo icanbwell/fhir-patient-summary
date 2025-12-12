@@ -40,7 +40,6 @@ export class VitalSignsTemplate implements ISummaryTemplate {
               <th>Name</th>
               <th>Code (System)</th>
               <th>Result</th>
-              <th>Reference Range</th>
               <th>Date</th>
             </tr>
           </thead>
@@ -89,7 +88,6 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <td>${data['Vital Name'] ?? ''}</td>
             <td>${data['codeSystem'] ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
-            <td>${templateUtilities.extractObservationSummaryReferenceRange(data) ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
           </tr>`;
       }
