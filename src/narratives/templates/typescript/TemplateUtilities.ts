@@ -851,8 +851,11 @@ export class TemplateUtilities {
     }
 
     /**
-     * Renders text as HTML, escaping special characters and replacing newlines with <br />
-     * @param text - The text to render
+     * Public method to render plain text as HTML, escaping special characters and replacing newlines with <br />.
+     * This method should be used whenever displaying user-supplied or FHIR resource text in HTML to prevent XSS vulnerabilities
+     * and to preserve formatting. Use this in templates or UI components that need to safely display multi-line or arbitrary text.
+     * @param text - The text to render as HTML
+     * @returns The HTML-safe string with newlines converted to <br />
      */
     public renderTextAsHtml(text: string | undefined | null): string {
         if (!text || text.trim() === '') {
