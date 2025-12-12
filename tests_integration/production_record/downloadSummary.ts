@@ -24,11 +24,15 @@ logWithTimestamp('INFO', 'Loading environment variables from .env.local');
 dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 // Set Patient ID and Bearer Token here
-const PERSON_ID = '4f77a49a-d8a8-4153-a2e9-13d6d0b4b301';  // imr
-// c9ab6abe-ae18-4226-b60f-99cfacff7171
-const PATIENT_ID = `person.${PERSON_ID}`;
+const PERSON_ID: string | undefined = process.env.PERSON_ID;
+// PERSON_ID should be set in .env.local or environment
+const PATIENT_ID = PERSON_ID ? `person.${PERSON_ID}` : undefined;
 const BEARER_TOKEN: string | undefined = process.env.BEARER_TOKEN;
 
+if (!PERSON_ID) {
+  logWithTimestamp('ERROR', 'PERSON_ID is not set in .env.local');
+  throw new Error('PERSON_ID is not set in .env.local');
+}
 if (!BEARER_TOKEN) {
   logWithTimestamp('ERROR', 'BEARER_TOKEN is not set in .env.local');
   throw new Error('BEARER_TOKEN is not set in .env.local');
