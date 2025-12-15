@@ -13,7 +13,7 @@ export interface ITemplate {
    * @param now - Optional current date to use for calculations (defaults to new Date())
    * @returns HTML string for rendering
    */
-  generateNarrative(resource: TDomainResource[], timezone: string | undefined, now?: Date): string;
+  generateNarrative(resource: TDomainResource[], timezone: string | undefined, now?: Date): string | undefined;
 }
 
 /**

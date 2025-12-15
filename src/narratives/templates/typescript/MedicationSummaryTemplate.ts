@@ -114,7 +114,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                         isSummaryCreated = true;
                         html += `
                             <tr>
-                                <td>${templateUtilities.renderTextAsHtml(data['medication'])}</td>
+                                <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(data['medication']))}</td>
                                 <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
@@ -172,14 +172,13 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         let html = '';
 
         // Get all medication resources
-        const medicationRequests = this.getMedicationRequests(templateUtilities, resources);
-        const medicationStatements = this.getMedicationStatements(templateUtilities, resources);
+        const medicationRequests = resources.filter(entry => entry.resourceType === 'MedicationRequest');
+        const medicationStatements = resources.filter(entry => entry.resourceType === 'MedicationStatement');
 
         // Combine active medications
         const allActiveMedications: Array<{
             type: 'request' | 'statement',
             resource: TMedicationRequest | TMedicationStatement,
-            extension?: any
         }> = [];
 
         // Count skipped medications (older than 2 years)
@@ -190,17 +189,16 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         const allMedications: Array<{
             type: 'request' | 'statement',
             resource: TMedicationRequest | TMedicationStatement,
-            extension?: any
         }> = [];
 
         // Process medication requests
         medicationRequests.forEach(mr => {
-            allMedications.push({ type: 'request', resource: mr.resource, extension: mr.extension });
+            allMedications.push({ type: 'request', resource: mr as TMedicationRequest });
         });
 
         // Process medication statements
         medicationStatements.forEach(ms => {
-            allMedications.push({ type: 'statement', resource: ms.resource, extension: ms.extension });
+            allMedications.push({ type: 'statement', resource: ms as TMedicationStatement });
         });
 
         // Count skipped
@@ -272,47 +270,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
     }
 
     /**
-     * Extract MedicationRequest resources
-     * @param templateUtilities - Instance of TemplateUtilities for utility functions
-     * @param resources - FHIR Medication resources
-     * @returns Array of MedicationRequest resources
-     */
-    private static getMedicationRequests(templateUtilities: TemplateUtilities, resources: TDomainResource[]): Array<{ resource: TMedicationRequest, extension?: any }> {
-        if (resources.length === 0) {
-            return [];
-        }
-
-        return resources
-            .filter(entry => entry.resourceType === 'MedicationRequest')
-            .map(entry => ({
-                resource: entry as TMedicationRequest,
-                extension: templateUtilities.narrativeLinkExtension(entry)
-            }));
-    }
-
-    /**
-     * Extract MedicationStatement resources
-     * @param templateUtilities - Instance of TemplateUtilities for utility functions
-     * @param resources - FHIR Medication resources
-     * @returns Array of MedicationStatement resources
-     */
-    private static getMedicationStatements(templateUtilities: TemplateUtilities, resources: TDomainResource[]): Array<{
-        resource: TMedicationStatement,
-        extension?: any
-    }> {
-        if (resources.length === 0) {
-            return [];
-        }
-
-        return resources
-            .filter(entry => entry.resourceType === 'MedicationStatement')
-            .map(entry => ({
-                resource: entry as TMedicationStatement,
-                extension: templateUtilities.narrativeLinkExtension(entry)
-            }));
-    }
-
-    /**
      * Render HTML table for combined MedicationRequest and MedicationStatement resources
      * @param templateUtilities - Instance of TemplateUtilities for utility functions
      * @param medications - Array of combined medication resources
@@ -323,7 +280,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         medications: Array<{
             type: 'request' | 'statement',
             resource: TMedicationRequest | TMedicationStatement,
-            extension?: any
         }>,
     ): string {
         let html = `
@@ -343,9 +299,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         <tbody>`;
 
         for (const medication of medications) {
-            // Use the narrativeLinkId utility function to extract the ID
-            const narrativeLinkId = templateUtilities.narrativeLinkId(medication.extension);
-
             let type: string;
             let medicationName: string;
             let sig: string;
@@ -417,9 +370,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
             // Add table row
             html += `
-        <tr${narrativeLinkId ? ` id="${narrativeLinkId}"` : ''}>
+        <tr>
           <td>${type}</td>
-          <td>${medicationName}<ul></ul></td>
+          <td>${templateUtilities.capitalizeFirstLetter(medicationName)}</td>
           <td>${codeSystemDisplay}</td>
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>

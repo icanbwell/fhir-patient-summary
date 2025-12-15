@@ -88,7 +88,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
 
         html += `
           <tr>
-            <td>${data['Vital Name'] ?? ''}</td>
+            <td>${templateUtilities.capitalizeFirstLetter(data['Vital Name'] ?? '')}</td>
             <td>${data['codeSystem'] ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
@@ -152,7 +152,7 @@ export class VitalSignsTemplate implements ISummaryTemplate {
     for (const obs of observations) {
       html += `
           <tr>
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code, 'display'))}</td>
+            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code, 'display')))}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>

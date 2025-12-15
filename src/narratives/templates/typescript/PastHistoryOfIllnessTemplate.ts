@@ -70,7 +70,7 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
       if (!addedConditionCodes.has(conditionCode)) {
         addedConditionCodes.add(conditionCode);
         html += `<tr>
-            <td class="Name">${conditionCode}</td>
+            <td class="Name">${templateUtilities.capitalizeFirstLetter(conditionCode)}</td>
             <td class="CodeSystem">${templateUtilities.codeableConceptCoding(cond.code)}</td>
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>

@@ -71,7 +71,7 @@ export class ProblemListTemplate implements ITemplate {
       }
       seenCodeAndSystems.add(codeAndSystem);
       html += `<tr>
-          <td class="Name">${conditionDisplay}</td>
+          <td class="Name">${templateUtilities.capitalizeFirstLetter(conditionDisplay)}</td>
           <td class="CodeSystem">${codeAndSystem}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>

@@ -82,7 +82,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data['procedure'] ?? ''}</td>
+              <td>${templateUtilities.capitalizeFirstLetter(data['procedure'] ?? '')}</td>
                <td>${data['codeSystem'] ?? ''}</td>
               <td>${data['performer'] ?? ''}</td>
               <td>${templateUtilities.renderTime(data['date'], timezone) ?? ''}</td>
@@ -125,7 +125,7 @@ export class HistoryOfProceduresTemplate implements ISummaryTemplate {
       const proc = resourceItem as TProcedure;
       html += `
         <tr>
-          <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(proc.code, 'display'))}</td>
+          <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(proc.code, 'display')))}</td>
           <td>${templateUtilities.codeableConceptCoding(proc.code)}</td>
           <td>${templateUtilities.renderNotes(proc.note, timezone)}</td>
           <td>${templateUtilities.renderTime(proc.performedDateTime || proc.performedPeriod?.start, timezone)}</td>

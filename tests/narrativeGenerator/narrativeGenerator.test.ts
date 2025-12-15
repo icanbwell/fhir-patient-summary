@@ -14,6 +14,7 @@ import {TProcedure} from '../../src/types/resources/Procedure';
 import {TCarePlan} from '../../src/types/resources/CarePlan';
 import {TConsent} from '../../src/types/resources/Consent';
 import {NarrativeGenerator} from "../../src";
+import { TDeviceUseStatement } from '../../src/types/resources/DeviceUseStatement';
 
 describe('Narrative Generator Tests', () => {
     // Generate dynamic dates relative to current date
@@ -314,7 +315,7 @@ describe('Narrative Generator Tests', () => {
         }
     ];
 
-    const mockMedicalDevices: TDevice[] = [
+    const mockMedicalDevices: (TDevice | TDeviceUseStatement)[] = [
         {
             resourceType: 'Device',
             id: 'device-01',
@@ -323,21 +324,13 @@ describe('Narrative Generator Tests', () => {
             patient: {reference: 'Patient/test-patient-01'}
         },
         {
-            resourceType: 'Device',
-            id: 'device-02',
-            status: 'active',
-            deviceName: [{name: 'Insulin Pump', type: 'user-friendly-name'}],
-            patient: {reference: 'Patient/test-patient-01'},
-            manufacturer: 'MedTech Inc.',
-            modelNumber: 'IP-2023',
-            manufactureDate: '2023-01-01'
-        },
-        {
-            resourceType: 'Device',
+            resourceType: 'DeviceUseStatement',
             id: 'device-03',
-            status: 'inactive',
-            deviceName: [{name: 'Stent', type: 'user-friendly-name'}],
-            patient: {reference: 'Patient/test-patient-01'},
+            status: 'active',
+            device: {
+                reference: "Device/device-01"
+            },
+            subject: {reference: 'Patient/test-patient-01'},
             note: [{text: 'Removed due to infection'}]
         }
     ];

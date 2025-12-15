@@ -46,11 +46,10 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
 
     // Loop through entries in the resources
     for (const cp of carePlans) {
-      // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
       // Add a table row for this care plan
       html += `
-          <tr id="${templateUtilities.narrativeLinkId(cp)}">
-            <td>${cp.description || cp.title || ''}</td>
+          <tr>
+            <td>${templateUtilities.capitalizeFirstLetter(cp.description || cp.title || '')}</td>
             <td>${cp.intent || ''}</td>
             <td>${templateUtilities.concat(cp.note, 'text')}</td>
             <td>${cp.period?.start ? templateUtilities.renderTime(cp.period?.start, timezone) : ''}</td>
@@ -109,7 +108,7 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data["CarePlan Name"] ?? ''}</td>
+              <td>${templateUtilities.capitalizeFirstLetter(data["CarePlan Name"] ?? '')}</td>
               <td>${templateUtilities.renderTime(data["created"], timezone) ?? ''}</td>
               <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? ''}</td>
               <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? ''}</td>

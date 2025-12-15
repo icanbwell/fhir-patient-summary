@@ -894,6 +894,13 @@ export class TemplateUtilities {
         return escapedText.replace(/\n/g, '<br />');
     }
 
+    public capitalizeFirstLetter(text: string | undefined | null): string {
+        if (!text || text.length === 0) {
+            return '';
+        }
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
     /**
      * Renders note elements from a FHIR resource in a standardized format
      * Can render as simple comma-separated text or as styled HTML with timestamps

@@ -15,7 +15,7 @@ export class FunctionalStatusTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
     return FunctionalStatusTemplate.generateStaticNarrative(resources, timezone);
   }
 
@@ -29,7 +29,7 @@ export class FunctionalStatusTemplate implements ITemplate {
   private static generateStaticNarrative(
     resources: TDomainResource[],
     timezone: string | undefined
-  ): string {
+  ): string | undefined {
      const templateUtilities = new TemplateUtilities(resources);
     let html = `<p>This section summarizes key observations and assessments related to the person's functional status and ability to perform daily activities.</p>`;
 
@@ -87,8 +87,8 @@ export class FunctionalStatusTemplate implements ITemplate {
           ? templateUtilities.codeableConceptDisplay(observation.interpretation[0])
           : '';
         const comments = observation.comment || observation.note?.map((n: any) => n.text).join('; ') || '';
-        html += `<tr id="${templateUtilities.narrativeLinkId(observation)}">
-          <td>${obsName}</td>
+        html += `<tr>
+          <td>${templateUtilities.capitalizeFirstLetter(obsName)}</td>
           <td>${value ?? ''}</td>
           <td>${date}</td>
           <td>${interpretation}</td>
@@ -124,7 +124,7 @@ export class FunctionalStatusTemplate implements ITemplate {
           }
           findingsHtml += '</ul>';
         }
-        html += `<tr id="${templateUtilities.narrativeLinkId(impression)}">
+        html += `<tr>
           <td>${formattedDate}</td>
           <td>${impression.status || ''}</td>
           <td>${impression.description || ''}</td>

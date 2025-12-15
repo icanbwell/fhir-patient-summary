@@ -60,19 +60,24 @@ export class SocialHistoryTemplate implements ITemplate {
         </thead>
         <tbody>`;
 
+    const addedObservations = new Set<string>();
     // Loop through entries in the resources
     for (const obs of observations) {
       // Add a table row for this observation
-      html += `
-          <tr>
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code))}</td>
-            <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
-            <td>${templateUtilities.extractObservationValue(obs)}</td>
-            <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
-            <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
-            <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(obs)}</td>
-          </tr>`;
+      const obsName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code));
+      if (!addedObservations.has(obsName)) {
+        addedObservations.add(obsName);
+        html += `
+            <tr>
+              <td>${templateUtilities.capitalizeFirstLetter(obsName)}</td>
+              <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
+              <td>${templateUtilities.extractObservationValue(obs)}</td>
+              <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
+              <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
+              <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+              <td>${templateUtilities.getOwnerTag(obs)}</td>
+            </tr>`;
+      }
     }
 
     // Close the HTML table

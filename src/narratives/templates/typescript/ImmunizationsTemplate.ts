@@ -85,7 +85,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
           isSummaryCreated = true;
           html += `
               <tr>
-                <td>${data['immunization'] ?? ''}</td>
+                <td>${templateUtilities.capitalizeFirstLetter(data['immunization'] ?? '')}</td>
                 <td>${data['codeSystem'] ?? ''}</td>
                 <td>${data['status'] ?? ''}</td>
                 <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? ''}</td>
@@ -138,7 +138,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
         const imm = resourceItem as TImmunization;
         html += `
           <tr>
-            <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode))}</td>
+            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode)))}</td>
             <td>${templateUtilities.codeableConceptCoding(imm.vaccineCode)}</td>
             <td>${imm.status || ''}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
