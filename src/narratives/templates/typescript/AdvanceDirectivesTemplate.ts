@@ -53,7 +53,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
       const consent = resourceItem as TConsent;
       html += `
         <tr>
-          <td>${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display'))}</td>
+          <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display')))}</td>
           <td>${consent.status || ''}</td>
           <td>${consent.provision?.action ? templateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>
           <td>${consent.dateTime || ''}</td>

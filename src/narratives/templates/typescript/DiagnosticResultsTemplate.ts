@@ -533,7 +533,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                                 this.formatSummaryObservationData(component);
                                 observationhtml += `
                   <tr>
-                    <td>${componentCode}</td>
+                    <td>${templateUtilities.capitalizeFirstLetter(componentCode)}</td>
                     <td></td>
                     <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? ''}</td>
                     <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? ''}</td>
@@ -551,7 +551,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                                 this.formatSummaryObservationData(data);
                                 observationhtml += `
                   <tr>
-                    <td>${data['code'] ?? ''}</td>
+                    <td>${templateUtilities.capitalizeFirstLetter(data['code'] ?? '')}</td>
                     <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                     <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? ''}</td>
                     <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? ''}</td>
@@ -576,7 +576,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                             diagnosticReportAdded.add(reportName);
                             diagnosticReporthtml += `
                     <tr>
-                      <td>${data['report'] ?? ''}</td>
+                      <td>${templateUtilities.capitalizeFirstLetter(data['report'] ?? '')}</td>
                       <td>${data['performer'] ?? ''}</td>
                       <td>${templateUtilities.renderTime(data['issued'], timezone) ?? ''}</td>
                         <td>${data['source'] ?? ''}</td>
@@ -803,11 +803,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             if (!observationAdded.has(obsCodeDisplay) && !observationAdded.has(obsCodeAndSystem)) {
                 observationAdded.add(obsCodeDisplay);
                 observationAdded.add(obsCodeAndSystem);
-                // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
                 // Add table row
                 html += `
-          <tr id="${templateUtilities.narrativeLinkId(obs)}">
-            <td>${obsCodeDisplay}</td>
+          <tr>
+            <td>${templateUtilities.capitalizeFirstLetter(obsCodeDisplay)}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
@@ -855,7 +854,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             if (!diagnosticReportAdded.has(reportName) && !diagnosticReportAdded.has(codeAndSystem)) {
                 diagnosticReportAdded.add(reportName);
                 diagnosticReportAdded.add(codeAndSystem);
-                // Use the enhanced narrativeLinkId utility function to extract the ID directly from the resource
                 // Format result count
                 let resultCount = '';
                 if (report.result && Array.isArray(report.result)) {
@@ -864,8 +862,8 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
 
                 // Add table row
                 html += `
-          <tr id="${(templateUtilities.narrativeLinkId(report))}">
-            <td>${reportName}</td>
+          <tr>
+            <td>${templateUtilities.capitalizeFirstLetter(reportName)}</td>
             <td>${codeAndSystem}</td>
             <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
             <td>${resultCount}</td>

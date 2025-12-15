@@ -15,7 +15,7 @@ export class MedicalDevicesTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
     return MedicalDevicesTemplate.generateStaticNarrative(resources, timezone);
   }
 
@@ -26,7 +26,7 @@ export class MedicalDevicesTemplate implements ITemplate {
    * @returns HTML string for rendering
    */
    
-  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
     let html = `<p>This list includes all DeviceUseStatement resources, sorted by recorded date (most recent first).</p>
@@ -52,12 +52,15 @@ export class MedicalDevicesTemplate implements ITemplate {
           ? new Date(dateB).getTime() - new Date(dateA).getTime()
           : 0;
       });
+    
+    let isDeviceAdded = false;
 
     // Loop through DeviceUseStatement resources
     for (const dus of deviceStatements) {
+      isDeviceAdded = true;
       html += `
         <tr>
-          <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderDevice(dus.device))}</td>
+          <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.renderDevice(dus.device)))}</td>
           <td>${templateUtilities.renderTextAsHtml(dus.status || '')}</td>
           <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderRecorded(dus.recordedOn, timezone))}</td>
@@ -69,6 +72,6 @@ export class MedicalDevicesTemplate implements ITemplate {
         </tbody>
       </table>`;
 
-    return html;
+    return isDeviceAdded ? html : undefined;
   }
 }

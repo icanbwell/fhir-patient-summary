@@ -100,10 +100,10 @@ export class PregnancyTemplate implements ITemplate {
               <tbody>`;
 
         // Helper to render a row
-        function renderRow({ id, result, comments, date, codeSystem, owner }: { id: string, result: string, comments: string, date: string, codeSystem: string, owner?: string }) {
+        function renderRow({ result, comments, date, codeSystem, owner }: { result: string, comments: string, date: string, codeSystem: string, owner?: string }) {
             html += `
-                <tr id="${id}">
-                  <td class="Result">${result}</td>
+                <tr>
+                  <td class="Result">${templateUtilities.capitalizeFirstLetter(result)}</td>
                   <td class="CodeSystem">${codeSystem}</td>
                   <td class="Comments">${comments}</td>
                   <td class="Date">${date}</td>
@@ -141,10 +141,11 @@ export class PregnancyTemplate implements ITemplate {
             return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
 
+        const addedRows = new Set<string>();
+
         // Render each row
         for (const { resource, date, type } of rowResources) {
             let result = '', comments = '', dateStr = '', codeSystem = '';
-            const id = templateUtilities.narrativeLinkId(resource);
             if (type === 'status') {
                 result = templateUtilities.renderTextAsHtml(templateUtilities.extractPregnancyStatus(resource as TObservation));
                 comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
@@ -166,8 +167,12 @@ export class PregnancyTemplate implements ITemplate {
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TCondition).code));
             }
-            const owner = templateUtilities.getOwnerTag(resource);
-            renderRow({ id, result, comments, date: dateStr, codeSystem, owner });
+            const rowKey = `${result}|${codeSystem}`
+            if (!addedRows.has(rowKey)) {
+                addedRows.add(rowKey);
+                const owner = templateUtilities.getOwnerTag(resource);
+                renderRow({ result, comments, date: dateStr, codeSystem, owner });
+            }
         }
 
         html += `

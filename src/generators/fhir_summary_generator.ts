@@ -192,14 +192,17 @@ export class ComprehensiveIPSCompositionBuilder {
             const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             if (sectionIPSSummary.length > 0) {
+                console.log(`Using IPS summary composition for section: ${sectionType}`);
                 await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone);
                 continue;
             }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
+                console.log(`Using summary composition for section: ${sectionType}`);
                 await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone);
             } else {
+                console.log(`Using individual resources for section: ${sectionType}`);
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
                 const sectionResources = resources.filter(resource => sectionFilter(resource));
                 await this.makeSectionAsync(sectionType, sectionResources as TDomainResource[], timezone);

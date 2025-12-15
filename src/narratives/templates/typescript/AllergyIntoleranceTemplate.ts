@@ -72,7 +72,7 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
         isSummaryCreated = true;
         html += `
             <tr>
-              <td>${data["allergen"] ?? ""}</td>
+              <td>${templateUtilities.capitalizeFirstLetter(data["allergen"] ?? "")}</td>
                <td>${data["codeSystem"] ?? ""}</td>
               <td>${data["criticality"] ?? ""}</td>
               <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? ""}</td>
@@ -224,8 +224,8 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
       // Find the narrative link extension if it exists
       // Add a table row for this allergy with appropriate classes
       html += `
-        <tr id="${templateUtilities.narrativeLinkId(allergy.extension)}">
-          <td class="Name"><span class="AllergenName">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.code))}</span></td>
+        <tr>
+          <td class="Name"><span class="AllergenName">${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.code)))}</span></td>
           <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.clinicalStatus)) || ''}</td>
           <td class="CodeSystem">${templateUtilities.codeableConceptCoding(allergy.code)}</td>
           <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || ''}</td>
