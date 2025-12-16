@@ -16,7 +16,7 @@ export class ProblemListTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+  public generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     return ProblemListTemplate.generateStaticNarrative(resources, timezone);
   }
 
@@ -26,7 +26,7 @@ export class ProblemListTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering or undefined if no summary data was created
    */
-  generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
@@ -57,10 +57,10 @@ export class ProblemListTemplate implements ISummaryTemplate {
               data["problem"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
             case 'Onset Date':
-              data["onsetDate"] = columnData.text?.div ?? "";
+              data["onsetDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
             case 'Recorded Date':
-              data["recordedDate"] = columnData.text?.div ?? "";
+              data["recordedDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
             case 'Source':
               data["source"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
