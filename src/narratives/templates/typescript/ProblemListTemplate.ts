@@ -26,11 +26,11 @@ export class ProblemListTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering or undefined if no summary data was created
    */
-  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+  generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
-    let html = `<p>This list includes patient problems, sorted by recorded date (most recent first)</p>\n`;
+    let html = `<p>This list includes patient problems</p>\n`;
     html += `
       <div>
         <table>
@@ -57,10 +57,10 @@ export class ProblemListTemplate implements ISummaryTemplate {
               data["problem"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
             case 'Onset Date':
-              data["onsetDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
+              data["onsetDate"] = columnData.text?.div ?? "";
               break;
             case 'Recorded Date':
-              data["recordedDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
+              data["recordedDate"] = columnData.text?.div ?? "";
               break;
             case 'Source':
               data["source"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
