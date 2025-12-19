@@ -22,6 +22,7 @@ import {BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES} from '../../../struct
 import {TCoding} from '../../../types/partials/Coding';
 import CODING_SYSTEM_DISPLAY_NAMES from "../../../structures/codingSystemDisplayNames";
 import {TResource} from "../../../types/resources/Resource";
+import { TComposition } from '../../../types/resources/Composition';
 
 type ObservationValueType =
     | string
@@ -899,6 +900,24 @@ export class TemplateUtilities {
             return '';
         }
         return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    public renderListSectionData(sectionData: TComposition["section"]) : string {
+        if (!sectionData || !Array.isArray(sectionData) || sectionData.length === 0) {
+            return '';
+        }
+
+        const items: string[] = [];
+
+        for (const section of sectionData) {
+            items.push(this.renderTextAsHtml(section.text?.div || ""));
+        }
+
+        const listString = Array.from(items)
+            .map(item => `<li>${item}</li>`)
+            .join('');
+
+        return `<ul>${listString}</ul>`;
     }
 
     /**

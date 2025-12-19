@@ -16,6 +16,7 @@ export class ComprehensiveIPSCompositionBuilder {
     private patients: TPatient[] | undefined;
     private sections: TCompositionSection[] = [];
     private resources: Set<TDomainResource> = new Set();
+    private patientSummary: TNarrative | undefined;
 
     /**
      * sets the patient resource for the IPS Composition.
@@ -44,6 +45,10 @@ export class ComprehensiveIPSCompositionBuilder {
         sectionType: IPSSections,
         validResources: T[]
     ): this {
+        if (sectionType === IPSSections.PATIENT) {
+            this.patientSummary = narrative;
+            return this;
+        }
         const sectionEntry: TCompositionSection = {
             title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
             code: {
@@ -82,32 +87,29 @@ export class ComprehensiveIPSCompositionBuilder {
             this.resources.add(resource);
         }
 
-        // Patient resource does not get a section, it is handled separately
-        if (sectionType !== IPSSections.PATIENT) {
-            let narrative: TNarrative | undefined = undefined;
+        let narrative: TNarrative | undefined = undefined;
 
-            // Create section entry with HTML minification
-            if (validResources.length > 0) {
-              narrative = await NarrativeGenerator.generateNarrativeAsync(
-                sectionType,
-                validResources,
-                timezone,
-                true
-              );
-            }
-            if (!narrative && sectionType in IPSMandatorySections) {
-              narrative = await NarrativeGenerator.createNarrativeAsync(
-                IPSMissingMandatorySectionContent[
-                  sectionType as keyof typeof IPSMissingMandatorySectionContent
-                ]
-              );
-            }
-            if (!narrative) {
-                return this; // Skip empty sections
-            }
-
-            this.addSectionAsync(narrative as TNarrative, sectionType, validResources);
+        // Create section entry with HTML minification
+        if (validResources.length > 0) {
+            narrative = await NarrativeGenerator.generateNarrativeAsync(
+            sectionType,
+            validResources,
+            timezone,
+            true
+            );
         }
+        if (!narrative && sectionType in IPSMandatorySections) {
+            narrative = await NarrativeGenerator.createNarrativeAsync(
+            IPSMissingMandatorySectionContent[
+                sectionType as keyof typeof IPSMissingMandatorySectionContent
+            ]
+            );
+        }
+        if (!narrative) {
+            return this; // Skip empty sections
+        }
+
+        this.addSectionAsync(narrative as TNarrative, sectionType, validResources);
         return this;
     }
 
@@ -161,6 +163,7 @@ export class ComprehensiveIPSCompositionBuilder {
         bundle: TBundle,
         timezone: string | undefined,
         useSummaryCompositions: boolean = false,
+        consoleLogger: Console = console
     ): Promise<this> {
         if (!bundle.entry) {
             return this;
@@ -170,10 +173,11 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // find all patient resources in the bundle
         bundle.entry.forEach(e => {
-            if (e.resource?.resourceType === 'Patient') {
-                patientEntries.push(e.resource as TPatient);
-                this.resources.add(e.resource);
-            } else if (e.resource) {
+            if (e.resource) {
+                if (e.resource.resourceType === 'Patient') {
+                    patientEntries.push(e.resource as TPatient);
+                    this.resources.add(e.resource);
+                }
                 resources.push(e.resource);
             }
         });
@@ -186,23 +190,20 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
-            if (sectionType === IPSSections.PATIENT) {
-                continue; // Patient section is handled separately
-            }
             const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             if (sectionIPSSummary.length > 0) {
-                console.log(`Using IPS summary composition for section: ${sectionType}`);
+                consoleLogger.info(`Using IPS summary composition for section: ${sectionType}`);
                 await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone);
                 continue;
             }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
-                console.log(`Using summary composition for section: ${sectionType}`);
+                consoleLogger.info(`Using summary composition for section: ${sectionType}`);
                 await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone);
             } else {
-                console.log(`Using individual resources for section: ${sectionType}`);
+                consoleLogger.info(`Using individual resources for section: ${sectionType}`);
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
                 const sectionResources = resources.filter(resource => sectionFilter(resource));
                 await this.makeSectionAsync(sectionType, sectionResources as TDomainResource[], timezone);
@@ -234,6 +235,9 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!this.patients) {
             throw new Error('Patient resource must be set before building the bundle');
         }
+        if (!this.patientSummary) {
+            throw new Error('Patient summary narrative must be set before building the bundle');
+        }
         
         // For multiple patients, use the specified patientId or the first patient as primary
         const primaryPatientId = patientId ?? this.patients[0].id;
@@ -260,14 +264,7 @@ export class ComprehensiveIPSCompositionBuilder {
             date: (now || new Date()).toISOString(),
             title: 'International Patient Summary',
             section: this.sections,
-            text: await NarrativeGenerator.generateNarrativeAsync(
-                IPSSections.PATIENT,
-                this.patients,
-                timezone,
-                true,
-                false,
-                now
-            )
+            text: this.patientSummary
         };
 
         // Create the bundle with proper document type
