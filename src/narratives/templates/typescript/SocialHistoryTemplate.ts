@@ -55,7 +55,6 @@ export class SocialHistoryTemplate implements ITemplate {
             <th>Unit</th>
             <th>Comments</th>
             <th>Date</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -66,6 +65,10 @@ export class SocialHistoryTemplate implements ITemplate {
       // Add a table row for this observation
       const obsName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code));
       if (!addedObservations.has(obsName)) {
+        // Skip if observation name is unknown
+        if (obsName?.toLowerCase() === 'unknown') {
+          continue;
+        }
         addedObservations.add(obsName);
         html += `
             <tr>
@@ -75,7 +78,6 @@ export class SocialHistoryTemplate implements ITemplate {
               <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
               <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
               <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
-              <td>${templateUtilities.getOwnerTag(obs)}</td>
             </tr>`;
       }
     }

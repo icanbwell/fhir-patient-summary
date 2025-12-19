@@ -57,10 +57,15 @@ export class MedicalDevicesTemplate implements ITemplate {
 
     // Loop through DeviceUseStatement resources
     for (const dus of deviceStatements) {
+      // Skip if device name is unknown
+      const deviceName = templateUtilities.renderTextAsHtml(templateUtilities.renderDevice(dus.device));
+      if (deviceName?.toLowerCase() === 'unknown') {
+        continue;
+      }
       isDeviceAdded = true;
       html += `
         <tr>
-          <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.renderDevice(dus.device)))}</td>
+          <td>${templateUtilities.capitalizeFirstLetter(deviceName)}</td>
           <td>${templateUtilities.renderTextAsHtml(dus.status || '')}</td>
           <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderRecorded(dus.recordedOn, timezone))}</td>

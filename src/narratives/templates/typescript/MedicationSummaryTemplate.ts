@@ -51,9 +51,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 <th>Status</th>
                 <th>Sig</th>
                 <th>Days of Supply</th>
-                <th>Refills</th>
                 <th>Start Date</th>
-                <th>Source</th>
                 </tr>
             </thead>
             <tbody>`;
@@ -80,14 +78,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                         case 'Days Of Supply':
                             data['daysOfSupply'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
-                        case 'Refills Remaining':
-                            data['refills'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
                         case 'Authored On Date':
                             data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                            case 'Source':
-                            data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         default:
                         break;
@@ -111,6 +103,10 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
                 // Check if status is 'active' and startDate is within the past 12 months
                 if (data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo)) {
+                        // Skip if medication name is unknown
+                        if (data['medication']?.toLowerCase() === 'unknown') {
+                            continue;
+                        }
                         isSummaryCreated = true;
                         html += `
                             <tr>
@@ -119,9 +115,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                                 <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
-                                <td>${templateUtilities.renderTextAsHtml(data['refills'])}</td>
                                 <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
-                                <td>${templateUtilities.renderTextAsHtml(data['source'])}</td>
                             </tr>`;
 
                 }
@@ -291,9 +285,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <th>Code (System)</th>
             <th>Sig</th>
             <th>Dispense Quantity</th>
-            <th>Refills</th>
             <th>Start Date</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -303,7 +295,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             let medicationName: string;
             let sig: string;
             let dispenseQuantity: string = '';
-            let refills: string = '';
             let startDate: string = '';
             let codeSystemDisplay: string = '';
             if (medication.type === 'request') {
@@ -326,9 +317,6 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                         dispenseQuantity = `${quantity.value} ${quantity.unit || quantity.code || ''}`.trim();
                     }
                 }
-
-                // Get refills
-                refills = mr.dispenseRequest?.numberOfRepeatsAllowed?.toString() || '';
 
                 // Get dates
                 if (mr.dispenseRequest?.validityPeriod) {
@@ -368,6 +356,11 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 }
             }
 
+            // Skip if medication name is unknown
+            if (medicationName?.toLowerCase() === 'unknown') {
+                continue;
+            }
+
             // Add table row
             html += `
         <tr>
@@ -376,9 +369,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
           <td>${codeSystemDisplay}</td>
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>
-          <td>${refills}</td>
           <td>${startDate}</td>
-           <td>${templateUtilities.getOwnerTag(medication.resource)}</td>
         </tr>`;
         }
 

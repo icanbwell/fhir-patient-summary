@@ -77,6 +77,10 @@ export class FunctionalStatusTemplate implements ITemplate {
       for (const obs of functionalObservations) {
         const observation = obs as any;
         const obsName = templateUtilities.codeableConceptDisplay(observation.code);
+        // Skip if observation name is unknown
+        if (obsName?.toLowerCase() === 'unknown') {
+          continue;
+        }
         const value = templateUtilities.extractObservationValue(observation);
         const date = observation.effectiveDateTime
           ? templateUtilities.renderDate(observation.effectiveDateTime)

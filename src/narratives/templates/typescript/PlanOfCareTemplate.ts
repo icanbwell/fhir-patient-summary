@@ -39,22 +39,25 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
             <th>Comments</th>
             <th>Planned Start</th>
             <th>Planned End</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
 
     // Loop through entries in the resources
     for (const cp of carePlans) {
+      // Skip if description/title is unknown
+      const carePlanName = cp.description || cp.title || '';
+      if (carePlanName.toLowerCase() === 'unknown') {
+        continue;
+      }
       // Add a table row for this care plan
       html += `
           <tr>
-            <td>${templateUtilities.capitalizeFirstLetter(cp.description || cp.title || '')}</td>
+            <td>${templateUtilities.capitalizeFirstLetter(carePlanName)}</td>
             <td>${cp.intent || ''}</td>
             <td>${templateUtilities.concat(cp.note, 'text')}</td>
             <td>${cp.period?.start ? templateUtilities.renderTime(cp.period?.start, timezone) : ''}</td>
             <td>${cp.period?.end ? templateUtilities.renderTime(cp.period?.end, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(cp)}</td>
           </tr>`;
     }
 
@@ -87,7 +90,6 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
               <th>Created</th>
               <th>Planned Start</th>
               <th>Planned End</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -105,6 +107,11 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
           continue; // Skip non-active care plans
         }
 
+        // Skip if care plan name is unknown
+        if (data["CarePlan Name"]?.toLowerCase() === 'unknown') {
+          continue;
+        }
+
         isSummaryCreated = true;
         html += `
             <tr>
@@ -112,7 +119,6 @@ export class PlanOfCareTemplate implements ISummaryTemplate {
               <td>${templateUtilities.renderTime(data["created"], timezone) ?? ''}</td>
               <td>${templateUtilities.renderTime(data["period.start"], timezone) ?? ''}</td>
               <td>${templateUtilities.renderTime(data["period.end"], timezone) ?? ''}</td>
-                <td>${data["source"] ?? ''}</td>
             </tr>`;
       }
     }

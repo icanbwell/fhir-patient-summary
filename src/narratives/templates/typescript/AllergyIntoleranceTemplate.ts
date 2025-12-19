@@ -40,7 +40,6 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Criticality</th>
               <th>Recorded Date</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -61,12 +60,13 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
             case 'Recorded Date':
               data["recordedDate"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
               break;
-            case 'Source':
-              data["source"] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
-              break;
             default:
               break;
           }
+        }
+
+        if (data["allergen"]?.toLocaleLowerCase() === "unknown"){
+          continue;
         }
 
         isSummaryCreated = true;
@@ -76,7 +76,6 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
                <td>${data["codeSystem"] ?? ""}</td>
               <td>${data["criticality"] ?? ""}</td>
               <td>${templateUtilities.renderTime(data["recordedDate"], timezone) ?? ""}</td>
-              <td>${data["source"] ?? ""}</td>
             </tr>`;
       }
     }
@@ -144,7 +143,6 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <th>Reaction</th>
               <th>Onset Date</th>
               <th>Comments</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -180,7 +178,6 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
               <th>Onset Date</th>
               <th>Comments</th>
               <th>Resolved Date</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -222,17 +219,21 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
 
     for (const allergy of allergies) {
       // Find the narrative link extension if it exists
+      // Skip if allergen name is unknown
+      const allergenName = templateUtilities.codeableConceptDisplay(allergy.code);
+      if (allergenName?.toLowerCase() === 'unknown') {
+        continue;
+      }
       // Add a table row for this allergy with appropriate classes
       html += `
         <tr>
-          <td class="Name"><span class="AllergenName">${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.code)))}</span></td>
+          <td class="Name"><span class="AllergenName">${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(allergenName))}</span></td>
           <td class="Status">${templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(allergy.clinicalStatus)) || ''}</td>
           <td class="CodeSystem">${templateUtilities.codeableConceptCoding(allergy.code)}</td>
           <td class="Category">${templateUtilities.renderTextAsHtml(templateUtilities.safeConcat(allergy.category)) || ''}</td>
           <td class="Reaction">${templateUtilities.renderTextAsHtml(templateUtilities.concatReactionManifestation(allergy.reaction)) || ''}</td>
           <td class="OnsetDate">${templateUtilities.renderTextAsHtml(templateUtilities.renderTime(allergy.onsetDateTime, timezone)) || ''}</td>
-          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>
-           <td class="Source">${templateUtilities.getOwnerTag(allergy)}</td>`;
+          <td class="Comments">${templateUtilities.renderNotes(allergy.note, timezone, { styled: true, warning: true })}</td>`;
 
       // Add resolved date column for resolved allergies
       if (includeResolved) {

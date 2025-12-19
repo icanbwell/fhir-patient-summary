@@ -421,7 +421,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               <th>Result</th>
               <th>Reference Range</th>
               <th>Date</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -436,7 +435,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
               <th>Report</th>
               <th>Performer</th>
               <th>Issued</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -496,8 +494,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                             case 'Status':
                                 data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                                 break;
-                            case 'Source':
-                                data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                                 break;
                             default:
                                 break;
@@ -529,6 +525,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                         for (const component of components) {
                             const componentCode = `${groupName}${component['code'] ?? ''}`;
                             if (componentCode && !observationAdded.has(componentCode)) {
+                                // Skip if component code is unknown
+                                if (component['code']?.toLowerCase() === 'unknown') {
+                                    continue;
+                                }
                                 observationAdded.add(componentCode);
                                 this.formatSummaryObservationData(component);
                                 observationhtml += `
@@ -538,7 +538,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                     <td>${templateUtilities.renderTextAsHtml(component['formattedValue']) ?? ''}</td>
                     <td>${templateUtilities.renderTextAsHtml(component['referenceRange'])?.trim() ?? ''}</td>
                     <td>${date ?? ''}</td>
-                    <td>${data['source'] ?? ''}</td>
                   </tr>`;
                             }
                         }
@@ -547,6 +546,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                         if (obsDate && obsDate >= twoYearsAgo) {
                             const code = data['code'] ?? '';
                             if (code && !observationAdded.has(code)) {
+                                // Skip if code is unknown
+                                if (code.toLowerCase() === 'unknown') {
+                                    continue;
+                                }
                                 observationAdded.add(code);
                                 this.formatSummaryObservationData(data);
                                 observationhtml += `
@@ -556,7 +559,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                     <td>${templateUtilities.renderTextAsHtml(data['formattedValue']) ?? ''}</td>
                     <td>${templateUtilities.renderTextAsHtml(data['referenceRange'])?.trim() ?? ''}</td>
                     <td>${date ?? ''}</td>
-                    <td>${data['source'] ?? ''}</td>
                   </tr>`;
                             }
                         }
@@ -573,13 +575,16 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
                     if (data['status'] === 'final' && issuedDate && issuedDate >= twoYearsAgo) {
                         const reportName = data['report'] ?? '';
                         if (reportName && !diagnosticReportAdded.has(reportName)) {
+                            // Skip if report name is unknown
+                            if (reportName.toLowerCase() === 'unknown') {
+                                continue;
+                            }
                             diagnosticReportAdded.add(reportName);
                             diagnosticReporthtml += `
                     <tr>
                       <td>${templateUtilities.capitalizeFirstLetter(data['report'] ?? '')}</td>
                       <td>${data['performer'] ?? ''}</td>
                       <td>${templateUtilities.renderTime(data['issued'], timezone) ?? ''}</td>
-                        <td>${data['source'] ?? ''}</td>
                     </tr>`;
                         }
                     }
@@ -790,7 +795,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <th>Result</th>
             <th>Reference Range</th>
             <th>Date</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -801,6 +805,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             const obsCodeDisplay = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code));
             const obsCodeAndSystem = templateUtilities.codeableConceptCoding(obs.code);
             if (!observationAdded.has(obsCodeDisplay) && !observationAdded.has(obsCodeAndSystem)) {
+                // Skip if observation name is unknown
+                if (obsCodeDisplay?.toLowerCase() === 'unknown') {
+                    continue;
+                }
                 observationAdded.add(obsCodeDisplay);
                 observationAdded.add(obsCodeAndSystem);
                 // Add table row
@@ -811,7 +819,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
             }
         }
@@ -841,7 +848,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <th>Category</th>
             <th>Result</th>
             <th>Issued</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -852,6 +858,10 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             const reportName = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(report.code));
             const codeAndSystem = templateUtilities.codeableConceptCoding(report.code);
             if (!diagnosticReportAdded.has(reportName) && !diagnosticReportAdded.has(codeAndSystem)) {
+                // Skip if report name is unknown
+                if (reportName?.toLowerCase() === 'unknown') {
+                    continue;
+                }
                 diagnosticReportAdded.add(reportName);
                 diagnosticReportAdded.add(codeAndSystem);
                 // Format result count
@@ -868,7 +878,6 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.firstFromCodeableConceptList(report.category)}</td>
             <td>${resultCount}</td>
             <td>${report.issued ? templateUtilities.renderTime(report.issued, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(report)}</td>
           </tr>`;
             }
         }
