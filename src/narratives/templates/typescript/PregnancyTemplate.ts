@@ -99,7 +99,7 @@ export class PregnancyTemplate implements ITemplate {
               <tbody>`;
 
         // Helper to render a row
-        function renderRow({ result, comments, date, codeSystem }: { result: string, comments: string, date: string, codeSystem: string, owner?: string }) {
+        function renderRow({ result, comments, date, codeSystem }: { result: string, comments: string, date: string, codeSystem: string }) {
             // Skip if result is unknown
             if (result?.toLowerCase() === 'unknown') {
                 return;

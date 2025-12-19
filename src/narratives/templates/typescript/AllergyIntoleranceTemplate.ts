@@ -65,7 +65,7 @@ export class AllergyIntoleranceTemplate implements ISummaryTemplate {
           }
         }
 
-        if (data["allergen"]?.toLocaleLowerCase() === "unknown"){
+        if (data["allergen"]?.toLowerCase() === "unknown"){
           continue;
         }
 

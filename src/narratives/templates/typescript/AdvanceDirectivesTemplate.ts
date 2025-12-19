@@ -53,7 +53,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
 
     for (const resourceItem of resources) {
       const consent = resourceItem as TConsent;
-      const consentScope = templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display')))
+      const consentScope = templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display')));
       if (!consentScope || consentScope.toLowerCase() === 'unknown') {
         continue;
       }
