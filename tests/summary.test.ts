@@ -413,6 +413,7 @@ describe('ComprehensiveIPSCompositionBuilder', () => {
             const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
 
             // Use async section addition for consistency
+            await builder.makeSectionAsync(IPSSections.PATIENT, [mockPatient], 'America/New_York');
             await builder.makeSectionAsync(IPSSections.ALLERGIES, mockAllergies, 'America/New_York');
             await builder.makeSectionAsync(IPSSections.MEDICATIONS, mockMedications, 'America/New_York');
             await builder.makeSectionAsync(IPSSections.PROBLEMS, mockConditions, 'America/New_York');

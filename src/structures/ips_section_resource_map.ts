@@ -77,7 +77,8 @@ export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPS
 }
 
 export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
-    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && c.code === "ips_vital_summary_document"),
+    [IPSSections.PATIENT]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_patient_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_vital_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
 }
 
 // Helper class to get resource types for a section

@@ -2,18 +2,19 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TPatient } from '../../../types/resources/Patient';
-import { ITemplate } from './interfaces/ITemplate';
+import {ISummaryTemplate} from './interfaces/ITemplate';
 import { THumanName } from '../../../types/partials/HumanName';
 import { TContactPoint } from '../../../types/partials/ContactPoint';
 import { TAddress } from '../../../types/partials/Address';
 import { TPatientCommunication } from '../../../types/partials/PatientCommunication';
 import { ADDRESS_SIMILARITY_THRESHOLD } from '../../../constants';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Patient resources
  * This replaces the Jinja2 patient.j2 template
  */
-export class PatientTemplate implements ITemplate {
+export class PatientTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Patient resources
    * @param resources - FHIR Patient resources
@@ -22,6 +23,66 @@ export class PatientTemplate implements ITemplate {
    */
   generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     return PatientTemplate.generateStaticNarrative(resources, timezone);
+  }
+
+  /**
+   * Generate HTML narrative for AllergyIntolerance resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    const compositionResources = resources[0];
+
+    const data: Record<string, string> = {}
+    for (const rowData of compositionResources.section ?? []){
+      for (const columnData of rowData.section ?? []){
+        switch (columnData.title){
+          case 'Name':
+          case 'Address':
+          case 'Communication':
+            data[columnData.title] = templateUtilities.renderListSectionData(columnData.section ?? []);
+            break;
+          case 'Telecom':
+            {
+              const telecomStringParts: string[] = [];
+              for (const telecomData of columnData.section ?? []){
+                const telecomSystem = telecomData?.title;
+                const telecomValue = templateUtilities.renderListSectionData(telecomData.section ?? []);
+                if (telecomSystem && telecomValue){
+                  telecomStringParts.push(`<li><strong>${telecomSystem}:</strong>${telecomValue}</li>`);
+                }
+              }
+              data["Telecom"] = `<ul>${telecomStringParts.join('')}</ul>`;
+              break;
+            }
+          default:
+            if (columnData.title){
+              data[columnData.title] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? "");
+            }
+            break;
+        }
+      }
+    }
+
+    let html = `<p>This section merges all Patient resources into a single combined patient record, preferring non-empty values for each field.</p>`;
+    html += `<div>
+      <ul>
+        <li><strong>Name(s):</strong>${data["Name"] || ''}</li>
+        <li><strong>Gender:</strong>${data["Gender"] || ''}</li>
+        <li><strong>Date of Birth:</strong>${data["Date of Birth"] || ''}</li>
+        <li><strong>Telecom:</strong>${data["Telecom"] || ''}</li>
+        <li><strong>Address(es):</strong>${data["Address"] || ''}</li>
+        <li><strong>Marital Status:</strong> ${data["Marital Status"] || ''}</li>
+        <li><strong>Deceased:</strong>${data["Deceased"] || ''}</li>
+        <li><strong>Language(s):</strong>${data["Communication"] || ''}</li>
+      </ul>
+    </div>`;
+
+    return html;
   }
 
   /**
@@ -143,9 +204,10 @@ export class PatientTemplate implements ITemplate {
       }
     });
 
-    return Array.from(uniqueNames)
-        .map(nameText => `<ul><li>${nameText}</li></ul>`)
+    const namesHtml = Array.from(uniqueNames)
+        .map(nameText => `<li>${nameText}</li>`)
         .join('');
+    return `<ul>${namesHtml}</ul>`;
   }
 
   /**
@@ -282,9 +344,10 @@ export class PatientTemplate implements ITemplate {
     // deduplicate similar addresses
     const deduplicatedAddresses = this.deduplicateSimilarAddresses(Array.from(uniqueAddresses));
 
-    return deduplicatedAddresses
-      .map(addressText => `<ul><li>${addressText}</li></ul>`)
+    const addressesHtml = deduplicatedAddresses
+      .map(addressText => `<li>${addressText}</li>`)
       .join('');
+    return `<ul>${addressesHtml}</ul>`;
   }
 
   /**
@@ -423,9 +486,10 @@ export class PatientTemplate implements ITemplate {
       }
     });
 
-    return Array.from(uniqueLanguages)
-      .map(language => `<ul><li>${language}${preferredLanguages.has(language) ? ' (preferred)' : ''}</li></ul>`)
+     const languagesHtml = Array.from(uniqueLanguages)
+      .map(language => `<li>${language}${preferredLanguages.has(language) ? ' (preferred)' : ''}</li>`)
       .join('');
+    return `<ul>${languagesHtml}</ul>`;
   }
 
   /**
