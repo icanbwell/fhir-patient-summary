@@ -43,7 +43,6 @@ export class VitalSignsTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Result</th>
               <th>Date</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -84,6 +83,11 @@ export class VitalSignsTemplate implements ISummaryTemplate {
           }
         }
 
+        // Skip if vital name is unknown
+        if (data['Vital Name']?.toLowerCase() === 'unknown') {
+          continue;
+        }
+
         isSummaryCreated = true;
 
         html += `
@@ -92,7 +96,6 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <td>${data['codeSystem'] ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
-            <td>${data['Source'] ?? ''}</td>
           </tr>`;
       }
     }
@@ -143,16 +146,20 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <th>Component(s)</th>
             <th>Comments</th>
             <th>Date</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
 
     // Loop through entries in the resources
     for (const obs of observations) {
+      // Skip if vital sign name is unknown
+      const vitalName = templateUtilities.codeableConceptDisplay(obs.code, 'display');
+      if (vitalName?.toLowerCase() === 'unknown') {
+        continue;
+      }
       html += `
           <tr>
-            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(obs.code, 'display')))}</td>
+            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(vitalName))}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
             <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
@@ -160,7 +167,6 @@ export class VitalSignsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.renderComponent(obs.component)}</td>
             <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
-            <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;
     }
 

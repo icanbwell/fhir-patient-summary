@@ -94,20 +94,22 @@ export class PregnancyTemplate implements ITemplate {
                   <th>Code (System)</th>
                   <th>Comments</th>
                   <th>Date</th>
-                  <th>Source</th>
                 </tr>
               </thead>
               <tbody>`;
 
         // Helper to render a row
-        function renderRow({ result, comments, date, codeSystem, owner }: { result: string, comments: string, date: string, codeSystem: string, owner?: string }) {
+        function renderRow({ result, comments, date, codeSystem }: { result: string, comments: string, date: string, codeSystem: string }) {
+            // Skip if result is unknown
+            if (result?.toLowerCase() === 'unknown') {
+                return;
+            }
             html += `
                 <tr>
                   <td class="Result">${templateUtilities.capitalizeFirstLetter(result)}</td>
                   <td class="CodeSystem">${codeSystem}</td>
                   <td class="Comments">${comments}</td>
                   <td class="Date">${date}</td>
-                  <td class="Source">${owner}</td>
                 </tr>`;
         }
 
@@ -170,8 +172,7 @@ export class PregnancyTemplate implements ITemplate {
             const rowKey = `${result}|${codeSystem}`
             if (!addedRows.has(rowKey)) {
                 addedRows.add(rowKey);
-                const owner = templateUtilities.getOwnerTag(resource);
-                renderRow({ result, comments, date: dateStr, codeSystem, owner });
+                renderRow({ result, comments, date: dateStr, codeSystem });
             }
         }
 

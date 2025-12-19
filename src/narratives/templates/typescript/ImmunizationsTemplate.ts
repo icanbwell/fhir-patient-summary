@@ -52,7 +52,6 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Status</th>
               <th>Date</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -73,15 +72,16 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             case 'occurrenceDateTime':
               data['occurrenceDateTime'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
               break;
-              case 'Source':
-                data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                break;
             default:
               break;
           }
         }
 
         if (data['status'] === 'completed') {
+          // Skip if immunization name is unknown
+          if (data['immunization']?.toLowerCase() === 'unknown') {
+            continue;
+          }
           isSummaryCreated = true;
           html += `
               <tr>
@@ -89,7 +89,6 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
                 <td>${data['codeSystem'] ?? ''}</td>
                 <td>${data['status'] ?? ''}</td>
                 <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? ''}</td>
-                <td>${data['source'] ?? ''}</td>
               </tr>`;
         }
       }
@@ -124,7 +123,6 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             <th>Lot Number</th>
             <th>Comments</th>
             <th>Date</th>
-            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -136,9 +134,14 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
       // Loop through Immunization resources
       for (const resourceItem of immunizations) {
         const imm = resourceItem as TImmunization;
+        // Skip if immunization name is unknown
+        const immunizationName = templateUtilities.codeableConceptDisplay(imm.vaccineCode);
+        if (immunizationName?.toLowerCase() === 'unknown') {
+          continue;
+        }
         html += `
           <tr>
-            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(imm.vaccineCode)))}</td>
+            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(immunizationName))}</td>
             <td>${templateUtilities.codeableConceptCoding(imm.vaccineCode)}</td>
             <td>${imm.status || ''}</td>
             <td>${templateUtilities.concatDoseNumber(imm.protocolApplied)}</td>
@@ -146,7 +149,6 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             <td>${imm.lotNumber || ''}</td>
             <td>${templateUtilities.renderNotes(imm.note, timezone)}</td>
             <td>${templateUtilities.renderTime(imm.occurrenceDateTime, timezone)}</td>
-            <td>${templateUtilities.getOwnerTag(imm)}</td>
           </tr>`;
       }
     }

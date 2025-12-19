@@ -58,7 +58,6 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
               <th>Onset Date</th>
               <th>Recorded Date</th>
               <th>Resolved Date</th>
-              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -68,6 +67,10 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
     for (const cond of filteredConditions) {
       const conditionCode = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(cond.code));
       if (!addedConditionCodes.has(conditionCode)) {
+        // Skip if condition code is unknown
+        if (conditionCode?.toLowerCase() === 'unknown') {
+          continue;
+        }
         addedConditionCodes.add(conditionCode);
         html += `<tr>
             <td class="Name">${templateUtilities.capitalizeFirstLetter(conditionCode)}</td>
@@ -75,7 +78,6 @@ export class PastHistoryOfIllnessTemplate implements ITemplate {
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
             <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
-            <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
           </tr>`;
       }
     }

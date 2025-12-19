@@ -26,7 +26,7 @@ export class PatientTemplate implements ISummaryTemplate {
   }
 
   /**
-   * Generate HTML narrative for AllergyIntolerance resources using summary
+   * Generate HTML narrative for Patient resources using summary
    * @param resources - FHIR Composition resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering

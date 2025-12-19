@@ -15,7 +15,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
     // sort the entries by date in descending order
     resources.sort((a, b) => {
       const dateA = new Date((a as TConsent).dateTime || 0);
@@ -33,7 +33,7 @@ export class AdvanceDirectivesTemplate implements ITemplate {
    * @returns HTML string for rendering
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+  private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
 
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
@@ -49,11 +49,18 @@ export class AdvanceDirectivesTemplate implements ITemplate {
         </thead>
         <tbody>`;
 
+    let isConsentAdded = false;
+
     for (const resourceItem of resources) {
       const consent = resourceItem as TConsent;
+      const consentScope = templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display')));
+      if (!consentScope || consentScope.toLowerCase() === 'unknown') {
+        continue;
+      }
+      isConsentAdded = true;
       html += `
         <tr>
-          <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display')))}</td>
+          <td>${consentScope}</td>
           <td>${consent.status || ''}</td>
           <td>${consent.provision?.action ? templateUtilities.concatCodeableConcept(consent.provision.action) : ''}</td>
           <td>${consent.dateTime || ''}</td>
@@ -65,6 +72,6 @@ export class AdvanceDirectivesTemplate implements ITemplate {
         </tbody>
       </table>`;
 
-    return html;
+    return isConsentAdded ? html : undefined;
   }
 }
