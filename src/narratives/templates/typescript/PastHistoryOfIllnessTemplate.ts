@@ -137,13 +137,12 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
           continue;
         }
 
-        if (data["Last Confirmed Date"] && new Date(data["Last Confirmed Date"]) < fiveYearsAgo) {
-          skippedConditions++;
-          continue;
-        }
-
         // Only include inactive conditions in the summary
         if (data["Status"] === 'inactive') {
+          if (data["Last Confirmed Date"] && new Date(data["Last Confirmed Date"]) < fiveYearsAgo) {
+            skippedConditions++;
+            continue;
+          }
           isSummaryCreated = true;
           html += `
               <tr>
