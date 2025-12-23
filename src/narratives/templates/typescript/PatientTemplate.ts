@@ -76,7 +76,7 @@ export class PatientTemplate implements ISummaryTemplate {
         <li><strong>Date of Birth:</strong>${data["Date of Birth"] || ''}</li>
         <li><strong>Telecom:</strong>${data["Telecom"] || ''}</li>
         <li><strong>Address(es):</strong>${data["Address"] || ''}</li>
-        ${data["Marital Status"] ? `<li><strong>Marital Status:</strong> ${data["Marital Status"]}</li>` : '' }
+        ${data["Marital Status"] ? `<li><strong>Marital Status:</strong>${data["Marital Status"]}</li>` : '' }
         ${data["Deceased"] ? `<li><strong>Deceased:</strong>${data["Deceased"]}</li>` : ''}
         <li><strong>Language(s):</strong>${data["Communication"] || ''}</li>
       </ul>

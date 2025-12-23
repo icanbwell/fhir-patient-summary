@@ -64,6 +64,30 @@ console.log(JSON.stringify(bundle, null, 2));
 - Use `makeSectionAsync(sectionType, resources, timezone)` to add each IPS section, or use `read_bundle(fhirBundle, timezone)` to extract all supported sections from a FHIR Bundle.
 - Use `build_bundle` to generate the final FHIR Bundle.
 
+## Environment Variables
+
+The following environment variables can be used to configure the behavior of the patient summary generator:
+
+### SUMMARY_COMPOSITION_SECTIONS
+
+Controls which IPS sections should include summary composition filtering.
+
+- **Default**: `all`
+- **Format**: Comma-separated list of section names
+- **Example**: `SUMMARY_COMPOSITION_SECTIONS=AllergyIntoleranceSection,ProblemSection,MedicationSummarySection`
+
+When set to `all`, all supported sections will use summary composition filtering. To enable only specific sections, provide a comma-separated list of section names.
+
+### SUMMARY_IPS_COMPOSITION_SECTIONS
+
+Controls which IPS sections should include IPS-specific composition filtering.
+
+- **Default**: `all`
+- **Format**: Comma-separated list of section names
+- **Example**: `SUMMARY_IPS_COMPOSITION_SECTIONS=Patient,VitalSignsSection`
+
+When set to `all`, all supported sections will use IPS composition filtering. To enable only specific sections, provide a comma-separated list of section names.
+
 ## Running Tests
 
 To run the test suite:

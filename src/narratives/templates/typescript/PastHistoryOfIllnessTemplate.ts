@@ -120,18 +120,19 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []){
         const sectionCodeableConcept = rowData.code;
-        const data: Record<string, string> = {}
+        const data: Record<string, string> = {};
         for (const columnData of rowData.section ?? []){
           if (columnData.title) {
             data[columnData.title] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
           }
         }
 
-        // Skip condition if name is unknown or status is not active
+        // Skip condition if name is unknown
         if (data["Condition Name"]?.toLowerCase() === 'unknown') {
           continue;
         }
 
+        // Only include inactive conditions in the summary
         if (data["Status"] === 'inactive') {
           isSummaryCreated = true;
           html += `
