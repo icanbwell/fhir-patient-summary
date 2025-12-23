@@ -182,8 +182,32 @@
           }
         },
         {
+          "id": "status-1",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-1",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "d24decc5-819f-5ce3-ad82-b0246d64676b",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2016-07-26T17:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-1",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2016-07-26T17:58:10+00:00"
@@ -329,8 +353,32 @@
           }
         },
         {
+          "id": "status-2",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-2",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "8e40b8bb-31ca-5d61-b832-3ea876c4b33f",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2017-10-21T21:32:58+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-2",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2017-10-21T21:32:58+00:00"
@@ -494,8 +542,32 @@
           }
         },
         {
+          "id": "status-3",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-3",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "d0f9d06e-8a9a-5933-8964-07a785eac5a5",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2013-09-28T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-3",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2013-09-28T20:58:10+00:00"
@@ -512,6 +584,14 @@
         {
           "id": "f539a768-95bb-538f-8d0f-2752bbe745e6",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2024-11-30T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "resolved-3",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2024-11-30T20:58:10+00:00"
@@ -597,8 +677,32 @@
           }
         },
         {
+          "id": "status-4",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-4",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "fcfea0e1-94ce-5676-b343-4ce7fcfeef38",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-09-21T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-4",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2023-09-21T21:39:36+00:00"
@@ -615,6 +719,14 @@
         {
           "id": "60da713f-c992-5394-a446-570f470996c7",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-12-30T22:19:04+00:00"
+          }
+        },
+        {
+          "id": "resolved-4",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2023-12-30T22:19:04+00:00"
@@ -700,8 +812,32 @@
           }
         },
         {
+          "id": "status-5",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-5",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "670b6df0-570f-5442-81c8-39ca5f601acc",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-09-21T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-5",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2023-09-21T21:39:36+00:00"
@@ -718,6 +854,14 @@
         {
           "id": "f0c8170c-f6b6-55f5-85ca-ba8af525d0fb",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-12-30T22:19:04+00:00"
+          }
+        },
+        {
+          "id": "resolved-5",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2023-12-30T22:19:04+00:00"
@@ -803,8 +947,32 @@
           }
         },
         {
+          "id": "status-6",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-6",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "fdf5a85d-70a6-53c3-b6fc-388799c5d810",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2022-11-19T21:57:22+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-6",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2022-11-19T21:57:22+00:00"
@@ -821,6 +989,14 @@
         {
           "id": "7860a09b-7a5b-528a-ae81-011230375547",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2023-11-25T21:48:06+00:00"
+          }
+        },
+        {
+          "id": "resolved-6",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2023-11-25T21:48:06+00:00"
@@ -906,8 +1082,32 @@
           }
         },
         {
+          "id": "status-7",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-7",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "b170720b-5d55-55d0-866e-b0d473f37672",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2020-11-07T21:57:33+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-7",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2020-11-07T21:57:33+00:00"
@@ -924,6 +1124,14 @@
         {
           "id": "1bd18d83-61f8-5149-a5dd-b0e56fab12ec",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2021-11-13T21:51:44+00:00"
+          }
+        },
+        {
+          "id": "resolved-7",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2021-11-13T21:51:44+00:00"
@@ -1009,8 +1217,32 @@
           }
         },
         {
+          "id": "status-8",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-8",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "8200ea75-5bdc-570e-929e-d9fbaae71523",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2020-10-26T03:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-8",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2020-10-26T03:58:10+00:00"
@@ -1027,6 +1259,14 @@
         {
           "id": "3be90055-cfe1-55ab-9e1f-b31e304f9c51",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2020-11-05T03:58:10+00:00"
+          }
+        },
+        {
+          "id": "resolved-8",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2020-11-05T03:58:10+00:00"
@@ -1112,8 +1352,32 @@
           }
         },
         {
+          "id": "status-9",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-9",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "3bf8bcad-d1e8-5618-99bf-29f4cc27b673",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-16T23:30:41+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-9",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2019-11-16T23:30:41+00:00"
@@ -1130,6 +1394,14 @@
         {
           "id": "3857512b-eacf-5a82-8131-22969fcd6c60",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-17T01:11:36+00:00"
+          }
+        },
+        {
+          "id": "resolved-9",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2019-11-17T01:11:36+00:00"
@@ -1215,8 +1487,32 @@
           }
         },
         {
+          "id": "status-10",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-10",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "b473875e-55b6-58c6-9bc1-3273da82a9c6",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-11-02T21:38:15+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-10",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2019-11-02T21:38:15+00:00"
@@ -1233,6 +1529,14 @@
         {
           "id": "daf10cb4-daff-59ef-bb09-ab9c478c64e6",
           "title": "Abatement Date"
+        },
+        {
+          "id": "resolved-10",
+          "title": "Resolved Date",
+          "text": {
+            "status": "generated",
+            "div": ""
+          }
         },
         {
           "id": "fdc73f91-d41d-5314-b521-df8e334c957e",
@@ -1314,8 +1618,32 @@
           }
         },
         {
+          "id": "status-11",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-11",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "5e631c0a-70e8-53d4-b478-0ecb3072b15c",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-06-27T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-11",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2019-06-27T21:39:36+00:00"
@@ -1332,6 +1660,14 @@
         {
           "id": "29d644b2-b1ab-56ee-8395-15766e9d7904",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-07-18T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "resolved-11",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2019-07-18T21:39:36+00:00"
@@ -1417,8 +1753,32 @@
           }
         },
         {
+          "id": "status-12",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "inactive"
+          }
+        },
+        {
+          "id": "is-chronic-12",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "3002c50d-e779-5e62-ae1d-5a0984bedb73",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-06-27T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-12",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2019-06-27T21:39:36+00:00"
@@ -1435,6 +1795,14 @@
         {
           "id": "f351bde3-df6d-57be-a5a5-cda4ef4cd580",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2019-07-18T21:39:36+00:00"
+          }
+        },
+        {
+          "id": "resolved-12",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2019-07-18T21:39:36+00:00"
@@ -1520,8 +1888,32 @@
           }
         },
         {
+          "id": "status-13",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-13",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "14a4a2b7-e764-5eaa-bf05-2e08301f2ad4",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2018-10-27T23:05:02+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-13",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2018-10-27T23:05:02+00:00"
@@ -1538,6 +1930,14 @@
         {
           "id": "ca19fd52-8f18-5105-911b-32935b4a194f",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2018-11-10T23:40:56+00:00"
+          }
+        },
+        {
+          "id": "resolved-13",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2018-11-10T23:40:56+00:00"
@@ -1645,8 +2045,32 @@
           }
         },
         {
+          "id": "status-14",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-14",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "a69484a4-ba4d-5d82-92e4-46a8d4f33ffd",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2013-09-28T21:41:13+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-14",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2013-09-28T21:41:13+00:00"
@@ -1663,6 +2087,14 @@
         {
           "id": "1d7f6a16-a229-52c3-a5f1-e8702a05b770",
           "title": "Abatement Date"
+        },
+        {
+          "id": "resolved-14",
+          "title": "Resolved Date",
+          "text": {
+            "status": "generated",
+            "div": ""
+          }
         },
         {
           "id": "bf3b6eb6-3ba1-5af9-92cb-ebe81bc7f6b7",
@@ -1744,8 +2176,32 @@
           }
         },
         {
+          "id": "status-15",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-15",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "9edc7bad-88d7-5fc8-a1df-e0c8a35e2345",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2017-10-21T21:32:58+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-15",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2017-10-21T21:32:58+00:00"
@@ -1762,6 +2218,14 @@
         {
           "id": "44fbe187-6f52-5b50-9a4f-51d6c0754322",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2018-10-27T21:51:25+00:00"
+          }
+        },
+        {
+          "id": "resolved-15",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2018-10-27T21:51:25+00:00"
@@ -1847,8 +2311,32 @@
           }
         },
         {
+          "id": "status-16",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-16",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "ab8a5280-dfc7-55cb-8128-47aa8240697c",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2017-10-21T21:32:58+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-16",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2017-10-21T21:32:58+00:00"
@@ -1865,6 +2353,14 @@
         {
           "id": "3299a209-2e1d-5c63-b9ce-f551e3ca14a7",
           "title": "Abatement Date"
+        },
+        {
+          "id": "resolved-16",
+          "title": "Resolved Date",
+          "text": {
+            "status": "generated",
+            "div": ""
+          }
         },
         {
           "id": "0943f94f-59f4-515a-9082-f8967d089c4d",
@@ -1946,8 +2442,32 @@
           }
         },
         {
+          "id": "status-17",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-17",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "070c779e-22da-5144-8882-ec72d93f0dda",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2015-10-10T21:55:22+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-17",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2015-10-10T21:55:22+00:00"
@@ -1964,6 +2484,14 @@
         {
           "id": "b5261b7d-bafb-535b-99a4-4e7604419ce3",
           "title": "Abatement Date",
+          "text": {
+            "status": "generated",
+            "div": "2016-10-15T21:30:15+00:00"
+          }
+        },
+        {
+          "id": "resolved-17",
+          "title": "Resolved Date",
           "text": {
             "status": "generated",
             "div": "2016-10-15T21:30:15+00:00"
@@ -2049,8 +2577,32 @@
           }
         },
         {
+          "id": "status-18",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-18",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "5e3c6d10-557e-5edd-997e-62b7d61aab81",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2014-02-03T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-18",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2014-02-03T20:58:10+00:00"
@@ -2148,8 +2700,32 @@
           }
         },
         {
+          "id": "status-19",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-19",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "3a52107e-82ef-50f3-9912-7dffc4073f84",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "2014-02-03T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-19",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "2014-02-03T20:58:10+00:00"
@@ -2247,8 +2823,32 @@
           }
         },
         {
+          "id": "status-20",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-20",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "e7613abe-bdae-5dcd-b4c0-d35a6d3b488a",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "1998-12-05T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-20",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "1998-12-05T20:58:10+00:00"
@@ -2346,8 +2946,32 @@
           }
         },
         {
+          "id": "status-21",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-21",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "8bc220cb-0078-5d1d-8b42-66536825f8b8",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "1998-12-05T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-21",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "1998-12-05T20:58:10+00:00"
@@ -2445,8 +3069,32 @@
           }
         },
         {
+          "id": "status-22",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-22",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "Yes"
+          }
+        },
+        {
           "id": "b3daeec4-fa27-5bd3-910c-940b3ac31ef1",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "1992-11-28T20:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-22",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "1992-11-28T20:58:10+00:00"
@@ -2544,8 +3192,32 @@
           }
         },
         {
+          "id": "status-23",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-23",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "41020df4-d528-5f5f-a8a5-450cff3b23b3",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "1986-11-25T09:58:10+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-23",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "1986-11-25T09:58:10+00:00"
@@ -2562,6 +3234,14 @@
         {
           "id": "c80aed05-6426-5900-976b-8a0b877ab675",
           "title": "Abatement Date"
+        },
+        {
+          "id": "resolved-23",
+          "title": "Resolved Date",
+          "text": {
+            "status": "generated",
+            "div": ""
+          }
         },
         {
           "id": "4014eba4-b5b5-56d9-a3c9-f7c67790869c",
@@ -2643,8 +3323,32 @@
           }
         },
         {
+          "id": "status-24",
+          "title": "Status",
+          "text": {
+            "status": "generated",
+            "div": "active"
+          }
+        },
+        {
+          "id": "is-chronic-24",
+          "title": "Is Chronic",
+          "text": {
+            "status": "generated",
+            "div": "No"
+          }
+        },
+        {
           "id": "f6662d70-7fc0-5c58-a5c9-9c8e503b08fb",
           "title": "Recorded Date",
+          "text": {
+            "status": "generated",
+            "div": "1979-11-10T21:34:47+00:00"
+          }
+        },
+        {
+          "id": "last-confirmed-24",
+          "title": "Last Confirmed Date",
           "text": {
             "status": "generated",
             "div": "1979-11-10T21:34:47+00:00"

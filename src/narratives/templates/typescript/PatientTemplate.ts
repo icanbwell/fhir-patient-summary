@@ -76,8 +76,8 @@ export class PatientTemplate implements ISummaryTemplate {
         <li><strong>Date of Birth:</strong>${data["Date of Birth"] || ''}</li>
         <li><strong>Telecom:</strong>${data["Telecom"] || ''}</li>
         <li><strong>Address(es):</strong>${data["Address"] || ''}</li>
-        <li><strong>Marital Status:</strong> ${data["Marital Status"] || ''}</li>
-        <li><strong>Deceased:</strong>${data["Deceased"] || ''}</li>
+        ${data["Marital Status"] ? `<li><strong>Marital Status:</strong> ${data["Marital Status"]}</li>` : '' }
+        ${data["Deceased"] ? `<li><strong>Deceased:</strong>${data["Deceased"]}</li>` : ''}
         <li><strong>Language(s):</strong>${data["Communication"] || ''}</li>
       </ul>
     </div>`;
@@ -96,6 +96,7 @@ export class PatientTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
     // For multiple patients, merge their data
     const combinedPatient = this.combinePatients(resources);
+    const deceasedText = this.renderDeceased(combinedPatient)
     
     // Start building the HTML
     let html = `<p>This section merges all Patient resources into a single combined patient record, preferring non-empty values for each field.</p>`;
@@ -106,8 +107,8 @@ export class PatientTemplate implements ISummaryTemplate {
         <li><strong>Date of Birth:</strong>${combinedPatient.birthDate || ''}</li>
         <li><strong>Telecom:</strong><ul>${this.renderTelecom(combinedPatient)}</ul></li>
         <li><strong>Address(es):</strong>${this.renderAddresses(combinedPatient)}</li>
-        <li><strong>Marital Status:</strong> ${combinedPatient.maritalStatus?.text || ''}</li>
-        <li><strong>Deceased:</strong>${this.renderDeceased(combinedPatient)}</li>
+        ${combinedPatient.maritalStatus?.text ? `<li><strong>Marital Status:</strong> ${combinedPatient.maritalStatus.text}</li>` : ''}
+        ${deceasedText ? `<li><strong>Deceased:</strong>${deceasedText}</li>` : ''}
         <li><strong>Language(s):</strong>${this.renderCommunication(templateUtilities, combinedPatient)}</li>
       </ul>
     </div>`;

@@ -68,6 +68,8 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
     [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergy_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "careplan_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
@@ -94,11 +96,31 @@ export class IPSSectionResourceHelper {
     }
 
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
-        return IPSSectionSummaryCompositionFilter[section];
+        const sectionCompositionEnabled = (
+          process.env.SUMMARY_COMPOSITION_SECTIONS || 'all'
+        )
+          .split(',')
+          .some(
+            s =>
+              s.trim().toLowerCase() === section.toString().toLowerCase() ||
+              s.trim().toLowerCase() === 'all'
+          );
+
+        return sectionCompositionEnabled ? IPSSectionSummaryCompositionFilter[section] : undefined;
     }
 
     static getSummaryIPSCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
-        return IPSSectionSummaryIPSCompositionFilter[section];
+        const sectionIPSCompositionEnabled = (
+          process.env.SUMMARY_IPS_COMPOSITION_SECTIONS || 'all'
+        )
+          .split(',')
+          .some(
+            s =>
+              s.trim().toLowerCase() === section.toString().toLowerCase() ||
+              s.trim().toLowerCase() === 'all'
+          );
+
+        return sectionIPSCompositionEnabled ? IPSSectionSummaryIPSCompositionFilter[section] : undefined;
     }
 }
 
