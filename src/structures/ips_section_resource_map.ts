@@ -96,29 +96,27 @@ export class IPSSectionResourceHelper {
     }
 
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
-        const sectionCompositionEnabled = (
-          process.env.SUMMARY_COMPOSITION_SECTIONS || 'all'
-        )
-          .split(',')
-          .some(
-            s =>
-              s.trim().toLowerCase() === section.toString().toLowerCase() ||
-              s.trim().toLowerCase() === 'all'
-          );
+        const sectionCompositionEnabled = process.env
+          .SUMMARY_COMPOSITION_SECTIONS
+          ? process.env.SUMMARY_COMPOSITION_SECTIONS.split(',').some(
+              s =>
+                s.trim().toLowerCase() === section.toString().toLowerCase() ||
+                s.trim().toLowerCase() === 'all'
+            )
+          : false;
 
         return sectionCompositionEnabled ? IPSSectionSummaryCompositionFilter[section] : undefined;
     }
 
     static getSummaryIPSCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
-        const sectionIPSCompositionEnabled = (
-          process.env.SUMMARY_IPS_COMPOSITION_SECTIONS || 'all'
-        )
-          .split(',')
-          .some(
-            s =>
-              s.trim().toLowerCase() === section.toString().toLowerCase() ||
-              s.trim().toLowerCase() === 'all'
-          );
+        const sectionIPSCompositionEnabled = process.env
+          .SUMMARY_IPS_COMPOSITION_SECTIONS
+          ? process.env.SUMMARY_IPS_COMPOSITION_SECTIONS.split(',').some(
+              s =>
+                s.trim().toLowerCase() === section.toString().toLowerCase() ||
+                s.trim().toLowerCase() === 'all'
+            )
+          : false;
 
         return sectionIPSCompositionEnabled ? IPSSectionSummaryIPSCompositionFilter[section] : undefined;
     }

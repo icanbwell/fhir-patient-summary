@@ -98,9 +98,14 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+  public generateSummaryNarrative(resources: TComposition[], timezone: string | undefined, now?: Date): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
+
+    const currentDate = now || new Date();
+    const fiveYearsAgo = new Date(currentDate);
+    fiveYearsAgo.setFullYear(currentDate.getFullYear() - 5);
+    let skippedConditions = 0;
 
     let html = `<p>This list includes past problems for the patient with a recorded date within the last 5 years, sorted by recorded date (most recent first).</p>
       <div>
@@ -132,6 +137,11 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
           continue;
         }
 
+        if (data["Last Confirmed Date"] && new Date(data["Last Confirmed Date"]) < fiveYearsAgo) {
+          skippedConditions++;
+          continue;
+        }
+
         // Only include inactive conditions in the summary
         if (data["Status"] === 'inactive') {
           isSummaryCreated = true;
@@ -150,8 +160,11 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
 
     html += `
           </tbody>
-        </table>
-      </div>`;
+        </table>`;
+    if (skippedConditions > 0) {
+      html += `\n<p><em>${skippedConditions} additional past illnesses older than 5 years ago are present</em></p>`;
+    }
+    html += `</div>`;
 
     return isSummaryCreated ? html : undefined;
   }
