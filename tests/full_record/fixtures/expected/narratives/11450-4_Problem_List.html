@@ -1,81 +1,130 @@
 <div xmlns="http://www.w3.org/1999/xhtml">
     <p>This list includes patient problems, sorted by recorded date (most recent first)</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Problem</th>
-                <th>Code (System)</th>
-                <th>Onset Date</th>
-                <th>Recorded Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="Name">Stress (finding)</td>
-                <td class="CodeSystem">73595000 (SNOMED CT)</td>
-                <td class="OnsetDate">11/30/2024</td>
-                <td class="RecordedDate">11/30/2024</td>
-            </tr>
-            <tr>
-                <td class="Name">Victim of intimate partner abuse (finding)</td>
-                <td class="CodeSystem">706893006 (SNOMED CT)</td>
-                <td class="OnsetDate">11/02/2019</td>
-                <td class="RecordedDate">11/02/2019</td>
-            </tr>
-            <tr>
-                <td class="Name">Full-time employment (finding)</td>
-                <td class="CodeSystem">160903007 (SNOMED CT)</td>
-                <td class="OnsetDate">10/27/2018</td>
-                <td class="RecordedDate">10/27/2018</td>
-            </tr>
-            <tr>
-                <td class="Name">Has a criminal record (finding)</td>
-                <td class="CodeSystem">266948004 (SNOMED CT)</td>
-                <td class="OnsetDate">10/21/2017</td>
-                <td class="RecordedDate">10/21/2017</td>
-            </tr>
-            <tr>
-                <td class="Name">Chronic pain (finding)</td>
-                <td class="CodeSystem">82423001 (SNOMED CT)</td>
-                <td class="OnsetDate">02/03/2014</td>
-                <td class="RecordedDate">02/03/2014</td>
-            </tr>
-            <tr>
-                <td class="Name">Chronic low back pain (finding)</td>
-                <td class="CodeSystem">278860009 (SNOMED CT)</td>
-                <td class="OnsetDate">02/03/2014</td>
-                <td class="RecordedDate">02/03/2014</td>
-            </tr>
-            <tr>
-                <td class="Name">Anemia (disorder)</td>
-                <td class="CodeSystem">271737000 (SNOMED CT)</td>
-                <td class="OnsetDate">12/05/1998</td>
-                <td class="RecordedDate">12/05/1998</td>
-            </tr>
-            <tr>
-                <td class="Name">Prediabetes (finding)</td>
-                <td class="CodeSystem">714628002 (SNOMED CT)</td>
-                <td class="OnsetDate">12/05/1998</td>
-                <td class="RecordedDate">12/05/1998</td>
-            </tr>
-            <tr>
-                <td class="Name">Body mass index 30+ - obesity (finding)</td>
-                <td class="CodeSystem">162864005 (SNOMED CT)</td>
-                <td class="OnsetDate">11/28/1992</td>
-                <td class="RecordedDate">11/28/1992</td>
-            </tr>
-            <tr>
-                <td class="Name">Past pregnancy history of miscarriage (situation)</td>
-                <td class="CodeSystem">161744009 (SNOMED CT)</td>
-                <td class="OnsetDate">11/25/1986</td>
-                <td class="RecordedDate">11/25/1986</td>
-            </tr>
-            <tr>
-                <td class="Name">Received higher education (finding)</td>
-                <td class="CodeSystem">224299000 (SNOMED CT)</td>
-                <td class="OnsetDate">11/10/1979</td>
-                <td class="RecordedDate">11/10/1979</td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Problem</th>
+                    <th>Code (System)</th>
+                    <th>Is Chronic</th>
+                    <th>Onset Date</th>
+                    <th>Last Confirmed Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Stress (finding)</td>
+                    <td>73595000 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>10/21/2017, 5:32 PM EDT</td>
+                    <td>10/21/2017, 5:32 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Limited social contact (finding)</td>
+                    <td>423315002 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>11/19/2022, 4:57 PM EST</td>
+                    <td>11/19/2022, 4:57 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Gingival disease (disorder)</td>
+                    <td>18718003 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>11/16/2019, 6:30 PM EST</td>
+                    <td>11/16/2019, 6:30 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Victim of intimate partner abuse (finding)</td>
+                    <td>706893006 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>11/2/2019, 5:38 PM EDT</td>
+                    <td>11/2/2019, 5:38 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Gingivitis (disorder)</td>
+                    <td>66383009 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>10/27/2018, 7:05 PM EDT</td>
+                    <td>10/27/2018, 7:05 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Full-time employment (finding)</td>
+                    <td>160903007 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>9/28/2013, 5:41 PM EDT</td>
+                    <td>9/28/2013, 5:41 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Part-time employment (finding)</td>
+                    <td>160904001 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>10/21/2017, 5:32 PM EDT</td>
+                    <td>10/21/2017, 5:32 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Has a criminal record (finding)</td>
+                    <td>266948004 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>10/21/2017, 5:32 PM EDT</td>
+                    <td>10/21/2017, 5:32 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Social isolation (finding)</td>
+                    <td>422650009 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>10/10/2015, 5:55 PM EDT</td>
+                    <td>10/10/2015, 5:55 PM EDT</td>
+                </tr>
+                <tr>
+                    <td>Chronic low back pain (finding)</td>
+                    <td>278860009 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>2/3/2014, 3:58 PM EST</td>
+                    <td>2/3/2014, 3:58 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Chronic pain (finding)</td>
+                    <td>82423001 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>2/3/2014, 3:58 PM EST</td>
+                    <td>2/3/2014, 3:58 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Anemia (disorder)</td>
+                    <td>271737000 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>12/5/1998, 3:58 PM EST</td>
+                    <td>12/5/1998, 3:58 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Prediabetes (finding)</td>
+                    <td>714628002 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>12/5/1998, 3:58 PM EST</td>
+                    <td>12/5/1998, 3:58 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Body mass index 30+ - obesity (finding)</td>
+                    <td>162864005 (SNOMED CT)</td>
+                    <td>Yes</td>
+                    <td>11/28/1992, 3:58 PM EST</td>
+                    <td>11/28/1992, 3:58 PM EST</td>
+                </tr>
+                <tr>
+                    <td>Past pregnancy history of miscarriage (situation)</td>
+                    <td>161744009 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>11/25/1986, 4:58 AM EST</td>
+                    <td>11/25/1986, 4:58 AM EST</td>
+                </tr>
+                <tr>
+                    <td>Received higher education (finding)</td>
+                    <td>224299000 (SNOMED CT)</td>
+                    <td>No</td>
+                    <td>11/10/1979, 4:34 PM EST</td>
+                    <td>11/10/1979, 4:34 PM EST</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

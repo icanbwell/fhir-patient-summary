@@ -82,6 +82,8 @@ describe('FHIR Patient Summary Generation', () => {
     });
 
     it('should generate the correct summary for bundle having summary composition', async () => {
+        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
+        process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-summary-bundle.json'), 'utf-8'));
         const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-summary-bundle.json'), 'utf-8'));
@@ -118,9 +120,15 @@ describe('FHIR Patient Summary Generation', () => {
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
         await compare_bundles(path.join(__dirname, 'fixtures/narratives/summary'), bundle, expectedBundle);
+
+        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
+        process.env.SUMMARY_COMPOSITION_SECTIONS = '';
     });
 
     it('should generate the correct summary for bundle having summary composition with completed medications', async () => {
+        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
+        process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
+
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-summary-bundle-no-medication.json'), 'utf-8'));
         const expectedBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/expected-summary-bundle-no-medication.json'), 'utf-8'));
@@ -157,5 +165,8 @@ describe('FHIR Patient Summary Generation', () => {
         // (Assume the expected output is the Composition resource in the bundle)
         expect(bundle.entry).toBeDefined();
         await compare_bundles(path.join(__dirname, 'fixtures/narratives/summary-no-medication'), bundle, expectedBundle);
+
+        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
+        process.env.SUMMARY_COMPOSITION_SECTIONS = '';
     });
 });
