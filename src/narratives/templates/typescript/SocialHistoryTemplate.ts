@@ -2,13 +2,14 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TObservation } from '../../../types/resources/Observation';
-import { ITemplate } from './interfaces/ITemplate';
+import { ISummaryTemplate } from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Social History (Observation resources)
  * This replaces the Jinja2 socialhistory.j2 template
  */
-export class SocialHistoryTemplate implements ITemplate {
+export class SocialHistoryTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Social History
    * @param resources - FHIR Observation resources
@@ -17,6 +18,70 @@ export class SocialHistoryTemplate implements ITemplate {
    */
   generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
     return SocialHistoryTemplate.generateStaticNarrative(resources, timezone);
+  }
+
+  /**
+   * Generate HTML narrative for social history using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @returns HTML string for rendering
+   */
+  generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+    const templateUtilities = new TemplateUtilities(resources);
+    let isSummaryCreated = false;
+
+    let html = `<p>This list includes all information about the patient's social history, sorted by effective date (most recent first).</p>\n`;
+
+    html += `
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Code (System)</th>
+              <th>Result</th>
+              <th>Date</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>`;
+    
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
+        const data: Record<string, string> = {};
+        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
+        for (const columnData of rowData.section ?? []) {
+          const columnTitle = columnData.title;
+          if (columnTitle) {
+            data[columnTitle] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+          }
+        }
+
+        // Skip if Social History Name is unknown
+        if (data['Social History Name']?.toLowerCase() === 'unknown') {
+          continue;
+        }
+
+        isSummaryCreated = true;
+
+        html += `
+          <tr>
+            <td>${templateUtilities.capitalizeFirstLetter(data['Social History Name'] ?? '')}</td>
+            <td>${data['codeSystem'] ?? ''}</td>
+            <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
+            <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
+            <td>${data['Notes'] ?? ''}</td>
+          </tr>`;
+      }
+    }
+
+    html += `
+          </tbody>
+        </table>
+      </div>`;
+
+    return isSummaryCreated ? html : undefined;
   }
 
   /**
