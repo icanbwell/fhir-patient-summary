@@ -34,7 +34,9 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
   ): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
 
-    let html = `<p>This section summarizes key conditions and assessments related to the person's functional status and ability to perform daily activities.</p>`;
+    let html = `
+    <div>
+      <p>This section summarizes key conditions and assessments related to the person's functional status and ability to perform daily activities.</p>`;
 
     let conditionHtml = `
     <div>
@@ -102,7 +104,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
           const problem = data['Condition Name'];
           if (problem && !conditionsAdded.has(problem)) {
             // Skip condition if name is unknown
-            if (data['Condition Name']?.toLowerCase() === 'unknown') {
+            if (problem.toLowerCase() === 'unknown') {
               continue;
             }
             conditionsAdded.add(problem);
@@ -110,7 +112,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
                 <tr>
                   <td>${templateUtilities.capitalizeFirstLetter(problem)}</td>
                   <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
-                  <td>${date ?? ''}</td>
+                  <td>${date}</td>
                   <td>${templateUtilities.renderTime(data['recordedDate'], timezone) ?? ''}</td>
                 </tr>`;
           }
