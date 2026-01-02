@@ -1,14 +1,15 @@
 // FunctionalStatusTemplate.ts - TypeScript replacement for Jinja2 functionalstatus.j2
 import { TemplateUtilities } from './TemplateUtilities';
 import { TDomainResource } from '../../../types/resources/DomainResource';
-import { ITemplate } from './interfaces/ITemplate';
+import { ISummaryTemplate } from './interfaces/ITemplate';
+import { TComposition } from '../../../types/resources/Composition';
 import { TClinicalImpression } from '../../../types/resources/ClinicalImpression';
 
 /**
  * Class to generate HTML narrative for Functional Status (Observation resources)
  * This replaces the Jinja2 functionalstatus.j2 template
  */
-export class FunctionalStatusTemplate implements ITemplate {
+export class FunctionalStatusTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Functional Status
    * @param resources - FHIR resources array containing Observation resources
@@ -18,6 +19,165 @@ export class FunctionalStatusTemplate implements ITemplate {
   generateNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
     return FunctionalStatusTemplate.generateStaticNarrative(resources, timezone);
   }
+
+
+  /**
+   * Generate HTML narrative for Functional Status Condition & ClinicalImpression resources using summary
+   * @param resources - FHIR Composition resources
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @param now - Optional current date for filtering
+   * @returns HTML string for rendering
+   */
+  public generateSummaryNarrative(
+    resources: TComposition[],
+    timezone: string | undefined
+  ): string | undefined {
+    const templateUtilities = new TemplateUtilities(resources);
+
+    let html = `
+    <div>
+      <p>This section summarizes key conditions and assessments related to the person's functional status and ability to perform daily activities.</p>`;
+
+    let conditionHtml = `
+    <div>
+      <h3>Conditions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Code (System)</th>
+            <th>Onset Date</th>
+            <th>Recorded Date</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    let clinicalImpressionsHtml = `
+    <div>
+      <h3>Clinical Impressions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Code (System)</th>
+            <th>Description</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    const conditionsAdded = new Set<string>();
+    const clinicalImpressionsAdded = new Set<string>();
+
+    for (const resourceItem of resources) {
+      for (const rowData of resourceItem.section ?? []) {
+        const sectionCodeableConcept = rowData.code;
+        const data: Record<string, string> = {};
+        for (const columnData of rowData.section ?? []) {
+          if (columnData.title) {
+            data[columnData.title] = templateUtilities.renderTextAsHtml(
+              columnData.text?.div ?? ''
+            );
+          }
+        }
+
+        if (
+          resourceItem.title ===
+          'Condition|Condition Summary Grouped by Functional Status Code'
+        ) {
+          // handle date formatting for onsetDateTime or onsetPeriod
+          let date = data['onsetDateTime']
+            ? templateUtilities.renderTime(data['onsetDateTime'], timezone)
+            : '';
+          if (!date && data['onsetPeriod.start']) {
+            date = templateUtilities.renderTime(
+              data['onsetPeriod.start'],
+              timezone
+            );
+            if (data['onsetPeriod.end']) {
+              date +=
+                ' - ' +
+                templateUtilities.renderTime(data['onsetPeriod.end'], timezone);
+            }
+          }
+          const problem = data['Condition Name'];
+          if (problem && !conditionsAdded.has(problem)) {
+            // Skip condition if name is unknown
+            if (problem.toLowerCase() === 'unknown') {
+              continue;
+            }
+            conditionsAdded.add(problem);
+            conditionHtml += `
+                <tr>
+                  <td>${templateUtilities.capitalizeFirstLetter(problem)}</td>
+                  <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
+                  <td>${date}</td>
+                  <td>${templateUtilities.renderTime(data['recordedDate'], timezone) ?? ''}</td>
+                </tr>`;
+          }
+        } else if (
+          resourceItem.title ===
+          'Clinical Impression|Clinical Impression Summary'
+        ) {
+          // handle date formatting for effectiveDateTime or effectivePeriod
+          let date = data['effectiveDateTime']
+            ? templateUtilities.renderTime(data['effectiveDateTime'], timezone)
+            : '';
+          if (!date && data['effectivePeriod.start']) {
+            date = templateUtilities.renderTime(
+              data['effectivePeriod.start'],
+              timezone
+            );
+            if (data['effectivePeriod.end']) {
+              date +=
+                ' - ' +
+                templateUtilities.renderTime(data['effectivePeriod.end'], timezone);
+            }
+          }
+          const name = data['Clinical Impression Name'];
+          if (name && !clinicalImpressionsAdded.has(name)) {
+            // Skip clinical impression if name is unknown
+            if (name?.toLowerCase() === 'unknown') {
+              continue;
+            }
+            clinicalImpressionsAdded.add(name);
+            clinicalImpressionsHtml += `
+                <tr>
+                  <td>${templateUtilities.capitalizeFirstLetter(name)}</td>
+                  <td>${date ?? ''}</td>
+                  <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
+                  <td>${data['Description'] ?? ''}</td>
+                  <td>${data['Summary'] ?? ''}</td>
+                </tr>`;
+          }
+        }
+      }
+    }
+
+    if (conditionsAdded.size > 0) {
+      html += conditionHtml;
+      html += `
+          </tbody>
+        </table>
+        </div>`;
+    }
+    if (clinicalImpressionsAdded.size > 0) {
+      html += clinicalImpressionsHtml;
+      html += `
+          </tbody>
+        </table>
+        </div>`;
+    }
+
+    html += `
+    </div>`;
+
+    return conditionsAdded.size > 0 || clinicalImpressionsAdded.size > 0
+      ? html
+      : undefined;
+  }
+
 
   /**
    * Internal static implementation that actually generates the narrative
