@@ -37,6 +37,7 @@ export class MedicalDevicesTemplate implements ITemplate {
             <th>Status</th>
             <th>Comments</th>
             <th>Date Recorded</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -69,6 +70,7 @@ export class MedicalDevicesTemplate implements ITemplate {
           <td>${templateUtilities.renderTextAsHtml(dus.status || '')}</td>
           <td>${templateUtilities.renderNotes(dus.note, timezone)}</td>
           <td>${templateUtilities.renderTextAsHtml(templateUtilities.renderRecorded(dus.recordedOn, timezone))}</td>
+          <td>${templateUtilities.getOwnerTag(dus)}</td>
         </tr>`;
     }
 

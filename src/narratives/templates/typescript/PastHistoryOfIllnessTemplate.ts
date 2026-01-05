@@ -59,6 +59,7 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
               <th>Onset Date</th>
               <th>Recorded Date</th>
               <th>Resolved Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -79,6 +80,7 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
             <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
             <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
             <td class="ResolvedDate">${templateUtilities.renderDate(cond.abatementDateTime)}</td>
+            <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
           </tr>`;
       }
     }
@@ -118,6 +120,7 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
               <th>Onset Date</th>
               <th>Last Confirmed Date</th>
               <th>Resolved Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -152,6 +155,7 @@ export class PastHistoryOfIllnessTemplate implements ISummaryTemplate {
                 <td>${templateUtilities.renderTime(data["Onset Date"], timezone) ?? ''}</td>
                 <td>${templateUtilities.renderTime(data["Last Confirmed Date"], timezone) ?? ''}</td> 
                 <td>${templateUtilities.renderTime(data["Resolved Date"], timezone) ?? ''}</td>
+                <td>${data["Source"] ?? ''}</td>
               </tr>`;
         }
       }

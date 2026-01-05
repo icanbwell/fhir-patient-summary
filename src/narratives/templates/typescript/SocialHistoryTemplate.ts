@@ -42,6 +42,7 @@ export class SocialHistoryTemplate implements ISummaryTemplate {
               <th>Result</th>
               <th>Date</th>
               <th>Comments</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -72,6 +73,7 @@ export class SocialHistoryTemplate implements ISummaryTemplate {
             <td>${templateUtilities.extractObservationSummaryValue(data, timezone) ?? ''}</td>
             <td>${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
             <td>${data['Notes'] ?? ''}</td>
+            <td>${data['Source'] ?? ''}</td>
           </tr>`;
       }
     }
@@ -120,6 +122,7 @@ export class SocialHistoryTemplate implements ISummaryTemplate {
             <th>Unit</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -143,6 +146,7 @@ export class SocialHistoryTemplate implements ISummaryTemplate {
               <td>${templateUtilities.extractObservationValueUnit(obs)}</td>
               <td>${templateUtilities.renderNotes(obs.note, timezone)}</td>
               <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
+              <td>${templateUtilities.getOwnerTag(obs)}</td>
             </tr>`;
       }
     }

@@ -48,6 +48,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
             <th>Code (System)</th>
             <th>Onset Date</th>
             <th>Recorded Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -63,6 +64,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
             <th>Code (System)</th>
             <th>Description</th>
             <th>Summary</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -114,6 +116,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
                   <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                   <td>${date}</td>
                   <td>${templateUtilities.renderTime(data['recordedDate'], timezone) ?? ''}</td>
+                  <td>${data['Source'] ?? ''}</td>
                 </tr>`;
           }
         } else if (
@@ -149,6 +152,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
                   <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
                   <td>${data['Description'] ?? ''}</td>
                   <td>${data['Summary'] ?? ''}</td>
+                  <td>${data['Source'] ?? ''}</td>
                 </tr>`;
           }
         }
@@ -233,7 +237,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
 
     // Render Observations table if any
     if (functionalObservations.length > 0) {
-      html += `<table><thead><tr><th>Observation</th><th>Value</th><th>Date</th><th>Interpretation</th><th>Comments</th></tr></thead><tbody>`;
+      html += `<table><thead><tr><th>Observation</th><th>Value</th><th>Date</th><th>Interpretation</th><th>Comments</th><th>Source</th></tr></thead><tbody>`;
       for (const obs of functionalObservations) {
         const observation = obs as any;
         const obsName = templateUtilities.codeableConceptDisplay(observation.code);
@@ -257,6 +261,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
           <td>${date}</td>
           <td>${interpretation}</td>
           <td>${comments}</td>
+          <td>${templateUtilities.getOwnerTag(observation)}</td>
         </tr>`;
       }
       html += `</tbody></table>`;
@@ -264,7 +269,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
 
     // Render ClinicalImpressions table if any
     if (clinicalImpressions.length > 0) {
-      html += `<table><thead><tr><th>Date</th><th>Status</th><th>Description</th><th>Summary</th><th>Findings</th></tr></thead><tbody>`;
+      html += `<table><thead><tr><th>Date</th><th>Status</th><th>Description</th><th>Summary</th><th>Findings</th><th>Source</th></tr></thead><tbody>`;
       for (const impression of clinicalImpressions) {
         let formattedDate = '';
         if (impression.effectiveDateTime) {
@@ -294,6 +299,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
           <td>${impression.description || ''}</td>
           <td>${impression.summary || ''}</td>
           <td>${findingsHtml}</td>
+          <td>${templateUtilities.getOwnerTag(impression)}</td>
         </tr>`;
       }
       html += `</tbody></table>`;

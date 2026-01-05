@@ -40,6 +40,7 @@ export class ProblemListTemplate implements ISummaryTemplate {
               <th>Is Chronic</th>
               <th>Onset Date</th>
               <th>Last Confirmed Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -69,6 +70,7 @@ export class ProblemListTemplate implements ISummaryTemplate {
                 <td>${data["Is Chronic"] ?? ''}</td>
                 <td>${templateUtilities.renderTime(data["Onset Date"], timezone) ?? ''}</td>
                 <td>${templateUtilities.renderTime(data["Last Confirmed Date"], timezone) ?? ''}</td> 
+                <td>${data["Source"] ?? ''}</td>
               </tr>`;
         }
       }
@@ -118,6 +120,7 @@ export class ProblemListTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Onset Date</th>
               <th>Recorded Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -141,6 +144,7 @@ export class ProblemListTemplate implements ISummaryTemplate {
           <td class="CodeSystem">${codeAndSystem}</td>
           <td class="OnsetDate">${templateUtilities.renderDate(cond.onsetDateTime)}</td>
           <td class="RecordedDate">${templateUtilities.renderDate(cond.recordedDate)}</td>
+          <td class="Source">${templateUtilities.getOwnerTag(cond)}</td>
         </tr>`;
     }
 
