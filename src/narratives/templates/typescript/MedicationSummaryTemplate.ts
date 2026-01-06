@@ -52,6 +52,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                 <th>Sig</th>
                 <th>Days of Supply</th>
                 <th>Start Date</th>
+                <th>Source</th>
                 </tr>
             </thead>
             <tbody>`;
@@ -80,6 +81,9 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                             break;
                         case 'Authored On Date':
                             data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                            break;
+                        case 'Source':
+                            data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
                             break;
                         default:
                         break;
@@ -116,6 +120,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
                                 <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
                                 <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
                                 <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
+                                <td>${data['source'] ?? ''}</td>
                             </tr>`;
 
                 }
@@ -286,6 +291,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
             <th>Sig</th>
             <th>Dispense Quantity</th>
             <th>Start Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -370,6 +376,7 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
           <td>${sig}</td>
           <td>${dispenseQuantity}</td>
           <td>${startDate}</td>
+          <td>${templateUtilities.getOwnerTag(medication.resource)}</td>
         </tr>`;
         }
 

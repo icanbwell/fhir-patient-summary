@@ -94,12 +94,13 @@ export class PregnancyTemplate implements ITemplate {
                   <th>Code (System)</th>
                   <th>Comments</th>
                   <th>Date</th>
+                  <th>Source</th>
                 </tr>
               </thead>
               <tbody>`;
 
         // Helper to render a row
-        function renderRow({ result, comments, date, codeSystem }: { result: string, comments: string, date: string, codeSystem: string }) {
+        function renderRow({ result, comments, date, codeSystem, resource }: { result: string, comments: string, date: string, codeSystem: string, resource: TDomainResource }) {
             // Skip if result is unknown
             if (result?.toLowerCase() === 'unknown') {
                 return;
@@ -110,6 +111,7 @@ export class PregnancyTemplate implements ITemplate {
                   <td class="CodeSystem">${codeSystem}</td>
                   <td class="Comments">${comments}</td>
                   <td class="Date">${date}</td>
+                  <td class="Source">${templateUtilities.getOwnerTag(resource)}</td>
                 </tr>`;
         }
 
@@ -172,7 +174,7 @@ export class PregnancyTemplate implements ITemplate {
             const rowKey = `${result}|${codeSystem}`
             if (!addedRows.has(rowKey)) {
                 addedRows.add(rowKey);
-                renderRow({ result, comments, date: dateStr, codeSystem });
+                renderRow({ result, comments, date: dateStr, codeSystem, resource });
             }
         }
 

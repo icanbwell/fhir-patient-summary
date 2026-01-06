@@ -52,6 +52,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
               <th>Code (System)</th>
               <th>Status</th>
               <th>Date</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>`;
@@ -72,6 +73,9 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             case 'occurrenceDateTime':
               data['occurrenceDateTime'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
               break;
+            case 'Source':
+              data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+              break;
             default:
               break;
           }
@@ -89,6 +93,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
                 <td>${data['codeSystem'] ?? ''}</td>
                 <td>${data['status'] ?? ''}</td>
                 <td>${templateUtilities.renderTime(data['occurrenceDateTime'], timezone) ?? ''}</td>
+                <td>${data['source'] ?? ''}</td>
               </tr>`;
         }
       }
@@ -123,6 +128,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             <th>Lot Number</th>
             <th>Comments</th>
             <th>Date</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody>`;
@@ -149,6 +155,7 @@ export class ImmunizationsTemplate implements ISummaryTemplate {
             <td>${imm.lotNumber || ''}</td>
             <td>${templateUtilities.renderNotes(imm.note, timezone)}</td>
             <td>${templateUtilities.renderTime(imm.occurrenceDateTime, timezone)}</td>
+            <td>${templateUtilities.getOwnerTag(imm)}</td>
           </tr>`;
       }
     }
