@@ -870,14 +870,14 @@ export class TemplateUtilities {
     /**
      * Returns the owner tag from the resource meta.security array.
      * @param resource - FHIR resource with meta tag
-     * @returns The owner code if found, otherwise undefined
+     * @returns The owner display or code if found, otherwise undefined
      */
     getOwnerTag(resource: TResource): string | undefined {
         if (!resource?.meta?.security) return '';
         const ownerEntry = resource.meta.security.find(
             (sec) => sec.system === 'https://www.icanbwell.com/owner' && !!sec.code
         );
-        return ownerEntry?.code;
+        return ownerEntry?.display || ownerEntry?.code;
     }
 
     /**
