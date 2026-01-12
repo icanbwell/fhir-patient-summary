@@ -1,8 +1,8 @@
 import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
-import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES } from "./ips_section_loinc_codes";
+import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES, FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
-import {TCodeableConcept} from "../types/partials/CodeableConcept";
-import {TCoding} from "../types/partials/Coding";
+import { TCodeableConcept } from "../types/partials/CodeableConcept";
+import { TCoding } from "../types/partials/Coding";
 
 // Optionally, define custom filter functions for each section
 export type IPSSectionResourceFilter = (resource: any) => boolean;
@@ -39,21 +39,20 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
             codingMatches(resource.valueCodeableConcept?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         )
     ) || (
-        resource.resourceType === 'Condition' && (
-            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), 'http://loinc.org') ||
-            codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
-            codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
-        )
-    ),
-    // Only include Observations with LOINC 47420-5, category 'functional-status', or category display containing 'functional', and completed ClinicalImpressions
+            resource.resourceType === 'Condition' && (
+                codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), 'http://loinc.org') ||
+                codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
+                codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
+            )
+        ),
+    // Only include Condition with Functional Status LOINC and SNOMED codes, category code 'problem-list-item', and completed ClinicalImpressions
     [IPSSections.FUNCTIONAL_STATUS]: (resource) => (
-        resource.resourceType === 'Observation' && (
-            codeableConceptMatches(resource.code, '47420-5', 'http://loinc.org') ||
+        resource.resourceType === 'Condition' && ((
+            codeableConceptMatches(resource.code, Object.keys(FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES), 'http://loinc.org') ||
+            codeableConceptMatches(resource.code, Object.keys(FUNCTIONAL_STATUS_SNOMED_CODES), 'http://snomed.info/sct')) &&
+            resource.clinicalStatus?.coding?.some((c: any) => c.code === 'active') &&
             resource.category?.some((cat: any) =>
-                cat.coding?.some((c: any) =>
-                    (c.code === 'functional-status' && c.system === 'http://terminology.hl7.org/CodeSystem/observation-category') ||
-                    (typeof c.display === 'string' && c.display.toLowerCase().includes('functional'))
-                )
+                cat.coding?.some((c: any) => c.code === 'problem-list-item')
             )
         )
     ) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
@@ -99,26 +98,26 @@ export class IPSSectionResourceHelper {
 
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         const sectionCompositionEnabled = process.env
-          .SUMMARY_COMPOSITION_SECTIONS
-          ? process.env.SUMMARY_COMPOSITION_SECTIONS.split(',').some(
-              s =>
-                s.trim().toLowerCase() === section.toString().toLowerCase() ||
-                s.trim().toLowerCase() === 'all'
+            .SUMMARY_COMPOSITION_SECTIONS
+            ? process.env.SUMMARY_COMPOSITION_SECTIONS.split(',').some(
+                s =>
+                    s.trim().toLowerCase() === section.toString().toLowerCase() ||
+                    s.trim().toLowerCase() === 'all'
             )
-          : false;
+            : false;
 
         return sectionCompositionEnabled ? IPSSectionSummaryCompositionFilter[section] : undefined;
     }
 
     static getSummaryIPSCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         const sectionIPSCompositionEnabled = process.env
-          .SUMMARY_IPS_COMPOSITION_SECTIONS
-          ? process.env.SUMMARY_IPS_COMPOSITION_SECTIONS.split(',').some(
-              s =>
-                s.trim().toLowerCase() === section.toString().toLowerCase() ||
-                s.trim().toLowerCase() === 'all'
+            .SUMMARY_IPS_COMPOSITION_SECTIONS
+            ? process.env.SUMMARY_IPS_COMPOSITION_SECTIONS.split(',').some(
+                s =>
+                    s.trim().toLowerCase() === section.toString().toLowerCase() ||
+                    s.trim().toLowerCase() === 'all'
             )
-          : false;
+            : false;
 
         return sectionIPSCompositionEnabled ? IPSSectionSummaryIPSCompositionFilter[section] : undefined;
     }

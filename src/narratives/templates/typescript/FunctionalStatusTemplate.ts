@@ -4,15 +4,19 @@ import { TDomainResource } from '../../../types/resources/DomainResource';
 import { ISummaryTemplate } from './interfaces/ITemplate';
 import { TComposition } from '../../../types/resources/Composition';
 import { TClinicalImpression } from '../../../types/resources/ClinicalImpression';
+import { TCondition } from '../../../types/resources/Condition';
+import { TCode } from '../../../types/simpleTypes/Code';
+import { TCodeableConcept } from '../../../types/partials/CodeableConcept';
+import { FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES } from '../../../structures/ips_section_loinc_codes';
 
 /**
- * Class to generate HTML narrative for Functional Status (Observation resources)
+ * Class to generate HTML narrative for Functional Status (Condition and ClinicalImpression resources)
  * This replaces the Jinja2 functionalstatus.j2 template
  */
 export class FunctionalStatusTemplate implements ISummaryTemplate {
   /**
    * Generate HTML narrative for Functional Status
-   * @param resources - FHIR resources array containing Observation resources
+   * @param resources - FHIR resources array containing Condition and ClinicalImpression resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
@@ -60,8 +64,8 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Date</th>
             <th>Code (System)</th>
+            <th>Date</th>
             <th>Description</th>
             <th>Summary</th>
             <th>Source</th>
@@ -148,8 +152,8 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
             clinicalImpressionsHtml += `
                 <tr>
                   <td>${templateUtilities.capitalizeFirstLetter(name)}</td>
-                  <td>${date ?? ''}</td>
                   <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
+                  <td>${date ?? ''}</td>
                   <td>${data['Description'] ?? ''}</td>
                   <td>${data['Summary'] ?? ''}</td>
                   <td>${data['Source'] ?? ''}</td>
@@ -185,7 +189,7 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
 
   /**
    * Internal static implementation that actually generates the narrative
-   * @param resources - FHIR resources array containing Observation resources
+   * @param resources - FHIR resources array containing Condition and ClinicalImpression resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
@@ -195,121 +199,185 @@ export class FunctionalStatusTemplate implements ISummaryTemplate {
     timezone: string | undefined
   ): string | undefined {
      const templateUtilities = new TemplateUtilities(resources);
-    let html = `<p>This section summarizes key observations and assessments related to the person's functional status and ability to perform daily activities.</p>`;
+    let html = `<div>
+      <p>This section summarizes key conditions and assessments related to the person's functional status and ability to perform daily activities.</p>`;
 
-    // Only include relevant Observations (LOINC 47420-5 or category 'functional-status') and completed ClinicalImpressions
-    let functionalObservations = resources
-      .filter((r): r is any => r.resourceType === 'Observation')
-      .filter((r) => {
-        // LOINC 47420-5 or category 'functional-status'
-        const hasFunctionalLoinc = r.code?.coding?.some(
-          (c: any) => c.system?.toLowerCase().includes('loinc') && c.code === '47420-5'
-        );
-        const hasFunctionalCategory = r.category?.some((cat: any) =>
-          cat.coding?.some((c: any) =>
-            (c.code === 'functional-status' || c.display?.toLowerCase().includes('functional'))
-          )
-        );
-        return hasFunctionalLoinc || hasFunctionalCategory;
-      });
+    let conditionHtml = `
+    <div>
+      <h3>Conditions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Code (System)</th>
+            <th>Onset Date</th>
+            <th>Recorded Date</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>`;
 
-    // Sort functionalObservations descending by date
-    functionalObservations = functionalObservations.sort((a, b) => {
-      const getObsDate = (obs: any) =>
-        obs.effectiveDateTime ? new Date(obs.effectiveDateTime).getTime() :
-        obs.issued ? new Date(obs.issued).getTime() : 0;
-      return getObsDate(b) - getObsDate(a);
+    let clinicalImpressionsHtml = `
+    <div>
+      <h3>Clinical Impressions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Code (System)</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Summary</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    const conditions = resources.filter((entry) => entry.resourceType === 'Condition').map((entry)=> entry as TCondition);
+
+    // Sort conditions by recordedDate in descending order
+    conditions.sort((a, b) => {
+      const dateA = a.recordedDate ? new Date(a.recordedDate).getTime() : 0;
+      const dateB = b.recordedDate ? new Date(b.recordedDate).getTime() : 0;
+      return dateB - dateA;
     });
 
-    // Only include completed ClinicalImpressions
-    let clinicalImpressions: TClinicalImpression[] = resources
-      .filter((r): r is TClinicalImpression => r.resourceType === 'ClinicalImpression')
-      .filter((r) => r.status === 'completed');
-
-    // Sort clinicalImpressions descending by date
-    clinicalImpressions = clinicalImpressions.sort((a, b) => {
-      const getImpressionDate = (ci: any) =>
-        ci.effectiveDateTime ? new Date(ci.effectiveDateTime).getTime() :
-        ci.effectivePeriod?.end ? new Date(ci.effectivePeriod.end).getTime() :
-        ci.date ? new Date(ci.date).getTime() : 0;
-      return getImpressionDate(b) - getImpressionDate(a);
-    });
-
-    // Render Observations table if any
-    if (functionalObservations.length > 0) {
-      html += `<table><thead><tr><th>Observation</th><th>Value</th><th>Date</th><th>Interpretation</th><th>Comments</th><th>Source</th></tr></thead><tbody>`;
-      for (const obs of functionalObservations) {
-        const observation = obs as any;
-        const obsName = templateUtilities.codeableConceptDisplay(observation.code);
-        // Skip if observation name is unknown
-        if (obsName?.toLowerCase() === 'unknown') {
-          continue;
-        }
-        const value = templateUtilities.extractObservationValue(observation);
-        const date = observation.effectiveDateTime
-          ? templateUtilities.renderDate(observation.effectiveDateTime)
-          : observation.issued
-            ? templateUtilities.renderDate(observation.issued)
-            : '';
-        const interpretation = observation.interpretation
-          ? templateUtilities.codeableConceptDisplay(observation.interpretation[0])
-          : '';
-        const comments = observation.comment || observation.note?.map((n: any) => n.text).join('; ') || '';
-        html += `<tr>
-          <td>${templateUtilities.capitalizeFirstLetter(obsName)}</td>
-          <td>${value ?? ''}</td>
-          <td>${date}</td>
-          <td>${interpretation}</td>
-          <td>${comments}</td>
-          <td>${templateUtilities.getOwnerTag(observation)}</td>
-        </tr>`;
+    const addedConditions = new Set<string>();
+    // Loop though the condition resources
+    for (const cond of conditions) {
+      const functionalStatusName = this.getFunctionalStatusNameFromCode(cond.code);
+      const problem = templateUtilities.codeableConceptDisplay(cond.code) || functionalStatusName;
+      const codeAndSystem = templateUtilities.codeableConceptCoding(cond.code);
+      if (!codeAndSystem || !problem || !functionalStatusName || addedConditions.has(functionalStatusName)) {
+        continue;
       }
-      html += `</tbody></table>`;
+      // Skip if problem is unknown
+      if (problem?.toLowerCase() === 'unknown') {
+        continue;
+      }
+      addedConditions.add(functionalStatusName);
+      // handle date formatting for onsetDateTime or onsetPeriod
+      let date = cond.onsetDateTime
+        ? templateUtilities.renderTime(cond.onsetDateTime, timezone)
+        : '';
+      if (!date && cond.onsetPeriod?.start) {
+        date = templateUtilities.renderTime(
+          cond.onsetPeriod?.start,
+          timezone
+        );
+        if (cond.onsetPeriod?.end) {
+          date +=
+            ' - ' +
+            templateUtilities.renderTime(cond.onsetPeriod?.end, timezone);
+        }
+      }
+
+      conditionHtml += `<tr>
+          <td>${templateUtilities.capitalizeFirstLetter(problem)}</td>
+          <td>${codeAndSystem}</td>
+          <td>${date}</td>
+          <td>${templateUtilities.renderTime(cond.recordedDate, timezone)}</td>
+          <td>${templateUtilities.getOwnerTag(cond)}</td>
+        </tr>`;
     }
 
-    // Render ClinicalImpressions table if any
-    if (clinicalImpressions.length > 0) {
-      html += `<table><thead><tr><th>Date</th><th>Status</th><th>Description</th><th>Summary</th><th>Findings</th><th>Source</th></tr></thead><tbody>`;
-      for (const impression of clinicalImpressions) {
-        let formattedDate = '';
-        if (impression.effectiveDateTime) {
-          formattedDate = templateUtilities.renderTime(impression.effectiveDateTime, timezone);
-        } else if (impression.effectivePeriod) {
-          formattedDate = templateUtilities.renderPeriod(impression.effectivePeriod, timezone);
-        } else if (impression.date) {
-          formattedDate = templateUtilities.renderDate(impression.date);
+
+    const clinicalImpressions = resources.filter((entry) => entry.resourceType === 'ClinicalImpression').map((entry) => entry as TClinicalImpression);
+
+    // Sort clinicalImpressions by effectiveDate in descending order
+    clinicalImpressions.sort((a, b) => {
+      const dateA = this.getClinicalImpressionEffectiveDate(a);
+      const dateB = this.getClinicalImpressionEffectiveDate(b);
+      return dateB && dateA
+        ? dateB.getTime() - dateA.getTime()
+        : 0;
+    });
+
+    const addedClinicalImpressions = new Set<string>();
+    // Loop though the clinical impression resources
+    for (const impression of clinicalImpressions) {
+      const name = templateUtilities.codeableConceptDisplay(impression.code);
+      const codeAndSystem = templateUtilities.codeableConceptCoding(impression.code);
+      if (!codeAndSystem || addedClinicalImpressions.has(name)) {
+        continue;
+      }
+      // Skip if name is unknown
+      if (!name || name?.toLowerCase() === 'unknown') {
+        continue;
+      }
+      addedClinicalImpressions.add(name);
+      // handle date formatting for effectiveDateTime or effectivePeriod
+      let date = impression.effectiveDateTime
+        ? templateUtilities.renderTime(impression.effectiveDateTime, timezone)
+        : '';
+      if (!date && impression.effectivePeriod?.start) {
+        date = templateUtilities.renderTime(
+          impression.effectivePeriod?.start,
+          timezone
+        );
+        if (impression.effectivePeriod?.end) {
+          date +=
+            ' - ' +
+            templateUtilities.renderTime(impression.effectivePeriod?.end, timezone);
         }
-        let findingsHtml = '';
-        if (impression.finding && impression.finding.length > 0) {
-          findingsHtml = '<ul>';
-          for (const finding of impression.finding) {
-            const findingText = finding.itemCodeableConcept
-              ? templateUtilities.codeableConceptDisplay(finding.itemCodeableConcept)
-              : finding.itemReference
-                ? templateUtilities.renderReference(finding.itemReference)
-                : '';
-            const cause = finding.basis || '';
-            findingsHtml += `<li>${findingText}${cause ? ` - ${cause}` : ''}</li>`;
-          }
-          findingsHtml += '</ul>';
-        }
-        html += `<tr>
-          <td>${formattedDate}</td>
-          <td>${impression.status || ''}</td>
+      }
+
+      clinicalImpressionsHtml += `<tr>
+          <td>${templateUtilities.capitalizeFirstLetter(name)}</td>
+          <td>${codeAndSystem}</td>
+          <td>${date}</td>
           <td>${impression.description || ''}</td>
           <td>${impression.summary || ''}</td>
-          <td>${findingsHtml}</td>
           <td>${templateUtilities.getOwnerTag(impression)}</td>
         </tr>`;
+    }
+
+    if (addedConditions.size > 0) {
+      html += conditionHtml;
+      html += `
+          </tbody>
+        </table>
+        </div>`;
+    }
+    if (addedClinicalImpressions.size > 0) {
+      html += clinicalImpressionsHtml;
+      html += `
+          </tbody>
+        </table>
+        </div>`;
+    }
+
+    html += `
+    </div>`;
+
+    return addedConditions.size > 0 || addedClinicalImpressions.size > 0
+      ? html
+      : undefined;
+  }
+
+  private static getFunctionalStatusNameFromCode(cc?: TCodeableConcept|null): string | undefined {
+    if (!cc) return '';
+    for (const coding of cc.coding || []) {
+      let functionalStatusName = FUNCTIONAL_STATUS_SNOMED_CODES[coding.code as TCode];
+      if (functionalStatusName) {
+        return functionalStatusName;
       }
-      html += `</tbody></table>`;
+      functionalStatusName = FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES[coding.code as TCode];
+      if (functionalStatusName) {
+        return functionalStatusName;
+      }
     }
+  }
 
-    // If no data, show message
-    if (functionalObservations.length === 0 && clinicalImpressions.length === 0) {
-      html += `<p>No functional status information available.</p>`;
+  private static getClinicalImpressionEffectiveDate(impression: TClinicalImpression): Date | undefined {
+    if (impression.effectiveDateTime) {
+      return new Date(impression.effectiveDateTime);
+    } else if (impression.effectivePeriod) {
+      if (impression.effectivePeriod.start) {
+        return new Date(impression.effectivePeriod.start);
+      } else if (impression.effectivePeriod.end) {
+        return new Date(impression.effectivePeriod.end);
+      }
     }
-
-    return html;
   }
 }

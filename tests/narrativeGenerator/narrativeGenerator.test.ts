@@ -15,6 +15,7 @@ import {TCarePlan} from '../../src/types/resources/CarePlan';
 import {TConsent} from '../../src/types/resources/Consent';
 import {NarrativeGenerator} from "../../src";
 import { TDeviceUseStatement } from '../../src/types/resources/DeviceUseStatement';
+import { TClinicalImpression } from '../../src/types/resources/ClinicalImpression';
 
 describe('Narrative Generator Tests', () => {
     // Generate dynamic dates relative to current date
@@ -150,10 +151,14 @@ describe('Narrative Generator Tests', () => {
         {
             resourceType: 'Condition',
             id: 'condition-02',
-            clinicalStatus: {coding: [{code: 'active'}]},
-            verificationStatus: {coding: [{code: 'confirmed'}]},
-            code: {text: 'Type 2 Diabetes Mellitus'},
-            subject: {reference: 'Patient/test-patient-01'},
+            clinicalStatus: { coding: [{ code: 'active' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: {
+                coding: [
+                    { system: "http://loinc.org", code: "45592-3", display: "Unable to walk" }
+                ], text: 'Unable to Walk'
+            },
+            subject: { reference: 'Patient/test-patient-01' },
             onsetDateTime: '2025-03-15'
         },
         {
@@ -167,6 +172,33 @@ describe('Narrative Generator Tests', () => {
             abatementDateTime: '2022-11-30'
         }
     ];
+    const mockClinicalImpressions: TClinicalImpression[] = [
+        {
+            resourceType: 'ClinicalImpression',
+            id: 'ci-01',
+            status: 'completed',
+            description: 'Patient shows improved mobility and reduced pain levels.',
+            subject: { reference: 'Patient/test-patient-01' },
+            code: {
+                coding: [
+                    { system: 'http://snomed.info/sct', code: '306206005', display: 'Functional Status Assessment' }
+                ], text: 'Functional Status Assessment',
+            }
+        },
+        {
+            resourceType: 'ClinicalImpression',
+            id: 'ci-02',
+            status: 'completed',
+            description: 'Cognitive functions are within normal limits.',
+            subject: { reference: 'Patient/test-patient-01' },
+            code: {
+                coding: [
+                    { system: 'http://snomed.info/sct', code: '386053000', display: 'Cognitive Status Assessment' }
+                ], text: 'Cognitive Status Assessment'
+            }
+        }
+
+    ]
     const mockImmunizations: TImmunization[] = [
         {
             resourceType: 'Immunization',
@@ -530,7 +562,7 @@ describe('Narrative Generator Tests', () => {
         );
         expect(result).toBeDefined();
         expect(result).toContain('Hypertension');
-        expect(result).toContain('Type 2 Diabetes Mellitus');
+        expect(result).toContain('Unable to Walk');
         expect(result).toContain('Pneumonia');
         console.info(result);
         // Read narrative from file
@@ -679,6 +711,23 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         // expect(result).toContain('Diabetes Management Plan');
         console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for functional status using NarrativeGenerator', async () => {
+        const section = IPSSections.FUNCTIONAL_STATUS;
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, [...mockConditions, ...mockClinicalImpressions], 'America/New_York');
+        expect(result).toBeDefined();
+        console.log(result);
         // Read narrative from file
         const expectedDiv = readNarrativeFile(
             path.join(__dirname, 'fixtures'),
