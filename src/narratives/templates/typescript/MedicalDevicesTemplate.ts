@@ -79,12 +79,10 @@ export class MedicalDevicesTemplate implements ISummaryTemplate {
 
     html += `
           </tbody>
-        </table>
-      </div>`;
+        </table>`;
 
     return isSummaryCreated ? html : undefined;
   }
-  
 
   /**
    * Internal static implementation that generates the narrative from DeviceUseStatement resources.
@@ -125,7 +123,7 @@ export class MedicalDevicesTemplate implements ISummaryTemplate {
     for (const dus of deviceStatements) {
       // Skip if device name is unknown
       const deviceName = templateUtilities.renderDevice(dus.device);
-      if (deviceName?.toLowerCase() === 'unknown'|| devicesAdded.has(deviceName)) {
+      if (deviceName?.toLowerCase() === 'unknown' || devicesAdded.has(deviceName)) {
         continue;
       }
 

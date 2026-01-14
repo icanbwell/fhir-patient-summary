@@ -144,8 +144,6 @@ export class TemplateUtilities {
         return '';
     }
 
-    
-
     /**
      * Renders an Organization reference
      * @param orgRef - Reference to an Organization resource
