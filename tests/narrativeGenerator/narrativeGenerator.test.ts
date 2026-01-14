@@ -354,18 +354,17 @@ describe('Narrative Generator Tests', () => {
             status: 'active',
             type: {
                 coding: [
-                    {
-                        system: "http://snomed.info/sct",
-                        code: "706767009",
-                        display: "Continuous glucose monitor"
-                    },
-                    {
-                        system: "https://www.fda.gov/medical-devices/global-unique-device-identification-database-gudid",
-                        code: "NBW",
-                        display: "Monitor, Glucose, Continuous"
-                    }
-                ],
-                text: "Continuous Glucose Monitoring System"
+                {
+                    system: "http://snomed.info/sct",
+                    code: "14106009",
+                    display: "Cardiac pacemaker"
+                },
+                {
+                    system: "https://www.fda.gov/medical-devices/global-unique-device-identification-database-gudid",
+                    code: "DSI",
+                    display: "Pacemaker, Cardiac"
+                }
+                ]
             },
             deviceName: [{ name: 'Pacemaker', type: 'user-friendly-name' }],
             patient: { reference: 'Patient/test-patient-01' }
