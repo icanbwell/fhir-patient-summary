@@ -352,8 +352,23 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Device',
             id: 'device-01',
             status: 'active',
-            deviceName: [{name: 'Pacemaker', type: 'user-friendly-name'}],
-            patient: {reference: 'Patient/test-patient-01'}
+            type: {
+                coding: [
+                    {
+                        system: "http://snomed.info/sct",
+                        code: "706767009",
+                        display: "Continuous glucose monitor"
+                    },
+                    {
+                        system: "https://www.fda.gov/medical-devices/global-unique-device-identification-database-gudid",
+                        code: "NBW",
+                        display: "Monitor, Glucose, Continuous"
+                    }
+                ],
+                text: "Continuous Glucose Monitoring System"
+            },
+            deviceName: [{ name: 'Pacemaker', type: 'user-friendly-name' }],
+            patient: { reference: 'Patient/test-patient-01' }
         },
         {
             resourceType: 'DeviceUseStatement',
