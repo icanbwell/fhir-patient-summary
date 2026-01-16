@@ -1,7 +1,7 @@
 // AdvanceDirectivesTemplate.ts - TypeScript replacement for Jinja2 advancedirectives.j2
-import {TemplateUtilities} from './TemplateUtilities';
-import {TConsent} from '../../../types/resources/Consent';
-import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TemplateUtilities } from './TemplateUtilities';
+import { TConsent } from '../../../types/resources/Consent';
+import { ISummaryTemplate } from './interfaces/ITemplate';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TComposition } from '../../../types/resources/Composition';
 
@@ -16,7 +16,10 @@ export class AdvanceDirectivesTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  generateNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
+  generateNarrative(
+    resources: TDomainResource[],
+    timezone: string | undefined
+  ): string | undefined {
     // sort the entries by date in descending order
     resources.sort((a, b) => {
       const dateA = new Date((a as TConsent).dateTime || 0);
@@ -24,7 +27,10 @@ export class AdvanceDirectivesTemplate implements ISummaryTemplate {
       return dateB.getTime() - dateA.getTime(); // Sort in descending order
     });
 
-    return AdvanceDirectivesTemplate.generateStaticNarrative(resources, timezone);
+    return AdvanceDirectivesTemplate.generateStaticNarrative(
+      resources,
+      timezone
+    );
   }
 
   /**
@@ -33,8 +39,10 @@ export class AdvanceDirectivesTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @returns HTML string for rendering
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+  generateSummaryNarrative(
+    resources: TComposition[],
+    timezone: string | undefined
+  ): string | undefined {
     const templateUtilities = new TemplateUtilities(resources);
     let isSummaryCreated = false;
 
@@ -54,16 +62,27 @@ export class AdvanceDirectivesTemplate implements ISummaryTemplate {
             </tr>
           </thead>
           <tbody>`;
-    
+
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
         const sectionCodeableConcept = rowData.code;
         const data: Record<string, string> = {};
-        data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
+        data['codeSystem'] = templateUtilities.codeableConceptCoding(
+          sectionCodeableConcept
+        );
         for (const columnData of rowData.section ?? []) {
           const columnTitle = columnData.title;
           if (columnTitle) {
-            data[columnTitle] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+            if (columnTitle === 'DateTime') {
+              data[columnTitle] = templateUtilities.renderTime(
+                columnData.text?.div ?? '',
+                timezone
+              );
+            } else {
+              data[columnTitle] = templateUtilities.renderTextAsHtml(
+                columnData.text?.div ?? ''
+              );
+            }
           }
         }
 
@@ -102,7 +121,6 @@ export class AdvanceDirectivesTemplate implements ISummaryTemplate {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
-
     const templateUtilities = new TemplateUtilities(resources);
     // Start building the HTML table
     let html = `<p>This list includes all Consent resources, sorted by date (most recent first).</p>\n`;
@@ -122,7 +140,11 @@ export class AdvanceDirectivesTemplate implements ISummaryTemplate {
 
     for (const resourceItem of resources) {
       const consent = resourceItem as TConsent;
-      const consentScope = templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay(consent.scope, 'display')));
+      const consentScope = templateUtilities.capitalizeFirstLetter(
+        templateUtilities.renderTextAsHtml(
+          templateUtilities.codeableConceptDisplay(consent.scope, 'display')
+        )
+      );
       if (!consentScope || consentScope.toLowerCase() === 'unknown') {
         continue;
       }
