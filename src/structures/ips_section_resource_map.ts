@@ -61,8 +61,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include active care plans
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
-    // TODO: disable this until we right logic to get these
-    [IPSSections.ADVANCE_DIRECTIVES]: () => false,
+    [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Consent' && resource.status === 'active' && resource.scope?.coding?.some((c: any) => codingMatches(c, 'adr', "http://terminology.hl7.org/CodeSystem/consentscope")),
 };
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
