@@ -352,8 +352,22 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Device',
             id: 'device-01',
             status: 'active',
-            deviceName: [{name: 'Pacemaker', type: 'user-friendly-name'}],
-            patient: {reference: 'Patient/test-patient-01'}
+            type: {
+                coding: [
+                {
+                    system: "http://snomed.info/sct",
+                    code: "14106009",
+                    display: "Cardiac pacemaker"
+                },
+                {
+                    system: "https://www.fda.gov/medical-devices/global-unique-device-identification-database-gudid",
+                    code: "DSI",
+                    display: "Pacemaker, Cardiac"
+                }
+                ]
+            },
+            deviceName: [{ name: 'Pacemaker', type: 'user-friendly-name' }],
+            patient: { reference: 'Patient/test-patient-01' }
         },
         {
             resourceType: 'DeviceUseStatement',
