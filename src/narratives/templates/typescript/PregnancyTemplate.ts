@@ -157,7 +157,7 @@ export class PregnancyTemplate implements ISummaryTemplate {
             return;
         }
 
-        let html = `<p>This list includes Observation and Condition resources relevant to pregnancy, sorted by date (most recent first).</p>`;
+        let html = `<p>This list includes Observation resources relevant to pregnancy, sorted by date (most recent first).</p>`;
 
         // Start building the HTML table using template literals for readability
         html += `
@@ -234,7 +234,7 @@ export class PregnancyTemplate implements ISummaryTemplate {
                 comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
-            } 
+            }
             const rowKey = `${result}|${codeSystem}`
             if (!addedRows.has(rowKey)) {
                 addedRows.add(rowKey);
