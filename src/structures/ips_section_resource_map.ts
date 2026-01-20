@@ -37,14 +37,10 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
             codeableConceptMatches(resource.valueCodeableConcept, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
             codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct') ||
             codingMatches(resource.valueCodeableConcept?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
+        ) || (
+            resource.resourceType === 'Patient' && resource.gender === 'female'
         )
-    ) || (
-            resource.resourceType === 'Condition' && (
-                codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), 'http://loinc.org') ||
-                codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
-                codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
-            )
-        ),
+    ),
     // Only include Condition with Functional Status LOINC and SNOMED codes, category code 'problem-list-item', and completed ClinicalImpressions
     [IPSSections.FUNCTIONAL_STATUS]: (resource) => (
         resource.resourceType === 'Condition' && ((
@@ -83,6 +79,7 @@ export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, 
     [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_social_history_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.FUNCTIONAL_STATUS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, ["ips_functional_status_condition_summary_document", "ips_functional_status_clinical_impression_summary_document"], IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.MEDICAL_DEVICES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_medical_device_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.PREGNANCY_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_pregnancy_history_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
 }
 
 // Helper class to get resource types for a section

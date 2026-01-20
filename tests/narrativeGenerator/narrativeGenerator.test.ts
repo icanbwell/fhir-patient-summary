@@ -1,19 +1,19 @@
 import * as path from 'path';
-import {TPatient} from '../../src/types/resources/Patient';
-import {TAllergyIntolerance} from '../../src/types/resources/AllergyIntolerance';
-import {TMedicationStatement} from '../../src/types/resources/MedicationStatement';
-import {TCondition} from '../../src/types/resources/Condition';
-import {TImmunization} from '../../src/types/resources/Immunization';
-import {TObservation} from '../../src/types/resources/Observation';
-import {IPSSections} from '../../src/structures/ips_sections';
-import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../../src/structures/ips_section_loinc_codes";
-import {compareNarratives, readNarrativeFile} from "../utilities/testHelpers";
-import {TDevice} from '../../src/types/resources/Device';
-import {TDiagnosticReport} from '../../src/types/resources/DiagnosticReport';
-import {TProcedure} from '../../src/types/resources/Procedure';
-import {TCarePlan} from '../../src/types/resources/CarePlan';
-import {TConsent} from '../../src/types/resources/Consent';
-import {NarrativeGenerator} from "../../src";
+import { TPatient } from '../../src/types/resources/Patient';
+import { TAllergyIntolerance } from '../../src/types/resources/AllergyIntolerance';
+import { TMedicationStatement } from '../../src/types/resources/MedicationStatement';
+import { TCondition } from '../../src/types/resources/Condition';
+import { TImmunization } from '../../src/types/resources/Immunization';
+import { TObservation } from '../../src/types/resources/Observation';
+import { IPSSections } from '../../src/structures/ips_sections';
+import { IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES } from "../../src/structures/ips_section_loinc_codes";
+import { compareNarratives, readNarrativeFile } from "../utilities/testHelpers";
+import { TDevice } from '../../src/types/resources/Device';
+import { TDiagnosticReport } from '../../src/types/resources/DiagnosticReport';
+import { TProcedure } from '../../src/types/resources/Procedure';
+import { TCarePlan } from '../../src/types/resources/CarePlan';
+import { TConsent } from '../../src/types/resources/Consent';
+import { NarrativeGenerator } from "../../src";
 import { TDeviceUseStatement } from '../../src/types/resources/DeviceUseStatement';
 import { TClinicalImpression } from '../../src/types/resources/ClinicalImpression';
 
@@ -33,8 +33,8 @@ describe('Narrative Generator Tests', () => {
     const mockPatient: TPatient = {
         resourceType: 'Patient',
         id: 'test-patient-01',
-        identifier: [{system: 'https://example.org', value: '12345'}],
-        name: [{family: 'Doe', given: ['John']}],
+        identifier: [{ system: 'https://example.org', value: '12345' }],
+        name: [{ family: 'Doe', given: ['John'] }],
         gender: 'male',
         birthDate: '1980-01-01'
     };
@@ -42,22 +42,22 @@ describe('Narrative Generator Tests', () => {
         {
             resourceType: 'AllergyIntolerance',
             id: 'allergy-01',
-            clinicalStatus: {coding: [{code: 'active'}]},
-            verificationStatus: {coding: [{code: 'confirmed'}]},
-            code: {text: 'Penicillin'},
-            patient: {reference: 'Patient/test-patient-01'}
+            clinicalStatus: { coding: [{ code: 'active' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Penicillin' },
+            patient: { reference: 'Patient/test-patient-01' }
         },
         {
             resourceType: 'AllergyIntolerance',
             id: 'allergy-02',
-            clinicalStatus: {coding: [{code: 'active'}]},
-            verificationStatus: {coding: [{code: 'confirmed'}]},
-            code: {text: 'Peanuts'},
-            patient: {reference: 'Patient/test-patient-01'},
+            clinicalStatus: { coding: [{ code: 'active' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Peanuts' },
+            patient: { reference: 'Patient/test-patient-01' },
             reaction: [
                 {
                     manifestation: [
-                        {text: 'Anaphylaxis'}
+                        { text: 'Anaphylaxis' }
                     ],
                     severity: 'severe'
                 }
@@ -66,14 +66,14 @@ describe('Narrative Generator Tests', () => {
         {
             resourceType: 'AllergyIntolerance',
             id: 'allergy-03',
-            clinicalStatus: {coding: [{code: 'inactive'}]},
-            verificationStatus: {coding: [{code: 'confirmed'}]},
-            code: {text: 'Latex'},
-            patient: {reference: 'Patient/test-patient-01'},
+            clinicalStatus: { coding: [{ code: 'inactive' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Latex' },
+            patient: { reference: 'Patient/test-patient-01' },
             reaction: [
                 {
                     manifestation: [
-                        {text: 'Skin rash'}
+                        { text: 'Skin rash' }
                     ],
                     severity: 'moderate'
                 }
@@ -85,8 +85,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'MedicationStatement',
             id: 'med-01',
             status: 'active',
-            medicationCodeableConcept: {text: 'Aspirin'},
-            subject: {reference: 'Patient/test-patient-01'},
+            medicationCodeableConcept: { text: 'Aspirin' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectivePeriod: {
                 start: '2023-12-01',
                 end: '2023-12-10'
@@ -96,8 +96,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'MedicationStatement',
             id: 'med-02',
             status: 'active',
-            medicationCodeableConcept: {text: 'Lisinopril'},
-            subject: {reference: 'Patient/test-patient-01'},
+            medicationCodeableConcept: { text: 'Lisinopril' },
+            subject: { reference: 'Patient/test-patient-01' },
             dosage: [
                 {
                     text: '10mg daily',
@@ -119,8 +119,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'MedicationStatement',
             id: 'med-03',
             status: 'completed',
-            medicationCodeableConcept: {text: 'Amoxicillin'},
-            subject: {reference: 'Patient/test-patient-01'},
+            medicationCodeableConcept: { text: 'Amoxicillin' },
+            subject: { reference: 'Patient/test-patient-01' },
             dosage: [
                 {
                     text: '500mg three times daily',
@@ -143,10 +143,10 @@ describe('Narrative Generator Tests', () => {
         {
             resourceType: 'Condition',
             id: 'condition-01',
-            clinicalStatus: {coding: [{code: 'active'}]},
-            verificationStatus: {coding: [{code: 'confirmed'}]},
-            code: {text: 'Hypertension'},
-            subject: {reference: 'Patient/test-patient-01'}
+            clinicalStatus: { coding: [{ code: 'active' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Hypertension' },
+            subject: { reference: 'Patient/test-patient-01' }
         },
         {
             resourceType: 'Condition',
@@ -164,10 +164,10 @@ describe('Narrative Generator Tests', () => {
         {
             resourceType: 'Condition',
             id: 'condition-03',
-            clinicalStatus: {coding: [{code: 'resolved'}]},
-            verificationStatus: {coding: [{code: 'confirmed'}]},
-            code: {text: 'Pneumonia'},
-            subject: {reference: 'Patient/test-patient-01'},
+            clinicalStatus: { coding: [{ code: 'resolved' }] },
+            verificationStatus: { coding: [{ code: 'confirmed' }] },
+            code: { text: 'Pneumonia' },
+            subject: { reference: 'Patient/test-patient-01' },
             onsetDateTime: '2022-11-01',
             abatementDateTime: '2022-11-30'
         }
@@ -204,8 +204,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Immunization',
             id: 'imm-01',
             status: 'completed',
-            vaccineCode: {text: 'COVID-19 Vaccine'},
-            patient: {reference: 'Patient/test-patient-01'},
+            vaccineCode: { text: 'COVID-19 Vaccine' },
+            patient: { reference: 'Patient/test-patient-01' },
             primarySource: true,
             occurrenceDateTime: '2024-01-01'
         },
@@ -213,8 +213,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Immunization',
             id: 'imm-02',
             status: 'completed',
-            vaccineCode: {text: 'Influenza Vaccine'},
-            patient: {reference: 'Patient/test-patient-01'},
+            vaccineCode: { text: 'Influenza Vaccine' },
+            patient: { reference: 'Patient/test-patient-01' },
             primarySource: true,
             occurrenceDateTime: '2023-10-15',
             lotNumber: 'FLUVAX20231015'
@@ -223,8 +223,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Immunization',
             id: 'imm-03',
             status: 'completed',
-            vaccineCode: {text: 'Tetanus Vaccine'},
-            patient: {reference: 'Patient/test-patient-01'},
+            vaccineCode: { text: 'Tetanus Vaccine' },
+            patient: { reference: 'Patient/test-patient-01' },
             primarySource: true,
             occurrenceDateTime: '2020-05-22',
             doseQuantity: {
@@ -238,17 +238,17 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Observation',
             id: 'lab-01',
             status: 'final',
-            category: [{coding: [{code: 'laboratory'}]}],
-            code: {text: 'Blood Glucose'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'laboratory' }] }],
+            code: { text: 'Blood Glucose' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: formatDate(new Date(currentYear, 0, 1)),
-            valueQuantity: {value: 100, unit: 'mg/dL'}
+            valueQuantity: { value: 100, unit: 'mg/dL' }
         },
         {
             resourceType: 'Observation',
             id: 'lab-02',
             status: 'final',
-            category: [{coding: [{code: 'laboratory'}]}],
+            category: [{ coding: [{ code: 'laboratory' }] }],
             code: {
                 coding: [
                     {
@@ -258,9 +258,9 @@ describe('Narrative Generator Tests', () => {
                 ],
                 text: 'Hemoglobin A1c'
             },
-            subject: {reference: 'Patient/test-patient-01'},
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: formatDate(new Date(currentYear, 0, 1)),
-            valueQuantity: {value: 6.5, unit: '%'},
+            valueQuantity: { value: 6.5, unit: '%' },
             interpretation: [{
                 coding: [{
                     system: 'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation',
@@ -273,32 +273,32 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Observation',
             id: 'lab-03',
             status: 'final',
-            category: [{coding: [{code: 'laboratory'}]}],
-            code: {text: 'Cholesterol Panel'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'laboratory' }] }],
+            code: { text: 'Cholesterol Panel' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: formatDate(new Date(currentYear, 0, 1)),
             hasMember: [
-                {reference: 'Observation/ldl-01'},
-                {reference: 'Observation/hdl-01'},
-                {reference: 'Observation/triglycerides-01'}
+                { reference: 'Observation/ldl-01' },
+                { reference: 'Observation/hdl-01' },
+                { reference: 'Observation/triglycerides-01' }
             ]
         },
         {
             resourceType: 'Observation',
             id: 'lab-04',
             status: 'final',
-            category: [{coding: [{code: 'laboratory'}]}],
-            code: {text: 'CBC with Differential'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'laboratory' }] }],
+            code: { text: 'CBC with Differential' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: formatDate(new Date(currentYear, 0, 15)),
             component: [
                 {
-                    code: {text: 'WBC'},
-                    valueQuantity: {value: 7.5, unit: '10^9/L'}
+                    code: { text: 'WBC' },
+                    valueQuantity: { value: 7.5, unit: '10^9/L' }
                 },
                 {
-                    code: {text: 'RBC'},
-                    valueQuantity: {value: 4.9, unit: '10^12/L'}
+                    code: { text: 'RBC' },
+                    valueQuantity: { value: 4.9, unit: '10^12/L' }
                 }
             ]
         }
@@ -310,18 +310,18 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Observation',
             id: 'vital-01',
             status: 'final',
-            category: [{coding: [{code: 'vital-signs'}]}],
-            code: {text: 'Blood Pressure'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'vital-signs' }] }],
+            code: { text: 'Blood Pressure' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-01',
             component: [
                 {
-                    code: {text: 'Systolic'},
-                    valueQuantity: {value: 120, unit: 'mmHg'}
+                    code: { text: 'Systolic' },
+                    valueQuantity: { value: 120, unit: 'mmHg' }
                 },
                 {
-                    code: {text: 'Diastolic'},
-                    valueQuantity: {value: 80, unit: 'mmHg'}
+                    code: { text: 'Diastolic' },
+                    valueQuantity: { value: 80, unit: 'mmHg' }
                 }
             ]
         },
@@ -329,21 +329,21 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Observation',
             id: 'vital-02',
             status: 'final',
-            category: [{coding: [{code: 'vital-signs'}]}],
-            code: {text: 'Heart Rate'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'vital-signs' }] }],
+            code: { text: 'Heart Rate' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-01',
-            valueQuantity: {value: 72, unit: 'bpm'}
+            valueQuantity: { value: 72, unit: 'bpm' }
         },
         {
             resourceType: 'Observation',
             id: 'vital-03',
             status: 'final',
-            category: [{coding: [{code: 'vital-signs'}]}],
-            code: {text: 'Body Temperature'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'vital-signs' }] }],
+            code: { text: 'Body Temperature' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-01',
-            valueQuantity: {value: 37.0, unit: '°C'}
+            valueQuantity: { value: 37.0, unit: '°C' }
         }
     ];
 
@@ -354,16 +354,16 @@ describe('Narrative Generator Tests', () => {
             status: 'active',
             type: {
                 coding: [
-                {
-                    system: "http://snomed.info/sct",
-                    code: "14106009",
-                    display: "Cardiac pacemaker"
-                },
-                {
-                    system: "https://www.fda.gov/medical-devices/global-unique-device-identification-database-gudid",
-                    code: "DSI",
-                    display: "Pacemaker, Cardiac"
-                }
+                    {
+                        system: "http://snomed.info/sct",
+                        code: "14106009",
+                        display: "Cardiac pacemaker"
+                    },
+                    {
+                        system: "https://www.fda.gov/medical-devices/global-unique-device-identification-database-gudid",
+                        code: "DSI",
+                        display: "Pacemaker, Cardiac"
+                    }
                 ]
             },
             deviceName: [{ name: 'Pacemaker', type: 'user-friendly-name' }],
@@ -376,8 +376,8 @@ describe('Narrative Generator Tests', () => {
             device: {
                 reference: "Device/device-01"
             },
-            subject: {reference: 'Patient/test-patient-01'},
-            note: [{text: 'Removed due to infection'}]
+            subject: { reference: 'Patient/test-patient-01' },
+            note: [{ text: 'Removed due to infection' }]
         }
     ];
 
@@ -386,8 +386,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'DiagnosticReport',
             id: 'report-01',
             status: 'final',
-            code: {text: 'Chest X-Ray'},
-            subject: {reference: 'Patient/test-patient-01'},
+            code: { text: 'Chest X-Ray' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-15',
             conclusion: 'No acute cardiopulmonary process'
         },
@@ -395,8 +395,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'DiagnosticReport',
             id: 'report-02',
             status: 'final',
-            code: {text: 'MRI Brain'},
-            subject: {reference: 'Patient/test-patient-01'},
+            code: { text: 'MRI Brain' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-02-01',
             conclusion: 'Normal brain MRI',
             presentedForm: [
@@ -413,18 +413,18 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Procedure',
             id: 'proc-01',
             status: 'completed',
-            code: {text: 'Appendectomy'},
-            subject: {reference: 'Patient/test-patient-01'},
+            code: { text: 'Appendectomy' },
+            subject: { reference: 'Patient/test-patient-01' },
             performedDateTime: '2022-05-10'
         },
         {
             resourceType: 'Procedure',
             id: 'proc-02',
             status: 'completed',
-            code: {text: 'Colonoscopy'},
-            subject: {reference: 'Patient/test-patient-01'},
+            code: { text: 'Colonoscopy' },
+            subject: { reference: 'Patient/test-patient-01' },
             performedDateTime: '2023-03-15',
-            note: [{text: 'No polyps found'}]
+            note: [{ text: 'No polyps found' }]
         }
     ];
 
@@ -433,21 +433,21 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Observation',
             id: 'social-01',
             status: 'final',
-            category: [{coding: [{code: 'social-history'}]}],
-            code: {text: 'Tobacco Use'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'social-history' }] }],
+            code: { text: 'Tobacco Use' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-01',
-            valueCodeableConcept: {text: 'Former smoker'}
+            valueCodeableConcept: { text: 'Former smoker' }
         },
         {
             resourceType: 'Observation',
             id: 'social-02',
             status: 'final',
-            category: [{coding: [{code: 'social-history'}]}],
-            code: {text: 'Alcohol Use'},
-            subject: {reference: 'Patient/test-patient-01'},
+            category: [{ coding: [{ code: 'social-history' }] }],
+            code: { text: 'Alcohol Use' },
+            subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: '2023-01-01',
-            valueCodeableConcept: {text: 'Social drinker'}
+            valueCodeableConcept: { text: 'Social drinker' }
         }
     ];
 
@@ -456,8 +456,8 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Consent',
             id: 'adv-01',
             status: 'active',
-            category: [{text: 'Advance Directive'}],
-            patient: {reference: 'Patient/test-patient-01'},
+            category: [{ text: 'Advance Directive' }],
+            patient: { reference: 'Patient/test-patient-01' },
             dateTime: '2023-01-01',
             provision: {
                 type: 'permit',
@@ -482,7 +482,7 @@ describe('Narrative Generator Tests', () => {
             status: 'active',
             intent: 'plan',
             title: 'Diabetes Management Plan',
-            subject: {reference: 'Patient/test-patient-01'},
+            subject: { reference: 'Patient/test-patient-01' },
             period: {
                 start: '2023-01-01'
             },
@@ -743,6 +743,51 @@ describe('Narrative Generator Tests', () => {
         expect(result).toBeDefined();
         console.log(result);
         // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
+    });
+
+    it('should generate narrative content for pregnancy history using NarrativeGenerator', async () => {
+        const section = IPSSections.PREGNANCY_HISTORY;
+        const mockPregnancyObservations: TObservation[] = [
+            {
+                resourceType: 'Observation',
+                id: 'preg-01',
+                status: 'final',
+                category: [{ coding: [{ code: 'social-history' }] }],
+                code: {
+                    coding: [
+                        {
+                            system: "http://loinc.org",
+                            code: "LA15173-0",
+                            display: "Pregnant"
+                        }
+                    ],
+                    text: 'Pregnancy History'
+                },
+                subject: { reference: 'Patient/test-patient-01' },
+                effectiveDateTime: '2023-01-01',
+                valueCodeableConcept: { text: 'G2 P1' }
+            }
+        ];
+        const mockPatientPregnancy: TPatient[] = [{
+            resourceType: 'Patient',
+            id: 'test-patient-02',
+            identifier: [{ system: 'https://example.org', value: '67890' }],
+            name: [{ family: 'Smith', given: ['Jane'] }],
+            gender: 'female',
+        }];
+        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, [...mockPregnancyObservations, ...mockPatientPregnancy], 'America/New_York');
+        expect(result).toBeDefined();
+        console.info(result);
+
         const expectedDiv = readNarrativeFile(
             path.join(__dirname, 'fixtures'),
             IPS_SECTION_LOINC_CODES[section],
