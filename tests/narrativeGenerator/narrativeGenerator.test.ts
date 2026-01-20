@@ -456,19 +456,33 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'Consent',
             id: 'adv-01',
             status: 'active',
-            category: [{ text: 'Advance Directive' }],
-            patient: { reference: 'Patient/test-patient-01' },
+            category: [{
+                coding: [{
+                    system: 'http://terminology.hl7.org/CodeSystem/consentcategorycodes',
+                    code: 'acd',
+                    display: 'Advance Directive'
+                }],
+                text: 'Advance Directive'
+            }],
+            patient: {reference: 'Patient/test-patient-01'},
             dateTime: '2023-01-01',
             provision: {
                 type: 'permit',
                 period: {
                     start: '2023-01-01'
-                }
+                },
+                action: [{
+                    coding: [{
+                        system: 'http://terminology.hl7.org/CodeSystem/consentaction',
+                        code: 'access'
+                    }],
+                    text: 'access-action'
+                }]
             },
             scope: {
                 coding: [{
                     system: 'http://terminology.hl7.org/CodeSystem/consentscope',
-                    code: 'advance-directive',
+                    code: 'adr',
                     display: 'Advance Directive'
                 }]
             }

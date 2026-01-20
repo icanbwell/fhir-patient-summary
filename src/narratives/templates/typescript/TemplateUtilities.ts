@@ -814,7 +814,7 @@ export class TemplateUtilities {
         return parts.join(' ').trim();
     }
 
-    private formatCodeableConceptValue(concept: any): string {
+    formatCodeableConceptValue(concept: any): string {
         if (!concept) return '';
 
         // Prefer text if available
