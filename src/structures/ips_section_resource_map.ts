@@ -61,8 +61,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // Only include active care plans
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
-    // TODO: disable this until we right logic to get these
-    [IPSSections.ADVANCE_DIRECTIVES]: () => false,
+    [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Consent' && resource.status === 'active' && resource.scope?.coding?.some((c: any) => codingMatches(c, 'adr', "http://terminology.hl7.org/CodeSystem/consentscope")),
 };
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
@@ -80,6 +79,7 @@ export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPS
 export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
     [IPSSections.PATIENT]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_patient_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_vital_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_advanced_directives_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_social_history_summary_document", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.FUNCTIONAL_STATUS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, ["ips_functional_status_condition_summary_document", "ips_functional_status_clinical_impression_summary_document"], IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
 }
