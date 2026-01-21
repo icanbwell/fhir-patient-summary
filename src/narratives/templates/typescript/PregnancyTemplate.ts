@@ -225,7 +225,7 @@ export class PregnancyTemplate implements ISummaryTemplate {
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
             } else if (type === 'edd') {
-                result = 'Estimated Delivery Date: ' + templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(resource as TObservation, timezone));
+                result = 'Estimated Delivery Date: ' + (templateUtilities.extractObservationValue(resource as TObservation) ?? '');
                 comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));

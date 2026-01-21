@@ -63,6 +63,9 @@ const PREGNANCY_SNOMED_CODES: string[] = [
   // Add SNOMED CT codes for pregnancy history here, e.g.:
   '72892002', // Pregnancy (finding)
   '77386006', // History of pregnancy (situation)
+  "60001007",  // Not Pregnant
+  "152231000119106", // Pregnancy not yet confirmed
+  "146799005", // Possible Pregnancy
 ];
 
 const SOCIAL_HISTORY_LOINC_CODES = {
