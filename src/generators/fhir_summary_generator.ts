@@ -128,12 +128,14 @@ export class ComprehensiveIPSCompositionBuilder {
                 resourceEntries.forEach(entry => {
                     if (entry.reference && !addedEntries.has(entry.reference)) {
                         const reference = entry.reference.split('/')
-                        const resource: TDomainResource = {
-                            id: reference[1],
-                            resourceType: reference[0]
+                        if (reference.length === 2) {
+                            const resource: TDomainResource = {
+                                id: reference[1],
+                                resourceType: reference[0]
+                            }
+                            sectionResources.push(resource);
+                            addedEntries.add(entry.reference);
                         }
-                        sectionResources.push(resource);
-                        addedEntries.add(entry.reference);
                     }
                 });
             }
@@ -174,6 +176,8 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param bundle - FHIR Bundle containing resources
      * @param timezone - Optional timezone to use for date formatting
      * @param useSummaryCompositions - Whether to use summary compositions (default: false)
+     * @param includeSummaryCompositionOnly - Whether to include only summary composition resources (default: false)
+     * @param consoleLogger - Optional console logger for logging (default: console)
      */
     async readBundleAsync(
         bundle: TBundle,
@@ -235,6 +239,7 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param authorOrganizationName - Name of the authoring organization
      * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param includeSummaryCompositionOnly - Whether to include only summary composition resources (default: false)
      * @param patientId - Optional patient ID to use as primary patient for composition reference
      * @param now - Optional current date to use for composition date (defaults to new Date())
      */
@@ -346,6 +351,11 @@ export class ComprehensiveIPSCompositionBuilder {
         return this.sections;
     }
 
+    /**
+     * Identifies remaining resource types that are missing from the composition bundle.
+     * @param bundle - FHIR Bundle containing resources
+     * @returns Array of missing resource type strings
+     */
     getRemainingResourcesFromCompositionBundle(
         bundle: TBundle
     ): string[] {
@@ -358,24 +368,24 @@ export class ComprehensiveIPSCompositionBuilder {
             }
         });
 
-        const requiredResources = new Set<string>()
+        const remainingResources = new Set<string>()
 
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryIPSCompositionFilter =  IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
+            const summaryIPSCompositionFilter = IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             const summaryCompositionFilter = IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType);
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
-            if (sectionSummary.length == 0 && sectionIPSSummary.length == 0) {
+            if (sectionSummary.length === 0 && sectionIPSSummary.length === 0) {
                 const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
                 resourcesForSection.forEach((resourceType) => {
-                    if (!resources.some(r => r.resourceType === resourceType)) {
-                        requiredResources.add(resourceType);
+                    if (!remainingResources.has(resourceType) && !resources.some(r => r.resourceType === resourceType)) {
+                        remainingResources.add(resourceType);
                     }
                 });
             }
 
         }
 
-        return Array.from(requiredResources);
+        return Array.from(remainingResources);
     }
 }

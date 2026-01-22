@@ -7,6 +7,7 @@ import { TCoding } from "../types/partials/Coding";
 // Optionally, define custom filter functions for each section
 export type IPSSectionResourceFilter = (resource: any) => boolean;
 
+// Map of IPS sections to their associated FHIR resource types
 export const IPSSectionResourcesMap: Record<IPSSections, string[]> = {
     [IPSSections.PATIENT]: ['Patient'],
     [IPSSections.ALLERGIES]: ['AllergyIntolerance'],
