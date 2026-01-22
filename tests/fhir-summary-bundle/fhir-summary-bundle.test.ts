@@ -183,7 +183,7 @@ describe('FHIR Patient Summary Generation', () => {
         const mockPatient = resources.find((r: any) => r.resourceType === 'Patient');
 
         const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
-        const requiredResources = builder.getRequiredResourcesListFromBundle(inputBundle, true);
+        const requiredResources = builder.getRemainingResourcesFromCompositionBundle(inputBundle);
 
         const expectedResources = ['Condition', 'AllergyIntolerance', 'MedicationRequest', 'MedicationStatement', 'Medication', 'Immunization', 'Organization', 'DiagnosticReport', 'Observation', 'Procedure', 'Consent', 'CarePlan'];
 
