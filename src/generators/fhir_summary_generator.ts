@@ -127,9 +127,10 @@ export class ComprehensiveIPSCompositionBuilder {
                 const addedEntries = new Set<string>();
                 resourceEntries.forEach(entry => {
                     if (entry.reference && !addedEntries.has(entry.reference)) {
+                        const reference = entry.reference.split('/')
                         const resource: TDomainResource = {
-                            id: entry.reference.split('/')[1],
-                            resourceType: entry.reference.split('/')[0]
+                            id: reference[1],
+                            resourceType: reference[0]
                         }
                         sectionResources.push(resource);
                         addedEntries.add(entry.reference);
@@ -345,9 +346,8 @@ export class ComprehensiveIPSCompositionBuilder {
         return this.sections;
     }
 
-    getRequiredResourcesListFromBundle(
-        bundle: TBundle,
-        useSummaryCompositions: boolean = false,
+    getRemainingResourcesFromCompositionBundle(
+        bundle: TBundle
     ): string[] {
 
         const resources = [] as TDomainResource[];
@@ -361,9 +361,9 @@ export class ComprehensiveIPSCompositionBuilder {
         const requiredResources = new Set<string>()
 
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
+            const summaryIPSCompositionFilter =  IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
-            const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
+            const summaryCompositionFilter = IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType);
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length == 0 && sectionIPSSummary.length == 0) {
                 const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
@@ -375,7 +375,7 @@ export class ComprehensiveIPSCompositionBuilder {
             }
 
         }
-        
+
         return Array.from(requiredResources);
     }
 }
