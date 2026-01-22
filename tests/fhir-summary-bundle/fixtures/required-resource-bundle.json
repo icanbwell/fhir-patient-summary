@@ -5,9 +5,6 @@
     {
       "id": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
       "resource": {
-        "_uuid": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
-        "_sourceAssigningAuthority": "{{owner_1}}",
-        "_sourceId": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
         "id": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
         "identifier": [
           {
@@ -38,13 +35,10 @@
                 {
                   "id": "sourceAssigningAuthority",
                   "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-                  "valueString": "{{owner_1}}"
+                  "valueString": "client"
                 }
               ],
-              "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-              "_sourceAssigningAuthority": "{{owner_1}}",
-              "_uuid": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-              "_sourceId": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+              "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
             },
             "type": "seealso"
           }
@@ -67,10 +61,7 @@
               "valueString": "synthea"
             }
           ],
-          "reference": "Organization/c8e9907c-11f9-5ec2-b623-d783e0e9be99",
-          "_sourceAssigningAuthority": "synthea",
-          "_uuid": "Organization/c8e9907c-11f9-5ec2-b623-d783e0e9be99",
-          "_sourceId": "Organization/"
+          "reference": "Organization/c8e9907c-11f9-5ec2-b623-d783e0e9be99"
         },
         "meta": {
           "versionId": "1",
@@ -178,14 +169,11 @@
             {
               "id": "sourceAssigningAuthority",
               "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-              "valueString": "bwell"
+              "valueString": "synthea"
             }
           ],
           "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "type": "Patient",
-          "_sourceAssigningAuthority": "bwell",
-          "_uuid": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "_sourceId": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+          "type": "Patient"
         },
         "date": "2026-01-21T08:29:53.625717+00:00",
         "author": [
@@ -204,15 +192,12 @@
               {
                 "id": "sourceAssigningAuthority",
                 "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-                "valueString": "bwell"
+                "valueString": "synthea"
               }
             ],
             "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
             "type": "Organization",
-            "display": "bwell Connected Health",
-            "_sourceAssigningAuthority": "bwell",
-            "_uuid": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
-            "_sourceId": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+            "display": "bwell Connected Health"
           }
         ],
         "title": "Condition|Condition Summary Grouped by Functional Status Code",
@@ -258,14 +243,11 @@
                   {
                     "id": "sourceAssigningAuthority",
                     "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-                    "valueString": "bwell"
+                    "valueString": "synthea"
                   }
                 ],
                 "reference": "Condition/c1dfd674-356c-57a3-9d1b-80fc8508ca8d",
-                "type": "Condition",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Condition/c1dfd674-356c-57a3-9d1b-80fc8508ca8d",
-                "_sourceId": "Condition/ac59c2e9-d108-03bd-eat1-perform789012-new123"
+                "type": "Condition"
               }
             ],
             "section": [
@@ -348,10 +330,7 @@
                   }
                 ],
                 "reference": "Condition/f2dbfd84-be1a-5f75-982d-a2054af23808",
-                "type": "Condition",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Condition/f2dbfd84-be1a-5f75-982d-a2054af23808",
-                "_sourceId": "Condition/ac59c2e9-d108-03bd-bed1-mobility123456-new123"
+                "type": "Condition"
               }
             ],
             "section": [
@@ -434,10 +413,7 @@
                   }
                 ],
                 "reference": "Condition/519fc92e-4fa7-517a-b532-8e80ab3c1568",
-                "type": "Condition",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Condition/519fc92e-4fa7-517a-b532-8e80ab3c1568",
-                "_sourceId": "Condition/ac59c2e9-d108-03bd-tran-perform345678-new123"
+                "type": "Condition"
               }
             ],
             "section": [
@@ -524,14 +500,11 @@
                   {
                     "id": "sourceAssigningAuthority",
                     "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-                    "valueString": "bwell"
+                    "valueString": "synthea"
                   }
                 ],
                 "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2-new123",
-                "type": "Condition",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2-new123",
-                "_sourceId": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2-new123"
+                "type": "Condition"
               }
             ],
             "section": [
@@ -614,10 +587,7 @@
                   }
                 ],
                 "reference": "Condition/ac59c2e9-d108-03bd-00d2-5ed6f2fded70-new123",
-                "type": "Condition",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Condition/ac59c2e9-d108-03bd-00d2-5ed6f2fded70-new123",
-                "_sourceId": "Condition/ac59c2e9-d108-03bd-00d2-5ed6f2fded70-new123"
+                "type": "Condition"
               }
             ],
             "section": [
@@ -700,10 +670,7 @@
                   }
                 ],
                 "reference": "Condition/ac59c2e9-d108-03bd-2332-79e0b09683c6-new123",
-                "type": "Condition",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Condition/ac59c2e9-d108-03bd-2332-79e0b09683c6-new123",
-                "_sourceId": "Condition/ac59c2e9-d108-03bd-2332-79e0b09683c6-new123"
+                "type": "Condition"
               }
             ],
             "section": [
@@ -741,13 +708,7 @@
               }
             ]
           }
-        ],
-        "_access": {
-          "bwell": 1
-        },
-        "_sourceAssigningAuthority": "bwell",
-        "_uuid": "5b241860-7a80-52fd-a589-31eafefcbd73",
-        "_sourceId": "5b241860-7a80-52fd-a589-31eafefcbd73"
+        ]
       },
       "fullUrl": "http://localhost:3000/4_0_0/Composition/5b241860-7a80-52fd-a589-31eafefcbd73"
     },
@@ -820,14 +781,11 @@
             {
               "id": "sourceAssigningAuthority",
               "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-              "valueString": "bwell"
+              "valueString": "synthea"
             }
           ],
           "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "type": "Patient",
-          "_sourceAssigningAuthority": "bwell",
-          "_uuid": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "_sourceId": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+          "type": "Patient"
         },
         "date": "2026-01-21T08:29:53.521785+00:00",
         "author": [
@@ -846,15 +804,12 @@
               {
                 "id": "sourceAssigningAuthority",
                 "url": "https://www.icanbwell.com/sourceAssigningAuthority",
-                "valueString": "bwell"
+                "valueString": "synthea"
               }
             ],
             "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
             "type": "Organization",
-            "display": "bwell Connected Health",
-            "_sourceAssigningAuthority": "bwell",
-            "_uuid": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
-            "_sourceId": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+            "display": "bwell Connected Health"
           }
         ],
         "title": "Patient Summary",
@@ -897,13 +852,7 @@
               }
             ]
           }
-        ],
-        "_access": {
-          "bwell": 1
-        },
-        "_sourceAssigningAuthority": "bwell",
-        "_uuid": "0f941baa-9e5e-5ee5-904a-9712c965b542",
-        "_sourceId": "0f941baa-9e5e-5ee5-904a-9712c965b542"
+        ]
       },
       "fullUrl": "http://localhost:3000/4_0_0/Composition/0f941baa-9e5e-5ee5-904a-9712c965b542"
     },
@@ -980,10 +929,7 @@
             }
           ],
           "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "type": "Patient",
-          "_sourceAssigningAuthority": "bwell",
-          "_uuid": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "_sourceId": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+          "type": "Patient"
         },
         "date": "2026-01-21T08:29:53.716542+00:00",
         "author": [
@@ -1007,10 +953,7 @@
             ],
             "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
             "type": "Organization",
-            "display": "bwell Connected Health",
-            "_sourceAssigningAuthority": "bwell",
-            "_uuid": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
-            "_sourceId": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+            "display": "bwell Connected Health"
           }
         ],
         "title": "Clinical Impression|Clinical Impression Summary",
@@ -1060,10 +1003,7 @@
                   }
                 ],
                 "reference": "ClinicalImpression/d3c8f923-19a3-566b-acca-f40ca9c65982",
-                "type": "ClinicalImpression",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "ClinicalImpression/d3c8f923-19a3-566b-acca-f40ca9c65982",
-                "_sourceId": "ClinicalImpression/clinical-impression-mobility-001"
+                "type": "ClinicalImpression"
               }
             ],
             "section": [
@@ -1154,10 +1094,7 @@
                   }
                 ],
                 "reference": "ClinicalImpression/7f7fe170-b3db-5176-8a4e-609e1f4a621a",
-                "type": "ClinicalImpression",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "ClinicalImpression/7f7fe170-b3db-5176-8a4e-609e1f4a621a",
-                "_sourceId": "ClinicalImpression/clinical-impression-adl-002"
+                "type": "ClinicalImpression"
               }
             ],
             "section": [
@@ -1256,10 +1193,7 @@
                   }
                 ],
                 "reference": "ClinicalImpression/013adccc-c372-5a90-bb17-99eb9a1a52d2",
-                "type": "ClinicalImpression",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "ClinicalImpression/013adccc-c372-5a90-bb17-99eb9a1a52d2",
-                "_sourceId": "ClinicalImpression/clinical-impression-disability-003"
+                "type": "ClinicalImpression"
               }
             ],
             "section": [
@@ -1350,10 +1284,7 @@
                   }
                 ],
                 "reference": "ClinicalImpression/0ef7d1b0-afff-57a6-b7ea-ed1f8159a453",
-                "type": "ClinicalImpression",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "ClinicalImpression/0ef7d1b0-afff-57a6-b7ea-ed1f8159a453",
-                "_sourceId": "ClinicalImpression/clinical-impression-bed-mobility-004"
+                "type": "ClinicalImpression"
               }
             ],
             "section": [
@@ -1444,10 +1375,7 @@
                   }
                 ],
                 "reference": "ClinicalImpression/47055765-1c07-5049-800d-35fd82d5c071",
-                "type": "ClinicalImpression",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "ClinicalImpression/47055765-1c07-5049-800d-35fd82d5c071",
-                "_sourceId": "ClinicalImpression/clinical-impression-eating-005"
+                "type": "ClinicalImpression"
               }
             ],
             "section": [
@@ -1546,10 +1474,7 @@
                   }
                 ],
                 "reference": "ClinicalImpression/df7cdecc-7d76-53a4-a533-bccb6915b808",
-                "type": "ClinicalImpression",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "ClinicalImpression/df7cdecc-7d76-53a4-a533-bccb6915b808",
-                "_sourceId": "ClinicalImpression/clinical-impression-wheelchair-006"
+                "type": "ClinicalImpression"
               }
             ],
             "section": [
@@ -1595,13 +1520,7 @@
               }
             ]
           }
-        ],
-        "_access": {
-          "bwell": 1
-        },
-        "_sourceAssigningAuthority": "bwell",
-        "_uuid": "66ca1d5c-8b57-5228-9943-87056bb4e686",
-        "_sourceId": "66ca1d5c-8b57-5228-9943-87056bb4e686"
+        ]
       },
       "fullUrl": "http://localhost:3000/4_0_0/Composition/66ca1d5c-8b57-5228-9943-87056bb4e686"
     },
@@ -1678,10 +1597,7 @@
             }
           ],
           "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "type": "Patient",
-          "_sourceAssigningAuthority": "bwell",
-          "_uuid": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "_sourceId": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+          "type": "Patient"
         },
         "date": "2026-01-21T08:29:53.825144+00:00",
         "author": [
@@ -1705,10 +1621,7 @@
             ],
             "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
             "type": "Organization",
-            "display": "bwell Connected Health",
-            "_sourceAssigningAuthority": "bwell",
-            "_uuid": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
-            "_sourceId": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+            "display": "bwell Connected Health"
           }
         ],
         "title": "Device Use Statement|History of Medical Devices",
@@ -1758,10 +1671,7 @@
                   }
                 ],
                 "reference": "DeviceUseStatement/8900d9fb-be7a-419b-891b-7f08e1067fef",
-                "type": "DeviceUseStatement",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "DeviceUseStatement/8900d9fb-be7a-419b-891b-7f08e1067fef",
-                "_sourceId": "DeviceUseStatement/8900d9fb-be7a-419b-891b-7f08e1067fef"
+                "type": "DeviceUseStatement"
               },
               {
                 "id": "aef30c24-062b-50c3-b663-bccbf19344b5",
@@ -1783,10 +1693,7 @@
                   }
                 ],
                 "reference": "Device/6e03496b-964e-4d6a-a6fd-671068226a09",
-                "type": "Device",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Device/6e03496b-964e-4d6a-a6fd-671068226a09",
-                "_sourceId": "Device/6e03496b-964e-4d6a-a6fd-671068226a09"
+                "type": "Device"
               }
             ],
             "section": [
@@ -1840,13 +1747,7 @@
               }
             ]
           }
-        ],
-        "_access": {
-          "bwell": 1
-        },
-        "_sourceAssigningAuthority": "bwell",
-        "_uuid": "84142774-9e0d-5e96-90be-45415e179fb0",
-        "_sourceId": "84142774-9e0d-5e96-90be-45415e179fb0"
+        ]
       },
       "fullUrl": "http://localhost:3000/4_0_0/Composition/84142774-9e0d-5e96-90be-45415e179fb0"
     },
@@ -1923,10 +1824,7 @@
             }
           ],
           "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "type": "Patient",
-          "_sourceAssigningAuthority": "bwell",
-          "_uuid": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
-          "_sourceId": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+          "type": "Patient"
         },
         "date": "2026-01-21T08:29:53.894374+00:00",
         "author": [
@@ -1950,10 +1848,7 @@
             ],
             "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
             "type": "Organization",
-            "display": "bwell Connected Health",
-            "_sourceAssigningAuthority": "bwell",
-            "_uuid": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
-            "_sourceId": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+            "display": "bwell Connected Health"
           }
         ],
         "title": "Observation|History of Pregnancies Summary",
@@ -2003,10 +1898,7 @@
                   }
                 ],
                 "reference": "Observation/15e23007-3350-462c-bcfc-612196e8f59a",
-                "type": "Observation",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Observation/15e23007-3350-462c-bcfc-612196e8f59a",
-                "_sourceId": "Observation/15e23007-3350-462c-bcfc-612196e8f59a"
+                "type": "Observation"
               }
             ],
             "section": [
@@ -2081,10 +1973,7 @@
                   }
                 ],
                 "reference": "Observation/7c37d11e-2de4-42f8-936f-30b00fad275d",
-                "type": "Observation",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Observation/7c37d11e-2de4-42f8-936f-30b00fad275d",
-                "_sourceId": "Observation/7c37d11e-2de4-42f8-936f-30b00fad275d"
+                "type": "Observation"
               }
             ],
             "section": [
@@ -2159,10 +2048,7 @@
                   }
                 ],
                 "reference": "Observation/b67ef42b-58d7-4d1d-8846-d68a10444c07",
-                "type": "Observation",
-                "_sourceAssigningAuthority": "bwell",
-                "_uuid": "Observation/b67ef42b-58d7-4d1d-8846-d68a10444c07",
-                "_sourceId": "Observation/b67ef42b-58d7-4d1d-8846-d68a10444c07"
+                "type": "Observation"
               }
             ],
             "section": [
@@ -2192,13 +2078,7 @@
               }
             ]
           }
-        ],
-        "_access": {
-          "bwell": 1
-        },
-        "_sourceAssigningAuthority": "bwell",
-        "_uuid": "e613002c-4da1-5ab1-b8dc-5d999bcfb756",
-        "_sourceId": "e613002c-4da1-5ab1-b8dc-5d999bcfb756"
+        ]
       },
       "fullUrl": "http://localhost:3000/4_0_0/Composition/e613002c-4da1-5ab1-b8dc-5d999bcfb756"
     }
