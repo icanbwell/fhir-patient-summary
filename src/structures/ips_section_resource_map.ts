@@ -57,7 +57,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
             codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct') ||
             codingMatches(resource.valueCodeableConcept?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct')
         ) || (
-            resource.resourceType === 'Patient' && resource.gender === 'female'
+            resource.resourceType === 'Patient' && resource.gender !== 'male'
         )
     ),
     // Only include Condition with Functional Status LOINC and SNOMED codes, category code 'problem-list-item', and completed ClinicalImpressions
