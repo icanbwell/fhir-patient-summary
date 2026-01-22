@@ -7,6 +7,24 @@ import { TCoding } from "../types/partials/Coding";
 // Optionally, define custom filter functions for each section
 export type IPSSectionResourceFilter = (resource: any) => boolean;
 
+export const IPSSectionResourcesMap: Record<IPSSections, string[]> = {
+    [IPSSections.PATIENT]: ['Patient'],
+    [IPSSections.ALLERGIES]: ['AllergyIntolerance'],
+    [IPSSections.MEDICATIONS]: ['MedicationRequest', 'MedicationStatement', 'Medication'],
+    [IPSSections.PROBLEMS]: ['Condition'],
+    [IPSSections.IMMUNIZATIONS]: ['Immunization', 'Organization'],
+    [IPSSections.VITAL_SIGNS]: ['Observation'],
+    [IPSSections.MEDICAL_DEVICES]: ['DeviceUseStatement', 'Device'],
+    [IPSSections.DIAGNOSTIC_REPORTS]: ['DiagnosticReport', 'Observation'],
+    [IPSSections.PROCEDURES]: ['Procedure'],
+    [IPSSections.SOCIAL_HISTORY]: ['Observation'],
+    [IPSSections.PREGNANCY_HISTORY]: ['Observation', 'Patient'],
+    [IPSSections.FUNCTIONAL_STATUS]: ['Condition', 'ClinicalImpression'],
+    [IPSSections.MEDICAL_HISTORY]: ['Condition'],
+    [IPSSections.CARE_PLAN]: ['CarePlan'],
+    [IPSSections.ADVANCE_DIRECTIVES]: ['Consent'],
+};
+
 export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
     // Patient section: only Patient resource
     [IPSSections.PATIENT]: (resource) => resource.resourceType === 'Patient',
@@ -15,7 +33,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     // includes MedicationRequest, MedicationStatement. Medication is needed for medication names
     [IPSSections.MEDICATIONS]: (resource) => (['MedicationRequest', 'MedicationStatement'].includes(resource.resourceType) && resource.status === 'active') || resource.resourceType === 'Medication',
     // Only include active conditions
-    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition'  && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
+    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
     // Only include completed immunizations
     [IPSSections.IMMUNIZATIONS]: (resource) => (resource.resourceType === 'Immunization' && resource.status === 'completed') || (resource.resourceType === 'Organization'),
     // Only include vital sign Observations (category.coding contains 'vital-signs')
@@ -92,6 +110,10 @@ export class IPSSectionResourceHelper {
         const filter = IPSSectionResourceFilters[section];
         if (!filter) return [];
         return resources.filter(filter);
+    }
+
+    static getResourceTypesForSection(section: IPSSections): string[] {
+        return IPSSectionResourcesMap[section] || [];
     }
 
     static getSummaryCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {

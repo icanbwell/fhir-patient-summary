@@ -1,14 +1,14 @@
 // Comprehensive IPS Resource Mapping
-import {TPatient} from "../types/resources/Patient";
-import {TCompositionSection} from "../types/partials/CompositionSection";
-import {TDomainResource} from "../types/resources/DomainResource";
-import {IPSSections} from "../structures/ips_sections";
-import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
-import {TBundle} from "../types/resources/Bundle";
-import {TComposition} from "../types/resources/Composition";
-import {TNarrative} from "../types/partials/Narrative";
-import {IPSSectionResourceHelper} from "../structures/ips_section_resource_map";
-import {NarrativeGenerator} from "./narrative_generator";
+import { TPatient } from "../types/resources/Patient";
+import { TCompositionSection } from "../types/partials/CompositionSection";
+import { TDomainResource } from "../types/resources/DomainResource";
+import { IPSSections } from "../structures/ips_sections";
+import { IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES } from "../structures/ips_section_loinc_codes";
+import { TBundle } from "../types/resources/Bundle";
+import { TComposition } from "../types/resources/Composition";
+import { TNarrative } from "../types/partials/Narrative";
+import { IPSSectionResourceHelper } from "../structures/ips_section_resource_map";
+import { NarrativeGenerator } from "./narrative_generator";
 import { IPSMandatorySections, IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
 
 
@@ -92,17 +92,17 @@ export class ComprehensiveIPSCompositionBuilder {
         // Create section entry with HTML minification
         if (validResources.length > 0) {
             narrative = await NarrativeGenerator.generateNarrativeAsync(
-            sectionType,
-            validResources,
-            timezone,
-            true
+                sectionType,
+                validResources,
+                timezone,
+                true
             );
         }
         if (!narrative && sectionType in IPSMandatorySections) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
-            IPSMissingMandatorySectionContent[
+                IPSMissingMandatorySectionContent[
                 sectionType as keyof typeof IPSMissingMandatorySectionContent
-            ]
+                ]
             );
         }
         if (!narrative) {
@@ -113,22 +113,37 @@ export class ComprehensiveIPSCompositionBuilder {
         return this;
     }
 
-    async makeSectionFromSummaryAsync (
+    async makeSectionFromSummaryAsync(
         sectionType: IPSSections,
         summaryCompositions: TComposition[],
         resources: TDomainResource[],
-        timezone: string | undefined
+        timezone: string | undefined,
+        includeSummaryCompositionOnly: boolean = false
     ): Promise<this> {
         const sectionResources: TDomainResource[] = [];
         for (const summaryComposition of summaryCompositions) {
             const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
-
-            resources.forEach(resource => {
-                if (resourceEntries?.some(entry => entry.reference === `${resource.resourceType}/${resource.id}`)) {
-                    this.resources.add(resource);
-                    sectionResources.push(resource);
-                }
-            });
+            if (includeSummaryCompositionOnly) {
+                const addedEntries = new Set<string>();
+                resourceEntries.forEach(entry => {
+                    if (entry.reference && !addedEntries.has(entry.reference)) {
+                        const resource: TDomainResource = {
+                            id: entry.reference.split('/')[1],
+                            resourceType: entry.reference.split('/')[0]
+                        }
+                        sectionResources.push(resource);
+                        addedEntries.add(entry.reference);
+                    }
+                });
+            }
+            else {
+                resources.forEach(resource => {
+                    if (resourceEntries?.some(entry => entry.reference === `${resource.resourceType}/${resource.id}`)) {
+                        this.resources.add(resource);
+                        sectionResources.push(resource);
+                    }
+                });
+            }
         }
 
         let narrative = await NarrativeGenerator.generateNarrativeAsync(
@@ -141,7 +156,7 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!narrative && sectionType in IPSMandatorySections) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
                 IPSMissingMandatorySectionContent[
-                    sectionType as keyof typeof IPSMissingMandatorySectionContent
+                sectionType as keyof typeof IPSMissingMandatorySectionContent
                 ]
             );
         }
@@ -163,6 +178,7 @@ export class ComprehensiveIPSCompositionBuilder {
         bundle: TBundle,
         timezone: string | undefined,
         useSummaryCompositions: boolean = false,
+        includeSummaryCompositionOnly: boolean = false,
         consoleLogger: Console = console
     ): Promise<this> {
         if (!bundle.entry) {
@@ -194,14 +210,14 @@ export class ComprehensiveIPSCompositionBuilder {
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             if (sectionIPSSummary.length > 0) {
                 consoleLogger.info(`Using IPS summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
                 continue;
             }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
                 consoleLogger.info(`Using summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
             } else {
                 consoleLogger.info(`Using individual resources for section: ${sectionType}`);
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
@@ -226,6 +242,7 @@ export class ComprehensiveIPSCompositionBuilder {
         authorOrganizationName: string,
         baseUrl: string,
         timezone: string | undefined,
+        includeSummaryCompositionOnly: boolean = false,
         patientId?: string,
         now?: Date
     ): Promise<TBundle> {
@@ -238,7 +255,7 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!this.patientSummary) {
             throw new Error('Patient summary narrative must be set before building the bundle');
         }
-        
+
         // For multiple patients, use the specified patientId or the first patient as primary
         const primaryPatientId = patientId ?? this.patients[0].id;
 
@@ -285,35 +302,37 @@ export class ComprehensiveIPSCompositionBuilder {
             resource: composition
         });
 
-        // Add patient entries
-        this.patients.forEach(patient => {
-            bundle.entry?.push({
-                fullUrl: `${baseUrl}/Patient/${patient.id}`,
-                resource: patient
+        if (!includeSummaryCompositionOnly) {
+            // Add patient entries
+            this.patients.forEach(patient => {
+                bundle.entry?.push({
+                    fullUrl: `${baseUrl}/Patient/${patient.id}`,
+                    resource: patient
+                });
             });
-        });
 
-        // Extract and add all resources referenced in sections
-        this.resources.forEach(resource => {
-            if (resource.resourceType !== "Patient") {
-                bundle.entry?.push(
-                    {
-                        fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
-                        resource: resource
-                    }
-                );
-            }
-        });
+            // Extract and add all resources referenced in sections
+            this.resources.forEach(resource => {
+                if (resource.resourceType !== "Patient") {
+                    bundle.entry?.push(
+                        {
+                            fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
+                            resource: resource
+                        }
+                    );
+                }
+            });
 
-        // add a bundle entry for Organization
-        bundle.entry?.push({
-            fullUrl: `${baseUrl}/Organization/${authorOrganizationId}`,
-            resource: {
-                resourceType: 'Organization',
-                id: authorOrganizationId,
-                name: authorOrganizationName
-            }
-        });
+            // add a bundle entry for Organization
+            bundle.entry?.push({
+                fullUrl: `${baseUrl}/Organization/${authorOrganizationId}`,
+                resource: {
+                    resourceType: 'Organization',
+                    id: authorOrganizationId,
+                    name: authorOrganizationName
+                }
+            });
+        }
 
         return bundle;
     }
@@ -324,5 +343,39 @@ export class ComprehensiveIPSCompositionBuilder {
      */
     getSections(): TCompositionSection[] {
         return this.sections;
+    }
+
+    getRequiredResourcesListFromBundle(
+        bundle: TBundle,
+        useSummaryCompositions: boolean = false,
+    ): string[] {
+
+        const resources = [] as TDomainResource[];
+
+        bundle.entry?.forEach(e => {
+            if (e.resource) {
+                resources.push(e.resource);
+            }
+        });
+
+        const requiredResources = new Set<string>()
+
+        for (const sectionType of Object.values(IPSSections)) {
+            const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
+            const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
+            const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
+            const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
+            if (sectionSummary.length == 0 && sectionIPSSummary.length == 0) {
+                const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
+                resourcesForSection.forEach((resourceType) => {
+                    if (!resources.some(r => r.resourceType === resourceType)) {
+                        requiredResources.add(resourceType);
+                    }
+                });
+            }
+
+        }
+        
+        return Array.from(requiredResources);
     }
 }
