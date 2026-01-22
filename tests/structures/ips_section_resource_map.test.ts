@@ -29,18 +29,18 @@ describe('IPSSectionResourceHelper', () => {
     const filter = IPSSectionResourceFilters[IPSSections.FUNCTIONAL_STATUS];
     const mockCondition1 = {
       resourceType: 'Condition',
-      category: [{ 
-          coding: [{ code: 'problem-list-item' }],
+      category: [{
+        coding: [{ code: 'problem-list-item' }],
       }],
-      clinicalStatus: { coding: [{ code: 'active' }] }, 
+      clinicalStatus: { coding: [{ code: 'active' }] },
       code: { coding: [{ code: '2219003', system: 'http://snomed.info/sct' }] }
     };
     const mockCondition2 = {
       resourceType: 'Condition',
-      category: [{ 
-          coding: [{ code: 'problem-list-item' }],
+      category: [{
+        coding: [{ code: 'problem-list-item' }],
       }],
-      clinicalStatus: { coding: [{ code: 'active' }] }, 
+      clinicalStatus: { coding: [{ code: 'active' }] },
       code: { coding: [{ code: '12345', system: 'http://snomed.info/sct' }] }
     };
     const mockClinicalImpression = { resourceType: 'ClinicalImpression', status: 'completed' };
@@ -51,5 +51,24 @@ describe('IPSSectionResourceHelper', () => {
     expect(filter && filter(mockClinicalImpression)).toBe(true);
     expect(filter && filter(mockClinicalImpressionInactive)).toBe(false);
     expect(filter && filter(mockObservation)).toBe(false);
+  });
+
+  it('should filter pregnancy history resources correctly', () => {
+    const filter = IPSSectionResourceFilters[IPSSections.PREGNANCY_HISTORY];
+    const mockObservation = {
+      resourceType: 'Observation',
+      code: { coding: [{ code: 'LA15173-0', system: 'http://loinc.org' }] },
+    };
+    const mockPatientFemale = {
+      resourceType: 'Patient',
+      gender: 'female',
+    };
+    const mockPatientMale = {
+      resourceType: 'Patient',
+      gender: 'male',
+    };
+    expect(filter && filter(mockObservation)).toBe(true);
+    expect(filter && filter(mockPatientFemale)).toBe(true);
+    expect(filter && filter(mockPatientMale)).toBe(false);
   });
 });

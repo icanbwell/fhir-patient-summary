@@ -1,25 +1,93 @@
 // PregnancyTemplate.ts - TypeScript replacement for Jinja2 pregnancy.j2
-import {TemplateUtilities} from './TemplateUtilities';
-import {TDomainResource} from '../../../types/resources/DomainResource';
-import {TObservation} from '../../../types/resources/Observation';
-import {ITemplate} from './interfaces/ITemplate';
-import {PREGNANCY_LOINC_CODES} from '../../../structures/ips_section_loinc_codes';
-import {IPSSectionResourceFilters} from '../../../structures/ips_section_resource_map';
-import { TCondition } from '../../../types/resources/Condition';
+import { TemplateUtilities } from './TemplateUtilities';
+import { TDomainResource } from '../../../types/resources/DomainResource';
+import { TObservation } from '../../../types/resources/Observation';
+import { ISummaryTemplate } from './interfaces/ITemplate';
+import { PREGNANCY_LOINC_CODES } from '../../../structures/ips_section_loinc_codes';
+import { IPSSectionResourceFilters } from '../../../structures/ips_section_resource_map';
+import { TComposition } from '../../../types/resources/Composition';
 
 /**
  * Class to generate HTML narrative for Pregnancy (Observation resources)
  * This replaces the Jinja2 pregnancy.j2 template
  */
-export class PregnancyTemplate implements ITemplate {
+export class PregnancyTemplate implements ISummaryTemplate {
     /**
      * Generate HTML narrative for Pregnancy
      * @param resources - FHIR Observation resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @returns HTML string for rendering
      */
-    generateNarrative(resources: TDomainResource[], timezone: string | undefined): string {
+    generateNarrative(resources: TDomainResource[], timezone: string | undefined): string | undefined {
         return PregnancyTemplate.generateStaticNarrative(resources, timezone);
+    }
+
+    /**
+     * Generate HTML narrative for pregnancy using summary
+     * @param resources - FHIR Composition resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns HTML string for rendering
+     */
+    generateSummaryNarrative(resources: TComposition[], timezone: string | undefined): string | undefined {
+        const templateUtilities = new TemplateUtilities(resources);
+        let isSummaryCreated = false;
+        let html = `<p>This list includes all information about the patient's pregnancy history, sorted by effective date (most recent first).</p>\n`;
+
+        html += `
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Result</th>
+              <th>Code (System)</th>
+              <th>Comments</th>
+              <th>Date</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+        for (const resourceItem of resources) {
+            for (const rowData of resourceItem.section ?? []) {
+                const sectionCodeableConcept = rowData.code;
+                const rowTitle = rowData.title;
+                const data: Record<string, string> = {};
+                data["codeSystem"] = templateUtilities.codeableConceptCoding(sectionCodeableConcept);
+                for (const columnData of rowData.section ?? []) {
+                    const columnTitle = columnData.title;
+                    if (columnTitle) {
+                        data[columnTitle] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    }
+                }
+                if (rowTitle === "Expected Delivery Date") {
+                    data['Result'] = 'Estimated Delivery Date: ' + templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(data, timezone));
+                } else {
+                    data['Result'] = data['Pregnancy Result'];
+                }
+
+                if (data['Result']?.toLowerCase() === 'unknown') {
+                    continue;
+                }
+
+                isSummaryCreated = true;
+
+                html += `
+            <tr>
+              <td class="Result">${data['Result'] ? templateUtilities.capitalizeFirstLetter(data['Result']) : ''}</td>
+              <td class="CodeSystem">${data['codeSystem']}</td>
+              <td class="Comments">${data['Comments'] ?? ''}</td>
+              <td class="Date">${templateUtilities.extractObservationSummaryEffectiveTime(data, timezone) ?? ''}</td>
+              <td class="Source">${data['Source'] ?? ''}</td>
+            </tr>`;
+            }
+        }
+
+        html += `
+          </tbody>
+        </table>
+      </div>`;
+
+        return isSummaryCreated ? html : undefined;
     }
 
     /**
@@ -32,14 +100,20 @@ export class PregnancyTemplate implements ITemplate {
     private static generateStaticNarrative(
         resources: TDomainResource[],
         timezone: string | undefined
-    ): string {
+    ): string | undefined {
         const templateUtilities = new TemplateUtilities(resources);
+
+        const patients = resources.filter(r => r.resourceType === 'Patient');
+
+        // Skip if patient is not female
+        if (patients.length === 0) {
+            return;
+        }
 
         // Use the same filter logic as IPSSectionResourceFilters[IPSSections.PREGNANCY_HISTORY]
         const pregnancyHistoryFilter = IPSSectionResourceFilters['HistoryOfPregnancySection'];
         const filteredResources = pregnancyHistoryFilter ? resources.filter(pregnancyHistoryFilter) : resources;
         const observations = filteredResources.filter(r => r.resourceType === 'Observation') as TObservation[];
-        const conditions = filteredResources.filter(r => r.resourceType === 'Condition');
 
         // LOINC code for Estimated Delivery Date
         const EDD_LOINC = '11778-8';
@@ -79,11 +153,11 @@ export class PregnancyTemplate implements ITemplate {
             });
 
         // If no data, show message
-        if (!pregnancyStatusObs && !eddObs && historyObs.length === 0 && conditions.length === 0) {
-            return `<p>No history of pregnancy found.</p>`;
+        if (!pregnancyStatusObs && !eddObs && historyObs.length === 0) {
+            return;
         }
 
-        let html = `<p>This list includes Observation and Condition resources relevant to pregnancy, sorted by date (most recent first).</p>`;
+        let html = `<p>This list includes Observation resources relevant to pregnancy, sorted by date (most recent first).</p>`;
 
         // Start building the HTML table using template literals for readability
         html += `
@@ -116,7 +190,7 @@ export class PregnancyTemplate implements ITemplate {
         }
 
         // Collect all resources with their date for sorting
-        type RowResource = { resource: TDomainResource, date: string | undefined, type: 'status' | 'edd' | 'history' | 'condition' };
+        type RowResource = { resource: TDomainResource, date: string | undefined, type: 'status' | 'edd' | 'history' };
         const rowResources: RowResource[] = [];
 
         if (pregnancyStatusObs) {
@@ -130,11 +204,6 @@ export class PregnancyTemplate implements ITemplate {
         for (const obs of historyObs) {
             const date = obs.effectiveDateTime || obs.effectivePeriod?.start;
             rowResources.push({ resource: obs, date, type: 'history' });
-        }
-        for (const cond of conditions) {
-            const condition = cond as TCondition;
-            const date = condition.onsetDateTime || condition.onsetPeriod?.start;
-            rowResources.push({ resource: condition, date, type: 'condition' });
         }
 
         // Sort by date descending
@@ -156,7 +225,7 @@ export class PregnancyTemplate implements ITemplate {
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
             } else if (type === 'edd') {
-                result = 'Estimated Delivery Date: ' + templateUtilities.renderTextAsHtml(templateUtilities.extractObservationSummaryValue(resource as TObservation, timezone));
+                result = 'Estimated Delivery Date: ' + (templateUtilities.extractObservationValue(resource as TObservation) ?? '');
                 comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
@@ -165,11 +234,6 @@ export class PregnancyTemplate implements ITemplate {
                 comments = templateUtilities.renderNotes((resource as TObservation).note, timezone);
                 dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
                 codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TObservation).code));
-            } else if (type === 'condition') {
-                result = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptDisplay((resource as TCondition).code));
-                comments = templateUtilities.renderNotes((resource as TCondition).note, timezone);
-                dateStr = date ? templateUtilities.renderTextAsHtml(templateUtilities.renderTime(date, timezone)) : '';
-                codeSystem = templateUtilities.renderTextAsHtml(templateUtilities.codeableConceptCoding((resource as TCondition).code));
             }
             const rowKey = `${result}|${codeSystem}`
             if (!addedRows.has(rowKey)) {
