@@ -1,14 +1,14 @@
 // Comprehensive IPS Resource Mapping
-import {TPatient} from "../types/resources/Patient";
-import {TCompositionSection} from "../types/partials/CompositionSection";
-import {TDomainResource} from "../types/resources/DomainResource";
-import {IPSSections} from "../structures/ips_sections";
-import {IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES} from "../structures/ips_section_loinc_codes";
-import {TBundle} from "../types/resources/Bundle";
-import {TComposition} from "../types/resources/Composition";
-import {TNarrative} from "../types/partials/Narrative";
-import {IPSSectionResourceHelper} from "../structures/ips_section_resource_map";
-import {NarrativeGenerator} from "./narrative_generator";
+import { TPatient } from "../types/resources/Patient";
+import { TCompositionSection } from "../types/partials/CompositionSection";
+import { TDomainResource } from "../types/resources/DomainResource";
+import { IPSSections } from "../structures/ips_sections";
+import { IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES } from "../structures/ips_section_loinc_codes";
+import { TBundle } from "../types/resources/Bundle";
+import { TComposition } from "../types/resources/Composition";
+import { TNarrative } from "../types/partials/Narrative";
+import { IPSSectionResourceHelper } from "../structures/ips_section_resource_map";
+import { NarrativeGenerator } from "./narrative_generator";
 import { IPSMandatorySections, IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
 
 
@@ -92,17 +92,17 @@ export class ComprehensiveIPSCompositionBuilder {
         // Create section entry with HTML minification
         if (validResources.length > 0) {
             narrative = await NarrativeGenerator.generateNarrativeAsync(
-            sectionType,
-            validResources,
-            timezone,
-            true
+                sectionType,
+                validResources,
+                timezone,
+                true
             );
         }
         if (!narrative && sectionType in IPSMandatorySections) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
-            IPSMissingMandatorySectionContent[
+                IPSMissingMandatorySectionContent[
                 sectionType as keyof typeof IPSMissingMandatorySectionContent
-            ]
+                ]
             );
         }
         if (!narrative) {
@@ -113,22 +113,40 @@ export class ComprehensiveIPSCompositionBuilder {
         return this;
     }
 
-    async makeSectionFromSummaryAsync (
+    async makeSectionFromSummaryAsync(
         sectionType: IPSSections,
         summaryCompositions: TComposition[],
         resources: TDomainResource[],
-        timezone: string | undefined
+        timezone: string | undefined,
+        includeSummaryCompositionOnly: boolean = false
     ): Promise<this> {
         const sectionResources: TDomainResource[] = [];
         for (const summaryComposition of summaryCompositions) {
             const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
-
-            resources.forEach(resource => {
-                if (resourceEntries?.some(entry => entry.reference === `${resource.resourceType}/${resource.id}`)) {
-                    this.resources.add(resource);
-                    sectionResources.push(resource);
-                }
-            });
+            if (includeSummaryCompositionOnly) {
+                const addedEntries = new Set<string>();
+                resourceEntries.forEach(entry => {
+                    if (entry.reference && !addedEntries.has(entry.reference)) {
+                        const reference = entry.reference.split('/')
+                        if (reference.length === 2) {
+                            const resource: TDomainResource = {
+                                id: reference[1],
+                                resourceType: reference[0]
+                            }
+                            sectionResources.push(resource);
+                            addedEntries.add(entry.reference);
+                        }
+                    }
+                });
+            }
+            else {
+                resources.forEach(resource => {
+                    if (resourceEntries?.some(entry => entry.reference === `${resource.resourceType}/${resource.id}`)) {
+                        this.resources.add(resource);
+                        sectionResources.push(resource);
+                    }
+                });
+            }
         }
 
         let narrative = await NarrativeGenerator.generateNarrativeAsync(
@@ -141,7 +159,7 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!narrative && sectionType in IPSMandatorySections) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
                 IPSMissingMandatorySectionContent[
-                    sectionType as keyof typeof IPSMissingMandatorySectionContent
+                sectionType as keyof typeof IPSMissingMandatorySectionContent
                 ]
             );
         }
@@ -158,11 +176,14 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param bundle - FHIR Bundle containing resources
      * @param timezone - Optional timezone to use for date formatting
      * @param useSummaryCompositions - Whether to use summary compositions (default: false)
+     * @param includeSummaryCompositionOnly - Whether to include only summary composition resources (default: false)
+     * @param consoleLogger - Optional console logger for logging (default: console)
      */
     async readBundleAsync(
         bundle: TBundle,
         timezone: string | undefined,
         useSummaryCompositions: boolean = false,
+        includeSummaryCompositionOnly: boolean = false,
         consoleLogger: Console = console
     ): Promise<this> {
         if (!bundle.entry) {
@@ -194,14 +215,14 @@ export class ComprehensiveIPSCompositionBuilder {
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             if (sectionIPSSummary.length > 0) {
                 consoleLogger.info(`Using IPS summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
                 continue;
             }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
                 consoleLogger.info(`Using summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
             } else {
                 consoleLogger.info(`Using individual resources for section: ${sectionType}`);
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
@@ -218,6 +239,7 @@ export class ComprehensiveIPSCompositionBuilder {
      * @param authorOrganizationName - Name of the authoring organization
      * @param baseUrl - Base URL for the FHIR server (e.g., 'https://example.com/fhir')
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @param includeSummaryCompositionOnly - Whether to include only summary composition resources (default: false)
      * @param patientId - Optional patient ID to use as primary patient for composition reference
      * @param now - Optional current date to use for composition date (defaults to new Date())
      */
@@ -226,6 +248,7 @@ export class ComprehensiveIPSCompositionBuilder {
         authorOrganizationName: string,
         baseUrl: string,
         timezone: string | undefined,
+        includeSummaryCompositionOnly: boolean = false,
         patientId?: string,
         now?: Date
     ): Promise<TBundle> {
@@ -238,7 +261,7 @@ export class ComprehensiveIPSCompositionBuilder {
         if (!this.patientSummary) {
             throw new Error('Patient summary narrative must be set before building the bundle');
         }
-        
+
         // For multiple patients, use the specified patientId or the first patient as primary
         const primaryPatientId = patientId ?? this.patients[0].id;
 
@@ -285,35 +308,37 @@ export class ComprehensiveIPSCompositionBuilder {
             resource: composition
         });
 
-        // Add patient entries
-        this.patients.forEach(patient => {
-            bundle.entry?.push({
-                fullUrl: `${baseUrl}/Patient/${patient.id}`,
-                resource: patient
+        if (!includeSummaryCompositionOnly) {
+            // Add patient entries
+            this.patients.forEach(patient => {
+                bundle.entry?.push({
+                    fullUrl: `${baseUrl}/Patient/${patient.id}`,
+                    resource: patient
+                });
             });
-        });
 
-        // Extract and add all resources referenced in sections
-        this.resources.forEach(resource => {
-            if (resource.resourceType !== "Patient") {
-                bundle.entry?.push(
-                    {
-                        fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
-                        resource: resource
-                    }
-                );
-            }
-        });
+            // Extract and add all resources referenced in sections
+            this.resources.forEach(resource => {
+                if (resource.resourceType !== "Patient") {
+                    bundle.entry?.push(
+                        {
+                            fullUrl: `${baseUrl}/${resource.resourceType}/${resource.id}`,
+                            resource: resource
+                        }
+                    );
+                }
+            });
 
-        // add a bundle entry for Organization
-        bundle.entry?.push({
-            fullUrl: `${baseUrl}/Organization/${authorOrganizationId}`,
-            resource: {
-                resourceType: 'Organization',
-                id: authorOrganizationId,
-                name: authorOrganizationName
-            }
-        });
+            // add a bundle entry for Organization
+            bundle.entry?.push({
+                fullUrl: `${baseUrl}/Organization/${authorOrganizationId}`,
+                resource: {
+                    resourceType: 'Organization',
+                    id: authorOrganizationId,
+                    name: authorOrganizationName
+                }
+            });
+        }
 
         return bundle;
     }
@@ -324,5 +349,43 @@ export class ComprehensiveIPSCompositionBuilder {
      */
     getSections(): TCompositionSection[] {
         return this.sections;
+    }
+
+    /**
+     * Identifies remaining resource types that are missing from the composition bundle.
+     * @param bundle - FHIR Bundle containing resources
+     * @returns Array of missing resource type strings
+     */
+    getRemainingResourcesFromCompositionBundle(
+        bundle: TBundle
+    ): string[] {
+
+        const resources = [] as TDomainResource[];
+
+        bundle.entry?.forEach(e => {
+            if (e.resource) {
+                resources.push(e.resource);
+            }
+        });
+
+        const remainingResources = new Set<string>()
+
+        for (const sectionType of Object.values(IPSSections)) {
+            const summaryIPSCompositionFilter = IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
+            const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
+            const summaryCompositionFilter = IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType);
+            const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
+            if (sectionSummary.length === 0 && sectionIPSSummary.length === 0) {
+                const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
+                resourcesForSection.forEach((resourceType) => {
+                    if (!remainingResources.has(resourceType) && !resources.some(r => r.resourceType === resourceType)) {
+                        remainingResources.add(resourceType);
+                    }
+                });
+            }
+
+        }
+
+        return Array.from(remainingResources);
     }
 }
