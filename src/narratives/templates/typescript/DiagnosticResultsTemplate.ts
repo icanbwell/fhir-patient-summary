@@ -828,7 +828,7 @@ export class DiagnosticResultsTemplate implements ISummaryTemplate {
             <td>${templateUtilities.capitalizeFirstLetter(obsCodeDisplay)}</td>
             <td>${templateUtilities.codeableConceptCoding(obs.code)}</td>
             <td>${templateUtilities.extractObservationValue(obs)}</td>
-            <td>${templateUtilities.concatReferenceRange(obs.referenceRange)}</td>
+            <td>${templateUtilities.extractObservationReferenceRange(obs.referenceRange)}</td>
             <td>${obs.effectiveDateTime ? templateUtilities.renderTime(obs.effectiveDateTime, timezone) : obs.effectivePeriod ? templateUtilities.renderPeriod(obs.effectivePeriod, timezone) : ''}</td>
             <td>${templateUtilities.getOwnerTag(obs)}</td>
           </tr>`;

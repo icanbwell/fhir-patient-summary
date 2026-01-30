@@ -773,6 +773,69 @@ export class TemplateUtilities {
         return '';
     }
 
+    /**
+     * Extracts and formats reference range data including low/high values and age ranges.
+     * @param listItems - Array of reference range objects
+     * @returns Formatted reference range string
+     */
+    public extractObservationReferenceRange(listItems: Array<Record<string, any>> | null | undefined): string {
+        if (!listItems || !Array.isArray(listItems) || listItems.length === 0) {
+            return '';
+        }
+
+        const referenceRange = listItems[0];
+        let result = '';
+
+        const low = referenceRange.low;
+        const high = referenceRange.high;
+
+        if (low) {
+            if (low.value) {
+                result += this.formatFloatValue(low.value);
+                if (low.unit) {
+                    result += ` ${low.unit}`;
+                }
+            }
+        }
+
+        if (high) {
+            if (result) {
+                result += ' - ';
+            }
+            if (high.value) {
+                result += this.formatFloatValue(high.value);
+                if (high.unit) {
+                    result += ` ${high.unit}`;
+                }
+            }
+        }
+
+        const age = referenceRange.age;
+        if (age) {
+            const ageParts: string[] = [];
+            const ageLow = age.low;
+            const ageHigh = age.high;
+
+            if (ageLow && ageLow.value) {
+                ageParts.push(`${this.formatFloatValue(ageLow.value)}${ageLow.unit ? ` ${ageLow.unit}` : ''}`);
+            }
+
+            if (ageHigh && ageHigh.value) {
+                ageParts.push(`${this.formatFloatValue(ageHigh.value)}${ageHigh.unit ? ` ${ageHigh.unit}` : ''}`);
+            }
+
+            if (ageParts.length > 0) {
+                if (result) {
+                    result += ` (Age: ${ageParts.join(' - ')})`;
+                } else {
+                    result = `Age: ${ageParts.join(' - ')}`;
+                }
+            }
+        }
+
+        return result;
+    }
+
     public extractObservationSummaryReferenceRange(data: Record<string, any>): string {
         let referenceRange = '';
         if (data["referenceRange.low.value"]) {
