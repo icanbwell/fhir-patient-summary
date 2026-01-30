@@ -242,7 +242,10 @@ describe('Narrative Generator Tests', () => {
             code: { text: 'Blood Glucose' },
             subject: { reference: 'Patient/test-patient-01' },
             effectiveDateTime: formatDate(new Date(currentYear, 0, 1)),
-            valueQuantity: { value: 100, unit: 'mg/dL' }
+            valueQuantity: { value: 100, unit: 'mg/dL' },
+            referenceRange: [
+                { low: { value: 70, unit: 'mg/dL' }, high: { value: 110, unit: 'mg/dL' } }
+            ]
         },
         {
             resourceType: 'Observation',
@@ -395,9 +398,10 @@ describe('Narrative Generator Tests', () => {
             resourceType: 'DiagnosticReport',
             id: 'report-02',
             status: 'final',
-            code: { text: 'MRI Brain' },
+            code: { text: 'MRI Brain', coding: [{ system: 'http://loinc.org', code: '6301-6', display: 'MRI Brain' }] },
             subject: { reference: 'Patient/test-patient-01' },
-            effectiveDateTime: '2023-02-01',
+            effectiveDateTime: '2025-02-01',
+            issued: '2025-02-02T10:00:00Z',
             conclusion: 'Normal brain MRI',
             presentedForm: [
                 {
@@ -676,6 +680,16 @@ describe('Narrative Generator Tests', () => {
             year: 'numeric'
         }));
         console.info(result);
+        // Read narrative from file
+        const expectedDiv = readNarrativeFile(
+            path.join(__dirname, 'fixtures'),
+            IPS_SECTION_LOINC_CODES[section],
+            IPS_SECTION_DISPLAY_NAMES[section]
+        );
+        await compareNarratives(
+            result,
+            expectedDiv
+        );
     });
 
     it('should generate narrative content for procedures using NarrativeGenerator', async () => {

@@ -790,7 +790,7 @@ export class TemplateUtilities {
         const high = referenceRange.high;
 
         if (low) {
-            if (low.value) {
+            if (low.value!=undefined && low.value!==null) {
                 result += this.formatFloatValue(low.value);
                 if (low.unit) {
                     result += ` ${low.unit}`;
@@ -799,14 +799,12 @@ export class TemplateUtilities {
         }
 
         if (high) {
-            if (result) {
+            if (result && (high.value!==undefined && high.value!==null)) {
                 result += ' - ';
             }
-            if (high.value) {
-                result += this.formatFloatValue(high.value);
-                if (high.unit) {
-                    result += ` ${high.unit}`;
-                }
+            result += this.formatFloatValue(high.value);
+            if (high.unit) {
+                result += ` ${high.unit}`;
             }
         }
 
@@ -816,11 +814,11 @@ export class TemplateUtilities {
             const ageLow = age.low;
             const ageHigh = age.high;
 
-            if (ageLow && ageLow.value) {
+            if (ageLow && ageLow.value!=undefined && ageLow.value!==null) {
                 ageParts.push(`${this.formatFloatValue(ageLow.value)}${ageLow.unit ? ` ${ageLow.unit}` : ''}`);
             }
 
-            if (ageHigh && ageHigh.value) {
+            if (ageHigh && ageHigh.value!=undefined && ageHigh.value!==null) {
                 ageParts.push(`${this.formatFloatValue(ageHigh.value)}${ageHigh.unit ? ` ${ageHigh.unit}` : ''}`);
             }
 
