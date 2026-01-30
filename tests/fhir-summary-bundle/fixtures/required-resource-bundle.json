@@ -1,0 +1,2095 @@
+{
+  "type": "searchset",
+  "timestamp": "2026-01-22T07:21:32.3232Z",
+  "entry": [
+    {
+      "id": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
+      "resource": {
+        "id": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
+        "identifier": [
+          {
+            "id": "sourceId",
+            "system": "https://www.icanbwell.com/sourceId",
+            "value": "018070b2-7a2e-4229-a4e4-e738d8301bc8"
+          },
+          {
+            "id": "uuid",
+            "system": "https://www.icanbwell.com/uuid",
+            "value": "018070b2-7a2e-4229-a4e4-e738d8301bc8"
+          }
+        ],
+        "link": [
+          {
+            "other": {
+              "extension": [
+                {
+                  "id": "sourceId",
+                  "url": "https://www.icanbwell.com/sourceId",
+                  "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+                },
+                {
+                  "id": "uuid",
+                  "url": "https://www.icanbwell.com/uuid",
+                  "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+                },
+                {
+                  "id": "sourceAssigningAuthority",
+                  "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                  "valueString": "client"
+                }
+              ],
+              "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            "type": "seealso"
+          }
+        ],
+        "managingOrganization": {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Organization/"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Organization/c8e9907c-11f9-5ec2-b623-d783e0e9be99"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Organization/c8e9907c-11f9-5ec2-b623-d783e0e9be99"
+        },
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2026-01-08T08:47:36.576Z",
+          "source": "test",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "synthea"
+            },
+            {
+              "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "code": "synthea"
+            }
+          ],
+          "tag": [
+            {
+              "id": null,
+              "extension": null,
+              "system": "https://www.icanbwell.com/uuid",
+              "version": null,
+              "code": "018070b2-7a2e-4229-a4e4-e738d8301bc8",
+              "display": null,
+              "userSelected": null
+            }
+          ]
+        },
+        "name": [
+          {
+            "given": [
+              "Test"
+            ]
+          }
+        ],
+        "resourceType": "Patient"
+      },
+      "fullUrl": "http://localhost:3000/4_0_0/Patient/018070b2-7a2e-4229-a4e4-e738d8301bc8"
+    },
+    {
+      "id": "5b241860-7a80-52fd-a589-31eafefcbd73",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "5b241860-7a80-52fd-a589-31eafefcbd73",
+        "meta": {
+          "versionId": "133",
+          "lastUpdated": "2026-01-21T08:29:54.085Z",
+          "source": "https://www.icanbwell.com/fhir-server-ips",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "code": "bwell"
+            }
+          ],
+          "tag": [
+            {
+              "id": null,
+              "extension": null,
+              "system": "https://www.icanbwell.com/uuid",
+              "version": null,
+              "code": "5b241860-7a80-52fd-a589-31eafefcbd73",
+              "display": null,
+              "userSelected": null
+            }
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "Condition|Condition Summary Grouped by Functional Status Code"
+        },
+        "identifier": {
+          "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+          "value": "bwell_composition_for_international_patient_summary"
+        },
+        "status": "preliminary",
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "ips_functional_status_condition_summary_document",
+              "display": "b.Well IPS Functional Status Condition Summary Composition Document"
+            }
+          ],
+          "text": "IPS Functional Status Condition Summary Composition Document"
+        },
+        "subject": {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
+          "type": "Patient"
+        },
+        "date": "2026-01-21T08:29:53.625717+00:00",
+        "author": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "synthea"
+              }
+            ],
+            "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
+            "type": "Organization",
+            "display": "bwell Connected Health"
+          }
+        ],
+        "title": "Condition|Condition Summary Grouped by Functional Status Code",
+        "section": [
+          {
+            "id": "c290f5f3-e2a5-563a-a235-54ccc6f7b8a1",
+            "title": "Eating",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45602-0",
+                  "display": "Eating"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedDate DESC"
+            },
+            "entry": [
+              {
+                "id": "f62b9e69-ef8f-50a7-8048-552cb31db0e8",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-eat1-perform789012-new123"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Condition/c1dfd674-356c-57a3-9d1b-80fc8508ca8d"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "synthea"
+                  }
+                ],
+                "reference": "Condition/c1dfd674-356c-57a3-9d1b-80fc8508ca8d",
+                "type": "Condition"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "9eb30389-eff9-5b04-816f-612d322f045b",
+                "title": "Condition Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Eating - self-performance during assessment period"
+                }
+              },
+              {
+                "id": "3650c45c-fe39-5ef1-a1d1-91b750b3cb01",
+                "title": "recordedDate",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-05-20T14:15:00+00:00"
+                }
+              },
+              {
+                "id": "d79835c4-fe84-5236-b5d9-d735e1a8ff5e",
+                "title": "onsetDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-05-20T14:15:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "id": "a2904045-b1ae-557a-ad25-d8d5912df596",
+            "title": "Bed Mobility",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45588-1",
+                  "display": "Bed Mobility"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedDate DESC"
+            },
+            "entry": [
+              {
+                "id": "6a8e9d4c-8186-5c5f-8d4d-3df6435f6438",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-bed1-mobility123456-new123"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Condition/f2dbfd84-be1a-5f75-982d-a2054af23808"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Condition/f2dbfd84-be1a-5f75-982d-a2054af23808",
+                "type": "Condition"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "9eb30389-eff9-5b04-816f-612d322f045b",
+                "title": "Condition Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Bed mobility - self-performance during assessment period"
+                }
+              },
+              {
+                "id": "3650c45c-fe39-5ef1-a1d1-91b750b3cb01",
+                "title": "recordedDate",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-03-15T10:30:00+00:00"
+                }
+              },
+              {
+                "id": "d79835c4-fe84-5236-b5d9-d735e1a8ff5e",
+                "title": "onsetDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-03-15T10:30:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "id": "3c85bd2c-4a4e-5190-8274-0a0ba5f54738",
+            "title": "Transfer",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45590-7",
+                  "display": "Transfer"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedDate DESC"
+            },
+            "entry": [
+              {
+                "id": "465ca8fb-626a-518b-94ff-0b16054e6ab2",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-tran-perform345678-new123"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Condition/519fc92e-4fa7-517a-b532-8e80ab3c1568"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Condition/519fc92e-4fa7-517a-b532-8e80ab3c1568",
+                "type": "Condition"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "9eb30389-eff9-5b04-816f-612d322f045b",
+                "title": "Condition Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Transfer - self-performance during assessment period"
+                }
+              },
+              {
+                "id": "3650c45c-fe39-5ef1-a1d1-91b750b3cb01",
+                "title": "recordedDate",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-01-10T09:00:00+00:00"
+                }
+              },
+              {
+                "id": "f8681225-ee83-5ac7-9b61-d059b1146d26",
+                "title": "onsetPeriod.start",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-01-10T09:00:00+00:00"
+                }
+              },
+              {
+                "id": "568405c8-31b9-5239-8855-84d739fa519d",
+                "title": "onsetPeriod.end",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-02-15T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "id": "07331967-55fc-56a2-b7d4-8f7b2d11c048",
+            "title": "Disability & Impairment",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "21134002",
+                  "display": "Disability & Impairment"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedDate DESC"
+            },
+            "entry": [
+              {
+                "id": "99dcff22-9876-526b-b6ba-547e98db8fdc",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2-new123"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2-new123"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "synthea"
+                  }
+                ],
+                "reference": "Condition/ac59c2e9-d108-03bd-15e4-c307e09628a2-new123",
+                "type": "Condition"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "Synthea"
+                }
+              },
+              {
+                "id": "9eb30389-eff9-5b04-816f-612d322f045b",
+                "title": "Condition Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Disability evaluation"
+                }
+              },
+              {
+                "id": "3650c45c-fe39-5ef1-a1d1-91b750b3cb01",
+                "title": "recordedDate",
+                "text": {
+                  "status": "generated",
+                  "div": "2023-09-21T21:39:36+00:00"
+                }
+              },
+              {
+                "id": "d79835c4-fe84-5236-b5d9-d735e1a8ff5e",
+                "title": "onsetDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2023-09-21T21:39:36+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "id": "52e2b99a-fdf9-5932-a4c3-1ff71c1ac4b8",
+            "title": "Mobility & Movement",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "282145008",
+                  "display": "Mobility & Movement"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedDate DESC"
+            },
+            "entry": [
+              {
+                "id": "3eeff160-a714-53f9-b74a-d3d902f86c30",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-00d2-5ed6f2fded70-new123"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-00d2-5ed6f2fded70-new123"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Condition/ac59c2e9-d108-03bd-00d2-5ed6f2fded70-new123",
+                "type": "Condition"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "9eb30389-eff9-5b04-816f-612d322f045b",
+                "title": "Condition Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Unable to walk"
+                }
+              },
+              {
+                "id": "3650c45c-fe39-5ef1-a1d1-91b750b3cb01",
+                "title": "recordedDate",
+                "text": {
+                  "status": "generated",
+                  "div": "2020-10-26T03:58:10+00:00"
+                }
+              },
+              {
+                "id": "d79835c4-fe84-5236-b5d9-d735e1a8ff5e",
+                "title": "onsetDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2020-10-26T03:58:10+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "id": "3a4a7084-14c3-59c4-a20d-c9859e7fb903",
+            "title": "Activities of Daily Living",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "301438001",
+                  "display": "Activities of Daily Living"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedDate DESC"
+            },
+            "entry": [
+              {
+                "id": "ecfaf80b-0f51-53eb-a85e-3f1ae4e417f8",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-2332-79e0b09683c6-new123"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Condition/ac59c2e9-d108-03bd-2332-79e0b09683c6-new123"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Condition/ac59c2e9-d108-03bd-2332-79e0b09683c6-new123",
+                "type": "Condition"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "9eb30389-eff9-5b04-816f-612d322f045b",
+                "title": "Condition Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Able to perform activities of daily living"
+                }
+              },
+              {
+                "id": "3650c45c-fe39-5ef1-a1d1-91b750b3cb01",
+                "title": "recordedDate",
+                "text": {
+                  "status": "generated",
+                  "div": "2019-06-27T21:39:36+00:00"
+                }
+              },
+              {
+                "id": "d79835c4-fe84-5236-b5d9-d735e1a8ff5e",
+                "title": "onsetDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2019-06-27T21:39:36+00:00"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fullUrl": "http://localhost:3000/4_0_0/Composition/5b241860-7a80-52fd-a589-31eafefcbd73"
+    },
+    {
+      "id": "0f941baa-9e5e-5ee5-904a-9712c965b542",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "0f941baa-9e5e-5ee5-904a-9712c965b542",
+        "meta": {
+          "versionId": "132",
+          "lastUpdated": "2026-01-21T08:29:53.964Z",
+          "source": "https://www.icanbwell.com/fhir-server-ips",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "code": "bwell"
+            }
+          ],
+          "tag": [
+            {
+              "id": null,
+              "extension": null,
+              "system": "https://www.icanbwell.com/uuid",
+              "version": null,
+              "code": "0f941baa-9e5e-5ee5-904a-9712c965b542",
+              "display": null,
+              "userSelected": null
+            }
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "Patient Summary"
+        },
+        "identifier": {
+          "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+          "value": "bwell_composition_for_international_patient_summary"
+        },
+        "status": "preliminary",
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "ips_patient_summary_document",
+              "display": "b.Well IPS Patient Summary Composition Document"
+            }
+          ],
+          "text": "IPS Patient Summary Composition Document"
+        },
+        "subject": {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "synthea"
+            }
+          ],
+          "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
+          "type": "Patient"
+        },
+        "date": "2026-01-21T08:29:53.521785+00:00",
+        "author": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "synthea"
+              }
+            ],
+            "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
+            "type": "Organization",
+            "display": "bwell Connected Health"
+          }
+        ],
+        "title": "Patient Summary",
+        "section": [
+          {
+            "id": "de557b5a-6361-51ec-9f05-465445c34ca5",
+            "title": "Patient Summary",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "60591-5",
+                  "display": "Patient Summary Document"
+                }
+              ]
+            },
+            "mode": "working",
+            "section": [
+              {
+                "id": "45e98168-6639-5ad2-b29a-4aa65df143d3",
+                "title": "Name",
+                "section": [
+                  {
+                    "id": "4457bad9-a0de-5bcf-ad7a-4d84f012e653",
+                    "title": "Name",
+                    "text": {
+                      "status": "generated",
+                      "div": "Test"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "ba630aa7-8d82-5edb-8b0c-ca35ea57b418",
+                "title": "Gender",
+                "text": {
+                  "status": "generated",
+                  "div": "Female"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fullUrl": "http://localhost:3000/4_0_0/Composition/0f941baa-9e5e-5ee5-904a-9712c965b542"
+    },
+    {
+      "id": "66ca1d5c-8b57-5228-9943-87056bb4e686",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "66ca1d5c-8b57-5228-9943-87056bb4e686",
+        "meta": {
+          "versionId": "131",
+          "lastUpdated": "2026-01-21T08:29:54.087Z",
+          "source": "https://www.icanbwell.com/fhir-server-ips",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "code": "bwell"
+            }
+          ],
+          "tag": [
+            {
+              "id": null,
+              "extension": null,
+              "system": "https://www.icanbwell.com/uuid",
+              "version": null,
+              "code": "66ca1d5c-8b57-5228-9943-87056bb4e686",
+              "display": null,
+              "userSelected": null
+            }
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "Clinical Impression|Clinical Impression Summary"
+        },
+        "identifier": {
+          "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+          "value": "bwell_composition_for_international_patient_summary"
+        },
+        "status": "preliminary",
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "ips_functional_status_clinical_impression_summary_document",
+              "display": "b.Well IPS Functional Status Clinical Impression Summary Composition Document"
+            }
+          ],
+          "text": "IPS Functional Status Clinical Impression Summary Composition Document"
+        },
+        "subject": {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
+          "type": "Patient"
+        },
+        "date": "2026-01-21T08:29:53.716542+00:00",
+        "author": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "bwell"
+              }
+            ],
+            "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
+            "type": "Organization",
+            "display": "bwell Connected Health"
+          }
+        ],
+        "title": "Clinical Impression|Clinical Impression Summary",
+        "section": [
+          {
+            "id": "db2abbfa-638b-59fa-aaf8-1d56b5ceafcd",
+            "title": "Unable to walk",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "282145008",
+                  "display": "Unable to walk"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "aa58da26-f77c-546c-89f1-fe3093c4486a",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "ClinicalImpression/clinical-impression-mobility-001"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "ClinicalImpression/d3c8f923-19a3-566b-acca-f40ca9c65982"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "ClinicalImpression/d3c8f923-19a3-566b-acca-f40ca9c65982",
+                "type": "ClinicalImpression"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "b88bbb92-b552-50b8-8064-55b454f4de03",
+                "title": "Clinical Impression Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Unable to walk"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-11-15T14:30:00+00:00"
+                }
+              },
+              {
+                "id": "eb2d4306-b84f-5285-ae9e-07bab4215abd",
+                "title": "Description",
+                "text": {
+                  "status": "generated",
+                  "div": "Patient assessment reveals inability to walk independently. Requires wheelchair for mobility."
+                }
+              },
+              {
+                "id": "988d6533-5064-5707-923e-10c66f96d272",
+                "title": "Summary",
+                "text": {
+                  "status": "generated",
+                  "div": "Mobility assessment indicates patient is unable to walk without assistance. Wheelchair dependent."
+                }
+              }
+            ]
+          },
+          {
+            "id": "b7f66e73-3ae0-5c54-8cef-b9f343a612fc",
+            "title": "Difficulty performing activities of daily living",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "719930002",
+                  "display": "Difficulty performing activities of daily living"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "4856deca-00f6-5aab-b6e5-d24fd3f72410",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "ClinicalImpression/clinical-impression-adl-002"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "ClinicalImpression/7f7fe170-b3db-5176-8a4e-609e1f4a621a"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "ClinicalImpression/7f7fe170-b3db-5176-8a4e-609e1f4a621a",
+                "type": "ClinicalImpression"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "b88bbb92-b552-50b8-8064-55b454f4de03",
+                "title": "Clinical Impression Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Difficulty performing activities of daily living"
+                }
+              },
+              {
+                "id": "04324867-6e35-560e-8d25-cb0106c10fcd",
+                "title": "effectivePeriod.start",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-10-01T09:00:00+00:00"
+                }
+              },
+              {
+                "id": "7d28e074-10e6-5895-a40c-8925ca27aeb5",
+                "title": "effectivePeriod.end",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-10-15T17:00:00+00:00"
+                }
+              },
+              {
+                "id": "eb2d4306-b84f-5285-ae9e-07bab4215abd",
+                "title": "Description",
+                "text": {
+                  "status": "generated",
+                  "div": "Comprehensive ADL assessment shows patient requires assistance with bathing, dressing, and meal preparation."
+                }
+              },
+              {
+                "id": "988d6533-5064-5707-923e-10c66f96d272",
+                "title": "Summary",
+                "text": {
+                  "status": "generated",
+                  "div": "Patient demonstrates difficulty performing activities of daily living. Requires moderate assistance."
+                }
+              }
+            ]
+          },
+          {
+            "id": "c937e7cc-12ea-51a3-9b41-d42496bbddf6",
+            "title": "Disability evaluation",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "21134002",
+                  "display": "Disability evaluation"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "5b167372-e1d9-5907-b0aa-fd31b8296c12",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "ClinicalImpression/clinical-impression-disability-003"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "ClinicalImpression/013adccc-c372-5a90-bb17-99eb9a1a52d2"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "ClinicalImpression/013adccc-c372-5a90-bb17-99eb9a1a52d2",
+                "type": "ClinicalImpression"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "b88bbb92-b552-50b8-8064-55b454f4de03",
+                "title": "Clinical Impression Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Disability evaluation"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-09-20T11:45:00+00:00"
+                }
+              },
+              {
+                "id": "eb2d4306-b84f-5285-ae9e-07bab4215abd",
+                "title": "Description",
+                "text": {
+                  "status": "generated",
+                  "div": "Formal disability evaluation conducted. Patient shows significant functional limitations across multiple domains."
+                }
+              },
+              {
+                "id": "988d6533-5064-5707-923e-10c66f96d272",
+                "title": "Summary",
+                "text": {
+                  "status": "generated",
+                  "div": "Disability evaluation confirms moderate to severe functional impairment. Patient eligible for disability services."
+                }
+              }
+            ]
+          },
+          {
+            "id": "c8199e7d-f6c0-5fcb-a7cb-6f8201b0e122",
+            "title": "Bed mobility - self-performance during assessment period",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45588-1",
+                  "display": "Bed mobility - self-performance during assessment period"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "c152533c-2207-5097-a46c-9f0e9e310ded",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "ClinicalImpression/clinical-impression-bed-mobility-004"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "ClinicalImpression/0ef7d1b0-afff-57a6-b7ea-ed1f8159a453"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "ClinicalImpression/0ef7d1b0-afff-57a6-b7ea-ed1f8159a453",
+                "type": "ClinicalImpression"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "b88bbb92-b552-50b8-8064-55b454f4de03",
+                "title": "Clinical Impression Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Bed mobility - self-performance during assessment period"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-08-10T08:15:00+00:00"
+                }
+              },
+              {
+                "id": "eb2d4306-b84f-5285-ae9e-07bab4215abd",
+                "title": "Description",
+                "text": {
+                  "status": "generated",
+                  "div": "Assessment of bed mobility shows patient can turn and reposition with minimal assistance. Able to move from lying to sitting with contact guard assistance."
+                }
+              },
+              {
+                "id": "988d6533-5064-5707-923e-10c66f96d272",
+                "title": "Summary",
+                "text": {
+                  "status": "generated",
+                  "div": "Bed mobility assessment: Patient demonstrates adequate bed mobility with minimal support. Independent with bed positioning using bed rails."
+                }
+              }
+            ]
+          },
+          {
+            "id": "e337c920-da6e-558e-933b-ae436e7aa7e4",
+            "title": "Eating - self-performance during assessment period",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "45602-0",
+                  "display": "Eating - self-performance during assessment period"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "49d9a5f8-5cbe-56ce-a7de-94978e4da3f0",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "ClinicalImpression/clinical-impression-eating-005"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "ClinicalImpression/47055765-1c07-5049-800d-35fd82d5c071"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "ClinicalImpression/47055765-1c07-5049-800d-35fd82d5c071",
+                "type": "ClinicalImpression"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "b88bbb92-b552-50b8-8064-55b454f4de03",
+                "title": "Clinical Impression Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Eating - self-performance during assessment period"
+                }
+              },
+              {
+                "id": "04324867-6e35-560e-8d25-cb0106c10fcd",
+                "title": "effectivePeriod.start",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-07-15T12:00:00+00:00"
+                }
+              },
+              {
+                "id": "7d28e074-10e6-5895-a40c-8925ca27aeb5",
+                "title": "effectivePeriod.end",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-07-15T13:30:00+00:00"
+                }
+              },
+              {
+                "id": "eb2d4306-b84f-5285-ae9e-07bab4215abd",
+                "title": "Description",
+                "text": {
+                  "status": "generated",
+                  "div": "Eating and feeding assessment completed during lunch. Patient demonstrates independent eating with use of adaptive utensils. No choking hazards observed."
+                }
+              },
+              {
+                "id": "988d6533-5064-5707-923e-10c66f96d272",
+                "title": "Summary",
+                "text": {
+                  "status": "generated",
+                  "div": "Eating assessment: Patient is independent with eating using adaptive equipment. Modified diet texture recommended."
+                }
+              }
+            ]
+          },
+          {
+            "id": "84b0e480-94c5-5dc6-8570-ec394d25653b",
+            "title": "Independent in wheelchair",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "165245003",
+                  "display": "Independent in wheelchair"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "bca5d083-42ee-51a5-8bb7-17c79e5c2968",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "ClinicalImpression/clinical-impression-wheelchair-006"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "ClinicalImpression/df7cdecc-7d76-53a4-a533-bccb6915b808"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "ClinicalImpression/df7cdecc-7d76-53a4-a533-bccb6915b808",
+                "type": "ClinicalImpression"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "synthea"
+                }
+              },
+              {
+                "id": "b88bbb92-b552-50b8-8064-55b454f4de03",
+                "title": "Clinical Impression Name",
+                "text": {
+                  "status": "generated",
+                  "div": "Independent in wheelchair"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-06-25T10:00:00+00:00"
+                }
+              },
+              {
+                "id": "eb2d4306-b84f-5285-ae9e-07bab4215abd",
+                "title": "Description",
+                "text": {
+                  "status": "generated",
+                  "div": "Wheelchair mobility assessment demonstrates patient's proficiency in operating manual wheelchair. Patient can navigate tight spaces, perform transfers, and manage slopes independently."
+                }
+              },
+              {
+                "id": "988d6533-5064-5707-923e-10c66f96d272",
+                "title": "Summary",
+                "text": {
+                  "status": "generated",
+                  "div": "Wheelchair mobility assessment: Patient is fully independent in wheelchair use. Demonstrates excellent wheelchair skills and safety awareness."
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fullUrl": "http://localhost:3000/4_0_0/Composition/66ca1d5c-8b57-5228-9943-87056bb4e686"
+    },
+    {
+      "id": "84142774-9e0d-5e96-90be-45415e179fb0",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "84142774-9e0d-5e96-90be-45415e179fb0",
+        "meta": {
+          "versionId": "14",
+          "lastUpdated": "2026-01-21T08:29:54.088Z",
+          "source": "https://www.icanbwell.com/fhir-server-ips",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "code": "bwell"
+            }
+          ],
+          "tag": [
+            {
+              "id": null,
+              "extension": null,
+              "system": "https://www.icanbwell.com/uuid",
+              "version": null,
+              "code": "84142774-9e0d-5e96-90be-45415e179fb0",
+              "display": null,
+              "userSelected": null
+            }
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "Device Use Statement|History of Medical Devices"
+        },
+        "identifier": {
+          "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+          "value": "bwell_composition_for_international_patient_summary"
+        },
+        "status": "preliminary",
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "ips_medical_device_summary_document",
+              "display": "b.Well IPS Medical Devices Summary Composition Document"
+            }
+          ],
+          "text": "IPS Medical Devices Summary Composition Document"
+        },
+        "subject": {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
+          "type": "Patient"
+        },
+        "date": "2026-01-21T08:29:53.825144+00:00",
+        "author": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "bwell"
+              }
+            ],
+            "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
+            "type": "Organization",
+            "display": "bwell Connected Health"
+          }
+        ],
+        "title": "Device Use Statement|History of Medical Devices",
+        "section": [
+          {
+            "id": "7a873080-e954-5898-952f-3db4309e860e",
+            "title": "Continuous glucose monitor",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "706767009",
+                  "display": "Continuous glucose monitor"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by recordedOn DESC"
+            },
+            "entry": [
+              {
+                "id": "d6078590-0686-5809-8562-43ebd1209fe1",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "DeviceUseStatement/8900d9fb-be7a-419b-891b-7f08e1067fef"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "DeviceUseStatement/8900d9fb-be7a-419b-891b-7f08e1067fef"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "DeviceUseStatement/8900d9fb-be7a-419b-891b-7f08e1067fef",
+                "type": "DeviceUseStatement"
+              },
+              {
+                "id": "aef30c24-062b-50c3-b663-bccbf19344b5",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Device/6e03496b-964e-4d6a-a6fd-671068226a09"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Device/6e03496b-964e-4d6a-a6fd-671068226a09"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Device/6e03496b-964e-4d6a-a6fd-671068226a09",
+                "type": "Device"
+              }
+            ],
+            "section": [
+              {
+                "id": "10664096-7eaa-5e8f-8563-7130c55a7ce4",
+                "title": "device_ids",
+                "text": {
+                  "status": "generated",
+                  "div": "['6e03496b-964e-4d6a-a6fd-671068226a09']"
+                }
+              },
+              {
+                "id": "96c7b383-d229-5d85-917f-c18a549e3709",
+                "title": "Device Name",
+                "text": {
+                  "status": "generated",
+                  "div": "prosthetic leg,nakli leg"
+                }
+              },
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "client1"
+                }
+              },
+              {
+                "id": "199a98e8-0676-59ba-9deb-6de8e48008de",
+                "title": "Notes",
+                "text": {
+                  "status": "generated",
+                  "div": "Note 1, Note 2"
+                }
+              },
+              {
+                "id": "c2ff9576-03e7-5ddc-950e-6030d5aa1a0f",
+                "title": "Status",
+                "text": {
+                  "status": "generated",
+                  "div": "active"
+                }
+              },
+              {
+                "id": "0731bf5e-065c-5bdb-82ce-2fc04773cd51",
+                "title": "Recorded On",
+                "text": {
+                  "status": "generated",
+                  "div": "2023-04-05T12:30:10+01:00"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fullUrl": "http://localhost:3000/4_0_0/Composition/84142774-9e0d-5e96-90be-45415e179fb0"
+    },
+    {
+      "id": "e613002c-4da1-5ab1-b8dc-5d999bcfb756",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "e613002c-4da1-5ab1-b8dc-5d999bcfb756",
+        "meta": {
+          "versionId": "9",
+          "lastUpdated": "2026-01-21T08:29:54.089Z",
+          "source": "https://www.icanbwell.com/fhir-server-ips",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "bwell"
+            },
+            {
+              "system": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "code": "bwell"
+            }
+          ],
+          "tag": [
+            {
+              "id": null,
+              "extension": null,
+              "system": "https://www.icanbwell.com/uuid",
+              "version": null,
+              "code": "e613002c-4da1-5ab1-b8dc-5d999bcfb756",
+              "display": null,
+              "userSelected": null
+            }
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "Observation|History of Pregnancies Summary"
+        },
+        "identifier": {
+          "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/bwell",
+          "value": "bwell_composition_for_international_patient_summary"
+        },
+        "status": "preliminary",
+        "type": {
+          "coding": [
+            {
+              "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/",
+              "code": "ips_pregnancy_history_summary_document",
+              "display": "b.Well IPS History of Pregnancies Summary Composition Document"
+            }
+          ],
+          "text": "IPS History of Pregnancies Summary Composition Document"
+        },
+        "subject": {
+          "extension": [
+            {
+              "id": "sourceId",
+              "url": "https://www.icanbwell.com/sourceId",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "uuid",
+              "url": "https://www.icanbwell.com/uuid",
+              "valueString": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a"
+            },
+            {
+              "id": "sourceAssigningAuthority",
+              "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+              "valueString": "bwell"
+            }
+          ],
+          "reference": "Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a",
+          "type": "Patient"
+        },
+        "date": "2026-01-21T08:29:53.894374+00:00",
+        "author": [
+          {
+            "extension": [
+              {
+                "id": "sourceId",
+                "url": "https://www.icanbwell.com/sourceId",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "uuid",
+                "url": "https://www.icanbwell.com/uuid",
+                "valueString": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1"
+              },
+              {
+                "id": "sourceAssigningAuthority",
+                "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                "valueString": "bwell"
+              }
+            ],
+            "reference": "Organization/c9511013-0862-4cdd-a466-c6e028d42bf1",
+            "type": "Organization",
+            "display": "bwell Connected Health"
+          }
+        ],
+        "title": "Observation|History of Pregnancies Summary",
+        "section": [
+          {
+            "id": "0203b0ea-d4c6-5ca6-8632-605ec03c368b",
+            "title": "Pregnancy status",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "LA15173-0",
+                  "display": "Pregnancy status"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "2c71497c-725d-5369-bb24-ff94c049c7e2",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Observation/15e23007-3350-462c-bcfc-612196e8f59a"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Observation/15e23007-3350-462c-bcfc-612196e8f59a"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Observation/15e23007-3350-462c-bcfc-612196e8f59a",
+                "type": "Observation"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "client"
+                }
+              },
+              {
+                "id": "28f1be39-6c33-5d16-ac56-fd605b6b6a4d",
+                "title": "Pregnancy Result",
+                "text": {
+                  "status": "generated",
+                  "div": "Pregnant"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2026-01-15T10:30:00Z"
+                }
+              }
+            ]
+          },
+          {
+            "id": "7ec6d30c-8a88-51e8-88fc-6d2cab00e13a",
+            "title": "Pregnancy outcome",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "63893-2",
+                  "display": "Pregnancy outcome"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "8fdfd466-307b-5c1d-9bed-680c1b22790f",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Observation/7c37d11e-2de4-42f8-936f-30b00fad275d"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Observation/7c37d11e-2de4-42f8-936f-30b00fad275d"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Observation/7c37d11e-2de4-42f8-936f-30b00fad275d",
+                "type": "Observation"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "client"
+                }
+              },
+              {
+                "id": "28f1be39-6c33-5d16-ac56-fd605b6b6a4d",
+                "title": "Pregnancy Result",
+                "text": {
+                  "status": "generated",
+                  "div": "Live Birth"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2025-08-15T14:20:00Z"
+                }
+              }
+            ]
+          },
+          {
+            "id": "7b806dfb-3f29-56ad-b0cf-013da900c12b",
+            "title": "Expected Delivery Date",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "72892002",
+                  "display": "Expected Delivery Date"
+                }
+              ]
+            },
+            "mode": "working",
+            "orderedBy": {
+              "coding": [
+                {
+                  "id": "78d0d5c1-1d89-584a-935d-11c809e894da",
+                  "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                  "code": "event-date",
+                  "display": "Sorted by Event Date"
+                }
+              ],
+              "text": "Sorted by effectiveDateTime|effectivePeriod.start|effectivePeriod.end DESC"
+            },
+            "entry": [
+              {
+                "id": "0b94f9ec-892f-5f93-9bf8-1b7817ee9f85",
+                "extension": [
+                  {
+                    "id": "sourceId",
+                    "url": "https://www.icanbwell.com/sourceId",
+                    "valueString": "Observation/b67ef42b-58d7-4d1d-8846-d68a10444c07"
+                  },
+                  {
+                    "id": "uuid",
+                    "url": "https://www.icanbwell.com/uuid",
+                    "valueString": "Observation/b67ef42b-58d7-4d1d-8846-d68a10444c07"
+                  },
+                  {
+                    "id": "sourceAssigningAuthority",
+                    "url": "https://www.icanbwell.com/sourceAssigningAuthority",
+                    "valueString": "bwell"
+                  }
+                ],
+                "reference": "Observation/b67ef42b-58d7-4d1d-8846-d68a10444c07",
+                "type": "Observation"
+              }
+            ],
+            "section": [
+              {
+                "id": "848a1fc3-b1b7-53ae-981e-d19f46d2ec4f",
+                "title": "Source",
+                "text": {
+                  "status": "generated",
+                  "div": "client"
+                }
+              },
+              {
+                "id": "57100136-2858-5f4a-89dd-b68ada5ce26e",
+                "title": "valueDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2024-09-20"
+                }
+              },
+              {
+                "id": "3c0f7407-0687-5ae5-ad60-0d7128aee9f2",
+                "title": "effectiveDateTime",
+                "text": {
+                  "status": "generated",
+                  "div": "2025-01-15T10:30:00Z"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fullUrl": "http://localhost:3000/4_0_0/Composition/e613002c-4da1-5ab1-b8dc-5d999bcfb756"
+    }
+  ],
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:3000/4_0_0/Patient/person.1a364995-ee2d-5e46-97c6-90443fdda48a/$summary?_includeSummaryCompositionOnly=true&_lastUpdated=gt2025-12-22&_format=json&_metaUuid=1"
+    }
+  ],
+  "resourceType": "Bundle",
+  "total": null,
+  "id": "ef9613b0-bb8b-48f4-9ce6-689c6be05cda"
+}

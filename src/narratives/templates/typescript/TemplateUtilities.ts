@@ -116,14 +116,28 @@ export class TemplateUtilities {
     }
 
     /**
-     * Renders a Device reference
+     * Resolves and returns a Device resource from a Device Reference.
+     * Returns null if the reference cannot be resolved or is not a Device.
      * @param deviceRef - Reference to a Device resource
-     * @returns Formatted device description
+     * @returns The resolved Device resource or null
+     */
+    public getDeviceFromReference(deviceRef: TReference): TDevice | null {
+        if (!deviceRef) return null;
+        const device = this.resolveReference<TDevice>(deviceRef);
+        return device && device.resourceType === 'Device' ? device : null;
+    }
+
+    /**
+     * Renders a Device name from a Device reference.
+     * Uses getDeviceFromReference to resolve the Device and returns a concatenated device.deviceName.
+     * Returns an empty string if no deviceName is available. The returned text is HTML-safe.
+     * @param deviceRef - Reference to a Device resource
+     * @returns Sanitized device name or empty string
      */
     renderDevice(deviceRef: TReference): string {
-        const device: TDevice | undefined = deviceRef && this.resolveReference(deviceRef) as TDevice;
+        const device = this.getDeviceFromReference(deviceRef);
 
-        if (device && device.resourceType === 'Device' && device.deviceName && device.deviceName.length > 0) {
+        if (device && device.deviceName && device.deviceName.length > 0) {
             return this.safeConcat(device.deviceName, 'name');
         }
 
@@ -800,7 +814,7 @@ export class TemplateUtilities {
         return parts.join(' ').trim();
     }
 
-    private formatCodeableConceptValue(concept: any): string {
+    formatCodeableConceptValue(concept: any): string {
         if (!concept) return '';
 
         // Prefer text if available
