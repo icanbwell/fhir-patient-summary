@@ -53,22 +53,22 @@ describe('IPSSectionResourceHelper', () => {
     expect(filter && filter(mockObservation)).toBe(false);
   });
 
-  it('should filter pregnancy history resources correctly', () => {
-    const filter = IPSSectionResourceFilters[IPSSections.PREGNANCY_HISTORY];
-    const mockObservation = {
-      resourceType: 'Observation',
-      code: { coding: [{ code: 'LA15173-0', system: 'http://loinc.org' }] },
-    };
-    const mockPatientFemale = {
-      resourceType: 'Patient',
-      gender: 'female',
-    };
-    const mockPatientMale = {
-      resourceType: 'Patient',
-      gender: 'male',
-    };
-    expect(filter && filter(mockObservation)).toBe(true);
-    expect(filter && filter(mockPatientFemale)).toBe(true);
-    expect(filter && filter(mockPatientMale)).toBe(false);
-  });
+  // it('should filter pregnancy history resources correctly', () => {
+  //   const filter = IPSSectionResourceFilters[IPSSections.PREGNANCY_HISTORY];
+  //   const mockObservation = {
+  //     resourceType: 'Observation',
+  //     code: { coding: [{ code: 'LA15173-0', system: 'http://loinc.org' }] },
+  //   };
+  //   const mockPatientFemale = {
+  //     resourceType: 'Patient',
+  //     gender: 'female',
+  //   };
+  //   const mockPatientMale = {
+  //     resourceType: 'Patient',
+  //     gender: 'male',
+  //   };
+  //   expect(filter && filter(mockObservation)).toBe(true);
+  //   expect(filter && filter(mockPatientFemale)).toBe(true);
+  //   expect(filter && filter(mockPatientMale)).toBe(false);
+  // });
 });

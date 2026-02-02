@@ -782,48 +782,48 @@ describe('Narrative Generator Tests', () => {
         );
     });
 
-    it('should generate narrative content for pregnancy history using NarrativeGenerator', async () => {
-        const section = IPSSections.PREGNANCY_HISTORY;
-        const mockPregnancyObservations: TObservation[] = [
-            {
-                resourceType: 'Observation',
-                id: 'preg-01',
-                status: 'final',
-                category: [{ coding: [{ code: 'social-history' }] }],
-                code: {
-                    coding: [
-                        {
-                            system: "http://loinc.org",
-                            code: "LA15173-0",
-                            display: "Pregnant"
-                        }
-                    ],
-                    text: 'Pregnancy History'
-                },
-                subject: { reference: 'Patient/test-patient-01' },
-                effectiveDateTime: '2023-01-01',
-                valueCodeableConcept: { text: 'G2 P1' }
-            }
-        ];
-        const mockPatientPregnancy: TPatient[] = [{
-            resourceType: 'Patient',
-            id: 'test-patient-02',
-            identifier: [{ system: 'https://example.org', value: '67890' }],
-            name: [{ family: 'Smith', given: ['Jane'] }],
-            gender: 'female',
-        }];
-        const result = await NarrativeGenerator.generateNarrativeContentAsync(section, [...mockPregnancyObservations, ...mockPatientPregnancy], 'America/New_York');
-        expect(result).toBeDefined();
-        console.info(result);
+    // it('should generate narrative content for pregnancy history using NarrativeGenerator', async () => {
+    //     const section = IPSSections.PREGNANCY_HISTORY;
+    //     const mockPregnancyObservations: TObservation[] = [
+    //         {
+    //             resourceType: 'Observation',
+    //             id: 'preg-01',
+    //             status: 'final',
+    //             category: [{ coding: [{ code: 'social-history' }] }],
+    //             code: {
+    //                 coding: [
+    //                     {
+    //                         system: "http://loinc.org",
+    //                         code: "LA15173-0",
+    //                         display: "Pregnant"
+    //                     }
+    //                 ],
+    //                 text: 'Pregnancy History'
+    //             },
+    //             subject: { reference: 'Patient/test-patient-01' },
+    //             effectiveDateTime: '2023-01-01',
+    //             valueCodeableConcept: { text: 'G2 P1' }
+    //         }
+    //     ];
+    //     const mockPatientPregnancy: TPatient[] = [{
+    //         resourceType: 'Patient',
+    //         id: 'test-patient-02',
+    //         identifier: [{ system: 'https://example.org', value: '67890' }],
+    //         name: [{ family: 'Smith', given: ['Jane'] }],
+    //         gender: 'female',
+    //     }];
+    //     const result = await NarrativeGenerator.generateNarrativeContentAsync(section, [...mockPregnancyObservations, ...mockPatientPregnancy], 'America/New_York');
+    //     expect(result).toBeDefined();
+    //     console.info(result);
 
-        const expectedDiv = readNarrativeFile(
-            path.join(__dirname, 'fixtures'),
-            IPS_SECTION_LOINC_CODES[section],
-            IPS_SECTION_DISPLAY_NAMES[section]
-        );
-        await compareNarratives(
-            result,
-            expectedDiv
-        );
-    });
+    //     const expectedDiv = readNarrativeFile(
+    //         path.join(__dirname, 'fixtures'),
+    //         IPS_SECTION_LOINC_CODES[section],
+    //         IPS_SECTION_DISPLAY_NAMES[section]
+    //     );
+    //     await compareNarratives(
+    //         result,
+    //         expectedDiv
+    //     );
+    // });
 });
