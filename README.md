@@ -119,3 +119,8 @@ npm test
 ## License
 
 See [LICENSE](./LICENSE).
+
+To test summary quickly, run 
+
+cd ./fhir-patient-summary
+npx tsx tests/sec_run.ts

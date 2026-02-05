@@ -36,7 +36,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.MEDICATIONS]: (r) => ["MedicationRequest", "MedicationStatement", "Medication"].includes(r.resourceType),
 
     // Only include active conditions  a
-    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition',//&& resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
+    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
     // Only include completed immunizations
     [IPSSections.IMMUNIZATIONS]: (resource) => (resource.resourceType === 'Immunization' && resource.status === 'completed') || (resource.resourceType === 'Organization'),
     // Only include vital sign Observations (category.coding contains 'vital-signs')
@@ -76,7 +76,7 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
         )
     ) || (resource.resourceType === 'ClinicalImpression' && resource.status === 'completed'),
     // Only include resolved medical history Conditions
-    [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Condition',// && resource.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code)),
+    [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => ['inactive', 'resolved'].includes(c.code)),
     // Only include active care plans
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
