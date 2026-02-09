@@ -1,4 +1,4 @@
-import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
+import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM, IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
 import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES, FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 import { TCodeableConcept } from "../types/partials/CodeableConcept";
@@ -81,8 +81,8 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
     [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergy_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
     [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "careplan_group_category", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
