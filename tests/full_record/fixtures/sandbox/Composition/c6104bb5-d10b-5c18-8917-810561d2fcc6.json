@@ -3410,8 +3410,8 @@
       },
       {
         "id": "9f3190c0-66cf-512d-bfb9-d38ef99fb025",
-        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/type",
-        "code": "condition_group_code",
+        "system": "https://fhir.icanbwell.com/4_0_0/CodeSystem/composition/view-type",
+        "code": "condition_code_display_view",
         "display": "Condition Summary Composition Grouped by Condition Code"
       },
       {
