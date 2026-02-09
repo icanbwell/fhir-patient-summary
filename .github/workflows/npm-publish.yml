@@ -4,7 +4,7 @@ name: Node.js Package
 
 on:
   release:
-    types: [ created ]
+    types: [ published ]
 
 permissions:
   id-token: write  # Required for OIDC
@@ -13,6 +13,9 @@ permissions:
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@imranq2/fhirpatientsummary
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,6 +36,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build # Add this step to build the project
       - run: yarn version --new-version ${{ steps.get_version.outputs.VERSION }}
-      - run: yarn publish --access public
+      - name: Publish package to npm
+        run: npm publish --provenance --access public
         env:
           NPM_CONFIG_PROVENANCE: true
