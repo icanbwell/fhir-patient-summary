@@ -211,7 +211,7 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryViewTypeCompositionFilter = IPSSectionResourceHelper.getSummaryViewTypeCompositionFilterForSection(sectionType);
+            const summaryViewTypeCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryViewTypeCompositionFilterForSection(sectionType) : undefined;
             const sectionViewTypeSummary = summaryViewTypeCompositionFilter ? resources.filter(resource => summaryViewTypeCompositionFilter(resource)) : [];
             if (sectionViewTypeSummary.length > 0) {
                 consoleLogger.info(`Using IPS summary view type composition for section: ${sectionType}`);
