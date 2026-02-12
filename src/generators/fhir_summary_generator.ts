@@ -211,6 +211,13 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
+            const summaryViewTypeCompositionFilter = IPSSectionResourceHelper.getSummaryViewTypeCompositionFilterForSection(sectionType);
+            const sectionViewTypeSummary = summaryViewTypeCompositionFilter ? resources.filter(resource => summaryViewTypeCompositionFilter(resource)) : [];
+            if (sectionViewTypeSummary.length > 0) {
+                consoleLogger.info(`Using IPS summary view type composition for section: ${sectionType}`);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionViewTypeSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
+                continue;
+            }
             const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             if (sectionIPSSummary.length > 0) {
@@ -371,18 +378,24 @@ export class ComprehensiveIPSCompositionBuilder {
         const remainingResources = new Set<string>()
 
         for (const sectionType of Object.values(IPSSections)) {
+            const summaryViewTypeCompositionFilter = IPSSectionResourceHelper.getSummaryViewTypeCompositionFilterForSection(sectionType);
+            const sectionViewTypeSummary = summaryViewTypeCompositionFilter ? resources.filter(resource => summaryViewTypeCompositionFilter(resource)) : [];
+            if (sectionViewTypeSummary.length > 0) continue;
+
             const summaryIPSCompositionFilter = IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
+            if (sectionIPSSummary.length > 0) continue;
+
             const summaryCompositionFilter = IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType);
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
-            if (sectionSummary.length === 0 && sectionIPSSummary.length === 0) {
-                const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
-                resourcesForSection.forEach((resourceType) => {
-                    if (!remainingResources.has(resourceType) && !resources.some(r => r.resourceType === resourceType)) {
-                        remainingResources.add(resourceType);
-                    }
-                });
-            }
+            if (sectionSummary.length > 0) continue;
+
+            const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
+            resourcesForSection.forEach((resourceType) => {
+                if (!remainingResources.has(resourceType) && !resources.some(r => r.resourceType === resourceType)) {
+                    remainingResources.add(resourceType);
+                }
+            });
 
         }
 
