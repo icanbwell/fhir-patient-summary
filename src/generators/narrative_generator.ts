@@ -45,6 +45,7 @@ export class NarrativeGenerator {
      * @param resources - Array of domain resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
+     * @param useViewTypeSummary - Whether to use view type summary for narrative generation (default: false)
      * @param now - Optional date parameter
      * @returns Generated HTML content or undefined if no resources
      */
@@ -53,6 +54,7 @@ export class NarrativeGenerator {
         resources: T[],
         timezone: string | undefined,
         useSectionSummary: boolean = false,
+        useViewTypeSummary: boolean = false,
         now?: Date
     ): Promise<string | undefined> {
         if (!resources || resources.length === 0) {
@@ -61,7 +63,7 @@ export class NarrativeGenerator {
 
         try {
             // Use the TypeScript template mapper to generate HTML
-            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary, now);
+            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary, useViewTypeSummary, now);
             if (!content) {
                 return undefined; // No content generated
             }
@@ -121,6 +123,7 @@ export class NarrativeGenerator {
      * @param timezone - Optional timezone to use for date formatting
      * @param minify - Whether to minify the HTML content (default: true)
      * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
+     * @param useViewTypeSummary - Whether to use view type summary for narrative generation (default: false)
      * @param now - Optional date parameter
      * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
@@ -130,9 +133,10 @@ export class NarrativeGenerator {
         timezone: string | undefined,
         minify: boolean = true,
         useSectionSummary: boolean = false,
+        useViewTypeSummary: boolean = false,
         now?: Date
     ): Promise<Narrative | undefined> {
-        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary, now);
+        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary, useViewTypeSummary, now);
         if (!content) {
             return undefined;
         }

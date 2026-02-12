@@ -118,7 +118,8 @@ export class ComprehensiveIPSCompositionBuilder {
         summaryCompositions: TComposition[],
         resources: TDomainResource[],
         timezone: string | undefined,
-        includeSummaryCompositionOnly: boolean = false
+        includeSummaryCompositionOnly: boolean = false,
+        useViewTypeSummary: boolean = false,
     ): Promise<this> {
         const sectionResources: TDomainResource[] = [];
         for (const summaryComposition of summaryCompositions) {
@@ -154,7 +155,8 @@ export class ComprehensiveIPSCompositionBuilder {
             summaryCompositions,
             timezone,
             true,
-            true
+            true,
+            useViewTypeSummary,
         );
         if (!narrative && sectionType in IPSMandatorySections) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
@@ -215,7 +217,7 @@ export class ComprehensiveIPSCompositionBuilder {
             const sectionViewTypeSummary = summaryViewTypeCompositionFilter ? resources.filter(resource => summaryViewTypeCompositionFilter(resource)) : [];
             if (sectionViewTypeSummary.length > 0) {
                 consoleLogger.info(`Using IPS summary view type composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionViewTypeSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionViewTypeSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly, true);
                 continue;
             }
             const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;

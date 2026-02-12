@@ -104,12 +104,12 @@ export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, 
 
 export const IPSSectionSummaryViewTypeCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
     [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
 
 }
 
