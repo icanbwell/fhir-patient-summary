@@ -172,7 +172,6 @@ export class MedicationSummaryTemplate implements IViewTypeSummaryTemplate {
      * Generate HTML narrative for Medication resources using view type summary
      * @param resources - FHIR Composition resources
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
-     * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
     public generateViewTypeSummaryNarrative(
