@@ -102,6 +102,16 @@ Controls which IPS sections should include summary composition.
 
 When set to `all`, all supported sections will use summary composition. To enable only specific sections, provide a comma-separated list of [section names](src/structures/ips_sections.ts).
 
+### SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS
+
+Controls which sections should include summary view type composition.
+
+- **Default**: Disabled
+- **Format**: Comma-separated list of section names
+- **Example**: `SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS=AllergyIntoleranceSection,ProblemSection,MedicationSummarySection`
+
+When set to `all`, all supported sections will use summary view type composition. To enable only specific sections, provide a comma-separated list of [section names](src/structures/ips_sections.ts).
+
 ## Running Tests
 
 To run the test suite:

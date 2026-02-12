@@ -33,6 +33,7 @@ describe('Full Record Bundle Generation', () => {
     it('should generate the correct summary for the concatenated full record bundle', async () => {
         process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
         process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
+        process.env.SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS = 'all';
 
         // Path to the sandbox fixtures
         const sandboxDir = path.join(__dirname, 'fixtures/sandbox');
@@ -78,6 +79,7 @@ describe('Full Record Bundle Generation', () => {
 
         process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
         process.env.SUMMARY_COMPOSITION_SECTIONS = '';
+        process.env.SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS = '';
     });
 });
 
