@@ -1,16 +1,17 @@
 // MedicationSummaryTemplate.ts - TypeScript replacement for Jinja2 medicationsummary.j2
-import {TemplateUtilities} from './TemplateUtilities';
-import {TDomainResource} from '../../../types/resources/DomainResource';
-import {TMedicationRequest} from '../../../types/resources/MedicationRequest';
-import {TMedicationStatement} from '../../../types/resources/MedicationStatement';
-import {ISummaryTemplate} from './interfaces/ITemplate';
+import { TemplateUtilities } from './TemplateUtilities';
+import { TDomainResource } from '../../../types/resources/DomainResource';
+import { TMedicationRequest } from '../../../types/resources/MedicationRequest';
+import { TMedicationStatement } from '../../../types/resources/MedicationStatement';
+import { IViewTypeSummaryTemplate } from './interfaces/ITemplate';
 import { TComposition } from '../../../types/resources/Composition';
+import { TCompositionSection } from '../../../types/partials/CompositionSection';
 
 /**
  * Class to generate HTML narrative for Medication resources
  * This replaces the Jinja2 medicationsummary.j2 template
  */
-export class MedicationSummaryTemplate implements ISummaryTemplate {
+export class MedicationSummaryTemplate implements IViewTypeSummaryTemplate {
     /**
      * Generate HTML narrative for Medication resources
      * @param resources - FHIR Medication resources
@@ -41,55 +42,13 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
         const twoYearsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 24, currentDate.getDate());
 
         let html = '<p>This list includes all the medications that were ordered for the patient, the medications they filled from the pharmacy and the medications they reported, filtered to past 2 years and sorted by start date.</p>';
-        html += `
-        <div>
-            <table>
-            <thead>
-                <tr>
-                <th>Medication</th>
-                <th>Code (System)</th>
-                <th>Status</th>
-                <th>Sig</th>
-                <th>Days of Supply</th>
-                <th>Start Date</th>
-                <th>Source</th>
-                </tr>
-            </thead>
-            <tbody>`;
+        html += this.medicationTableHeader;
         let skippedMedications = 0;
         for (const resourceItem of resources) {
             // The resources are actually Composition resources with sections
             for (const rowData of resourceItem.section ?? []) {
                 const sectionCodeableConcept = rowData.code;
-                const data: Record<string, string> = {};
-                for (const columnData of rowData.section ?? []) {
-                    switch (columnData.title) {
-                        case 'Medication Name':
-                            data['medication'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        case 'Status':
-                            data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        case 'Prescriber Instruction':
-                            data['sig-prescriber'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        case 'Pharmacy Instruction':
-                            data['sig-pharmacy'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        case 'Days Of Supply':
-                            data['daysOfSupply'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        case 'Authored On Date':
-                            data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        case 'Source':
-                            data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
-                            break;
-                        default:
-                        break;
-                    }
-                }
-
+                const data: Record<string, string> = this.extractMedicationResourceData(rowData, templateUtilities);
                 // Get start date of medication
                 let startDateObj: Date | undefined;
                 if (data['startDate']) {
@@ -107,21 +66,12 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
                 // Check if status is 'active' and startDate is within the past 12 months
                 if (data['status'] === 'active' || (startDateObj && startDateObj >= twoYearsAgo)) {
-                        // Skip if medication name is unknown
-                        if (data['medication']?.toLowerCase() === 'unknown') {
-                            continue;
-                        }
-                        isSummaryCreated = true;
-                        html += `
-                            <tr>
-                                <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(data['medication']))}</td>
-                                <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
-                                <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
-                                <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
-                                <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
-                                <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
-                                <td>${data['source'] ?? ''}</td>
-                            </tr>`;
+                    // Skip if medication name is unknown
+                    if (data['medication']?.toLowerCase() === 'unknown') {
+                        continue;
+                    }
+                    isSummaryCreated = true;
+                    html += this.renderMedicationSummaryRow(data, templateUtilities, sectionCodeableConcept, timezone);
 
                 }
             }
@@ -138,6 +88,124 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
 
         // Always return the HTML, even if isSummaryCreated is false, if skippedMedications > 0
         if (isSummaryCreated || skippedMedications > 0) {
+            return html;
+        }
+        return undefined;
+    }
+
+    /**
+     * Extracts medication resource data from a composition section.
+     * @param rowData - The composition section containing medication data.
+     * @param templateUtilities - Utilities for rendering text and handling FHIR data.
+     * @returns A record of medication data fields.
+     */
+    private extractMedicationResourceData(rowData: TCompositionSection, templateUtilities: TemplateUtilities): Record<string, string> {
+        const data: Record<string, string> = {};
+        for (const columnData of rowData.section ?? []) {
+            switch (columnData.title) {
+                case 'Medication Name':
+                    data['medication'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                case 'Status':
+                    data['status'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                case 'Prescriber Instruction':
+                    data['sig-prescriber'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                case 'Pharmacy Instruction':
+                    data['sig-pharmacy'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                case 'Days Of Supply':
+                    data['daysOfSupply'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                case 'Authored On Date':
+                    data['startDate'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                case 'Source':
+                    data['source'] = templateUtilities.renderTextAsHtml(columnData.text?.div ?? '');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return data;
+    }
+
+    /**
+     * Renders a table row for a medication summary entry.
+     * @param data - Record containing medication data fields
+     * @param templateUtilities - Utilities for rendering text and handling FHIR data
+     * @param sectionCodeableConcept - The codeable concept from the composition section, used for rendering code/system
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns 
+     */
+    private renderMedicationSummaryRow(data: Record<string, string>, templateUtilities: TemplateUtilities, sectionCodeableConcept: any, timezone: string | undefined): string {
+        return `
+        <tr>
+            <td>${templateUtilities.capitalizeFirstLetter(templateUtilities.renderTextAsHtml(data['medication']))}</td>
+            <td>${templateUtilities.codeableConceptCoding(sectionCodeableConcept)}</td>
+            <td>${templateUtilities.renderTextAsHtml(data['status'])}</td>
+            <td>${templateUtilities.renderTextAsHtml(data['sig-prescriber'] || data['sig-pharmacy'])}</td>
+            <td>${templateUtilities.renderTextAsHtml(data['daysOfSupply'])}</td>
+            <td>${templateUtilities.renderTime(data['startDate'], timezone)}</td>
+            <td>${data['source'] ?? ''}</td>
+        </tr>`;
+    }
+
+    private medicationTableHeader = `<div>
+            <table>
+            <thead>
+                <tr>
+                <th>Medication</th>
+                <th>Code (System)</th>
+                <th>Status</th>
+                <th>Sig</th>
+                <th>Days of Supply</th>
+                <th>Start Date</th>
+                <th>Source</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+    /**
+     * Generate HTML narrative for Medication resources using view type summary
+     * @param resources - FHIR Composition resources
+     * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+     * @returns HTML string for rendering
+     */
+    public generateViewTypeSummaryNarrative(
+        resources: TComposition[],
+        timezone: string | undefined,
+    ): string | undefined {
+        const templateUtilities = new TemplateUtilities(resources);
+        let isSummaryCreated = false;
+
+        let html = '<p>This list includes all the medications that were ordered for the patient, the medications they filled from the pharmacy and the medications they reported.</p>';
+        html += this.medicationTableHeader;
+        for (const resourceItem of resources) {
+            // The resources are actually Composition resources with sections
+            for (const rowData of resourceItem.section ?? []) {
+                const sectionCodeableConcept = rowData.code;
+                const data: Record<string, string> = this.extractMedicationResourceData(rowData, templateUtilities);
+                // Check if status is 'active'
+                if (data['status'] === 'active') {
+                    // Skip if medication name is unknown
+                    if (data['medication']?.toLowerCase() === 'unknown') {
+                        continue;
+                    }
+                    isSummaryCreated = true;
+                    html += this.renderMedicationSummaryRow(data, templateUtilities, sectionCodeableConcept, timezone);
+                }
+            }
+        }
+
+        html += `
+            </tbody>
+            </table>
+        </div>`;
+        // Always return the HTML, even if isSummaryCreated is false
+        if (isSummaryCreated) {
             return html;
         }
         return undefined;
@@ -165,8 +233,8 @@ export class MedicationSummaryTemplate implements ISummaryTemplate {
      * @param now - Optional current date to use for calculations (defaults to new Date())
      * @returns HTML string for rendering
      */
-     
-    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date ): string {
+
+    private static generateStaticNarrative(resources: TDomainResource[], timezone: string | undefined, now?: Date): string {
         const templateUtilities = new TemplateUtilities(resources);
         let html = '';
 

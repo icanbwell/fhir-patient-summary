@@ -29,3 +29,14 @@ export interface ISummaryTemplate extends ITemplate {
    */
   generateSummaryNarrative(resource: TComposition[], timezone: string | undefined, now?: Date): string | undefined;
 }
+
+export interface IViewTypeSummaryTemplate extends ISummaryTemplate {
+    /**
+   * Generate HTML narrative for FHIR resources using summary view type composition
+   * @param resource - FHIR Composition resources containing section summary
+   * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
+   * @param now - Optional current date to use for calculations (defaults to new Date())
+   * @returns HTML string for rendering
+   */
+  generateViewTypeSummaryNarrative(resource: TComposition[], timezone: string | undefined, now?: Date): string | undefined;
+}

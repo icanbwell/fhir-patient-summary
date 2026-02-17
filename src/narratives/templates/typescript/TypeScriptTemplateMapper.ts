@@ -15,7 +15,7 @@ import { PlanOfCareTemplate } from './PlanOfCareTemplate';
 import { FunctionalStatusTemplate } from './FunctionalStatusTemplate';
 import { PregnancyTemplate } from './PregnancyTemplate';
 import { AdvanceDirectivesTemplate } from './AdvanceDirectivesTemplate';
-import { ISummaryTemplate, ITemplate } from './interfaces/ITemplate';
+import { ISummaryTemplate, ITemplate, IViewTypeSummaryTemplate } from './interfaces/ITemplate';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TComposition } from '../../../types/resources/Composition';
 
@@ -50,6 +50,7 @@ export class TypeScriptTemplateMapper {
    * @param resources - FHIR resources
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @param useSectionSummary - Whether to use the section summary for narrative generation
+   * @param useViewTypeSummary - Whether to use the view type summary for narrative generation
    * @param now - Optional current date to use for generating relative dates in the narrative
    * @returns HTML string for rendering
    */
@@ -58,6 +59,7 @@ export class TypeScriptTemplateMapper {
     resources: TDomainResource[],
     timezone: string | undefined,
     useSectionSummary: boolean = false,
+    useViewTypeSummary: boolean = false,
     now?: Date
   ): string | undefined {
     const templateClass: ITemplate = this.sectionToTemplate[section];
@@ -66,12 +68,23 @@ export class TypeScriptTemplateMapper {
       throw new Error(`No template found for section: ${section}`);
     }
 
-    return useSectionSummary
-      ? (templateClass as ISummaryTemplate).generateSummaryNarrative(
-          resources as TComposition[],
-          timezone,
-          now
-        )
-      : templateClass.generateNarrative(resources, timezone, now);
+    // if useViewTypeSummary is true, prioritize view type summary generation
+    if (useViewTypeSummary) {
+      return (templateClass as IViewTypeSummaryTemplate).generateViewTypeSummaryNarrative(
+        resources as TComposition[],
+        timezone,
+        now
+      );
+    }
+
+    if (useSectionSummary) {
+      return (templateClass as ISummaryTemplate).generateSummaryNarrative(
+        resources as TComposition[],
+        timezone,
+        now
+      );
+    }
+
+    return templateClass.generateNarrative(resources, timezone, now);
   }
 }
