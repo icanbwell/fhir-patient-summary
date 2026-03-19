@@ -387,9 +387,13 @@ export class ComprehensiveIPSCompositionBuilder {
         const remainingResources = new Set<string>()
 
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryViewTypeCompositionFilter = IPSSectionResourceHelper.getSummaryViewTypeCompositionFilterForSection(sectionType);
-            const sectionViewTypeSummary = summaryViewTypeCompositionFilter ? resources.filter(resource => summaryViewTypeCompositionFilter(resource)) : [];
-            if (sectionViewTypeSummary.length > 0) continue;
+            const summaryViewTypeV3CompositionFilter = IPSSectionResourceHelper.getSummaryViewTypeV3CompositionFilterForSection(sectionType);
+            const sectionViewV3TypeSummary = summaryViewTypeV3CompositionFilter ? resources.filter(resource => summaryViewTypeV3CompositionFilter(resource)) : [];
+            if (sectionViewV3TypeSummary.length > 0) continue;
+
+            const summaryViewTypeV2CompositionFilter = IPSSectionResourceHelper.getSummaryViewTypeV2CompositionFilterForSection(sectionType);
+            const sectionViewV2TypeSummary = summaryViewTypeV2CompositionFilter ? resources.filter(resource => summaryViewTypeV2CompositionFilter(resource)) : [];
+            if (sectionViewV2TypeSummary.length > 0) continue;
 
             const summaryIPSCompositionFilter = IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
             const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
