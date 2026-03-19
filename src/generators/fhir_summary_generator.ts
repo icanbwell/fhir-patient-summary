@@ -213,10 +213,17 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryViewTypeCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryViewTypeCompositionFilterForSection(sectionType) : undefined;
-            const sectionViewTypeSummary = summaryViewTypeCompositionFilter ? resources.filter(resource => summaryViewTypeCompositionFilter(resource)) : [];
+            const summaryViewTypeV3CompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryViewTypeV3CompositionFilterForSection(sectionType) : undefined;
+            const sectionViewTypeV3Summary = summaryViewTypeV3CompositionFilter ? resources.filter(resource => summaryViewTypeV3CompositionFilter(resource)) : [];
+            if (sectionViewTypeV3Summary.length > 0) {
+                consoleLogger.info(`Using IPS summary view type V3 composition for section: ${sectionType}`);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionViewTypeV3Summary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly, true);
+                continue;
+            }
+            const summaryViewTypeV2CompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryViewTypeV2CompositionFilterForSection(sectionType) : undefined;
+            const sectionViewTypeSummary = summaryViewTypeV2CompositionFilter ? resources.filter(resource => summaryViewTypeV2CompositionFilter(resource)) : [];
             if (sectionViewTypeSummary.length > 0) {
-                consoleLogger.info(`Using IPS summary view type composition for section: ${sectionType}`);
+                consoleLogger.info(`Using IPS summary view type v2 composition for section: ${sectionType}`);
                 await this.makeSectionFromSummaryAsync(sectionType, sectionViewTypeSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly, true);
                 continue;
             }

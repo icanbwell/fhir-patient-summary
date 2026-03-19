@@ -3,6 +3,7 @@ import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_COD
 import { IPSSections } from "./ips_sections";
 import { TCodeableConcept } from "../types/partials/CodeableConcept";
 import { TCoding } from "../types/partials/Coding";
+import { TMeta } from "../types/partials/Meta";
 
 // Optionally, define custom filter functions for each section
 export type IPSSectionResourceFilter = (resource: any) => boolean;
@@ -102,16 +103,26 @@ export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, 
     [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, ["ips_diagnosticreportlab_summary_document", "ips_lab_summary_document"], IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
 }
 
-export const IPSSectionSummaryViewTypeCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
-    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-
+export const IPSSectionSummaryViewTypeV2CompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
+    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/fhir-composition-service")) && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
 }
+
+export const IPSSectionSummaryViewTypeV3CompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
+    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.some((m: any) => metaMatches(m, "https://www.icanbwell.com/intelligence-layer-databricks")) && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+}
+
 
 // Helper class to get resource types for a section
 export class IPSSectionResourceHelper {
@@ -155,7 +166,7 @@ export class IPSSectionResourceHelper {
         return sectionIPSCompositionEnabled ? IPSSectionSummaryIPSCompositionFilter[section] : undefined;
     }
 
-    static getSummaryViewTypeCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
+    static getSummaryViewTypeV2CompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         const sectionSummaryViewTypeEnabled = process.env
             .SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS
             ? process.env.SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS.split(',').some(
@@ -165,7 +176,20 @@ export class IPSSectionResourceHelper {
             )
             : false;
 
-        return sectionSummaryViewTypeEnabled ? IPSSectionSummaryViewTypeCompositionFilter[section] : undefined;
+        return sectionSummaryViewTypeEnabled ? IPSSectionSummaryViewTypeV2CompositionFilter[section] : undefined;
+    }
+
+    static getSummaryViewTypeV3CompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
+        const sectionSummaryViewTypeEnabled = process.env
+            .SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS
+            ? process.env.SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS.split(',').some(
+                s =>
+                    s.trim().toLowerCase() === section.toString().toLowerCase() ||
+                    s.trim().toLowerCase() === 'all'
+            )
+            : false;
+
+        return sectionSummaryViewTypeEnabled ? IPSSectionSummaryViewTypeV3CompositionFilter[section] : undefined;
     }
 }
 
@@ -188,4 +212,16 @@ export function codingMatches(coding: TCoding, code: string | string[], system: 
 export function codeableConceptMatches(codeableConcept: TCodeableConcept, code: string | string[], system: string): boolean {
     if (!codeableConcept || !Array.isArray(codeableConcept.coding)) return false;
     return codeableConcept.coding.some((coding: any) => codingMatches(coding, code, system));
+}
+
+/**
+ * Helper to match a meta object against a source (string or string[]).
+ * Returns true if meta.source matches source or is in source array.
+ */
+export function metaMatches(meta: TMeta, source: string | string[]): boolean {
+    if (!meta || !meta.source) return false;
+    if (Array.isArray(source)) {
+        return source.includes(meta.source);
+    }
+    return meta.source === source;
 }

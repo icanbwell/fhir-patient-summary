@@ -72,10 +72,11 @@ When generating patient summaries from FHIR Bundles, the library can use pre-com
 
 The `readBundleAsync` method supports a `useSummaryCompositions` parameter. When enabled, the library follows this priority order when processing each IPS section:
 
-1. **IPS View Type Summary Composition** (highest priority): Compositions with view type summary codes (e.g., `medication_code_display_view`)
-2. **IPS-Specific Composition** (high priority): Compositions with IPS-specific type codes (e.g., `ips_patient_summary_document`, `ips_vital_summary_document`)
-3. **Summary Composition** (medium priority): Compositions with summary type codes (e.g., `allergy_summary_document`, `condition_summary_document`, `medication_summary_document`)
-4. **Raw Resources** (fallback): Individual FHIR resources when no composition is available
+1. **IPS View Type V3 Summary Composition** (highest priority): V3 Compositions with source of `https://www.icanbwell.com/intelligence-layer-databricks` and view type summary codes (e.g., `medication_code_display_view`)
+2. **IPS VIew Type V2 Summary Composition** (high priority): V2 Compositions with source of `https://www.icanbwell.com/fhir-composition-serice` and view type summary codes (e.g., `medication_code_display_view`)
+3. **IPS-Specific Composition** (high priority): Compositions with IPS-specific type codes (e.g., `ips_patient_summary_document`, `ips_vital_summary_document`)
+4. **Summary Composition** (medium priority): Compositions with summary type codes (e.g., `allergy_summary_document`, `condition_summary_document`, `medication_summary_document`)
+5. **Raw Resources** (fallback): Individual FHIR resources when no composition is available
 
 This priority order ensures that the most refined and curated data is used when available, while still supporting raw resource processing as a fallback.
 
