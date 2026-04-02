@@ -18,6 +18,8 @@ npm install
 
 You can use the `ComprehensiveIPSCompositionBuilder` in your TypeScript or JavaScript project to generate an IPS-compliant FHIR Bundle. The builder supports both fluent section addition and a convenient `read_bundle()` method to extract all supported sections from a FHIR Bundle.
 
+The `BasicIPSCompositionBuilder` is a direct copy of the `ComprehensiveIPSCompositionBuilder` until requirements have been gathered and finalized. The intent is that the `Basic` IPS will be optimized for Clinicians and humans, where the `Comprehensive` IPS will be enhanced to be optimized for AI to analyze trends and relationships.
+
 ### Example: Using setPatient and makeSectionAsync
 
 ```typescript
@@ -27,9 +29,17 @@ import { IPSSections } from './src/structures/ips_sections';
 const builder = new ComprehensiveIPSCompositionBuilder()
   .setPatient(patientResource)
   .makeSectionAsync(IPSSections.ALLERGIES, allergiesArray, 'America/New_York')
-  .makeSectionAsync(IPSSections.MEDICATIONS, medicationsArray, 'America/New_York')
+  .makeSectionAsync(
+    IPSSections.MEDICATIONS,
+    medicationsArray,
+    'America/New_York'
+  )
   .makeSectionAsync(IPSSections.PROBLEMS, problemsArray, 'America/New_York')
-  .makeSectionAsync(IPSSections.IMMUNIZATIONS, immunizationsArray, 'America/New_York');
+  .makeSectionAsync(
+    IPSSections.IMMUNIZATIONS,
+    immunizationsArray,
+    'America/New_York'
+  );
 
 const bundle = builder.build_bundle(
   'example-organization',
@@ -46,7 +56,9 @@ console.log(JSON.stringify(bundle, null, 2));
 import { ComprehensiveIPSCompositionBuilder } from './src/generators/fhir_summary_generator';
 import testBundle from './test/fhir-summary-bundle/fixtures/test-bundle.json';
 
-const patientResource = testBundle.entry.find(e => e.resource.resourceType === 'Patient').resource;
+const patientResource = testBundle.entry.find(
+  e => e.resource.resourceType === 'Patient'
+).resource;
 const builder = new ComprehensiveIPSCompositionBuilder()
   .setPatient(patientResource)
   .read_bundle(testBundle, 'Europe/London');
