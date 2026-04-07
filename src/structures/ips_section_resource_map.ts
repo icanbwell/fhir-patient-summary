@@ -1,4 +1,5 @@
-import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM, IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
+import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM, IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM, 
+    RESULT_SUMMARY_OBSERVATION_CATEGORIES, V2_COMPOSITION_PIPELINE, V3_COMPOSITION_PIPELINE} from "./ips_section_constants";
 import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES, FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 import { TCodeableConcept } from "../types/partials/CodeableConcept";
@@ -102,16 +103,26 @@ export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, 
     [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, ["ips_diagnosticreportlab_summary_document", "ips_lab_summary_document"], IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
 }
 
-export const IPSSectionSummaryViewTypeCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
-    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
-
+export const IPSSectionSummaryViewTypeV2CompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
+    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V2_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
 }
+
+export const IPSSectionSummaryViewTypeV3CompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
+    [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "vital_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "labs_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.ALLERGIES]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "allergyintolerance_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.MEDICAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "condition_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+    // [IPSSections.IMMUNIZATIONS]: (resource) => resource.resourceType === 'Composition' && resource.meta?.source === V3_COMPOSITION_PIPELINE)) && resource.type?.coding?.some((c: any) => codingMatches(c, "immunization_group_code_display_view", IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM)),
+}
+
 
 // Helper class to get resource types for a section
 export class IPSSectionResourceHelper {
@@ -155,7 +166,7 @@ export class IPSSectionResourceHelper {
         return sectionIPSCompositionEnabled ? IPSSectionSummaryIPSCompositionFilter[section] : undefined;
     }
 
-    static getSummaryViewTypeCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
+    static getSummaryViewTypeV2CompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
         const sectionSummaryViewTypeEnabled = process.env
             .SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS
             ? process.env.SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS.split(',').some(
@@ -165,7 +176,20 @@ export class IPSSectionResourceHelper {
             )
             : false;
 
-        return sectionSummaryViewTypeEnabled ? IPSSectionSummaryViewTypeCompositionFilter[section] : undefined;
+        return sectionSummaryViewTypeEnabled ? IPSSectionSummaryViewTypeV2CompositionFilter[section] : undefined;
+    }
+
+    static getSummaryViewTypeV3CompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
+        const sectionSummaryViewTypeEnabled = process.env
+            .SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS
+            ? process.env.SUMMARY_VIEW_TYPE_COMPOSITION_SECTIONS.split(',').some(
+                s =>
+                    s.trim().toLowerCase() === section.toString().toLowerCase() ||
+                    s.trim().toLowerCase() === 'all'
+            )
+            : false;
+
+        return sectionSummaryViewTypeEnabled ? IPSSectionSummaryViewTypeV3CompositionFilter[section] : undefined;
     }
 }
 
