@@ -1,5 +1,5 @@
 {
-  "name": "@imranq2/fhirpatientsummary",
+  "name": "@icanbwell/fhirpatientsummary",
   "version": "x.x.x",
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./dist/index.js",
