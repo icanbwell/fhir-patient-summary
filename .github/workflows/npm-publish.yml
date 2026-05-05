@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: npm
-      url: https://www.npmjs.com/package/@imranq2/fhirpatientsummary
+      url: https://www.npmjs.com/package/@icanbwell/fhirpatientsummary
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,6 +23,7 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org/
           cache: 'yarn'
+          scope: '@icanbwell'
       - name: Extract version from release tag
         id: get_version
         run: |
