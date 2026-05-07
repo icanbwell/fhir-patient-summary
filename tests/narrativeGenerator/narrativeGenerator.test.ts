@@ -564,7 +564,6 @@ describe('Narrative Generator Tests', () => {
         const result = await NarrativeGenerator.generateNarrativeContentAsync(
             section, mockMedications, 'America/New_York',
             false,
-            false,
             new Date('2023-12-15')
         );
         expect(result).toBeDefined();
@@ -590,7 +589,6 @@ describe('Narrative Generator Tests', () => {
         const section = IPSSections.PROBLEMS;
         const result = await NarrativeGenerator.generateNarrativeContentAsync(
             section, mockConditions, 'America/New_York',
-            false,
             false,
             new Date('2023-12-15')
         );
