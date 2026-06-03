@@ -82,7 +82,6 @@ describe('FHIR Patient Summary Generation', () => {
     });
 
     it('should generate the correct summary for bundle having summary composition', async () => {
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
         process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/test-summary-bundle.json'), 'utf-8'));
@@ -121,12 +120,10 @@ describe('FHIR Patient Summary Generation', () => {
         expect(bundle.entry).toBeDefined();
         await compare_bundles(path.join(__dirname, 'fixtures/narratives/summary'), bundle, expectedBundle);
 
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
         process.env.SUMMARY_COMPOSITION_SECTIONS = '';
     });
 
     it('should generate the correct summary for bundle having summary composition with completed medications', async () => {
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
         process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
 
         // Read the test bundle JSON
@@ -166,12 +163,10 @@ describe('FHIR Patient Summary Generation', () => {
         expect(bundle.entry).toBeDefined();
         await compare_bundles(path.join(__dirname, 'fixtures/narratives/summary-no-medication'), bundle, expectedBundle);
 
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
         process.env.SUMMARY_COMPOSITION_SECTIONS = '';
     });
 
     it('should get the correct required resources list from bundle', async () => {
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
         process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
         // Read the test bundle JSON
         const inputBundle = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/required-resource-bundle.json'), 'utf-8'));
@@ -185,10 +180,9 @@ describe('FHIR Patient Summary Generation', () => {
         const builder = new ComprehensiveIPSCompositionBuilder().setPatient(mockPatient);
         const requiredResources = builder.getRemainingResourcesFromCompositionBundle(inputBundle);
 
-        const expectedResources = ['Condition', 'AllergyIntolerance', 'MedicationRequest', 'MedicationStatement', 'Medication', 'Immunization', 'Organization', 'DiagnosticReport', 'Observation', 'Procedure', 'Consent', 'CarePlan'];
+        const expectedResources = ['Condition', 'ClinicalImpression', 'AllergyIntolerance', 'MedicationRequest', 'MedicationStatement', 'Medication', 'Immunization', 'Organization', 'DiagnosticReport', 'Observation', 'Procedure', 'DeviceUseStatement', 'Device', 'Consent', 'CarePlan'];
 
         expect(requiredResources.sort()).toEqual(expectedResources.sort());
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
         process.env.SUMMARY_COMPOSITION_SECTIONS = '';
     });
 });

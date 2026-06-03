@@ -211,13 +211,6 @@ export class ComprehensiveIPSCompositionBuilder {
 
         // find resources for each section in IPSSections and add the section
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryIPSCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType) : undefined;
-            const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
-            if (sectionIPSSummary.length > 0) {
-                consoleLogger.info(`Using IPS summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionIPSSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
-                continue;
-            }
             const summaryCompositionFilter = useSummaryCompositions ? IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType) : undefined;
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
@@ -371,11 +364,9 @@ export class ComprehensiveIPSCompositionBuilder {
         const remainingResources = new Set<string>()
 
         for (const sectionType of Object.values(IPSSections)) {
-            const summaryIPSCompositionFilter = IPSSectionResourceHelper.getSummaryIPSCompositionFilterForSection(sectionType);
-            const sectionIPSSummary = summaryIPSCompositionFilter ? resources.filter(resource => summaryIPSCompositionFilter(resource)) : [];
             const summaryCompositionFilter = IPSSectionResourceHelper.getSummaryCompositionFilterForSection(sectionType);
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
-            if (sectionSummary.length === 0 && sectionIPSSummary.length === 0) {
+            if (sectionSummary.length === 0) {
                 const resourcesForSection = IPSSectionResourceHelper.getResourceTypesForSection(sectionType);
                 resourcesForSection.forEach((resourceType) => {
                     if (!remainingResources.has(resourceType) && !resources.some(r => r.resourceType === resourceType)) {

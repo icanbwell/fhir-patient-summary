@@ -72,25 +72,14 @@ When generating patient summaries from FHIR Bundles, the library can use pre-com
 
 The `readBundleAsync` method supports a `useSummaryCompositions` parameter. When enabled, the library follows this priority order when processing each IPS section:
 
-1. **IPS-Specific Composition** (highest priority): Compositions with IPS-specific type codes (e.g., `ips_patient_summary_document`, `ips_vital_summary_document`)
-2. **Summary Composition** (medium priority): Compositions with summary type codes (e.g., `allergy_summary_document`, `condition_summary_document`, `medication_summary_document`)
-3. **Raw Resources** (fallback): Individual FHIR resources when no composition is available
+1. **Summary Composition** (highest priority): Compositions with summary type codes (e.g., `allergy_summary_document`, `condition_summary_document`, `medication_summary_document`)
+2. **Raw Resources** (fallback): Individual FHIR resources when no composition is available
 
 This priority order ensures that the most refined and curated data is used when available, while still supporting raw resource processing as a fallback.
 
 ### Environment Variables for enabling Composition Summary
 
 The following environment variables can be used to configure the behavior of the patient summary generator:
-
-#### SUMMARY_IPS_COMPOSITION_SECTIONS
-
-Controls which IPS sections should include IPS-specific composition.
-
-- **Default**: Disabled
-- **Format**: Comma-separated list of section names
-- **Example**: `SUMMARY_IPS_COMPOSITION_SECTIONS=Patient,VitalSignsSection`
-
-When set to `all`, all supported sections will use IPS composition. To enable only specific sections, provide a comma-separated list of [section names](src/structures/ips_sections.ts).
 
 #### SUMMARY_COMPOSITION_SECTIONS
 
