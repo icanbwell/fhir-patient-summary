@@ -1,4 +1,4 @@
-import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM, IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
+import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
 import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES, FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 import { TCodeableConcept } from "../types/partials/CodeableConcept";
@@ -91,17 +91,6 @@ export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPS
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "procedure_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
 }
 
-export const IPSSectionSummaryIPSCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
-    [IPSSections.PATIENT]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_patient_summary_document", IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_vital_summary_document", IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_advanced_directives_summary_document", IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_social_history_summary_document", IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.FUNCTIONAL_STATUS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, ["ips_functional_status_condition_summary_document", "ips_functional_status_clinical_impression_summary_document"], IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.MEDICAL_DEVICES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_medical_device_summary_document", IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.PREGNANCY_HISTORY]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "ips_pregnancy_history_summary_document", IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-    [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, ["ips_diagnosticreportlab_summary_document", "ips_lab_summary_document"], IPS_SUMMARY_IPS_COMPOSITION_TYPE_SYSTEM)),
-}
-
 // Helper class to get resource types for a section
 export class IPSSectionResourceHelper {
     static getResourceFilterForSection(section: IPSSections): IPSSectionResourceFilter {
@@ -129,19 +118,6 @@ export class IPSSectionResourceHelper {
             : false;
 
         return sectionCompositionEnabled ? IPSSectionSummaryCompositionFilter[section] : undefined;
-    }
-
-    static getSummaryIPSCompositionFilterForSection(section: IPSSections): IPSSectionResourceFilter | undefined {
-        const sectionIPSCompositionEnabled = process.env
-            .SUMMARY_IPS_COMPOSITION_SECTIONS
-            ? process.env.SUMMARY_IPS_COMPOSITION_SECTIONS.split(',').some(
-                s =>
-                    s.trim().toLowerCase() === section.toString().toLowerCase() ||
-                    s.trim().toLowerCase() === 'all'
-            )
-            : false;
-
-        return sectionIPSCompositionEnabled ? IPSSectionSummaryIPSCompositionFilter[section] : undefined;
     }
 }
 

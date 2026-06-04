@@ -31,7 +31,6 @@ describe('Full Record Bundle Generation', () => {
     });
 
     it('should generate the correct summary for the concatenated full record bundle', async () => {
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = 'all';
         process.env.SUMMARY_COMPOSITION_SECTIONS = 'all';
 
         // Path to the sandbox fixtures
@@ -76,7 +75,6 @@ describe('Full Record Bundle Generation', () => {
         // If you have an expected bundle, replace inputBundle below
         await compare_bundles(path.join(__dirname, 'fixtures/expected/narratives'), bundle, inputBundle);
 
-        process.env.SUMMARY_IPS_COMPOSITION_SECTIONS = '';
         process.env.SUMMARY_COMPOSITION_SECTIONS = '';
     });
 });
