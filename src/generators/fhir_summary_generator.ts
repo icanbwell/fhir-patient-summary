@@ -9,7 +9,7 @@ import { TComposition } from "../types/resources/Composition";
 import { TNarrative } from "../types/partials/Narrative";
 import { IPSSectionResourceHelper } from "../structures/ips_section_resource_map";
 import { NarrativeGenerator } from "./narrative_generator";
-import { IPSMandatorySections, IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
+import { IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -98,7 +98,7 @@ export class ComprehensiveIPSCompositionBuilder {
                 true
             );
         }
-        if (!narrative && sectionType in IPSMandatorySections) {
+        if (!narrative && sectionType in IPSMissingMandatorySectionContent) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
                 IPSMissingMandatorySectionContent[
                 sectionType as keyof typeof IPSMissingMandatorySectionContent
@@ -156,7 +156,7 @@ export class ComprehensiveIPSCompositionBuilder {
             true,
             true
         );
-        if (!narrative && sectionType in IPSMandatorySections) {
+        if (!narrative && sectionType in IPSMissingMandatorySectionContent) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
                 IPSMissingMandatorySectionContent[
                 sectionType as keyof typeof IPSMissingMandatorySectionContent

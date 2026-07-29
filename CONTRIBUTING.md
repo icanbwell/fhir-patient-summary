@@ -34,10 +34,15 @@ exactly what `node-ci.yml` runs on every push/PR to `main`.
 ## Git hooks
 
 Husky + `lint-staged` are wired up via `npm run prepare` (runs automatically on
-`npm install`). On every commit, staged `.ts`/`.js` files under `src/**` and
-`test/**` are auto-fixed with ESLint (`.husky/pre-commit` → `npx lint-staged`,
-config in `package.json`'s `lint-staged` key). If a commit is rejected, it's
-because lint-staged found something it couldn't auto-fix — read the ESLint output.
+`npm install`). On every commit, staged `.ts`/`.js` files are meant to be
+auto-fixed with ESLint (`.husky/pre-commit` → `npx lint-staged`, config in
+`package.json`'s `lint-staged` key), but today this only actually happens for
+`src/**` — the second glob is `test/!(build)/**/*.{ts,js}` (singular `test/`),
+which never matches this repo's real `tests/` (plural) directory. This is a
+pre-existing typo in `package.json`, not intentional scoping; staged files under
+`tests/**` are not auto-fixed on commit. If a commit is rejected, it's because
+lint-staged found something under `src/**` it couldn't auto-fix — read the
+ESLint output.
 
 ## Commit messages
 

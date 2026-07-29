@@ -74,8 +74,13 @@ Given the candidate resources for the section:
 4. For each remaining `DeviceUseStatement`:
    - **Resolve device name**: follow `dus.device` reference → matching `Device`
      resource in the bundle → concatenate `Device.deviceName[].name`
-     (`TemplateUtilities.renderDevice`). If the resolved name is empty or literally
-     `"unknown"` (case-insensitive), the row is **skipped**.
+     (`TemplateUtilities.renderDevice`). The row is explicitly **skipped** only if
+     the resolved name is literally `"unknown"` (case-insensitive) or has already
+     been added to the dedup set (step 3) — an *empty* name is not checked
+     directly. A first-occurrence empty name still renders a row (with a blank
+     Device cell), as long as `Device.type` resolves to a coding (see next
+     bullet); it's only excluded from then on via the dedup check, since a second
+     empty-named device collides with the first in the `devicesAdded` set.
    - **Resolve code/system**: `Device.type` (a `CodeableConcept`) is rendered via
      `codeableConceptCoding()` as `"{code} ({friendly system name})"`, preferring a
      coding flagged `preferred` via the b.well `intelligence` extension, else the
@@ -177,8 +182,11 @@ templates in `src/narratives/templates/typescript/`.
 - **Dedup key is device *name*, not device *id*.** Two distinct `Device` resources
   that happen to share a rendered name will collapse into a single row (the more
   recently recorded one wins).
-- **Rows require both a resolvable name and a `Device.type` coding.** Devices missing
-  either are silently dropped — there's no partial/fallback row.
+- **Rows require a `Device.type` coding, but not actually a resolvable name.** A
+  device with no `Device.type` coding is dropped; a device with an empty/missing
+  name still renders (blank Device cell) on first occurrence — it's only the
+  literal string `"unknown"`, or a name repeat via the dedup set, that's skipped
+  by name.
 - **No status filtering.** Entered-in-error or stopped `DeviceUseStatement` records
   are shown identically to active ones (no visual distinction beyond the `Status` column).
 - **Summary-composition path is effectively unused** for this section today (see

@@ -89,9 +89,13 @@ builder treats that as "skip this section" (see step 6 below).
 
 `src/narratives/templates/typescript/TypeScriptTemplateMapper.ts` — import your
 template and add it to the `sectionToTemplate` map, keyed by your new
-`IPSSections` value. **This is the step that's easy to forget** — if you skip it,
-`TypeScriptTemplateMapper.generateNarrative` throws `No template found for section: ...`
-at runtime the first time a resource for that section is encountered.
+`IPSSections` value. **This is the step that's easy to forget**, but since the map
+is typed `Record<IPSSections, ITemplate>` (exhaustive over the enum), skipping it
+is caught at **compile time** — `npm run typecheck` fails with a `TS2741:
+Property '[IPSSections.X]' is missing in type ...` error. The `No template found
+for section: ...` runtime throw in `generateNarrative` is a defensive fallback
+that's unreachable for any genuine enum value; don't rely on it as the failure
+signal.
 
 ## 7. Document the section
 
@@ -113,9 +117,9 @@ accurate reference — this file is hand-maintained, not generated.
 
 ## Common mistakes
 
-- Forgetting step 6 (`TypeScriptTemplateMapper` registration) — throws at runtime,
-  not at compile time, since the map is keyed by a `string` enum, not exhaustively
-  type-checked against `IPSSections`.
+- Forgetting step 6 (`TypeScriptTemplateMapper` registration) — caught at
+  **compile time** (`npm run typecheck` fails with a `TS2741` "missing property"
+  error), since `sectionToTemplate` is typed `Record<IPSSections, ITemplate>`.
 - Returning `''` instead of `undefined` from `generateNarrative` — an empty string
   is truthy-checked differently in places and can produce an empty-but-present
   section instead of omitting it.
