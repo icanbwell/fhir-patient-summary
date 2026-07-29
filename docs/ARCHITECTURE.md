@@ -67,6 +67,8 @@ Two ways to drive the builder (see `README.md` for code samples):
 | Template interfaces (`ITemplate`, `ISummaryTemplate`) | `src/narratives/templates/typescript/interfaces/ITemplate.ts` |
 | FHIR R4 resource/partial/simple TypeScript types (`TPatient`, `TObservation`, …) | `src/types/resources/`, `src/types/partials/`, `src/types/simpleTypes/` |
 | Lab-test-name → LOINC code lookup used for grouping lab panels | `src/constants.ts` (`LAB_LOINC_MAP`) |
+| Debug/dev utility: renders a generated IPS `Bundle` as Markdown (used for eyeballing output, e.g. `tests_integration/production_record/`) | `src/generators/IPSBundleToMarkdown.ts` (`ipsBundleToMarkdown`) |
+| Per-resource-type required/recommended field profiles + `validateResource` — **not called by the generation pipeline**, only exercised from tests today | `src/profiles/ips_resource_profile_registry.ts` |
 | Public package entry point (what consumers of the npm package can import) | `src/index.ts` |
 
 ## Two data-source modes per section: raw resources vs. "summary compositions"
@@ -105,6 +107,15 @@ restored; don't assume `make generate_types` works.
   (`package.json`'s `description` still says *"A template for creating npm packages
   using TypeScript and VSCode"*). This library has no server/UI component; ignore
   these files for day-to-day development.
+- **`myPackage` in `src/index.ts`** is the same template's placeholder export,
+  unrelated to IPS generation. The library's actual public API is just
+  `ComprehensiveIPSCompositionBuilder` and `NarrativeGenerator` — everything else in
+  `src/` (including `ipsBundleToMarkdown` and `IPSResourceProfileRegistry`, both of
+  which exist and are tested) is internal-only unless you add it to `src/index.ts`.
+- **`IPSResourceProfileRegistry.validateResource`** looks like a validation gate but
+  isn't wired into `ComprehensiveIPSCompositionBuilder` anywhere — resources aren't
+  checked against IPS profiles as part of building a summary. It's currently only
+  invoked from `tests/ips-test/` and `tests/profiles/`.
 - **`semantic-release` config in `package.json`** has no CI workflow that invokes it
   (only `node-ci.yml` for PR checks and `npm-publish.yml`, which publishes to npm when
   a GitHub Release is *manually* published). Don't assume merging to `main` triggers

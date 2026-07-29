@@ -76,6 +76,7 @@ under `src/types/resources/` or `src/types/partials/` directly.
 
 New to this repo? Read, in order:
 1. [`README.md`](./README.md) — usage examples (fluent API vs. `read_bundle`)
-2. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — the pipeline and where everything lives
-3. [`sections.md`](./sections.md) — what data each IPS section contains
-4. [`docs/adding-a-new-ips-section.md`](./docs/adding-a-new-ips-section.md) — if you're extending it
+2. [`docs/GLOSSARY.md`](./docs/GLOSSARY.md) — new to FHIR/IPS? Start here for the vocabulary the rest of these docs assume
+3. [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — the pipeline and where everything lives
+4. [`sections.md`](./sections.md) — what data each IPS section contains
+5. [`docs/adding-a-new-ips-section.md`](./docs/adding-a-new-ips-section.md) — if you're extending it
