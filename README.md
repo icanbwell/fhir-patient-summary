@@ -4,6 +4,10 @@ This project provides utilities to generate patient summaries from FHIR Bundles,
 
 Detailed explanation of content of each section of IPS is [here](./sections.md)
 
+New to FHIR/IPS terminology? See [docs/GLOSSARY.md](./docs/GLOSSARY.md).
+
+For a deep-dive on how the "History of Medical Devices" (device data) section is algorithmically built, see [docs/medical-device-data-summary.md](./docs/medical-device-data-summary.md).
+
 ## Installation
 
 Clone the repository and install dependencies:
