@@ -12,6 +12,65 @@ import { NarrativeGenerator } from "./narrative_generator";
 import { IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
 import { MAX_ENTRIES_PER_GROUP } from "../structures/ips_section_constants";
 
+/**
+ * A summary Composition's own sub-sections, as ordered reference lists — one
+ * "group" each. For sections built from a grouped Composition (e.g. device
+ * metrics, one sub-section per metric) this is what a per-group cap slices.
+ * Compositions with no sub-sections yield a single group holding their
+ * top-level entries, so callers can treat both shapes uniformly.
+ */
+function summaryCompositionGroups(summaryComposition: TComposition): string[][] {
+    const toReferences = (entries: TCompositionSection['entry']): string[] =>
+        (entries ?? [])
+            .map(entry => entry.reference)
+            .filter((reference): reference is string => Boolean(reference));
+
+    const subSections = summaryComposition?.section ?? [];
+    const groups = subSections.map(section => toReferences(section.entry));
+    return groups.length > 0 ? groups : [[]];
+}
+
+/**
+ * Takes at most `maxEntriesPerGroup` items from each group, in order,
+ * de-duplicated across the whole Composition.
+ *
+ * References that `resolve` returns undefined for do NOT count toward the cap:
+ * a summary Composition routinely references resources absent from the bundle
+ * being built (a different time window, deleted resources), and counting those
+ * would let a group silently contribute far fewer than the cap allows.
+ * Passing `maxEntriesPerGroup` as undefined takes everything.
+ */
+function takeCappedPerGroup<T>(
+    groups: string[][],
+    maxEntriesPerGroup: number | undefined,
+    resolve: (reference: string) => T | undefined,
+): T[] {
+    const taken: T[] = [];
+    const seen = new Set<string>();
+    for (const group of groups) {
+        let takenFromGroup = 0;
+        for (const reference of group) {
+            if (maxEntriesPerGroup !== undefined && takenFromGroup >= maxEntriesPerGroup) break;
+            if (seen.has(reference)) continue;
+            const resolved = resolve(reference);
+            if (resolved === undefined) continue;
+            taken.push(resolved);
+            seen.add(reference);
+            takenFromGroup++;
+        }
+    }
+    return taken;
+}
+
+/**
+ * Turns a `ResourceType/id` reference into a placeholder resource, used by the
+ * summary-composition-only mode where the real resources aren't loaded.
+ * Returns undefined for anything that isn't exactly two segments.
+ */
+function referenceToStubResource(reference: string): TDomainResource | undefined {
+    const parts = reference.split('/');
+    return parts.length === 2 ? { resourceType: parts[0], id: parts[1] } : undefined;
+}
 
 export class ComprehensiveIPSCompositionBuilder {
     private patients: TPatient[] | undefined;
@@ -125,48 +184,31 @@ export class ComprehensiveIPSCompositionBuilder {
         const sectionResources: TDomainResource[] = [];
         for (const summaryComposition of summaryCompositions) {
             const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
+            const groups = summaryCompositionGroups(summaryComposition);
             if (includeSummaryCompositionOnly) {
-                const addedEntries = new Set<string>();
-                resourceEntries.forEach(entry => {
-                    if (entry.reference && !addedEntries.has(entry.reference)) {
-                        const reference = entry.reference.split('/')
-                        if (reference.length === 2) {
-                            const resource: TDomainResource = {
-                                id: reference[1],
-                                resourceType: reference[0]
-                            }
-                            sectionResources.push(resource);
-                            addedEntries.add(entry.reference);
-                        }
-                    }
-                });
+                // Stub-only mode: the bundle isn't consulted, so each reference
+                // becomes a placeholder. The cap still applies here — this mode
+                // is reachable in production via
+                // `$summary?_includeSummaryCompositionOnly=true`.
+                sectionResources.push(
+                    ...takeCappedPerGroup(groups, maxEntriesPerGroup, referenceToStubResource)
+                );
             }
             else if (maxEntriesPerGroup !== undefined) {
-                // Bounded path: each of the Composition's own sub-sections is
-                // one logical group (e.g. one device metric), already sorted
-                // most-recent-first by the upstream pipeline, so taking the
-                // leading N per group keeps every group represented instead of
-                // letting a high-frequency one crowd out the rest. Walks entry
-                // order rather than bundle order to preserve that sorting.
+                // Bounded path: walks entry order rather than bundle order so
+                // the upstream most-recent-first sorting within each group is
+                // preserved when the cap slices it.
                 const resourcesByReference = new Map<string, TDomainResource>();
                 for (const resource of resources) {
                     resourcesByReference.set(`${resource.resourceType}/${resource.id}`, resource);
                 }
-                const added = new Set<string>();
-                for (const group of summaryComposition?.section ?? []) {
-                    let taken = 0;
-                    for (const entry of group.entry ?? []) {
-                        if (taken >= maxEntriesPerGroup) break;
-                        const reference = entry.reference;
-                        if (!reference || added.has(reference)) continue;
-                        const resource = resourcesByReference.get(reference);
-                        if (!resource) continue;
-                        this.resources.add(resource);
-                        sectionResources.push(resource);
-                        added.add(reference);
-                        taken++;
-                    }
+                const resolved = takeCappedPerGroup(
+                    groups, maxEntriesPerGroup, reference => resourcesByReference.get(reference)
+                );
+                for (const resource of resolved) {
+                    this.resources.add(resource);
                 }
+                sectionResources.push(...resolved);
             }
             else {
                 resources.forEach(resource => {

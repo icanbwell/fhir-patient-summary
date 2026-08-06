@@ -132,21 +132,23 @@ describe('DeviceMetricsSection', () => {
 
   const buildSection = async (
     bundle: TBundle,
-    useSummaryCompositions = true
+    useSummaryCompositions = true,
+    includeSummaryCompositionOnly = false
   ) => {
     const builder = new ComprehensiveIPSCompositionBuilder();
     await builder.readBundleAsync(
       bundle,
       'UTC',
       useSummaryCompositions,
-      false,
+      includeSummaryCompositionOnly,
       quietLogger
     );
     const out = await builder.buildBundleAsync(
       'org-1',
       'b.well',
       'https://example.com',
-      'UTC'
+      'UTC',
+      includeSummaryCompositionOnly
     );
     const composition = (out.entry ?? [])
       .map(e => e.resource)
@@ -175,6 +177,25 @@ describe('DeviceMetricsSection', () => {
     // The 10 kept are the most recent (hr-0..hr-9), not an arbitrary slice.
     expect(refs).toContain('Observation/hr-0');
     expect(refs).toContain('Observation/hr-9');
+    expect(refs).not.toContain('Observation/hr-10');
+  });
+
+  // includeSummaryCompositionOnly is a real production mode (fhir-server calls
+  // `$summary?_includeSummaryCompositionOnly=true`). It selects entries via a
+  // different branch that builds stub resources without consulting the bundle,
+  // so the cap has to be enforced there too.
+  it('caps each metric in includeSummaryCompositionOnly mode as well', async () => {
+    const section = await buildSection(
+      buildBundle([deviceComposition]),
+      true,
+      true
+    );
+
+    expect(section).toBeDefined();
+    const refs = (section?.entry ?? []).map(e => e.reference);
+
+    expect(refs.filter(r => r?.startsWith('Observation/hr-'))).toHaveLength(10);
+    expect(refs.filter(r => r?.startsWith('Observation/wt-'))).toHaveLength(2);
     expect(refs).not.toContain('Observation/hr-10');
   });
 
