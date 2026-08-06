@@ -66,6 +66,7 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
         data['codeSystem'] = templateUtilities.codeableConceptCoding(
           rowData.code
         );
+        data['codeSystem'] = templateUtilities.renderTextAsHtml(data['codeSystem']);
 
         for (const columnData of rowData.section ?? []) {
           if (columnData.title) {
@@ -94,6 +95,7 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
           </tr>`;
       }
     }
+            <td>${templateUtilities.renderTextAsHtml(data['codeSystem'] ?? '')}</td>
 
     html += `
           </tbody>
