@@ -10,6 +10,7 @@ import { TNarrative } from "../types/partials/Narrative";
 import { IPSSectionResourceHelper } from "../structures/ips_section_resource_map";
 import { NarrativeGenerator } from "./narrative_generator";
 import { IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
+import { MAX_ENTRIES_PER_GROUP } from "../structures/ips_section_constants";
 
 
 export class ComprehensiveIPSCompositionBuilder {
@@ -118,7 +119,8 @@ export class ComprehensiveIPSCompositionBuilder {
         summaryCompositions: TComposition[],
         resources: TDomainResource[],
         timezone: string | undefined,
-        includeSummaryCompositionOnly: boolean = false
+        includeSummaryCompositionOnly: boolean = false,
+        maxEntriesPerGroup?: number,
     ): Promise<this> {
         const sectionResources: TDomainResource[] = [];
         for (const summaryComposition of summaryCompositions) {
@@ -138,6 +140,33 @@ export class ComprehensiveIPSCompositionBuilder {
                         }
                     }
                 });
+            }
+            else if (maxEntriesPerGroup !== undefined) {
+                // Bounded path: each of the Composition's own sub-sections is
+                // one logical group (e.g. one device metric), already sorted
+                // most-recent-first by the upstream pipeline, so taking the
+                // leading N per group keeps every group represented instead of
+                // letting a high-frequency one crowd out the rest. Walks entry
+                // order rather than bundle order to preserve that sorting.
+                const resourcesByReference = new Map<string, TDomainResource>();
+                for (const resource of resources) {
+                    resourcesByReference.set(`${resource.resourceType}/${resource.id}`, resource);
+                }
+                const added = new Set<string>();
+                for (const group of summaryComposition?.section ?? []) {
+                    let taken = 0;
+                    for (const entry of group.entry ?? []) {
+                        if (taken >= maxEntriesPerGroup) break;
+                        const reference = entry.reference;
+                        if (!reference || added.has(reference)) continue;
+                        const resource = resourcesByReference.get(reference);
+                        if (!resource) continue;
+                        this.resources.add(resource);
+                        sectionResources.push(resource);
+                        added.add(reference);
+                        taken++;
+                    }
+                }
             }
             else {
                 resources.forEach(resource => {
@@ -215,7 +244,7 @@ export class ComprehensiveIPSCompositionBuilder {
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
                 consoleLogger.info(`Using summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly, MAX_ENTRIES_PER_GROUP[sectionType]);
             } else {
                 consoleLogger.info(`Using individual resources for section: ${sectionType}`);
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
