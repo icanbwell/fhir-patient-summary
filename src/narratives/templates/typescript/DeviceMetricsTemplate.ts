@@ -63,10 +63,12 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
     for (const resourceItem of resources) {
       for (const rowData of resourceItem.section ?? []) {
         const data: Record<string, string> = {};
-        data['codeSystem'] = templateUtilities.codeableConceptCoding(
-          rowData.code
+        // Escaped like every other value in `data` — codeableConceptCoding
+        // interpolates a code and system straight from the resource, so it is
+        // untrusted input and must not reach the HTML unescaped.
+        data['codeSystem'] = templateUtilities.renderTextAsHtml(
+          templateUtilities.codeableConceptCoding(rowData.code)
         );
-        data['codeSystem'] = templateUtilities.renderTextAsHtml(data['codeSystem']);
 
         for (const columnData of rowData.section ?? []) {
           if (columnData.title) {
@@ -95,7 +97,6 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
           </tr>`;
       }
     }
-            <td>${templateUtilities.renderTextAsHtml(data['codeSystem'] ?? '')}</td>
 
     html += `
           </tbody>

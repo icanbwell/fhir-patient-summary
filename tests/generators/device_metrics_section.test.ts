@@ -210,6 +210,32 @@ describe('DeviceMetricsSection', () => {
     expect(div).toContain('Device/oura');
   });
 
+  it('escapes untrusted resource text rather than emitting it as live HTML', async () => {
+    // A malicious/mangled code system reaches the narrative via
+    // codeableConceptCoding, which interpolates code + system verbatim.
+    const injected = '<script>alert(1)</script>';
+    const hostileComposition = {
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      section: [
+        {
+          ...metricSection('Heart rate', '8867-4', heartRate),
+          code: {
+            coding: [{ system: injected, code: injected, display: 'Heart rate' }],
+          },
+        },
+      ],
+    } as unknown as TComposition;
+
+    const section = await buildSection(buildBundle([hostileComposition]));
+    const div = section?.text?.div ?? '';
+
+    // `<` is escaped so no live tag can form. Note the narrative is minified
+    // afterwards, which turns `&gt;` back into a bare `>` — harmless in text
+    // content, so only the opening bracket is asserted on.
+    expect(div).not.toContain('<script');
+    expect(div).toContain('&lt;script');
+  });
+
   it('uses the section title and LOINC code the SHL viewer expects', async () => {
     const section = await buildSection(buildBundle([deviceComposition]));
 
