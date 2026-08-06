@@ -182,6 +182,11 @@ export class ComprehensiveIPSCompositionBuilder {
         maxEntriesPerGroup?: number,
     ): Promise<this> {
         const sectionResources: TDomainResource[] = [];
+        // Loop-invariant: indexed once for all compositions rather than rebuilt
+        // per composition.
+        const resourcesByReference = new Map<string, TDomainResource>(
+            resources.map(resource => [`${resource.resourceType}/${resource.id}`, resource])
+        );
         for (const summaryComposition of summaryCompositions) {
             const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
             const groups = summaryCompositionGroups(summaryComposition);
@@ -198,16 +203,10 @@ export class ComprehensiveIPSCompositionBuilder {
                 // Bounded path: walks entry order rather than bundle order so
                 // the upstream most-recent-first sorting within each group is
                 // preserved when the cap slices it.
-                const resourcesByReference = new Map<string, TDomainResource>();
-                for (const resource of resources) {
-                    resourcesByReference.set(`${resource.resourceType}/${resource.id}`, resource);
-                }
                 const resolved = takeCappedPerGroup(
                     groups, maxEntriesPerGroup, reference => resourcesByReference.get(reference)
                 );
-                for (const resource of resolved) {
-                    this.resources.add(resource);
-                }
+                resolved.forEach(resource => this.resources.add(resource));
                 sectionResources.push(...resolved);
             }
             else {
