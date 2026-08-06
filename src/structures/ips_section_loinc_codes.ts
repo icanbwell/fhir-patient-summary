@@ -20,6 +20,7 @@ const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
   [IPSSections.MEDICAL_HISTORY]: '11348-0',
   [IPSSections.CARE_PLAN]: '18776-5',
   [IPSSections.ADVANCE_DIRECTIVES]: '42348-3',
+  [IPSSections.DEVICE_METRICS]: '82611-5',
 };
 
 const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
@@ -38,6 +39,7 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
   [IPSSections.CARE_PLAN]: 'Plan of Care',
   [IPSSections.MEDICAL_HISTORY]: 'History of Past Illness',
   [IPSSections.SOCIAL_HISTORY]: 'Social History',
+  [IPSSections.DEVICE_METRICS]: 'Personal Health Monitoring Devices',
 };
 
 const PREGNANCY_LOINC_CODES = {
@@ -170,7 +172,8 @@ const ADVANCED_DIRECTIVE_CATEGORY_CODES = {
   polst: 'POLST',
   hcd: 'Health Care Directive',
 };
-const ADVANCED_DIRECTIVE_CATEGORY_SYSTEM = "http://terminology.hl7.org/CodeSystem/consentcategorycodes"
+const ADVANCED_DIRECTIVE_CATEGORY_SYSTEM =
+  'http://terminology.hl7.org/CodeSystem/consentcategorycodes';
 
 const ADVANCED_DIRECTIVE_LOINC_CODES = {
   '45473-6': 'Advance healthcare directive Completed',
@@ -182,7 +185,7 @@ const ADVANCED_DIRECTIVE_LOINC_CODES = {
   '45479-3': 'Medication restrictions',
   '45480-1': 'Other treatment restrictions',
 };
-const LOINC_SYSTEM = "http://loinc.org"
+const LOINC_SYSTEM = 'http://loinc.org';
 
 export {
   IPS_SECTION_LOINC_CODES,
