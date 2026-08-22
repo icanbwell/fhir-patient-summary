@@ -100,6 +100,12 @@ export class WearablesTemplate implements ITemplate {
         const byDate = [...groupObservations].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a, b));
         const earliestObs = byDate[0];
         const latestObs = byDate[byDate.length - 1];
+        // extractObservationValue already bakes the unit into its result for some
+        // shapes (e.g. blood-pressure components, valueQuantity) - avoid appending
+        // it a second time in that case. Escape HTML to prevent XSS from malicious values.
+        const escapedStringValue = templateUtilities.renderTextAsHtml(stringValue);
+        const escapedUnit = unit ? templateUtilities.renderTextAsHtml(unit) : '';
+        latestCell = escapedUnit && !escapedStringValue.includes(escapedUnit) ? WearablesTemplate.formatCell(escapedStringValue, escapedUnit) : escapedStringValue;
 
         count = groupObservations.length;
         earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
