@@ -78,8 +78,6 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
     [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Consent' && resource.status === 'active' && resource.scope?.coding?.some((c: any) => codingMatches(c, 'adr', "http://terminology.hl7.org/CodeSystem/consentscope")),
-    // Wearable device Observations — filter will be refined in Task 3 to exclude from VITAL_SIGNS/DIAGNOSTIC_REPORTS
-    [IPSSections.WEARABLES]: (resource) => resource.resourceType === 'Observation',
 };
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
