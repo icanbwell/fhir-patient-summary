@@ -20,6 +20,7 @@ const IPS_SECTION_LOINC_CODES: Record<IPSSections, string> = {
   [IPSSections.MEDICAL_HISTORY]: '11348-0',
   [IPSSections.CARE_PLAN]: '18776-5',
   [IPSSections.ADVANCE_DIRECTIVES]: '42348-3',
+  [IPSSections.WEARABLES]: 'wearables',
 };
 
 const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
@@ -38,7 +39,31 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
   [IPSSections.CARE_PLAN]: 'Plan of Care',
   [IPSSections.MEDICAL_HISTORY]: 'History of Past Illness',
   [IPSSections.SOCIAL_HISTORY]: 'Social History',
+  [IPSSections.WEARABLES]: 'Wearable Device Data',
 };
+
+// Per-section override for the code.coding[0].system used when building a
+// Composition section's `code`. Every section not listed here defaults to
+// LOINC_SYSTEM (see fhir_summary_generator.ts). WEARABLES has no HL7 IPS
+// LOINC section code, so it uses a b.well-local namespace instead.
+const IPS_SECTION_CODE_SYSTEMS: Partial<Record<IPSSections, string>> = {
+  [IPSSections.WEARABLES]: 'https://www.icanbwell.com/ips-section-codes',
+};
+
+// Identifies Observations produced by b.well's wearable-data ingestion
+// pipeline (bwell-databricks/device-data-ingest-job). Every Observation it
+// emits carries a meta.security tag {system: WEARABLE_VENDOR_SECURITY_SYSTEM,
+// code: <vendor>}. Kept as an array (not a single literal) so a future
+// non-Validic wearable integration can be added without a filter rewrite.
+const WEARABLE_VENDOR_SECURITY_SYSTEM = 'https://www.icanbwell.com/vendor';
+const WEARABLE_VENDOR_CODES: string[] = ['validic'];
+
+// Second `category` coding the same ingestion pipeline stamps on every
+// Observation, grouping it by clinical domain (cardiovascular, sleep,
+// activity, etc.) for UI purposes. Used by WearablesTemplate to group its
+// summary table by category without this repo needing its own metric
+// taxonomy.
+const DISPLAY_GROUP_CATEGORY_SYSTEM = 'https://www.icanbwell.com/display-group';
 
 const PREGNANCY_LOINC_CODES = {
   PREGNANCY_STATUS: {
@@ -187,6 +212,7 @@ const LOINC_SYSTEM = "http://loinc.org"
 export {
   IPS_SECTION_LOINC_CODES,
   IPS_SECTION_DISPLAY_NAMES,
+  IPS_SECTION_CODE_SYSTEMS,
   PREGNANCY_LOINC_CODES,
   PREGNANCY_SNOMED_CODES,
   BLOOD_PRESSURE_LOINC_CODES,
@@ -198,4 +224,7 @@ export {
   ADVANCED_DIRECTIVE_CATEGORY_SYSTEM,
   ADVANCED_DIRECTIVE_LOINC_CODES,
   LOINC_SYSTEM,
+  WEARABLE_VENDOR_SECURITY_SYSTEM,
+  WEARABLE_VENDOR_CODES,
+  DISPLAY_GROUP_CATEGORY_SYSTEM,
 };

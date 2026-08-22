@@ -21,6 +21,7 @@ export enum IPSSections {
     MEDICAL_HISTORY = 'HistoryOfPastIllnessSection',
     SOCIAL_HISTORY = 'SocialHistorySection',
     VITAL_SIGNS = 'VitalSignsSection',
+    WEARABLES = 'WearableDeviceDataSection',
     
     // missing IPS Sections
     // ALERTS = 'AlertsSection',
