@@ -18,7 +18,7 @@ import {TAnnotation} from "../../../types/partials/Annotation";
 import {TPeriod} from "../../../types/partials/Period";
 import {TRange} from "../../../types/partials/Range";
 import {TRatio} from "../../../types/partials/Ratio";
-import {BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES} from '../../../structures/ips_section_loinc_codes';
+import {BLOOD_PRESSURE_LOINC_CODES, PREGNANCY_LOINC_CODES, DISPLAY_GROUP_CATEGORY_SYSTEM} from '../../../structures/ips_section_loinc_codes';
 import {TCoding} from '../../../types/partials/Coding';
 import CODING_SYSTEM_DISPLAY_NAMES from "../../../structures/codingSystemDisplayNames";
 import {TResource} from "../../../types/resources/Resource";
@@ -953,6 +953,23 @@ export class TemplateUtilities {
             (sec) => sec.system === 'https://www.icanbwell.com/owner' && !!sec.code
         );
         return ownerEntry?.display || ownerEntry?.code;
+    }
+
+    /**
+     * Returns the b.well "display group" category code for an Observation, if
+     * present. This is a second `category` coding (system
+     * https://www.icanbwell.com/display-group) that the wearable-data
+     * ingestion pipeline stamps onto every Observation it produces, grouping
+     * it by clinical domain (cardiovascular, sleep, activity, etc.).
+     */
+    getDisplayGroupCategory(resource: TObservation): string | undefined {
+        for (const cat of resource.category ?? []) {
+            const coding = cat.coding?.find((c) => c.system === DISPLAY_GROUP_CATEGORY_SYSTEM);
+            if (coding?.code) {
+                return coding.code;
+            }
+        }
+        return undefined;
     }
 
     /**
