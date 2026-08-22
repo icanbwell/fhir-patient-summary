@@ -1,5 +1,5 @@
 import { IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM, IPS_SUMMARY_COMPOSITION_VIEW_TYPE_SYSTEM, RESULT_SUMMARY_OBSERVATION_CATEGORIES } from "./ips_section_constants";
-import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES, FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES } from "./ips_section_loinc_codes";
+import { PREGNANCY_LOINC_CODES, SOCIAL_HISTORY_LOINC_CODES, PREGNANCY_SNOMED_CODES, FUNCTIONAL_STATUS_ASSESSMENT_LOINC_CODES, FUNCTIONAL_STATUS_SNOMED_CODES, WEARABLE_VENDOR_SECURITY_SYSTEM, WEARABLE_VENDOR_CODES } from "./ips_section_loinc_codes";
 import { IPSSections } from "./ips_sections";
 import { TCodeableConcept } from "../types/partials/CodeableConcept";
 import { TCoding } from "../types/partials/Coding";
@@ -27,6 +27,17 @@ export const IPSSectionResourcesMap: Record<IPSSections, string[]> = {
     [IPSSections.WEARABLES]: ['Observation'],
 };
 
+/**
+ * True if this Observation was produced by the wearable-data ingestion pipeline
+ * (identified by a meta.security vendor tag, e.g. {system: ".../vendor", code: "validic"}).
+ * Used both to build the WEARABLES section and to exclude these Observations from
+ * other Observation-based sections (VITAL_SIGNS, DIAGNOSTIC_REPORTS) that would
+ * otherwise also match on a shared observation-category code (vital-signs, laboratory).
+ */
+function isWearableObservation(resource: any): boolean {
+    return resource.resourceType === 'Observation' && !!resource.meta?.security?.some((s: any) => codingMatches(s, WEARABLE_VENDOR_CODES, WEARABLE_VENDOR_SECURITY_SYSTEM));
+}
+
 export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
     // Patient section: only Patient resource
     [IPSSections.PATIENT]: (resource) => resource.resourceType === 'Patient',
@@ -38,14 +49,14 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.PROBLEMS]: (resource) => resource.resourceType === 'Condition' && resource.clinicalStatus?.coding?.some((c: any) => !['inactive', 'resolved'].includes(c.code)),
     // Only include completed immunizations
     [IPSSections.IMMUNIZATIONS]: (resource) => (resource.resourceType === 'Immunization' && resource.status === 'completed') || (resource.resourceType === 'Organization'),
-    // Only include vital sign Observations (category.coding contains 'vital-signs')
-    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, 'vital-signs', c.system))),
+    // Only include vital sign Observations (category.coding contains 'vital-signs'), excluding wearable-sourced readings (see WEARABLES)
+    [IPSSections.VITAL_SIGNS]: (resource) => resource.resourceType === 'Observation' && !isWearableObservation(resource) && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, 'vital-signs', c.system))),
     // Includes DeviceUseStatement. Device is needed for linked device details
     [IPSSections.MEDICAL_DEVICES]: (resource) => ['DeviceUseStatement', 'Device'].includes(resource.resourceType),
-    // Only include finalized diagnostic reports and relevant observations
+    // Only include finalized diagnostic reports and relevant observations, excluding wearable-sourced readings (see WEARABLES)
     [IPSSections.DIAGNOSTIC_REPORTS]: (resource) =>
         (resource.resourceType === 'DiagnosticReport' && resource.status === 'final') ||
-        (resource.resourceType === 'Observation' && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, RESULT_SUMMARY_OBSERVATION_CATEGORIES, c.system)))),
+        (resource.resourceType === 'Observation' && !isWearableObservation(resource) && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, RESULT_SUMMARY_OBSERVATION_CATEGORIES, c.system)))),
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
     // Only include social history Observations
@@ -78,8 +89,8 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
     [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Consent' && resource.status === 'active' && resource.scope?.coding?.some((c: any) => codingMatches(c, 'adr', "http://terminology.hl7.org/CodeSystem/consentscope")),
-    // Placeholder — matches nothing until Task 3 replaces this with the real vendor-tag predicate
-    [IPSSections.WEARABLES]: () => false,
+    // Only include Observations from the wearable-data ingestion pipeline (vendor tag = validic today)
+    [IPSSections.WEARABLES]: (resource) => isWearableObservation(resource),
 };
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
