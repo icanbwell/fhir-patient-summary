@@ -100,13 +100,6 @@ export class WearablesTemplate implements ITemplate {
         const byDate = [...groupObservations].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a, b));
         const earliestObs = byDate[0];
         const latestObs = byDate[byDate.length - 1];
-        // extractObservationValue already bakes the unit into its result for some
-        // shapes (e.g. blood-pressure components, valueQuantity) - avoid appending
-        // it a second time in that case. Escape HTML to prevent XSS from malicious values.
-        const escapedStringValue = templateUtilities.renderTextAsHtml(stringValue);
-        const escapedUnit = unit ? templateUtilities.renderTextAsHtml(unit) : '';
-        latestCell = escapedUnit && !escapedStringValue.includes(escapedUnit) ? WearablesTemplate.formatCell(escapedStringValue, escapedUnit) : escapedStringValue;
-
         count = groupObservations.length;
         earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
         latestDateValue = latestObs.effectiveDateTime || latestObs.effectivePeriod?.start;
@@ -117,8 +110,12 @@ export class WearablesTemplate implements ITemplate {
         const unit = templateUtilities.extractObservationValueUnit(latestObs);
         // extractObservationValue already bakes the unit into its result for some
         // shapes (e.g. blood-pressure components, valueQuantity) - avoid appending
-        // it a second time in that case.
-        latestCell = unit && !stringValue.includes(unit) ? WearablesTemplate.formatCell(stringValue, unit) : stringValue;
+        // it a second time in that case. Escape both before rendering: rawValue can
+        // originate from a valueString/valueCodeableConcept.text field, which is
+        // free text from the source system and must not be trusted as safe HTML.
+        const escapedStringValue = templateUtilities.renderTextAsHtml(stringValue);
+        const escapedUnit = unit ? templateUtilities.renderTextAsHtml(unit) : '';
+        latestCell = escapedUnit && !escapedStringValue.includes(escapedUnit) ? WearablesTemplate.formatCell(escapedStringValue, escapedUnit) : escapedStringValue;
         averageCell = NOT_AVAILABLE;
         minCell = NOT_AVAILABLE;
         maxCell = NOT_AVAILABLE;

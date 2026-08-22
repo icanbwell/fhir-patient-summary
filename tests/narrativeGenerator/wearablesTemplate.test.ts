@@ -194,6 +194,27 @@ describe('WearablesTemplate', () => {
     expect(html).toContain('<td>1</td>'); // reading count
   });
 
+  it('escapes HTML in a non-numeric reading\'s free-text value before rendering', () => {
+    // valueCodeableConcept.text is free text from the source system and must not be
+    // trusted as safe HTML - a malicious or malformed value here should render as
+    // inert text, not break out of the table cell.
+    const observation: TObservation = {
+      resourceType: 'Observation',
+      id: 'sleep-quality-xss',
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '93832-4', display: 'Sleep quality' }] },
+      effectiveDateTime: '2026-01-01T08:00:00Z',
+      valueCodeableConcept: { text: '<script>alert(1)</script>' },
+      meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+    };
+    const template = new WearablesTemplate();
+    const html = template.generateNarrative([observation], 'UTC');
+
+    expect(html).toBeDefined();
+    expect(html).not.toContain('<script>');
+    expect(html).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
+  });
+
   it('renders a row for a wearable blood-pressure reading (component-based, no top-level valueQuantity)', () => {
     const observation: TObservation = {
       resourceType: 'Observation',
