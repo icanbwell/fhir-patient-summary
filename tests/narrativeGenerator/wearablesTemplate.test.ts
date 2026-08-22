@@ -107,6 +107,34 @@ describe('WearablesTemplate', () => {
     expect(html).toContain('<h4>Activity</h4>');
   });
 
+  it('does not mix incompatible units within the same metric into one aggregate', () => {
+    // Two weight readings for the same LOINC code, but from paired devices reporting
+    // in different units (kg vs lb). Averaging the raw numbers together (70 + 154) / 2
+    // would be clinically meaningless. Each unit must get its own row instead.
+    const weightObservation = (id: string, value: number, unit: string, date: string): TObservation => ({
+      resourceType: 'Observation',
+      id,
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '29463-7', display: 'Body weight' }] },
+      effectiveDateTime: date,
+      valueQuantity: { value, unit },
+      meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+    });
+    const resources: TDomainResource[] = [
+      weightObservation('weight-kg', 70, 'kg', '2026-01-01T08:00:00Z'),
+      weightObservation('weight-lb', 154, 'lb', '2026-01-02T08:00:00Z'),
+    ];
+    const template = new WearablesTemplate();
+    const html = template.generateNarrative(resources, 'UTC');
+
+    expect(html).toBeDefined();
+    expect(html).toContain('70 kg');
+    expect(html).toContain('154 lb');
+    // 112 would be the (wrong) average of 70 and 154 if the two units were merged
+    // into one aggregate instead of being kept as separate rows.
+    expect(html).not.toContain('112');
+  });
+
   it('buckets metrics with no display-group category under "Other"', () => {
     const observation: TObservation = {
       resourceType: 'Observation',

@@ -35,7 +35,13 @@ export class WearablesTemplate implements ITemplate {
     const groups = new Map<string, TObservation[]>();
     for (const obs of observations) {
       const coding = obs.code?.coding?.[0];
-      const key = coding?.code ? `${coding.system ?? ''}|${coding.code}` : `text|${obs.code?.text ?? 'unknown'}`;
+      const metricKey = coding?.code ? `${coding.system ?? ''}|${coding.code}` : `text|${obs.code?.text ?? 'unknown'}`;
+      // Include the unit in the grouping key so readings of the same metric reported
+      // in different units (e.g. weight in kg from one device, lb from another) never
+      // get averaged together into one clinically-meaningless number. Observations with
+      // no valueQuantity.unit (including non-numeric ones) share the '' bucket, which is
+      // fine - they were never going into the numeric aggregate anyway.
+      const key = `${metricKey}|${obs.valueQuantity?.unit ?? ''}`;
       const existing = groups.get(key);
       if (existing) {
         existing.push(obs);
@@ -69,7 +75,9 @@ export class WearablesTemplate implements ITemplate {
         const byDate = [...readings].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a.obs, b.obs));
         const earliest = byDate[0];
         const latest = byDate[byDate.length - 1];
-        const unit = groupObservations.find((obs) => obs.valueQuantity?.unit)?.valueQuantity?.unit ?? '';
+        // Every member of this group shares the same unit by construction (see the
+        // grouping key above), so any one of them is a valid source for it.
+        const unit = groupObservations[0].valueQuantity?.unit ?? '';
 
         const values = readings.map((r) => r.value);
         const { sum, min, max } = WearablesTemplate.sumMinMax(values);

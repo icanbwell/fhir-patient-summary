@@ -182,18 +182,22 @@ simply won't render when there's no matching data.
 
 ## Risks / assumptions
 
-- **Mixed-unit aggregation across devices is not detected.** Metrics are
-  grouped by `code.coding[0].code`+`system` only (per this spec's design),
-  with the displayed unit taken from the first reading that has one. If a
-  patient's paired devices report the same LOINC code in different units
-  (e.g. weight in `kg` from one scale and `[lb_av]` from another; sleep
-  duration in `min` vs `h`), the average/min/max would silently mix
-  incompatible units under one confident-looking label. Surfaced by the
-  final whole-branch review; not fixed in v1 — flagged here as a known
-  design gap for whoever extends the vendor/device list. A future fix
-  would need to key groups on code+unit (or normalize units before
-  aggregating, or skip aggregation and show only "Latest" when a group's
-  units are heterogeneous).
+- **Mixed-unit aggregation across devices (fixed).** Metrics were originally
+  grouped by `code.coding[0].code`+`system` only, with the displayed unit
+  taken from the first reading that had one — so a patient's paired devices
+  reporting the same LOINC code in different units (e.g. weight in `kg`
+  from one scale and `lb` from another) would have their average/min/max
+  silently mixed under one confident-looking label. Surfaced by the final
+  whole-branch review. Fixed by including the unit in the grouping key
+  (`WearablesTemplate.generateStaticNarrative`) — readings of the same
+  metric in different units now form separate groups and render as
+  separate rows, so no aggregate ever mixes incompatible units. Readings
+  with no `valueQuantity.unit` at all (including non-numeric ones) share
+  the empty-unit bucket, which is correct since they were never part of
+  the numeric aggregate anyway. Not addressed: true unit *normalization*
+  (e.g. converting `lb`→`kg` so they'd combine into one aggregate) —
+  out of scope; showing them as separate, individually-correct rows was
+  judged sufficient and avoids a unit-conversion table.
 - **No real fixture in this repo currently exercises this path.** The
   vendor-tag/owner-tag/display-group mechanism is confirmed by reading the
   actual producer's source code (`device-data-ingest-job`), not by finding
