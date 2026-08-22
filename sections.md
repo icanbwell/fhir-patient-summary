@@ -83,7 +83,7 @@ This section contains the patient's immunization history.
 This section contains diagnostic reports and related observations.
 
 **Resources:** DiagnosticReport, Observation <br>
-**Filter:** `status` is `final`
+**Filter:** `status` is `final`. Observations tagged as wearable-device readings (see Wearable Device Data below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 ### Observations:
@@ -132,7 +132,7 @@ This section contains information about medical devices used by the patient.
 This section contains the patient's vital signs measurements.
 
 **Resource:** Observation <br>
-**Filter:** `category.coding.code` contains `vital-signs`
+**Filter:** `category.coding.code` contains `vital-signs`. Observations tagged as wearable-device readings (see Wearable Device Data below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 - **Vital Name:** `code` (CodeableConcept)
 - **Result:** `valueQuantity`, `valueCodeableConcept`, `valueString`, etc.
@@ -156,6 +156,8 @@ This section summarizes readings collected by the patient's wearable devices (he
 - **# Readings:** count of readings contributing to the aggregate
 - **Date Range:** earliest to latest `effectiveDateTime`/`effectivePeriod.start`
 - **Source Device:** `meta.security` owner tag (system `https://www.icanbwell.com/owner`), e.g. "Fitbit"
+
+**Known limitation:** the exclusion of wearable-tagged Observations from Vital Signs / Results Summary (described above) only applies on the default (raw-resource) data path. If a bundle uses the `SUMMARY_COMPOSITION_SECTIONS` environment variable to opt Vital Signs into the summary-composition fast path, that path selects resources by Composition reference rather than by the section filter, so the exclusion does not apply there and duplication with this section could occur. This is a pre-existing characteristic of the summary-composition path, not introduced by this feature.
 
 ## Social History (Optional)
 **LOINC Code:** `29762-2` - Social History

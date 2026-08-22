@@ -6,17 +6,18 @@ import { ITemplate } from './interfaces/ITemplate';
 
 interface WearableMetricSummary {
   display: string;
-  unit: string;
   category: string;
   count: number;
-  average: number;
-  min: number;
-  max: number;
-  latestValue: number;
+  latestCell: string;
+  averageCell: string;
+  minCell: string;
+  maxCell: string;
   latestDate: string;
   earliestDate: string;
   sourceDevice: string;
 }
+
+const NOT_AVAILABLE = '—';
 
 /**
  * Class to generate an HTML narrative summarizing wearable-device Observations
@@ -49,38 +50,74 @@ export class WearablesTemplate implements ITemplate {
         .filter((obs) => typeof obs.valueQuantity?.value === 'number')
         .map((obs) => ({ value: obs.valueQuantity!.value as number, obs }));
 
-      if (readings.length === 0) {
-        continue;
-      }
-
-      const byDate = [...readings].sort((a, b) => {
-        const dateA = a.obs.effectiveDateTime || a.obs.effectivePeriod?.start;
-        const dateB = b.obs.effectiveDateTime || b.obs.effectivePeriod?.start;
-        return dateA && dateB ? new Date(dateA).getTime() - new Date(dateB).getTime() : 0;
-      });
-      const earliest = byDate[0];
-      const latest = byDate[byDate.length - 1];
-
       const firstObs = groupObservations[0];
       const display = firstObs.code?.coding?.[0]?.display || templateUtilities.codeableConceptDisplay(firstObs.code) || 'Unknown';
-      const unit = groupObservations.find((obs) => obs.valueQuantity?.unit)?.valueQuantity?.unit ?? '';
       const category = templateUtilities.getDisplayGroupCategory(firstObs) ?? 'Other';
-      const sourceDevice = templateUtilities.getOwnerTag(latest.obs) || templateUtilities.getOwnerTag(firstObs) || '';
 
-      const values = readings.map((r) => r.value);
-      const sum = values.reduce((total, v) => total + v, 0);
-      const earliestDateValue = earliest.obs.effectiveDateTime || earliest.obs.effectivePeriod?.start;
-      const latestDateValue = latest.obs.effectiveDateTime || latest.obs.effectivePeriod?.start;
+      let latestCell: string;
+      let averageCell: string;
+      let minCell: string;
+      let maxCell: string;
+      let count: number;
+      let earliestDateValue: string | undefined;
+      let latestDateValue: string | undefined;
+      let sourceDevice: string;
+
+      if (readings.length > 0) {
+        // At least one reading in this metric group has a numeric valueQuantity.value:
+        // aggregate over that numeric subset, as before.
+        const byDate = [...readings].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a.obs, b.obs));
+        const earliest = byDate[0];
+        const latest = byDate[byDate.length - 1];
+        const unit = groupObservations.find((obs) => obs.valueQuantity?.unit)?.valueQuantity?.unit ?? '';
+
+        const values = readings.map((r) => r.value);
+        const { sum, min, max } = WearablesTemplate.sumMinMax(values);
+        const average = Math.round((sum / values.length) * 10) / 10;
+
+        count = values.length;
+        earliestDateValue = earliest.obs.effectiveDateTime || earliest.obs.effectivePeriod?.start;
+        latestDateValue = latest.obs.effectiveDateTime || latest.obs.effectivePeriod?.start;
+        sourceDevice = templateUtilities.getOwnerTag(latest.obs) || templateUtilities.getOwnerTag(firstObs) || '';
+
+        latestCell = WearablesTemplate.formatCell(latest.value, unit);
+        averageCell = WearablesTemplate.formatCell(average, unit);
+        minCell = WearablesTemplate.formatCell(min, unit);
+        maxCell = WearablesTemplate.formatCell(max, unit);
+      } else {
+        // No reading in this metric group has a numeric valueQuantity.value (e.g. a
+        // wearable blood-pressure reading using component[], or a valueCodeableConcept
+        // / valueString reading). Still render a row so the Observation isn't silently
+        // dropped from the narrative - just without the numeric aggregates.
+        const byDate = [...groupObservations].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a, b));
+        const earliestObs = byDate[0];
+        const latestObs = byDate[byDate.length - 1];
+
+        count = groupObservations.length;
+        earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
+        latestDateValue = latestObs.effectiveDateTime || latestObs.effectivePeriod?.start;
+        sourceDevice = templateUtilities.getOwnerTag(latestObs) || templateUtilities.getOwnerTag(firstObs) || '';
+
+        const rawValue = templateUtilities.extractObservationValue(latestObs);
+        const stringValue = WearablesTemplate.stringifyExtractedValue(rawValue);
+        const unit = templateUtilities.extractObservationValueUnit(latestObs);
+        // extractObservationValue already bakes the unit into its result for some
+        // shapes (e.g. blood-pressure components, valueQuantity) - avoid appending
+        // it a second time in that case.
+        latestCell = unit && !stringValue.includes(unit) ? WearablesTemplate.formatCell(stringValue, unit) : stringValue;
+        averageCell = NOT_AVAILABLE;
+        minCell = NOT_AVAILABLE;
+        maxCell = NOT_AVAILABLE;
+      }
 
       summaries.push({
         display: templateUtilities.capitalizeFirstLetter(display),
-        unit,
         category,
-        count: values.length,
-        average: Math.round((sum / values.length) * 10) / 10,
-        min: Math.min(...values),
-        max: Math.max(...values),
-        latestValue: latest.value,
+        count,
+        latestCell,
+        averageCell,
+        minCell,
+        maxCell,
         latestDate: latestDateValue ? templateUtilities.renderTime(latestDateValue, timezone) : '',
         earliestDate: earliestDateValue ? templateUtilities.renderTime(earliestDateValue, timezone) : '',
         sourceDevice,
@@ -135,10 +172,10 @@ export class WearablesTemplate implements ITemplate {
         html += `
             <tr>
               <td>${templateUtilities.renderTextAsHtml(metric.display)}</td>
-              <td>${metric.latestValue} ${metric.unit}</td>
-              <td>${metric.average} ${metric.unit}</td>
-              <td>${metric.min} ${metric.unit}</td>
-              <td>${metric.max} ${metric.unit}</td>
+              <td>${metric.latestCell}</td>
+              <td>${metric.averageCell}</td>
+              <td>${metric.minCell}</td>
+              <td>${metric.maxCell}</td>
               <td>${metric.count}</td>
               <td>${dateRange}</td>
               <td>${templateUtilities.renderTextAsHtml(metric.sourceDevice)}</td>
@@ -161,5 +198,64 @@ export class WearablesTemplate implements ITemplate {
       .filter(Boolean)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  }
+
+  /**
+   * Compares two Observations by effective date (ascending). Shared by both the
+   * numeric-aggregate path and the non-numeric fallback path so "latest"/"earliest"
+   * are computed consistently.
+   */
+  private static compareByEffectiveDate(a: TObservation, b: TObservation): number {
+    const dateA = a.effectiveDateTime || a.effectivePeriod?.start;
+    const dateB = b.effectiveDateTime || b.effectivePeriod?.start;
+    return dateA && dateB ? new Date(dateA).getTime() - new Date(dateB).getTime() : 0;
+  }
+
+  /**
+   * Computes sum/min/max in a single pass without spreading the array into
+   * Math.min/Math.max arguments, which throws RangeError for large arrays
+   * (continuous-monitoring wearable data can easily produce 10^5+ readings).
+   */
+  private static sumMinMax(values: number[]): { sum: number; min: number; max: number } {
+    let sum = 0;
+    let min = values[0];
+    let max = values[0];
+    for (const value of values) {
+      sum += value;
+      if (value < min) {
+        min = value;
+      }
+      if (value > max) {
+        max = value;
+      }
+    }
+    return { sum, min, max };
+  }
+
+  /**
+   * Renders a value + unit pair as a single table cell string, omitting a
+   * trailing space when there's no unit.
+   */
+  private static formatCell(value: string | number, unit: string): string {
+    return unit ? `${value} ${unit}` : `${value}`;
+  }
+
+  /**
+   * Converts the loosely-typed result of TemplateUtilities.extractObservationValue
+   * into a display string, falling back to an em dash when there's genuinely
+   * nothing to show (e.g. no value field of any kind and no dataAbsentReason).
+   */
+  private static stringifyExtractedValue(value: unknown): string {
+    if (value === null || value === undefined) {
+      return NOT_AVAILABLE;
+    }
+    if (value instanceof Date) {
+      return value.toISOString();
+    }
+    if (typeof value === 'object') {
+      const withTextOrCode = value as { text?: string; code?: string };
+      return withTextOrCode.text || withTextOrCode.code || NOT_AVAILABLE;
+    }
+    return String(value);
   }
 }

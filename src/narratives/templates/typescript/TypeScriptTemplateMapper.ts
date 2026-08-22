@@ -68,8 +68,11 @@ export class TypeScriptTemplateMapper {
       throw new Error(`No template found for section: ${section}`);
     }
 
-    return useSectionSummary
-      ? (templateClass as ISummaryTemplate).generateSummaryNarrative(
+    const summaryTemplateClass = templateClass as ISummaryTemplate;
+    const supportsSummaryNarrative = typeof summaryTemplateClass.generateSummaryNarrative === 'function';
+
+    return useSectionSummary && supportsSummaryNarrative
+      ? summaryTemplateClass.generateSummaryNarrative(
           resources as TComposition[],
           timezone,
           now
