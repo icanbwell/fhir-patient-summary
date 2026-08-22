@@ -2,6 +2,8 @@ import { TemplateUtilities } from '../../src/narratives/templates/typescript/Tem
 import { TObservation } from '../../src/types/resources/Observation';
 import { WearablesTemplate } from '../../src/narratives/templates/typescript/WearablesTemplate';
 import { TDomainResource } from '../../src/types/resources/DomainResource';
+import { TypeScriptTemplateMapper } from '../../src/narratives/templates/typescript/TypeScriptTemplateMapper';
+import { IPSSections } from '../../src/structures/ips_sections';
 
 describe('TemplateUtilities.getDisplayGroupCategory', () => {
   it('reads the display-group category coding off an Observation', () => {
@@ -131,5 +133,22 @@ describe('WearablesTemplate', () => {
     };
     const template = new WearablesTemplate();
     expect(template.generateNarrative([observation], 'UTC')).toBeUndefined();
+  });
+});
+
+describe('TypeScriptTemplateMapper WEARABLES registration', () => {
+  it('dispatches WEARABLES resources to WearablesTemplate', () => {
+    const observation: TObservation = {
+      resourceType: 'Observation',
+      id: 'hr-1',
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '8867-4', display: 'Heart rate' }] },
+      category: [{ coding: [{ system: 'https://www.icanbwell.com/display-group', code: 'cardiovascular' }] }],
+      effectiveDateTime: '2026-01-01T08:00:00Z',
+      valueQuantity: { value: 72, unit: 'bpm' },
+      meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+    };
+    const html = TypeScriptTemplateMapper.generateNarrative(IPSSections.WEARABLES, [observation], 'UTC');
+    expect(html).toContain('Heart rate');
   });
 });
