@@ -53,5 +53,38 @@ describe('ComprehensiveIPSCompositionBuilder edge cases', () => {
     );
     expect(problemSection?.entry).toEqual([]);
   });
+
+  it('uses the LOINC system for existing sections and a local system for WEARABLES', async () => {
+    const builder = new ComprehensiveIPSCompositionBuilder();
+    const patient: TPatient = {
+      resourceType: 'Patient',
+      id: 'p1',
+      name: [{ family: 'Doe', given: ['John'] }]
+    };
+    builder.setPatient(patient);
+    await builder.makeSectionAsync(IPSSections.PATIENT, [patient], undefined);
+    builder.addSectionAsync(
+      { status: 'generated', div: '<div xmlns="http://www.w3.org/1999/xhtml"><p>none</p></div>' },
+      IPSSections.PROBLEMS,
+      []
+    );
+    builder.addSectionAsync(
+      { status: 'generated', div: '<div xmlns="http://www.w3.org/1999/xhtml"><p>none</p></div>' },
+      IPSSections.WEARABLES,
+      []
+    );
+
+    const bundle = await builder.buildBundleAsync('org-1', 'Test Org', 'https://example.com/fhir', undefined);
+    const composition = bundle.entry?.find(
+      entry => entry.resource?.resourceType === 'Composition'
+    )?.resource as TComposition;
+
+    const problemSection = composition.section?.find(s => s.code?.coding?.[0]?.code === '11450-4');
+    expect(problemSection?.code?.coding?.[0]?.system).toBe('http://loinc.org');
+
+    const wearablesSection = composition.section?.find(s => s.code?.coding?.[0]?.code === 'wearables');
+    expect(wearablesSection?.code?.coding?.[0]?.system).toBe('https://www.icanbwell.com/ips-section-codes');
+    expect(wearablesSection?.title).toBe('Wearable Device Data');
+  });
 });
 
