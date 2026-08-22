@@ -142,6 +142,21 @@ This section contains the patient's vital signs measurements.
 - **Comments:** `note.text`
 - **Date:** `effectiveDateTime` or `effectivePeriod`
 
+## Wearable Device Data (Optional)
+**Local Code:** `wearables` (system `https://www.icanbwell.com/ips-section-codes` — no HL7 IPS LOINC code exists for this section)
+
+This section summarizes readings collected by the patient's wearable devices (heart rate, steps, sleep, etc.) as per-metric aggregates — average, minimum, maximum, latest value, reading count, and date range — grouped by clinical category, instead of listing every individual reading.
+
+**Resource:** Observation <br>
+**Filter:** `meta.security` contains `{system: "https://www.icanbwell.com/vendor", code: "validic"}` (identifies Observations from the wearable-data ingestion pipeline; extensible to other vendors in the future)
+**Data Table Fields (one row per distinct `code.coding[0].code`, grouped under a heading per `https://www.icanbwell.com/display-group` category coding, falling back to "Other" if absent):**
+- **Metric:** `code.coding[0].display` (or `code.text`)
+- **Latest:** most recent `valueQuantity.value` by `effectiveDateTime`/`effectivePeriod.start`, with `valueQuantity.unit`
+- **Average / Min / Max:** computed across all matching readings' `valueQuantity.value`
+- **# Readings:** count of readings contributing to the aggregate
+- **Date Range:** earliest to latest `effectiveDateTime`/`effectivePeriod.start`
+- **Source Device:** `meta.security` owner tag (system `https://www.icanbwell.com/owner`), e.g. "Fitbit"
+
 ## Social History (Optional)
 **LOINC Code:** `29762-2` - Social History
 
