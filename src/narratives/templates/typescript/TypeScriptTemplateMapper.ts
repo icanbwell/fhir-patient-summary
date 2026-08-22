@@ -15,6 +15,7 @@ import { PlanOfCareTemplate } from './PlanOfCareTemplate';
 import { FunctionalStatusTemplate } from './FunctionalStatusTemplate';
 import { PregnancyTemplate } from './PregnancyTemplate';
 import { AdvanceDirectivesTemplate } from './AdvanceDirectivesTemplate';
+import { WearablesTemplate } from './WearablesTemplate';
 import { ISummaryTemplate, ITemplate } from './interfaces/ITemplate';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TComposition } from '../../../types/resources/Composition';
@@ -41,7 +42,8 @@ export class TypeScriptTemplateMapper {
     [IPSSections.FUNCTIONAL_STATUS]: new FunctionalStatusTemplate(),
     [IPSSections.MEDICAL_HISTORY]: new PastHistoryOfIllnessTemplate(),
     [IPSSections.CARE_PLAN]: new PlanOfCareTemplate(),
-    [IPSSections.ADVANCE_DIRECTIVES]: new AdvanceDirectivesTemplate()
+    [IPSSections.ADVANCE_DIRECTIVES]: new AdvanceDirectivesTemplate(),
+    [IPSSections.WEARABLES]: new WearablesTemplate()
   };
 
   /**
