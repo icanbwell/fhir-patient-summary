@@ -32,8 +32,10 @@ export const IPSSectionResourcesMap: Record<IPSSections, string[]> = {
  * True if this Observation was produced by the wearable-data ingestion pipeline
  * (identified by a meta.security vendor tag, e.g. {system: ".../vendor", code: "validic"}).
  * Used both to build the WEARABLES section and to exclude these Observations from
- * other Observation-based sections (VITAL_SIGNS, DIAGNOSTIC_REPORTS) that would
- * otherwise also match on a shared observation-category code (vital-signs, laboratory).
+ * every other Observation-based section filter (VITAL_SIGNS, DIAGNOSTIC_REPORTS,
+ * SOCIAL_HISTORY, PREGNANCY_HISTORY) that could otherwise also match on a shared
+ * category/LOINC/SNOMED code, so a wearable reading is aggregated exactly once
+ * rather than duplicated into a second, unrelated section.
  */
 function isWearableObservation(resource: any): boolean {
     return resource.resourceType === 'Observation' && !!resource.meta?.security?.some((s: any) => codingMatches(s, WEARABLE_VENDOR_CODES, WEARABLE_VENDOR_SECURITY_SYSTEM));
@@ -60,11 +62,11 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
         (resource.resourceType === 'Observation' && !isWearableObservation(resource) && resource.category?.some((cat: any) => cat.coding?.some((c: any) => codingMatches(c, RESULT_SUMMARY_OBSERVATION_CATEGORIES, c.system)))),
     // Only include completed procedures
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Procedure' && resource.status === 'completed',
-    // Only include social history Observations
-    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && codeableConceptMatches(resource.code, Object.keys(SOCIAL_HISTORY_LOINC_CODES), 'http://loinc.org'),
-    // Only include pregnancy history Observations or relevant Conditions
+    // Only include social history Observations, excluding wearable-sourced readings (see WEARABLES)
+    [IPSSections.SOCIAL_HISTORY]: (resource) => resource.resourceType === 'Observation' && !isWearableObservation(resource) && codeableConceptMatches(resource.code, Object.keys(SOCIAL_HISTORY_LOINC_CODES), 'http://loinc.org'),
+    // Only include pregnancy history Observations or relevant Conditions, excluding wearable-sourced readings (see WEARABLES)
     [IPSSections.PREGNANCY_HISTORY]: (resource) => (
-        resource.resourceType === 'Observation' && (
+        resource.resourceType === 'Observation' && !isWearableObservation(resource) && (
             codeableConceptMatches(resource.code, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_STATUS), 'http://loinc.org') ||
             codeableConceptMatches(resource.valueCodeableConcept, Object.keys(PREGNANCY_LOINC_CODES.PREGNANCY_OUTCOME), 'http://loinc.org') ||
             codingMatches(resource.code?.coding?.[0], PREGNANCY_SNOMED_CODES, 'http://snomed.info/sct') ||
