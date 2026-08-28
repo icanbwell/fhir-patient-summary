@@ -94,7 +94,7 @@ This section contains the patient's immunization history.
 This section contains diagnostic reports and related observations.
 
 **Resources:** DiagnosticReport, Observation <br>
-**Filter:** `status` is `final`. Observations tagged as wearable-device readings (see Wearable Device Data below) are excluded here to avoid duplicating data that already appears aggregated in that section.
+**Filter:** `status` is `final`. Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 ### Observations:
@@ -150,7 +150,7 @@ This section contains information about medical devices used by the patient.
 This section contains the patient's vital signs measurements.
 
 **Resource:** Observation <br>
-**Filter:** `category.coding.code` contains `vital-signs`. Observations tagged as wearable-device readings (see Wearable Device Data below) are excluded here to avoid duplicating data that already appears aggregated in that section.
+**Filter:** `category.coding.code` contains `vital-signs`. Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 - **Vital Name:** `code` (CodeableConcept)
@@ -160,23 +160,6 @@ This section contains the patient's vital signs measurements.
 - **Component(s):** `component.code` and `component.valueQuantity` (for multi-component observations)
 - **Comments:** `note.text`
 - **Date:** `effectiveDateTime` or `effectivePeriod`
-
-## Wearable Device Data (Optional)
-**Local Code:** `wearables` (system `https://www.icanbwell.com/ips-section-codes` — no HL7 IPS LOINC code exists for this section)
-
-This section summarizes readings collected by the patient's wearable devices (heart rate, steps, sleep, etc.) as per-metric aggregates — average, minimum, maximum, latest value, reading count, and date range — grouped by clinical category, instead of listing every individual reading.
-
-**Resource:** Observation <br>
-**Filter:** `meta.security` contains `{system: "https://www.icanbwell.com/vendor", code: "validic"}` (identifies Observations from the wearable-data ingestion pipeline; extensible to other vendors in the future)
-**Data Table Fields (one row per distinct `code.coding[0].code`, grouped under a heading per `https://www.icanbwell.com/display-group` category coding, falling back to "Other" if absent):**
-- **Metric:** `code.coding[0].display` (or `code.text`)
-- **Latest:** most recent `valueQuantity.value` by `effectiveDateTime`/`effectivePeriod.start`, with `valueQuantity.unit`
-- **Average / Min / Max:** computed across all matching readings' `valueQuantity.value`
-- **# Readings:** count of readings contributing to the aggregate
-- **Date Range:** earliest to latest `effectiveDateTime`/`effectivePeriod.start`
-- **Source Device:** `meta.security` owner tag (system `https://www.icanbwell.com/owner`), e.g. "Fitbit"
-
-**Known limitation:** the exclusion of wearable-tagged Observations from Vital Signs / Results Summary / Social History / History of Pregnancies (described above and below) only applies on the default (raw-resource) data path. If a bundle uses the `SUMMARY_COMPOSITION_SECTIONS` environment variable to opt a section into the summary-composition fast path, that path selects resources by Composition reference rather than by the section filter, so the exclusion does not apply there and duplication with this section could occur. This is a pre-existing characteristic of the summary-composition path, not introduced by this feature.
 
 ## Social History (Optional)
 
@@ -190,7 +173,7 @@ This section contains social history information including tobacco and alcohol u
 - `72166-2` - Tobacco Use
 - `74013-4` - Alcohol Use
 
-Observations tagged as wearable-device readings (see Wearable Device Data below) are excluded here to avoid duplicating data that already appears aggregated in that section.
+Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 
 **Data Table Fields:**
 - **Code:** `code` (CodeableConcept)
@@ -206,7 +189,7 @@ Observations tagged as wearable-device readings (see Wearable Device Data below)
 This section contains pregnancy history information.
 
 **Resource:** Observation <br>
-**Filter:** `code.coding.code` contains pregnancy-related LOINC codes or `valueCodeableConcept.coding.code` contains pregnancy outcome codes. Observations tagged as wearable-device readings (see Wearable Device Data below) are excluded here to avoid duplicating data that already appears aggregated in that section.
+**Filter:** `code.coding.code` contains pregnancy-related LOINC codes or `valueCodeableConcept.coding.code` contains pregnancy outcome codes. Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 - **Result:** Extracted pregnancy status from `valueCodeableConcept` or related pregnancy codes
@@ -291,6 +274,14 @@ This section contains measurements captured by the patient's own connected
 devices (smart watches, scales, sleep trackers). It is distinct from _History
 of Medical Devices_, which lists the device/equipment records themselves rather
 than the readings they produced.
+
+Each row shows average/minimum/maximum/reading-count/date-range across the
+readings referenced by that metric's Composition entry (capped at
+`MAX_ENTRIES_PER_GROUP` per metric — see "Capping" below), not the metric's
+full historical readings, plus the single most recent value. When the
+underlying Observations aren't resolvable (e.g.
+`includeSummaryCompositionOnly` mode), the row falls back to showing only
+the Composition's own pre-rendered latest value.
 
 **Resource:** Observation <br>
 **Filter:** summary-composition only — built exclusively from a

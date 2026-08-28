@@ -114,8 +114,8 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
         );
 
         // The device-metric ingest pipeline (unlike the wearable/validic
-        // pipeline WearablesTemplate read from) names the source device via
-        // this plain composition column, not a meta.security owner tag - so
+        // ingestion pipeline that tags Observations via meta.security) names
+        // the source device via this plain composition column instead - so
         // it's read once here and passed to both branches below.
         const sourceDevice = columns['Device'] ?? '';
 
@@ -145,7 +145,7 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
 
   /**
    * Builds a metric's row from its real, resolved Observations - full average/
-   * min/max/count/date-range stats, the same aggregation WearablesTemplate uses.
+   * min/max/count/date-range stats.
    */
   private static buildAggregateRow(
     metricName: string,

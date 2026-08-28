@@ -96,17 +96,6 @@ describe('IPSSectionResourceHelper', () => {
     category: [{ coding: [{ code: 'laboratory', system: 'http://terminology.hl7.org/CodeSystem/observation-category' }] }],
   };
 
-  it('filters WEARABLES to Observations carrying the Validic vendor tag', () => {
-    const filter = IPSSectionResourceFilters[IPSSections.WEARABLES];
-    expect(filter && filter(wearableHeartRateObservation)).toBe(true);
-    expect(filter && filter(clinicalVitalSignObservation)).toBe(false);
-    expect(filter && filter({ resourceType: 'Observation' })).toBe(false);
-  });
-
-  it('maps WEARABLES to the Observation resource type', () => {
-    expect(IPSSectionResourceHelper.getResourceTypesForSection(IPSSections.WEARABLES)).toEqual(['Observation']);
-  });
-
   it('excludes wearable Observations from VITAL_SIGNS even when category is vital-signs', () => {
     const filter = IPSSectionResourceFilters[IPSSections.VITAL_SIGNS];
     expect(filter && filter(wearableHeartRateObservation)).toBe(false);
