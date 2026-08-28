@@ -53,6 +53,7 @@ export class TypeScriptTemplateMapper {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @param useSectionSummary - Whether to use the section summary for narrative generation
    * @param now - Optional current date to use for generating relative dates in the narrative
+   * @param summaryUnderlyingResources - Optional resolved resources referenced by a summary Composition's section entries (see ISummaryTemplate.generateSummaryNarrative), passed through to templates that need per-reading data
    * @returns HTML string for rendering
    */
   static generateNarrative(

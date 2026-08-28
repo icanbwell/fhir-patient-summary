@@ -1,12 +1,23 @@
 # Medical Device Data Summary — How It's Built
 
-> **Note on scope:** this codebase has no concept of "wearables" specifically (no
-> reference to Fitbit/Apple Health/steps/heart-rate streams, etc. — verified by a
-> full-repo search). The closest and only device-related summary is the IPS
-> **"History of Medical Devices"** section, which is generated from generic FHIR
-> `Device` / `DeviceUseStatement` resources. If a wearable (e.g. a CGM, pacemaker,
-> fitness tracker) is represented as a `Device` resource with a `DeviceUseStatement`
-> in the input bundle, it will appear here — there is no wearable-specific handling.
+> **Note on scope:** this doc originally covered the IPS **"History of Medical
+> Devices"** section (`Device` / `DeviceUseStatement` resources) as a worked
+> example, back when the codebase had no wearable-specific handling. That's no
+> longer accurate: the repo now has an explicit wearable-vendor-tag concept —
+> `isWearableObservation`, `WEARABLE_VENDOR_SECURITY_SYSTEM`/`WEARABLE_VENDOR_CODES`,
+> and `DISPLAY_GROUP_CATEGORY_SYSTEM` (all in
+> `src/structures/ips_section_loinc_codes.ts`) — used both to build the
+> **"Personal Health Monitoring Devices"** (`DEVICE_METRICS`) section's richer
+> per-metric average/min/max/count/date-range stats (when real Observations
+> resolve; see `DeviceMetricsTemplate.ts`) and to exclude wearable-tagged
+> Observations from VITAL_SIGNS/DIAGNOSTIC_REPORTS/SOCIAL_HISTORY/
+> PREGNANCY_HISTORY so the same reading isn't duplicated across sections (see
+> `isWearableObservation` in `src/structures/ips_section_resource_map.ts`).
+> `DEVICE_METRICS`/`DeviceMetricsTemplate.ts` is now the canonical device-data
+> section for wearable/connected-device readings; the algorithm below, for
+> `MEDICAL_DEVICES`, still applies as written — it covers device/equipment
+> *records* (e.g. a CGM or pacemaker represented as a `Device` resource with a
+> `DeviceUseStatement`), not the readings those devices produce.
 
 ## Where the code lives
 

@@ -125,6 +125,14 @@ describe('DeviceMetricsSection', () => {
     ],
   } as unknown as TComposition;
 
+  /** A standalone Composition for the bodyWeight fixture, mirroring deviceComposition's second metric section but on its own — used where a test wants a metric with no display-group category tag alongside another Composition that does have one. */
+  const bodyWeightComposition = (): TComposition =>
+    ({
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      id: 'device-metrics-bodyweight',
+      section: [metricSection('Body weight', '29463-7', bodyWeight)],
+    }) as unknown as TComposition;
+
   const buildBundle = (extra: unknown[] = []): TBundle =>
     ({
       resourceType: 'Bundle',
@@ -301,6 +309,123 @@ describe('DeviceMetricsSection', () => {
     expect(div).toContain('<td>2000</td>');
     expect(div).toContain('<td>3000</td>');
     expect(div).toContain('<td>1000</td>');
+  });
+
+  it('groups metrics into real category headers (not just "Other") and sorts "Other" last', async () => {
+    const cardioObservations = observationsFor('hr', '8867-4', 'Heart rate', 3).map(o => ({
+      ...o,
+      category: [
+        { coding: [{ system: 'https://www.icanbwell.com/display-group', code: 'cardiovascular', display: 'Cardiovascular' }] },
+      ],
+    })) as TObservation[];
+    const cardioComposition = {
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      id: 'device-metrics-cardio',
+      section: [metricSection('Heart rate', '8867-4', cardioObservations)],
+    } as unknown as TComposition;
+
+    const section = await buildSection(
+      buildBundle([cardioComposition, bodyWeightComposition(), ...cardioObservations])
+    );
+
+    const div = section?.text?.div ?? '';
+    const cardioIndex = div.indexOf('<h4>Cardiovascular</h4>');
+    const otherIndex = div.indexOf('<h4>Other</h4>');
+    expect(cardioIndex).toBeGreaterThan(-1);
+    expect(otherIndex).toBeGreaterThan(-1);
+    // "Other" always sorts last, regardless of alphabetical order.
+    expect(cardioIndex).toBeLessThan(otherIndex);
+  });
+
+  it('renders a valuePeriod and a valueCodeableConcept reading as the Latest cell in the aggregate path', async () => {
+    const sleepObservation: TObservation = {
+      resourceType: 'Observation',
+      id: 'sleep-period-1',
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '93832-4', display: 'Sleep duration' }] },
+      subject: { reference: 'Patient/patient-1' },
+      effectiveDateTime: '2026-01-28T00:00:00Z',
+      valuePeriod: { start: '2026-01-27T23:00:00Z', end: '2026-01-28T07:00:00Z' },
+      device: { reference: 'Device/oura' },
+    } as unknown as TObservation;
+    const sleepComposition = {
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      id: 'device-metrics-sleep',
+      section: [metricSection('Sleep duration', '93832-4', [sleepObservation])],
+    } as unknown as TComposition;
+
+    const sleepStageObservation: TObservation = {
+      resourceType: 'Observation',
+      id: 'sleep-stage-1',
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '93832-5', display: 'Sleep stage' }] },
+      subject: { reference: 'Patient/patient-1' },
+      effectiveDateTime: '2026-01-28T00:00:00Z',
+      valueCodeableConcept: { coding: [{ system: 'http://loinc.org', code: 'LA6714-7', display: 'Deep sleep' }] },
+      device: { reference: 'Device/oura' },
+    } as unknown as TObservation;
+    const sleepStageComposition = {
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      id: 'device-metrics-sleep-stage',
+      section: [metricSection('Sleep stage', '93832-5', [sleepStageObservation])],
+    } as unknown as TComposition;
+
+    const section = await buildSection(
+      buildBundle([sleepComposition, sleepStageComposition, sleepObservation, sleepStageObservation])
+    );
+
+    const div = section?.text?.div ?? '';
+    expect(div).toContain('Sleep duration');
+    expect(div).toContain('Sleep stage');
+    // A valuePeriod reading has no numeric value, so Average/Min/Max are not computable.
+    expect(div).toContain('—');
+    // The valuePeriod's Latest cell renders as a rendered date range, not the raw object.
+    expect(div).toContain('1/27/2026');
+    expect(div).toContain('1/28/2026');
+    // The valueCodeableConcept's Latest cell renders its display text.
+    expect(div).toContain('Deep sleep');
+  });
+
+  it('picks a unit from any observation in the group, not just the first, when computing Average/Min/Max', async () => {
+    const mixedObservations: TObservation[] = [
+      {
+        resourceType: 'Observation',
+        id: 'mixed-0',
+        status: 'final',
+        code: { coding: [{ system: 'http://loinc.org', code: '55423-8', display: 'Steps' }] },
+        subject: { reference: 'Patient/patient-1' },
+        effectiveDateTime: '2026-01-28T00:00:00Z',
+        // First observation reports via valueInteger - no unit.
+        valueInteger: 3000,
+        device: { reference: 'Device/oura' },
+      } as unknown as TObservation,
+      {
+        resourceType: 'Observation',
+        id: 'mixed-1',
+        status: 'final',
+        code: { coding: [{ system: 'http://loinc.org', code: '55423-8', display: 'Steps' }] },
+        subject: { reference: 'Patient/patient-1' },
+        effectiveDateTime: '2026-01-27T00:00:00Z',
+        // Later observation in the same group reports via valueQuantity with a unit.
+        valueQuantity: { value: 1000, unit: 'steps' },
+        device: { reference: 'Device/oura' },
+      } as unknown as TObservation,
+    ];
+    const mixedComposition = {
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      id: 'device-metrics-mixed-unit',
+      section: [metricSection('Steps', '55423-8', mixedObservations)],
+    } as unknown as TComposition;
+
+    const section = await buildSection(buildBundle([mixedComposition, ...mixedObservations]));
+
+    const div = section?.text?.div ?? '';
+    // Average of 3000 and 1000 is 2000; min 1000; max 3000 - all should carry
+    // the unit found on the second observation, not silently drop it because
+    // the first observation in the array happened to have none.
+    expect(div).toContain('2000 steps');
+    expect(div).toContain('1000 steps');
+    expect(div).toContain('3000 steps');
   });
 
   it('escapes untrusted resource text rather than emitting it as live HTML', async () => {

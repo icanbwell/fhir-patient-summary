@@ -8,6 +8,9 @@ import { TObservation } from '../../../types/resources/Observation';
 import { TPeriod } from '../../../types/partials/Period';
 
 interface DeviceMetricRow {
+  // display, latestCell, averageCell, minCell, maxCell, sourceDevice: RAW text,
+  // escaped once at render time in renderRowsByCategory. codeSystem,
+  // latestDate, earliestDate: already-escaped HTML, safe to interpolate as-is.
   display: string;
   codeSystem: string;
   category: string;
@@ -169,7 +172,12 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
     let minCell: string;
     let maxCell: string;
     if (numericValues.length > 0) {
-      const unit = observations[0].valueQuantity?.unit ?? '';
+      // Find the first observation that actually carries a unit - observations[0]
+      // may be a valueInteger reading (no unit) or a unit-less quantity while a
+      // later reading in the same group has one, which would otherwise leave
+      // Average/Min/Max unit-less while Latest (which reads latestObs directly)
+      // keeps its unit, producing an inconsistent row.
+      const unit = observations.find(obs => obs.valueQuantity?.unit)?.valueQuantity?.unit ?? '';
       const { sum, min, max } = DeviceMetricsTemplate.sumMinMax(numericValues);
       const average = Math.round((sum / numericValues.length) * 10) / 10;
       averageCell = DeviceMetricsTemplate.formatCell(average, unit);
@@ -227,6 +235,7 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
     return {
       display: templateUtilities.capitalizeFirstLetter(metricName),
       codeSystem,
+      // No resolvable Observation to read a display-group category off - stub-only rows always bucket under 'Other'.
       category: 'Other',
       count,
       latestCell,
