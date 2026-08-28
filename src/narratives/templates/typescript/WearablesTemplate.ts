@@ -2,6 +2,7 @@
 import { TemplateUtilities } from './TemplateUtilities';
 import { TDomainResource } from '../../../types/resources/DomainResource';
 import { TObservation } from '../../../types/resources/Observation';
+import { TPeriod } from '../../../types/partials/Period';
 import { ITemplate } from './interfaces/ITemplate';
 
 interface WearableMetricSummary {
@@ -35,13 +36,17 @@ export class WearablesTemplate implements ITemplate {
     const groups = new Map<string, TObservation[]>();
     for (const obs of observations) {
       const coding = obs.code?.coding?.[0];
-      const metricKey = coding?.code ? `${coding.system ?? ''}|${coding.code}` : `text|${obs.code?.text ?? 'unknown'}`;
+      // Built via JSON.stringify of the discriminating parts (not a plain `|`-joined
+      // string) so a `|` legally occurring inside a system URI, code, or unit - FHIR
+      // uses `|` itself as its token-search separator - can never make two distinct
+      // metrics collide into the same group, or split one metric into two.
+      const metricParts = coding?.code ? ['code', coding.system ?? '', coding.code] : ['text', obs.code?.text ?? 'unknown'];
       // Include the unit in the grouping key so readings of the same metric reported
       // in different units (e.g. weight in kg from one device, lb from another) never
       // get averaged together into one clinically-meaningless number. Observations with
       // no valueQuantity.unit (including non-numeric ones) share the '' bucket, which is
       // fine - they were never going into the numeric aggregate anyway.
-      const key = `${metricKey}|${obs.valueQuantity?.unit ?? ''}`;
+      const key = JSON.stringify([...metricParts, obs.valueQuantity?.unit ?? '']);
       const existing = groups.get(key);
       if (existing) {
         existing.push(obs);
@@ -60,17 +65,21 @@ export class WearablesTemplate implements ITemplate {
       // group - numeric and non-numeric alike - so a non-numeric reading (e.g. a sensor
       // error reported as valueCodeableConcept) that happens to be the most recent one
       // isn't silently dropped from the count or masked by a stale numeric "latest".
-      const byDate = [...groupObservations].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a, b));
-      const earliestObs = byDate[0];
-      const latestObs = byDate[byDate.length - 1];
+      // Found via a single linear scan (like sumMinMax below) rather than a full sort,
+      // since only the two endpoints are ever needed and wearable groups can be 10^5+ readings.
+      const { earliestObs, latestObs } = WearablesTemplate.findEarliestAndLatest(groupObservations);
       const count = groupObservations.length;
       const earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
       const latestDateValue = latestObs.effectiveDateTime || latestObs.effectivePeriod?.start;
       const sourceDevice = templateUtilities.getOwnerTag(latestObs) || templateUtilities.getOwnerTag(firstObs) || '';
 
-      const readings = groupObservations
-        .filter((obs) => typeof obs.valueQuantity?.value === 'number')
-        .map((obs) => ({ value: obs.valueQuantity!.value as number, obs }));
+      // Numeric readings can arrive as valueQuantity (the common case) or valueInteger
+      // (e.g. a plain step/count reading with no unit) - both are included so the
+      // average/min/max aggregates aren't silently empty just because a metric happens
+      // to be reported via valueInteger instead of valueQuantity.
+      const numericValues = groupObservations
+        .map((obs) => WearablesTemplate.getNumericReadingValue(obs))
+        .filter((value): value is number => typeof value === 'number');
 
       let averageCell: string;
       let minCell: string;
@@ -81,19 +90,18 @@ export class WearablesTemplate implements ITemplate {
       // valueCodeableConcept.text, a valueString) and must not be trusted as safe HTML.
       // Escaping happens once, at the point they're interpolated into the row below,
       // the same way every other cell (display, sourceDevice) in this template is escaped.
-      if (readings.length > 0) {
+      if (numericValues.length > 0) {
         // Every member of this group shares the same unit by construction (see the
         // grouping key above), so any one of them is a valid source for it.
         const unit = groupObservations[0].valueQuantity?.unit ?? '';
-        const values = readings.map((r) => r.value);
-        const { sum, min, max } = WearablesTemplate.sumMinMax(values);
-        const average = Math.round((sum / values.length) * 10) / 10;
+        const { sum, min, max } = WearablesTemplate.sumMinMax(numericValues);
+        const average = Math.round((sum / numericValues.length) * 10) / 10;
 
         averageCell = WearablesTemplate.formatCell(average, unit);
         minCell = WearablesTemplate.formatCell(min, unit);
         maxCell = WearablesTemplate.formatCell(max, unit);
       } else {
-        // No reading in this metric group has a numeric valueQuantity.value: the
+        // No reading in this metric group has a numeric value: the
         // average/min/max aggregates aren't computable.
         averageCell = NOT_AVAILABLE;
         minCell = NOT_AVAILABLE;
@@ -101,14 +109,15 @@ export class WearablesTemplate implements ITemplate {
       }
 
       let latestCell: string;
-      if (typeof latestObs.valueQuantity?.value === 'number') {
-        latestCell = WearablesTemplate.formatCell(latestObs.valueQuantity.value, latestObs.valueQuantity.unit ?? '');
+      const latestNumericValue = WearablesTemplate.getNumericReadingValue(latestObs);
+      if (typeof latestNumericValue === 'number') {
+        latestCell = WearablesTemplate.formatCell(latestNumericValue, latestObs.valueQuantity?.unit ?? '');
       } else {
-        // The most recent reading has no numeric valueQuantity.value (e.g. a wearable
+        // The most recent reading has no numeric value (e.g. a wearable
         // blood-pressure reading using component[], or a valueCodeableConcept /
-        // valueString reading). Still render a row so it isn't silently dropped.
+        // valueString / valuePeriod reading). Still render a row so it isn't silently dropped.
         const rawValue = templateUtilities.extractObservationValue(latestObs);
-        const stringValue = WearablesTemplate.stringifyExtractedValue(rawValue);
+        const stringValue = WearablesTemplate.stringifyExtractedValue(rawValue, templateUtilities, timezone);
         const unit = templateUtilities.extractObservationValueUnit(latestObs);
         // extractObservationValue already bakes the unit into its result for some
         // shapes (e.g. blood-pressure components, valueQuantity) - avoid appending
@@ -207,23 +216,62 @@ export class WearablesTemplate implements ITemplate {
   }
 
   /**
-   * Effective-date sort key for an Observation. Missing dates sort as the earliest
-   * possible value rather than comparing equal to everything, which keeps the
-   * comparator below transitive - required for Array.sort to order 3+ readings
-   * correctly when some lack a date.
+   * Effective-date sort key for an Observation. Missing dates, and dates that fail to
+   * parse (malformed ingestion data), both sort as the earliest possible value rather
+   * than comparing equal to everything - the latter would make Number.isNaN leak into
+   * the linear scan below via `key < earliestKey` / `key >= latestKey` comparisons that
+   * are always false against NaN, silently corrupting the earliest/latest pick.
    */
   private static effectiveDateSortKey(obs: TObservation): number {
     const date = obs.effectiveDateTime || obs.effectivePeriod?.start;
-    return date ? new Date(date).getTime() : Number.NEGATIVE_INFINITY;
+    if (!date) {
+      return Number.NEGATIVE_INFINITY;
+    }
+    const timestamp = new Date(date).getTime();
+    return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
   }
 
   /**
-   * Compares two Observations by effective date (ascending). Shared by both the
-   * numeric-aggregate path and the non-numeric fallback path so "latest"/"earliest"
-   * are computed consistently.
+   * Finds the earliest- and latest-dated Observation in a group with a single linear
+   * scan, rather than sorting the whole group just to read off its two endpoints -
+   * wearable metric groups can have 10^5+ readings (see the sumMinMax RangeError test).
+   * On ties, keeps the first-encountered earliest and the last-encountered latest, to
+   * match the previous stable-sort-based behavior.
    */
-  private static compareByEffectiveDate(a: TObservation, b: TObservation): number {
-    return WearablesTemplate.effectiveDateSortKey(a) - WearablesTemplate.effectiveDateSortKey(b);
+  private static findEarliestAndLatest(observations: TObservation[]): { earliestObs: TObservation; latestObs: TObservation } {
+    let earliestObs = observations[0];
+    let latestObs = observations[0];
+    let earliestKey = WearablesTemplate.effectiveDateSortKey(earliestObs);
+    let latestKey = earliestKey;
+    for (const obs of observations) {
+      const key = WearablesTemplate.effectiveDateSortKey(obs);
+      if (key < earliestKey) {
+        earliestKey = key;
+        earliestObs = obs;
+      }
+      if (key >= latestKey) {
+        latestKey = key;
+        latestObs = obs;
+      }
+    }
+    return { earliestObs, latestObs };
+  }
+
+  /**
+   * Extracts a reading's numeric value regardless of whether it was reported via
+   * valueQuantity (the common case, carries a unit) or valueInteger (e.g. a plain
+   * count reading with no unit) - so a metric reported via valueInteger doesn't
+   * silently fall out of the average/min/max aggregate while still counting toward
+   * # Readings.
+   */
+  private static getNumericReadingValue(obs: TObservation): number | undefined {
+    if (typeof obs.valueQuantity?.value === 'number') {
+      return obs.valueQuantity.value;
+    }
+    if (typeof obs.valueInteger === 'number') {
+      return obs.valueInteger;
+    }
+    return undefined;
   }
 
   /**
@@ -259,15 +307,21 @@ export class WearablesTemplate implements ITemplate {
    * Converts the loosely-typed result of TemplateUtilities.extractObservationValue
    * into a display string, falling back to an em dash when there's genuinely
    * nothing to show (e.g. no value field of any kind and no dataAbsentReason).
+   *
+   * A raw TPeriod (returned unformatted by extractObservationValue for a
+   * valuePeriod-typed reading - e.g. a sleep-duration window with no
+   * valueQuantity) is rendered via TemplateUtilities.renderPeriod rather than
+   * falling through to the em dash, which would otherwise hide a genuinely
+   * present value.
    */
-  private static stringifyExtractedValue(value: unknown): string {
+  private static stringifyExtractedValue(value: unknown, templateUtilities: TemplateUtilities, timezone: string | undefined): string {
     if (value === null || value === undefined) {
       return NOT_AVAILABLE;
     }
-    if (value instanceof Date) {
-      return value.toISOString();
-    }
     if (typeof value === 'object') {
+      if ('start' in value || 'end' in value) {
+        return templateUtilities.renderPeriod(value as TPeriod, timezone) || NOT_AVAILABLE;
+      }
       const withTextOrCode = value as { text?: string; code?: string };
       return withTextOrCode.text || withTextOrCode.code || NOT_AVAILABLE;
     }
