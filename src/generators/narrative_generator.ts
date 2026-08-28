@@ -46,6 +46,7 @@ export class NarrativeGenerator {
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
      * @param now - Optional date parameter
+     * @param summaryUnderlyingResources - Optional resolved resources referenced by a summary Composition's section entries (see ISummaryTemplate.generateSummaryNarrative), passed through to templates that need per-reading data
      * @returns Generated HTML content or undefined if no resources
      */
     static async generateNarrativeContentAsync<T extends TDomainResource>(
@@ -123,6 +124,7 @@ export class NarrativeGenerator {
      * @param minify - Whether to minify the HTML content (default: true)
      * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
      * @param now - Optional date parameter
+     * @param summaryUnderlyingResources - Optional resolved resources referenced by a summary Composition's section entries (see ISummaryTemplate.generateSummaryNarrative), passed through to templates that need per-reading data
      * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
     static async generateNarrativeAsync<T extends TDomainResource>(
