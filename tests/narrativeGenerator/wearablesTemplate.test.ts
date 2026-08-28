@@ -215,6 +215,81 @@ describe('WearablesTemplate', () => {
     expect(html).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
   });
 
+  it('escapes HTML in a numeric reading\'s unit before rendering', () => {
+    // valueQuantity.unit is free text from the source system too - the numeric
+    // aggregate path (Latest/Average/Min/Max) must escape it just like the
+    // non-numeric fallback path does, or a malicious unit string breaks out of
+    // the table cell.
+    const observation: TObservation = {
+      resourceType: 'Observation',
+      id: 'heart-rate-unit-xss',
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '8867-4', display: 'Heart rate' }] },
+      effectiveDateTime: '2026-01-01T08:00:00Z',
+      valueQuantity: { value: 72, unit: '<script>alert(1)</script>' },
+      meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+    };
+    const template = new WearablesTemplate();
+    const html = template.generateNarrative([observation], 'UTC');
+
+    expect(html).toBeDefined();
+    expect(html).not.toContain('<script>');
+    expect(html).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
+  });
+
+  it('counts a non-numeric reading in the same metric group and uses it as "latest" when it is the most recent', () => {
+    // A device sends 2 normal numeric sleep-score readings (no unit) plus a 3rd,
+    // most-recent reading that came back as valueCodeableConcept (e.g. a sensor
+    // error) - also with no unit, so it lands in the same group. The non-numeric
+    // reading must still count toward # Readings and Date Range, and must be shown
+    // as "Latest" rather than a stale numeric value.
+    const sleepScoreObservation = (id: string, value: number, date: string): TObservation => ({
+      resourceType: 'Observation',
+      id,
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '93832-4', display: 'Sleep score' }] },
+      effectiveDateTime: date,
+      valueQuantity: { value },
+      meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+    });
+    const resources: TDomainResource[] = [
+      sleepScoreObservation('sleep-1', 72, '2026-01-01T08:00:00Z'),
+      sleepScoreObservation('sleep-2', 80, '2026-01-02T08:00:00Z'),
+      {
+        resourceType: 'Observation',
+        id: 'sleep-3-error',
+        status: 'final',
+        code: { coding: [{ system: 'http://loinc.org', code: '93832-4', display: 'Sleep score' }] },
+        effectiveDateTime: '2026-01-03T08:00:00Z',
+        valueCodeableConcept: { text: 'Sensor error' },
+        meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+      },
+    ];
+    const template = new WearablesTemplate();
+    const html = template.generateNarrative(resources, 'UTC');
+
+    expect(html).toBeDefined();
+    expect(html).toContain('<td>3</td>'); // reading count includes the non-numeric reading
+    expect(html).toContain('<td>Sensor error</td>'); // Latest reflects the most recent reading, non-numeric or not
+    expect(html).toContain('<td>76</td>'); // average is still computed over the 2 numeric readings
+  });
+
+  it('sorts "latest"/"earliest" correctly when a middle reading lacks an effective date', () => {
+    // [Jan 5, undated, Jan 1] - a non-transitive comparator (returning 0 whenever
+    // either side lacks a date) can leave this array unsorted, picking Jan 1 as
+    // "latest" instead of the true latest, Jan 5.
+    const resources: TDomainResource[] = [
+      heartRateObservation('hr-jan5', 90, '2026-01-05T08:00:00Z'),
+      { ...heartRateObservation('hr-undated', 100, '2026-01-05T08:00:00Z'), effectiveDateTime: undefined },
+      heartRateObservation('hr-jan1', 72, '2026-01-01T08:00:00Z'),
+    ];
+    const template = new WearablesTemplate();
+    const html = template.generateNarrative(resources, 'UTC');
+
+    expect(html).toBeDefined();
+    expect(html).toContain('90 bpm'); // Latest must be the Jan 5 reading, not Jan 1 or the undated one
+  });
+
   it('renders a row for a wearable blood-pressure reading (component-based, no top-level valueQuantity)', () => {
     const observation: TObservation = {
       resourceType: 'Observation',

@@ -52,59 +52,58 @@ export class WearablesTemplate implements ITemplate {
 
     const summaries: WearableMetricSummary[] = [];
     for (const groupObservations of groups.values()) {
-      const readings = groupObservations
-        .filter((obs) => typeof obs.valueQuantity?.value === 'number')
-        .map((obs) => ({ value: obs.valueQuantity!.value as number, obs }));
-
       const firstObs = groupObservations[0];
       const display = firstObs.code?.coding?.[0]?.display || templateUtilities.codeableConceptDisplay(firstObs.code) || 'Unknown';
       const category = templateUtilities.getDisplayGroupCategory(firstObs) ?? 'Other';
 
-      let latestCell: string;
+      // Date range, reading count, and "latest" are derived from every reading in the
+      // group - numeric and non-numeric alike - so a non-numeric reading (e.g. a sensor
+      // error reported as valueCodeableConcept) that happens to be the most recent one
+      // isn't silently dropped from the count or masked by a stale numeric "latest".
+      const byDate = [...groupObservations].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a, b));
+      const earliestObs = byDate[0];
+      const latestObs = byDate[byDate.length - 1];
+      const count = groupObservations.length;
+      const earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
+      const latestDateValue = latestObs.effectiveDateTime || latestObs.effectivePeriod?.start;
+      const sourceDevice = templateUtilities.getOwnerTag(latestObs) || templateUtilities.getOwnerTag(firstObs) || '';
+
+      const readings = groupObservations
+        .filter((obs) => typeof obs.valueQuantity?.value === 'number')
+        .map((obs) => ({ value: obs.valueQuantity!.value as number, obs }));
+
       let averageCell: string;
       let minCell: string;
       let maxCell: string;
-      let count: number;
-      let earliestDateValue: string | undefined;
-      let latestDateValue: string | undefined;
-      let sourceDevice: string;
 
       if (readings.length > 0) {
-        // At least one reading in this metric group has a numeric valueQuantity.value:
-        // aggregate over that numeric subset, as before.
-        const byDate = [...readings].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a.obs, b.obs));
-        const earliest = byDate[0];
-        const latest = byDate[byDate.length - 1];
         // Every member of this group shares the same unit by construction (see the
-        // grouping key above), so any one of them is a valid source for it.
-        const unit = groupObservations[0].valueQuantity?.unit ?? '';
-
+        // grouping key above), so any one of them is a valid source for it. FHIR
+        // units are free text from the source system, so escape before rendering.
+        const unit = templateUtilities.renderTextAsHtml(groupObservations[0].valueQuantity?.unit ?? '');
         const values = readings.map((r) => r.value);
         const { sum, min, max } = WearablesTemplate.sumMinMax(values);
         const average = Math.round((sum / values.length) * 10) / 10;
 
-        count = values.length;
-        earliestDateValue = earliest.obs.effectiveDateTime || earliest.obs.effectivePeriod?.start;
-        latestDateValue = latest.obs.effectiveDateTime || latest.obs.effectivePeriod?.start;
-        sourceDevice = templateUtilities.getOwnerTag(latest.obs) || templateUtilities.getOwnerTag(firstObs) || '';
-
-        latestCell = WearablesTemplate.formatCell(latest.value, unit);
         averageCell = WearablesTemplate.formatCell(average, unit);
         minCell = WearablesTemplate.formatCell(min, unit);
         maxCell = WearablesTemplate.formatCell(max, unit);
       } else {
-        // No reading in this metric group has a numeric valueQuantity.value (e.g. a
-        // wearable blood-pressure reading using component[], or a valueCodeableConcept
-        // / valueString reading). Still render a row so the Observation isn't silently
-        // dropped from the narrative - just without the numeric aggregates.
-        const byDate = [...groupObservations].sort((a, b) => WearablesTemplate.compareByEffectiveDate(a, b));
-        const earliestObs = byDate[0];
-        const latestObs = byDate[byDate.length - 1];
-        count = groupObservations.length;
-        earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
-        latestDateValue = latestObs.effectiveDateTime || latestObs.effectivePeriod?.start;
-        sourceDevice = templateUtilities.getOwnerTag(latestObs) || templateUtilities.getOwnerTag(firstObs) || '';
+        // No reading in this metric group has a numeric valueQuantity.value: the
+        // average/min/max aggregates aren't computable.
+        averageCell = NOT_AVAILABLE;
+        minCell = NOT_AVAILABLE;
+        maxCell = NOT_AVAILABLE;
+      }
 
+      let latestCell: string;
+      if (typeof latestObs.valueQuantity?.value === 'number') {
+        const unit = templateUtilities.renderTextAsHtml(latestObs.valueQuantity.unit ?? '');
+        latestCell = WearablesTemplate.formatCell(latestObs.valueQuantity.value, unit);
+      } else {
+        // The most recent reading has no numeric valueQuantity.value (e.g. a wearable
+        // blood-pressure reading using component[], or a valueCodeableConcept /
+        // valueString reading). Still render a row so it isn't silently dropped.
         const rawValue = templateUtilities.extractObservationValue(latestObs);
         const stringValue = WearablesTemplate.stringifyExtractedValue(rawValue);
         const unit = templateUtilities.extractObservationValueUnit(latestObs);
@@ -116,9 +115,6 @@ export class WearablesTemplate implements ITemplate {
         const escapedStringValue = templateUtilities.renderTextAsHtml(stringValue);
         const escapedUnit = unit ? templateUtilities.renderTextAsHtml(unit) : '';
         latestCell = escapedUnit && !escapedStringValue.includes(escapedUnit) ? WearablesTemplate.formatCell(escapedStringValue, escapedUnit) : escapedStringValue;
-        averageCell = NOT_AVAILABLE;
-        minCell = NOT_AVAILABLE;
-        maxCell = NOT_AVAILABLE;
       }
 
       summaries.push({
@@ -212,14 +208,23 @@ export class WearablesTemplate implements ITemplate {
   }
 
   /**
+   * Effective-date sort key for an Observation. Missing dates sort as the earliest
+   * possible value rather than comparing equal to everything, which keeps the
+   * comparator below transitive - required for Array.sort to order 3+ readings
+   * correctly when some lack a date.
+   */
+  private static effectiveDateSortKey(obs: TObservation): number {
+    const date = obs.effectiveDateTime || obs.effectivePeriod?.start;
+    return date ? new Date(date).getTime() : Number.NEGATIVE_INFINITY;
+  }
+
+  /**
    * Compares two Observations by effective date (ascending). Shared by both the
    * numeric-aggregate path and the non-numeric fallback path so "latest"/"earliest"
    * are computed consistently.
    */
   private static compareByEffectiveDate(a: TObservation, b: TObservation): number {
-    const dateA = a.effectiveDateTime || a.effectivePeriod?.start;
-    const dateB = b.effectiveDateTime || b.effectivePeriod?.start;
-    return dateA && dateB ? new Date(dateA).getTime() - new Date(dateB).getTime() : 0;
+    return WearablesTemplate.effectiveDateSortKey(a) - WearablesTemplate.effectiveDateSortKey(b);
   }
 
   /**
