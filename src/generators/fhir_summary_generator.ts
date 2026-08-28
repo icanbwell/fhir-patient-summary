@@ -10,7 +10,86 @@ import { TNarrative } from "../types/partials/Narrative";
 import { IPSSectionResourceHelper } from "../structures/ips_section_resource_map";
 import { NarrativeGenerator } from "./narrative_generator";
 import { IPSMissingMandatorySectionContent } from "../structures/ips_mandatory_sections";
+import { MAX_ENTRIES_PER_GROUP } from "../structures/ips_section_constants";
 
+/**
+ * Merges every summary Composition's own sub-sections into one ordered list
+ * of groups — one "group" per distinct sub-section title (e.g. one device
+ * metric) — for a per-group cap to slice.
+ *
+ * Keyed by title rather than by (composition, index) so that if the same
+ * metric is ever split across more than one matched Composition, its entries
+ * share a single cap budget instead of each Composition's copy getting its
+ * own budget (which would let that metric survive at up to
+ * N-times-the-cap). Sub-sections with no title, or Compositions with no
+ * sub-sections at all, fall back to a key unique to that
+ * (composition, index) position, preserving one-group-per-sub-section
+ * behavior for the common case.
+ */
+function summaryCompositionGroups(summaryCompositions: TComposition[]): string[][] {
+    const toReferences = (entries: TCompositionSection['entry']): string[] =>
+        (entries ?? [])
+            .map(entry => entry.reference)
+            .filter((reference): reference is string => Boolean(reference));
+
+    const groupsByKey = new Map<string, string[]>();
+    const keyOrder: string[] = [];
+    summaryCompositions.forEach((summaryComposition, compositionIndex) => {
+        const subSections = summaryComposition?.section ?? [];
+        const sections = subSections.length > 0 ? subSections : [{} as TCompositionSection];
+        sections.forEach((section, sectionIndex) => {
+            const key = section.title ?? `__untitled_${compositionIndex}_${sectionIndex}`;
+            if (!groupsByKey.has(key)) {
+                groupsByKey.set(key, []);
+                keyOrder.push(key);
+            }
+            groupsByKey.get(key)!.push(...toReferences(section.entry));
+        });
+    });
+    return keyOrder.map(key => groupsByKey.get(key)!);
+}
+
+/**
+ * Takes at most `maxEntriesPerGroup` items from each group, in order,
+ * de-duplicated across the whole Composition.
+ *
+ * References that `resolve` returns undefined for do NOT count toward the cap:
+ * a summary Composition routinely references resources absent from the bundle
+ * being built (a different time window, deleted resources), and counting those
+ * would let a group silently contribute far fewer than the cap allows.
+ * Passing `maxEntriesPerGroup` as undefined takes everything.
+ */
+function takeCappedPerGroup<T>(
+    groups: string[][],
+    maxEntriesPerGroup: number | undefined,
+    resolve: (reference: string) => T | undefined,
+): T[] {
+    const taken: T[] = [];
+    const seen = new Set<string>();
+    for (const group of groups) {
+        let takenFromGroup = 0;
+        for (const reference of group) {
+            if (maxEntriesPerGroup !== undefined && takenFromGroup >= maxEntriesPerGroup) break;
+            if (seen.has(reference)) continue;
+            const resolved = resolve(reference);
+            if (resolved === undefined) continue;
+            taken.push(resolved);
+            seen.add(reference);
+            takenFromGroup++;
+        }
+    }
+    return taken;
+}
+
+/**
+ * Turns a `ResourceType/id` reference into a placeholder resource, used by the
+ * summary-composition-only mode where the real resources aren't loaded.
+ * Returns undefined for anything that isn't exactly two segments.
+ */
+function referenceToStubResource(reference: string): TDomainResource | undefined {
+    const parts = reference.split('/');
+    return parts.length === 2 ? { resourceType: parts[0], id: parts[1] } : undefined;
+}
 
 export class ComprehensiveIPSCompositionBuilder {
     private patients: TPatient[] | undefined;
@@ -118,28 +197,41 @@ export class ComprehensiveIPSCompositionBuilder {
         summaryCompositions: TComposition[],
         resources: TDomainResource[],
         timezone: string | undefined,
-        includeSummaryCompositionOnly: boolean = false
+        includeSummaryCompositionOnly: boolean = false,
+        maxEntriesPerGroup?: number,
     ): Promise<this> {
         const sectionResources: TDomainResource[] = [];
-        for (const summaryComposition of summaryCompositions) {
-            const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
-            if (includeSummaryCompositionOnly) {
-                const addedEntries = new Set<string>();
-                resourceEntries.forEach(entry => {
-                    if (entry.reference && !addedEntries.has(entry.reference)) {
-                        const reference = entry.reference.split('/')
-                        if (reference.length === 2) {
-                            const resource: TDomainResource = {
-                                id: reference[1],
-                                resourceType: reference[0]
-                            }
-                            sectionResources.push(resource);
-                            addedEntries.add(entry.reference);
-                        }
-                    }
-                });
-            }
-            else {
+        if (includeSummaryCompositionOnly) {
+            // Stub-only mode: the bundle isn't consulted, so each reference
+            // becomes a placeholder. The cap still applies here — this mode
+            // is reachable in production via
+            // `$summary?_includeSummaryCompositionOnly=true`. Groups are
+            // merged across ALL matched compositions (by title) before
+            // capping, so the same metric split across more than one
+            // composition shares one cap budget rather than one each.
+            const groups = summaryCompositionGroups(summaryCompositions);
+            sectionResources.push(
+                ...takeCappedPerGroup(groups, maxEntriesPerGroup, referenceToStubResource)
+            );
+        }
+        else if (maxEntriesPerGroup !== undefined) {
+            // Bounded path: walks entry order rather than bundle order so
+            // the upstream most-recent-first sorting within each group is
+            // preserved when the cap slices it. Same cross-composition
+            // group merge as above.
+            const resourcesByReference = new Map<string, TDomainResource>(
+                resources.map(resource => [`${resource.resourceType}/${resource.id}`, resource])
+            );
+            const groups = summaryCompositionGroups(summaryCompositions);
+            const resolved = takeCappedPerGroup(
+                groups, maxEntriesPerGroup, reference => resourcesByReference.get(reference)
+            );
+            resolved.forEach(resource => this.resources.add(resource));
+            sectionResources.push(...resolved);
+        }
+        else {
+            for (const summaryComposition of summaryCompositions) {
+                const resourceEntries = summaryComposition?.section?.flatMap(sec => sec.entry || []) ?? [];
                 resources.forEach(resource => {
                     if (resourceEntries?.some(entry => entry.reference === `${resource.resourceType}/${resource.id}`)) {
                         this.resources.add(resource);
@@ -215,7 +307,7 @@ export class ComprehensiveIPSCompositionBuilder {
             const sectionSummary = summaryCompositionFilter ? resources.filter(resource => summaryCompositionFilter(resource)) : [];
             if (sectionSummary.length > 0) {
                 consoleLogger.info(`Using summary composition for section: ${sectionType}`);
-                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly);
+                await this.makeSectionFromSummaryAsync(sectionType, sectionSummary as TComposition[], resources as TDomainResource[], timezone, includeSummaryCompositionOnly, MAX_ENTRIES_PER_GROUP[sectionType]);
             } else {
                 consoleLogger.info(`Using individual resources for section: ${sectionType}`);
                 const sectionFilter = IPSSectionResourceHelper.getResourceFilterForSection(sectionType);
