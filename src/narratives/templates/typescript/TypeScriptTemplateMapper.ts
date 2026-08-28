@@ -62,7 +62,8 @@ export class TypeScriptTemplateMapper {
     resources: TDomainResource[],
     timezone: string | undefined,
     useSectionSummary: boolean = false,
-    now?: Date
+    now?: Date,
+    summaryUnderlyingResources?: TDomainResource[]
   ): string | undefined {
     const templateClass: ITemplate = this.sectionToTemplate[section];
 
@@ -77,7 +78,8 @@ export class TypeScriptTemplateMapper {
       ? summaryTemplateClass.generateSummaryNarrative(
           resources as TComposition[],
           timezone,
-          now
+          now,
+          summaryUnderlyingResources
         )
       : templateClass.generateNarrative(resources, timezone, now);
   }

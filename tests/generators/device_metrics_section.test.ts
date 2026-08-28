@@ -237,19 +237,70 @@ describe('DeviceMetricsSection', () => {
     expect(refs).not.toContain('Observation/hr-10');
   });
 
-  it('renders one narrative row per metric, naming the source device', async () => {
+  it('renders per-metric aggregate stats computed from the resolved Observations, grouped by category', async () => {
     const section = await buildSection(buildBundle([deviceComposition]));
 
     const div = section?.text?.div ?? '';
-    // One row per metric plus the header row.
-    expect((div.match(/<tr>/g) ?? []).length).toBe(3);
     expect(div).toContain('Heart rate');
     expect(div).toContain('Body weight');
     expect(div).toContain('Device/oura');
-    // Exercises the Result/Date formatting path against the fixture's most
-    // recent heart-rate reading (hr-0: 60 count/min, 2026-01-28).
+    // Latest: most recent heart-rate reading (hr-0: 60 count/min, 2026-01-28).
+    expect(div).toContain('60 count/min');
+    // Average across the 10 capped heart-rate readings (60..69): 64.5.
+    expect(div).toContain('64.5 count/min');
+    // Min/max across the capped 10 (60..69).
+    expect(div).toContain('69 count/min');
+    // Date range: earliest (hr-9, 2026-01-19) to latest (hr-0, 2026-01-28).
+    expect(div).toContain('1/28/2026');
+    expect(div).toContain('1/19/2026');
+    // Reading count reflects the capped entry list, not the full 15 generated.
+    expect(div).toContain('<td>10</td>');
+    // No display-group category tag on the fixture Observations -> single "Other" bucket.
+    expect(div).toContain('<h4>Other</h4>');
+  });
+
+  it('falls back to the Composition-embedded latest-value columns when the underlying Observations are not resolvable (stub-only mode)', async () => {
+    const section = await buildSection(
+      buildBundle([deviceComposition]),
+      true,
+      true // includeSummaryCompositionOnly: resources are stub placeholders, no real fields
+    );
+
+    const div = section?.text?.div ?? '';
+    expect(div).toContain('Heart rate');
+    // Latest still shows the Composition's own pre-rendered value/date, straight from its columns.
     expect(div).toContain('60 count/min');
     expect(div).toContain('1/28/2026');
+    // No real Observations were resolvable, so the aggregate columns are not computable.
+    expect(div).toContain('—');
+  });
+
+  it('computes average/min/max over valueInteger readings the same way as valueQuantity', async () => {
+    const stepsObservations = Array.from({ length: 3 }, (_, i) => ({
+      resourceType: 'Observation',
+      id: `steps-${i}`,
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code: '55423-8', display: 'Steps' }] },
+      subject: { reference: 'Patient/patient-1' },
+      effectiveDateTime: `2026-01-${String(20 + i).padStart(2, '0')}T00:00:00Z`,
+      valueInteger: 1000 * (i + 1),
+      device: { reference: 'Device/oura' },
+    })) as unknown as TObservation[];
+    const stepsComposition = {
+      ...(deviceComposition as unknown as Record<string, unknown>),
+      id: 'device-metrics-steps',
+      section: [metricSection('Steps', '55423-8', stepsObservations)],
+    } as unknown as TComposition;
+
+    const section = await buildSection(
+      buildBundle([stepsComposition, ...stepsObservations])
+    );
+
+    const div = section?.text?.div ?? '';
+    // Average of 1000/2000/3000 is 2000; valueInteger has no unit.
+    expect(div).toContain('<td>2000</td>');
+    expect(div).toContain('<td>3000</td>');
+    expect(div).toContain('<td>1000</td>');
   });
 
   it('escapes untrusted resource text rather than emitting it as live HTML', async () => {

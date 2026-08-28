@@ -246,7 +246,9 @@ export class ComprehensiveIPSCompositionBuilder {
             summaryCompositions,
             timezone,
             true,
-            true
+            true,
+            undefined,
+            sectionResources
         );
         if (!narrative && sectionType in IPSMissingMandatorySectionContent) {
             narrative = await NarrativeGenerator.createNarrativeAsync(
