@@ -94,7 +94,7 @@ This section contains the patient's immunization history.
 This section contains diagnostic reports and related observations.
 
 **Resources:** DiagnosticReport, Observation <br>
-**Filter:** `status` is `final`
+**Filter:** `status` is `final`. Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 ### Observations:
@@ -150,7 +150,7 @@ This section contains information about medical devices used by the patient.
 This section contains the patient's vital signs measurements.
 
 **Resource:** Observation <br>
-**Filter:** `category.coding.code` contains `vital-signs`
+**Filter:** `category.coding.code` contains `vital-signs`. Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 - **Vital Name:** `code` (CodeableConcept)
@@ -173,6 +173,8 @@ This section contains social history information including tobacco and alcohol u
 - `72166-2` - Tobacco Use
 - `74013-4` - Alcohol Use
 
+Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
+
 **Data Table Fields:**
 - **Code:** `code` (CodeableConcept)
 - **Result:** `valueQuantity`, `valueCodeableConcept`, `valueString`, etc.
@@ -187,7 +189,7 @@ This section contains social history information including tobacco and alcohol u
 This section contains pregnancy history information.
 
 **Resource:** Observation <br>
-**Filter:** `code.coding.code` contains pregnancy-related LOINC codes or `valueCodeableConcept.coding.code` contains pregnancy outcome codes
+**Filter:** `code.coding.code` contains pregnancy-related LOINC codes or `valueCodeableConcept.coding.code` contains pregnancy outcome codes. Observations tagged as wearable-device readings (see Personal Health Monitoring Devices below) are excluded here to avoid duplicating data that already appears aggregated in that section.
 **Data Table Fields:**
 
 - **Result:** Extracted pregnancy status from `valueCodeableConcept` or related pregnancy codes
@@ -273,6 +275,14 @@ devices (smart watches, scales, sleep trackers). It is distinct from _History
 of Medical Devices_, which lists the device/equipment records themselves rather
 than the readings they produced.
 
+Each row shows average/minimum/maximum/reading-count/date-range across the
+readings referenced by that metric's Composition entry (capped at
+`MAX_ENTRIES_PER_GROUP` per metric — see "Capping" below), not the metric's
+full historical readings, plus the single most recent value. When the
+underlying Observations aren't resolvable (e.g.
+`includeSummaryCompositionOnly` mode), the row falls back to showing only
+the Composition's own pre-rendered latest value.
+
 **Resource:** Observation <br>
 **Filter:** summary-composition only — built exclusively from a
 `device_metric_group_code` Composition (see `IPSSectionSummaryCompositionFilter`).
@@ -292,6 +302,17 @@ heart rate).
 
 - **Metric:** `Metric Name` sub-section
 - **Code (System):** section `code` (CodeableConcept)
-- **Result:** `valueQuantity.value` + `valueQuantity.unit` sub-sections
-- **Date:** `effectiveDateTime` sub-section
-- **Device:** `Device` sub-section (the source device reference)
+- **Latest:** the most recent reading's value
+- **Average:** average across the resolved readings
+- **Min:** minimum across the resolved readings
+- **Max:** maximum across the resolved readings
+- **# Readings:** count of resolved readings (capped, see "Capping" above)
+- **Date Range:** earliest to latest reading date
+- **Source Device:** `Device` sub-section (the source device reference)
+
+Average/Min/Max/Date Range/# Readings are computed from the real Observations
+resolved from each metric's Composition entry references (capped, see
+"Capping" above) on the primary path. When those Observations aren't
+resolvable (e.g. `includeSummaryCompositionOnly` mode), the row falls back to
+the Composition-embedded latest value only — Average/Min/Max are not
+computable in that case and render as an em dash (—).

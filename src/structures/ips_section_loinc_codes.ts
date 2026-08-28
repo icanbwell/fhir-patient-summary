@@ -42,6 +42,21 @@ const IPS_SECTION_DISPLAY_NAMES: Record<IPSSections, string> = {
   [IPSSections.DEVICE_METRICS]: 'Personal Health Monitoring Devices',
 };
 
+// Identifies Observations produced by b.well's wearable-data ingestion
+// pipeline (bwell-databricks/device-data-ingest-job). Every Observation it
+// emits carries a meta.security tag {system: WEARABLE_VENDOR_SECURITY_SYSTEM,
+// code: <vendor>}. Kept as an array (not a single literal) so a future
+// non-Validic wearable integration can be added without a filter rewrite.
+const WEARABLE_VENDOR_SECURITY_SYSTEM = 'https://www.icanbwell.com/vendor';
+const WEARABLE_VENDOR_CODES: string[] = ['validic'];
+
+// Second `category` coding the same ingestion pipeline stamps on every
+// Observation, grouping it by clinical domain (cardiovascular, sleep,
+// activity, etc.) for UI purposes. Used by DeviceMetricsTemplate to group its
+// summary table by category without this repo needing its own metric
+// taxonomy.
+const DISPLAY_GROUP_CATEGORY_SYSTEM = 'https://www.icanbwell.com/display-group';
+
 const PREGNANCY_LOINC_CODES = {
   PREGNANCY_STATUS: {
     'LA15173-0': 'Pregnant',
@@ -201,4 +216,7 @@ export {
   ADVANCED_DIRECTIVE_CATEGORY_SYSTEM,
   ADVANCED_DIRECTIVE_LOINC_CODES,
   LOINC_SYSTEM,
+  WEARABLE_VENDOR_SECURITY_SYSTEM,
+  WEARABLE_VENDOR_CODES,
+  DISPLAY_GROUP_CATEGORY_SYSTEM,
 };

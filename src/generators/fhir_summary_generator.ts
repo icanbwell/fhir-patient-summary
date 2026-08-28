@@ -3,7 +3,7 @@ import { TPatient } from "../types/resources/Patient";
 import { TCompositionSection } from "../types/partials/CompositionSection";
 import { TDomainResource } from "../types/resources/DomainResource";
 import { IPSSections } from "../structures/ips_sections";
-import { IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES } from "../structures/ips_section_loinc_codes";
+import { IPS_SECTION_DISPLAY_NAMES, IPS_SECTION_LOINC_CODES, LOINC_SYSTEM } from "../structures/ips_section_loinc_codes";
 import { TBundle } from "../types/resources/Bundle";
 import { TComposition } from "../types/resources/Composition";
 import { TNarrative } from "../types/partials/Narrative";
@@ -132,7 +132,7 @@ export class ComprehensiveIPSCompositionBuilder {
             title: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType,
             code: {
                 coding: [{
-                    system: 'http://loinc.org',
+                    system: LOINC_SYSTEM,
                     code: IPS_SECTION_LOINC_CODES[sectionType],
                     display: IPS_SECTION_DISPLAY_NAMES[sectionType] || sectionType
                 }],
@@ -246,7 +246,9 @@ export class ComprehensiveIPSCompositionBuilder {
             summaryCompositions,
             timezone,
             true,
-            true
+            true,
+            undefined,
+            sectionResources
         );
         if (!narrative && sectionType in IPSMissingMandatorySectionContent) {
             narrative = await NarrativeGenerator.createNarrativeAsync(

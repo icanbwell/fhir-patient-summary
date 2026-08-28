@@ -120,7 +120,8 @@ lib/
 ../.idea/
 /**/temp/
 
-/.idea/
+/.idea/*
 
 
 /tests_integration/production_record/fixtures/production/
+/.claude/worktrees/
