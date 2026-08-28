@@ -76,11 +76,15 @@ export class WearablesTemplate implements ITemplate {
       let minCell: string;
       let maxCell: string;
 
+      // latestCell/averageCell/minCell/maxCell hold raw (unescaped) text here - every
+      // value ultimately traces back to free text from the source system (a unit, a
+      // valueCodeableConcept.text, a valueString) and must not be trusted as safe HTML.
+      // Escaping happens once, at the point they're interpolated into the row below,
+      // the same way every other cell (display, sourceDevice) in this template is escaped.
       if (readings.length > 0) {
         // Every member of this group shares the same unit by construction (see the
-        // grouping key above), so any one of them is a valid source for it. FHIR
-        // units are free text from the source system, so escape before rendering.
-        const unit = templateUtilities.renderTextAsHtml(groupObservations[0].valueQuantity?.unit ?? '');
+        // grouping key above), so any one of them is a valid source for it.
+        const unit = groupObservations[0].valueQuantity?.unit ?? '';
         const values = readings.map((r) => r.value);
         const { sum, min, max } = WearablesTemplate.sumMinMax(values);
         const average = Math.round((sum / values.length) * 10) / 10;
@@ -98,8 +102,7 @@ export class WearablesTemplate implements ITemplate {
 
       let latestCell: string;
       if (typeof latestObs.valueQuantity?.value === 'number') {
-        const unit = templateUtilities.renderTextAsHtml(latestObs.valueQuantity.unit ?? '');
-        latestCell = WearablesTemplate.formatCell(latestObs.valueQuantity.value, unit);
+        latestCell = WearablesTemplate.formatCell(latestObs.valueQuantity.value, latestObs.valueQuantity.unit ?? '');
       } else {
         // The most recent reading has no numeric valueQuantity.value (e.g. a wearable
         // blood-pressure reading using component[], or a valueCodeableConcept /
@@ -109,12 +112,8 @@ export class WearablesTemplate implements ITemplate {
         const unit = templateUtilities.extractObservationValueUnit(latestObs);
         // extractObservationValue already bakes the unit into its result for some
         // shapes (e.g. blood-pressure components, valueQuantity) - avoid appending
-        // it a second time in that case. Escape both before rendering: rawValue can
-        // originate from a valueString/valueCodeableConcept.text field, which is
-        // free text from the source system and must not be trusted as safe HTML.
-        const escapedStringValue = templateUtilities.renderTextAsHtml(stringValue);
-        const escapedUnit = unit ? templateUtilities.renderTextAsHtml(unit) : '';
-        latestCell = escapedUnit && !escapedStringValue.includes(escapedUnit) ? WearablesTemplate.formatCell(escapedStringValue, escapedUnit) : escapedStringValue;
+        // it a second time in that case.
+        latestCell = unit && !stringValue.includes(unit) ? WearablesTemplate.formatCell(stringValue, unit) : stringValue;
       }
 
       summaries.push({
@@ -179,10 +178,10 @@ export class WearablesTemplate implements ITemplate {
         html += `
             <tr>
               <td>${templateUtilities.renderTextAsHtml(metric.display)}</td>
-              <td>${metric.latestCell}</td>
-              <td>${metric.averageCell}</td>
-              <td>${metric.minCell}</td>
-              <td>${metric.maxCell}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.latestCell)}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.averageCell)}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.minCell)}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.maxCell)}</td>
               <td>${metric.count}</td>
               <td>${dateRange}</td>
               <td>${templateUtilities.renderTextAsHtml(metric.sourceDevice)}</td>
