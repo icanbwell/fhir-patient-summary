@@ -25,7 +25,6 @@ export enum IPSSections {
   // scales, sleep trackers). Distinct from MEDICAL_DEVICES, which lists the
   // Device/DeviceUseStatement equipment records rather than their readings.
   DEVICE_METRICS = 'DeviceMetricsSection',
-  WEARABLES = 'WearableDeviceDataSection',
 
   // missing IPS Sections
   // ALERTS = 'AlertsSection',

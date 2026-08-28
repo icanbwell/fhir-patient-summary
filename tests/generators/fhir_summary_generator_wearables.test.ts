@@ -1,10 +1,9 @@
 import { ComprehensiveIPSCompositionBuilder } from '../../src/generators/fhir_summary_generator';
 import { TPatient } from '../../src/types/resources/Patient';
 import { TObservation } from '../../src/types/resources/Observation';
-import { TComposition } from '../../src/types/resources/Composition';
 import { TBundle } from '../../src/types/resources/Bundle';
 
-describe('Wearable Device Data section end-to-end', () => {
+describe('wearable-tagged Observations and remaining-resources detection', () => {
   const patient: TPatient = {
     resourceType: 'Patient',
     id: 'wearable-patient-01',
@@ -29,48 +28,6 @@ describe('Wearable Device Data section end-to-end', () => {
         { system: 'https://www.icanbwell.com/vendor', code: 'validic' },
       ],
     },
-  });
-
-  const clinicalHeartRateObservation: TObservation = {
-    resourceType: 'Observation',
-    id: 'clinic-hr-1',
-    status: 'final',
-    subject: { reference: 'Patient/wearable-patient-01' },
-    code: { coding: [{ system: 'http://loinc.org', code: '8867-4', display: 'Heart rate' }] },
-    category: [{ coding: [{ system: 'http://terminology.hl7.org/CodeSystem/observation-category', code: 'vital-signs' }] }],
-    effectiveDateTime: '2026-01-05T09:00:00Z',
-    valueQuantity: { value: 68, unit: 'bpm' },
-  };
-
-  const bundle: TBundle = {
-    resourceType: 'Bundle',
-    type: 'collection',
-    entry: [
-      { resource: patient },
-      { resource: heartRateObservation('wear-hr-1', 72, '2026-01-01T08:00:00Z') },
-      { resource: heartRateObservation('wear-hr-2', 80, '2026-01-02T08:00:00Z') },
-      { resource: clinicalHeartRateObservation },
-    ],
-  };
-
-  it('produces a Wearable Device Data section with the local code system, and keeps the clinical reading in Vital Signs only', async () => {
-    const builder = new ComprehensiveIPSCompositionBuilder().setPatient(patient);
-    await builder.readBundleAsync(bundle, 'UTC');
-
-    const outputBundle = await builder.buildBundleAsync('org-1', 'Test Org', 'https://example.com/fhir', 'UTC');
-    const composition = outputBundle.entry?.find(
-      (entry) => entry.resource?.resourceType === 'Composition'
-    )?.resource as TComposition;
-
-    const wearablesSection = composition.section?.find((s) => s.code?.coding?.[0]?.code === 'wearables');
-    expect(wearablesSection).toBeDefined();
-    expect(wearablesSection?.code?.coding?.[0]?.system).toBe('https://www.icanbwell.com/ips-section-codes');
-    expect(wearablesSection?.title).toBe('Wearable Device Data');
-    expect(wearablesSection?.text?.div).toContain('Heart rate');
-    expect(wearablesSection?.entry).toHaveLength(2); // only the two Validic-tagged readings, not the clinical one
-
-    const vitalSignsSection = composition.section?.find((s) => s.code?.coding?.[0]?.code === '8716-3');
-    expect(vitalSignsSection?.entry).toHaveLength(1); // only the untagged clinical reading
   });
 
   it('does not report Observation as a missing resource type when only wearable data is present', () => {
