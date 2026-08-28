@@ -53,7 +53,8 @@ export class NarrativeGenerator {
         resources: T[],
         timezone: string | undefined,
         useSectionSummary: boolean = false,
-        now?: Date
+        now?: Date,
+        summaryUnderlyingResources?: TDomainResource[]
     ): Promise<string | undefined> {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
@@ -61,7 +62,7 @@ export class NarrativeGenerator {
 
         try {
             // Use the TypeScript template mapper to generate HTML
-            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary, now);
+            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary, now, summaryUnderlyingResources);
             if (!content) {
                 return undefined; // No content generated
             }
@@ -130,9 +131,10 @@ export class NarrativeGenerator {
         timezone: string | undefined,
         minify: boolean = true,
         useSectionSummary: boolean = false,
-        now?: Date
+        now?: Date,
+        summaryUnderlyingResources?: TDomainResource[]
     ): Promise<Narrative | undefined> {
-        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary, now);
+        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary, now, summaryUnderlyingResources);
         if (!content) {
             return undefined;
         }
