@@ -24,6 +24,7 @@ export const IPSSectionResourcesMap: Record<IPSSections, string[]> = {
     [IPSSections.MEDICAL_HISTORY]: ['Condition'],
     [IPSSections.CARE_PLAN]: ['CarePlan'],
     [IPSSections.ADVANCE_DIRECTIVES]: ['Consent'],
+    [IPSSections.DEVICE_METRICS]: ['Observation'],
 };
 
 export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
@@ -77,6 +78,14 @@ export const IPSSectionResourceFilters: Partial<Record<IPSSections, IPSSectionRe
     [IPSSections.CARE_PLAN]: (resource) => resource.resourceType === 'CarePlan' && resource.status === 'active',
     // Only include active advance directives (Consent resources)
     [IPSSections.ADVANCE_DIRECTIVES]: (resource) => resource.resourceType === 'Consent' && resource.status === 'active' && resource.scope?.coding?.some((c: any) => codingMatches(c, 'adr', "http://terminology.hl7.org/CodeSystem/consentscope")),
+    // Deliberately matches nothing: this section is only derivable from the
+    // curated device-metric Composition (see IPSSectionSummaryCompositionFilter
+    // below), never from a heuristic over raw Observations. Observation.device
+    // is not a safe fallback — per FHIR it means "the device that generated the
+    // measurement", which legitimately covers lab analyzers and clinic
+    // equipment, so keying off it would pull ordinary lab results into a
+    // patient-wearables section. Without a composition, no section is emitted.
+    [IPSSections.DEVICE_METRICS]: () => false,
 };
 
 export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPSSectionResourceFilter>> = {
@@ -89,6 +98,7 @@ export const IPSSectionSummaryCompositionFilter: Partial<Record<IPSSections, IPS
     [IPSSections.MEDICATIONS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "medication_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
     // [IPSSections.DIAGNOSTIC_REPORTS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => c.system === IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM && ["lab_group_code", "diagnosticreportlab_group_code"].includes(c.code)),
     [IPSSections.PROCEDURES]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "procedure_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
+    [IPSSections.DEVICE_METRICS]: (resource) => resource.resourceType === 'Composition' && resource.type?.coding?.some((c: any) => codingMatches(c, "device_metric_group_code", IPS_SUMMARY_COMPOSITION_TYPE_SYSTEM)),
 }
 
 // Helper class to get resource types for a section
