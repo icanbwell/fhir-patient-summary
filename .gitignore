@@ -124,3 +124,6 @@ lib/
 
 
 /tests_integration/production_record/fixtures/production/
+
+# macOS
+.DS_Store
