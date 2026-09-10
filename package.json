@@ -27,7 +27,9 @@
     "js-yaml": "4.3.2",
     "brace-expansion": "2.1.4",
     "ts-node/diff": "4.0.4",
-    "**/libnpmdiff/diff": "8.0.4"
+    "**/libnpmdiff/diff": "8.0.4",
+    "**/@actions/http-client/undici": "6.28.1",
+    "**/@semantic-release/github/undici": "7.29.1"
   },
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./dist/index.js",
