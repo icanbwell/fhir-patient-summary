@@ -3,7 +3,11 @@
   "version": "x.x.x",
   "resolutions": {
     "lodash": "4.18.1",
-    "tmp": "0.2.7"
+    "tmp": "0.2.7",
+    "**/micromatch/picomatch": "2.3.2",
+    "**/anymatch/picomatch": "2.3.2",
+    "**/tinyglobby/picomatch": "4.0.7",
+    "**/jest-util/picomatch": "4.0.7"
   },
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./dist/index.js",
