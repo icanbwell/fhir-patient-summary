@@ -8,8 +8,10 @@
 > and `DISPLAY_GROUP_CATEGORY_SYSTEM` (all in
 > `src/structures/ips_section_loinc_codes.ts`) — used both to build the
 > **"Personal Health Monitoring Devices"** (`DEVICE_METRICS`) section's richer
-> per-metric average/min/max/count/date-range stats (when real Observations
-> resolve; see `DeviceMetricsTemplate.ts`) and to exclude wearable-tagged
+> per-metric average/min/max/count/days-with-data/date-range stats (preferring
+> window statistics ai-health-optimization embeds directly on the Composition
+> when present, else recomputed from real Observations when those resolve;
+> see `DeviceMetricsTemplate.ts`) and to exclude wearable-tagged
 > Observations from VITAL_SIGNS/DIAGNOSTIC_REPORTS/SOCIAL_HISTORY/
 > PREGNANCY_HISTORY so the same reading isn't duplicated across sections (see
 > `isWearableObservation` in `src/structures/ips_section_resource_map.ts`).

@@ -8,23 +8,43 @@ import { TObservation } from '../../../types/resources/Observation';
 import { TPeriod } from '../../../types/partials/Period';
 
 interface DeviceMetricRow {
-  // display, latestCell, averageCell, minCell, maxCell, sourceDevice: RAW text,
-  // escaped once at render time in renderRowsByCategory. codeSystem,
-  // latestDate, earliestDate: already-escaped HTML, safe to interpolate as-is.
+  // All fields below are RAW text (composition-authored or resource-derived)
+  // and are escaped once, uniformly, at render time in renderRowsByCategory.
   display: string;
   codeSystem: string;
   category: string;
-  count: number;
+  countCell: string;
+  daysWithDataCell: string;
   latestCell: string;
   averageCell: string;
   minCell: string;
   maxCell: string;
-  latestDate: string;
-  earliestDate: string;
+  dateRangeCell: string;
   sourceDevice: string;
 }
 
 const NOT_AVAILABLE = '—';
+
+// The six `Composition.section.section` sub-items ai-health-optimization's
+// ObservationCompositionCreator adds per metric once window-statistics
+// support ships (see adrs/0006-device-metric-window-statistics.md in
+// icanbwell/ai-health-optimization, PR #81). Present only once a Composition
+// was produced by a package version carrying that change — see
+// `hasUpstreamWindowStatistics` below.
+const READING_COUNT_TITLE = 'Reading Count';
+const DAYS_WITH_DATA_TITLE = 'Days With Data';
+const AVERAGE_TITLE = 'Average';
+const MINIMUM_TITLE = 'Minimum';
+const MAXIMUM_TITLE = 'Maximum';
+const DATE_RANGE_TITLE = 'Date Range';
+const WINDOW_STATISTICS_TITLES = [
+  READING_COUNT_TITLE,
+  DAYS_WITH_DATA_TITLE,
+  AVERAGE_TITLE,
+  MINIMUM_TITLE,
+  MAXIMUM_TITLE,
+  DATE_RANGE_TITLE,
+];
 
 /**
  * Class to generate HTML narrative for device-captured metrics.
@@ -36,14 +56,31 @@ const NOT_AVAILABLE = '—';
  * so generateNarrative returns undefined and the section is simply omitted
  * when no such Composition is present.
  *
- * Each metric's row shows real average/min/max/count/date-range stats,
- * computed from the actual Observations the caller resolved for that
- * metric's entry[] references (see `underlyingResources`) — not just the
- * single latest-value columns the Composition itself carries. When those
- * Observations aren't resolvable (e.g. includeSummaryCompositionOnly mode,
- * where entries are stub placeholders with no real fields), each row falls
- * back to exactly the Composition-embedded latest-value rendering this
- * template always used, so that production path never regresses.
+ * Each metric's row shows average/min/max/count/days-with-data/date-range
+ * stats, resolved in priority order:
+ *
+ * 1. **Upstream window statistics** — the `Reading Count`/`Days With Data`/
+ *    `Average`/`Minimum`/`Maximum`/`Date Range` sub-sections
+ *    ai-health-optimization computes over the *full* lookback window (not
+ *    just the entries this section's `entry[]` references, which are capped
+ *    at `MAX_ENTRIES_PER_GROUP`) and embeds directly on the Composition. Used
+ *    verbatim whenever present — see `hasUpstreamWindowStatistics`.
+ * 2. **Recomputed from resolved Observations** — for Compositions produced
+ *    before that upstream change shipped (no window-statistics sub-items),
+ *    computed here from the actual Observations the caller resolved for
+ *    this metric's entry[] references (see `underlyingResources`), capped at
+ *    `MAX_ENTRIES_PER_GROUP`.
+ * 3. **Composition-embedded latest-value only** — when neither of the above
+ *    is available (e.g. includeSummaryCompositionOnly mode, where entries are
+ *    stub placeholders with no real fields, on a Composition predating the
+ *    upstream change too), each row falls back to exactly the
+ *    Composition-embedded latest-value rendering this template always used,
+ *    so that production path never regresses.
+ *
+ * Category grouping always requires a resolved Observation (to read its
+ * display-group category coding) regardless of which stats tier is used —
+ * a metric with no resolvable Observation always buckets under "Other", even
+ * if upstream window statistics are present for it.
  */
 export class DeviceMetricsTemplate implements ISummaryTemplate {
   /**
@@ -63,8 +100,8 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
    * @param timezone - Optional timezone for date formatting
    * @param now - Unused; accepted to match ISummaryTemplate
    * @param underlyingResources - Resolved resources referenced by each metric's
-   * entry[] (see ISummaryTemplate docblock). Used to compute real aggregate stats;
-   * falls back to the Composition's own columns when a metric has none resolvable.
+   * entry[] (see ISummaryTemplate docblock). Used for category grouping, and as
+   * the aggregation source when upstream window statistics aren't present.
    * @returns HTML string, or undefined if no metric rows could be rendered
    */
   generateSummaryNarrative(
@@ -76,14 +113,11 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
     const templateUtilities = new TemplateUtilities(resources);
 
     // Resolve every entry reference against whatever the caller passed,
-    // stub or real - this is what makes `count` reflect the capped group
-    // size (see fhir_summary_generator.ts's MAX_ENTRIES_PER_GROUP) in BOTH
-    // modes. A stub placeholder (includeSummaryCompositionOnly mode) is
-    // exactly {resourceType, id} with no other fields - a real Observation
-    // from the ingest pipeline always carries a `code`. That distinction
-    // (checked per-metric below, not here) is what decides "nothing real to
-    // aggregate, fall back to the Composition's own columns" vs "aggregate
-    // over these real readings".
+    // stub or real - this is what makes the legacy aggregation tier's count
+    // reflect the capped group size (see fhir_summary_generator.ts's
+    // MAX_ENTRIES_PER_GROUP). A stub placeholder (includeSummaryCompositionOnly
+    // mode) is exactly {resourceType, id} with no other fields - a real
+    // Observation from the ingest pipeline always carries a `code`.
     const resourcesByReference = new Map<string, TDomainResource>();
     for (const resource of underlyingResources ?? []) {
       if (resource.resourceType === 'Observation' && resource.id) {
@@ -127,13 +161,20 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
           .filter((resource): resource is TDomainResource => resource !== undefined);
         // Prefer the resolved (capped) count; if nothing resolved at all -
         // e.g. underlyingResources wasn't passed - fall back to the
-        // Composition's own uncapped entry list rather than showing 0.
-        const count = resolvedResources.length > 0 ? resolvedResources.length : (metricSection.entry?.length ?? 0);
+        // Composition's own uncapped entry list rather than showing 0. Only
+        // used by the legacy aggregation/fallback tiers below - the upstream
+        // tier has its own real, uncapped "Reading Count" column.
+        const legacyCount = resolvedResources.length > 0 ? resolvedResources.length : (metricSection.entry?.length ?? 0);
         const realObservations = resolvedResources.filter((resource): resource is TObservation => 'code' in resource);
+        const category = realObservations.length > 0
+          ? templateUtilities.getDisplayGroupCategory(realObservations[0]) ?? 'Other'
+          : 'Other';
 
-        const row = realObservations.length > 0
-          ? DeviceMetricsTemplate.buildAggregateRow(metricName, codeSystem, count, sourceDevice, realObservations, templateUtilities, timezone)
-          : DeviceMetricsTemplate.buildFallbackRow(metricName, codeSystem, count, sourceDevice, columns, templateUtilities, timezone);
+        const row = DeviceMetricsTemplate.hasUpstreamWindowStatistics(columns)
+          ? DeviceMetricsTemplate.buildRowFromWindowStatistics(metricName, codeSystem, category, sourceDevice, columns, templateUtilities, timezone)
+          : realObservations.length > 0
+            ? DeviceMetricsTemplate.buildAggregateRow(metricName, codeSystem, category, legacyCount, sourceDevice, realObservations, templateUtilities, timezone)
+            : DeviceMetricsTemplate.buildFallbackRow(metricName, codeSystem, legacyCount, sourceDevice, columns, templateUtilities, timezone);
 
         rows.push(row);
       }
@@ -147,22 +188,71 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
   }
 
   /**
+   * True when the Composition itself already carries all six window-statistics
+   * sub-items for this metric (see WINDOW_STATISTICS_TITLES) - i.e. it was
+   * produced by an ai-health-optimization version that computes them. Requires
+   * every field rather than any, so a partially-populated/malformed section
+   * never mixes real and placeholder stats in the same row.
+   */
+  private static hasUpstreamWindowStatistics(columns: Record<string, string>): boolean {
+    return WINDOW_STATISTICS_TITLES.every(title => !!columns[title]);
+  }
+
+  /**
+   * Builds a metric's row directly from the Composition's own window-statistics
+   * sub-items - the real average/min/max/count/days-with-data/date-range over
+   * the full upstream lookback window, not just the (possibly capped) entries
+   * this section's entry[] references. Latest still reads the Composition's
+   * existing latest-value columns, which are unaffected by window statistics.
+   */
+  private static buildRowFromWindowStatistics(
+    metricName: string,
+    codeSystem: string,
+    category: string,
+    sourceDevice: string,
+    columns: Record<string, string>,
+    templateUtilities: TemplateUtilities,
+    timezone: string | undefined
+  ): DeviceMetricRow {
+    const latestCell = templateUtilities.extractObservationSummaryValue(columns, timezone) || NOT_AVAILABLE;
+    return {
+      display: templateUtilities.capitalizeFirstLetter(metricName),
+      codeSystem,
+      category,
+      countCell: columns[READING_COUNT_TITLE],
+      daysWithDataCell: columns[DAYS_WITH_DATA_TITLE],
+      latestCell,
+      averageCell: columns[AVERAGE_TITLE],
+      minCell: columns[MINIMUM_TITLE],
+      maxCell: columns[MAXIMUM_TITLE],
+      dateRangeCell: columns[DATE_RANGE_TITLE],
+      sourceDevice,
+    };
+  }
+
+  /**
    * Builds a metric's row from its real, resolved Observations - full average/
-   * min/max/count/date-range stats.
+   * min/max/count/date-range stats, capped at MAX_ENTRIES_PER_GROUP. Used only
+   * when the Composition doesn't already carry upstream window statistics (see
+   * hasUpstreamWindowStatistics) - i.e. Compositions predating that change.
+   * "Days With Data" isn't computable from this capped sample, so it's shown
+   * as not-available rather than a misleadingly partial count.
    */
   private static buildAggregateRow(
     metricName: string,
     codeSystem: string,
+    category: string,
     count: number,
     sourceDevice: string,
     observations: TObservation[],
     templateUtilities: TemplateUtilities,
     timezone: string | undefined
   ): DeviceMetricRow {
-    const category = templateUtilities.getDisplayGroupCategory(observations[0]) ?? 'Other';
     const { earliestObs, latestObs } = DeviceMetricsTemplate.findEarliestAndLatest(observations);
     const earliestDateValue = earliestObs.effectiveDateTime || earliestObs.effectivePeriod?.start;
     const latestDateValue = latestObs.effectiveDateTime || latestObs.effectivePeriod?.start;
+    const earliestDate = earliestDateValue ? templateUtilities.renderTime(earliestDateValue, timezone) : '';
+    const latestDate = latestDateValue ? templateUtilities.renderTime(latestDateValue, timezone) : '';
 
     const numericValues = observations
       .map(obs => DeviceMetricsTemplate.getNumericReadingValue(obs))
@@ -204,22 +294,24 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
       display: templateUtilities.capitalizeFirstLetter(metricName),
       codeSystem,
       category,
-      count,
+      countCell: String(count),
+      daysWithDataCell: NOT_AVAILABLE,
       latestCell,
       averageCell,
       minCell,
       maxCell,
-      latestDate: latestDateValue ? templateUtilities.renderTime(latestDateValue, timezone) : '',
-      earliestDate: earliestDateValue ? templateUtilities.renderTime(earliestDateValue, timezone) : '',
+      dateRangeCell: earliestDate === latestDate ? latestDate : `${earliestDate} - ${latestDate}`,
       sourceDevice,
     };
   }
 
   /**
-   * Builds a metric's row from the Composition's own pre-rendered columns only -
-   * used when no real Observation resolved for this metric (stub-only mode, or an
-   * entry reference the caller didn't resolve). Matches this template's original,
-   * pre-aggregate-stats rendering exactly, so that path never regresses.
+   * Builds a metric's row from the Composition's own pre-rendered latest-value
+   * columns only - used when no real Observation resolved for this metric
+   * (stub-only mode, or an entry reference the caller didn't resolve) and the
+   * Composition doesn't already carry upstream window statistics either.
+   * Matches this template's original, pre-aggregate-stats rendering exactly,
+   * so that path never regresses.
    */
   private static buildFallbackRow(
     metricName: string,
@@ -237,13 +329,13 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
       codeSystem,
       // No resolvable Observation to read a display-group category off - stub-only rows always bucket under 'Other'.
       category: 'Other',
-      count,
+      countCell: String(count),
+      daysWithDataCell: NOT_AVAILABLE,
       latestCell,
       averageCell: NOT_AVAILABLE,
       minCell: NOT_AVAILABLE,
       maxCell: NOT_AVAILABLE,
-      latestDate,
-      earliestDate: latestDate,
+      dateRangeCell: latestDate,
       sourceDevice,
     };
   }
@@ -282,15 +374,13 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
               <th>Min</th>
               <th>Max</th>
               <th># Readings</th>
+              <th>Days With Data</th>
               <th>Date Range</th>
               <th>Source Device</th>
             </tr>
           </thead>
           <tbody>`;
       for (const metric of metrics) {
-        const dateRange = metric.earliestDate === metric.latestDate
-          ? metric.latestDate
-          : `${metric.earliestDate} - ${metric.latestDate}`;
         html += `
             <tr>
               <td>${templateUtilities.renderTextAsHtml(metric.display)}</td>
@@ -299,8 +389,9 @@ export class DeviceMetricsTemplate implements ISummaryTemplate {
               <td>${templateUtilities.renderTextAsHtml(metric.averageCell)}</td>
               <td>${templateUtilities.renderTextAsHtml(metric.minCell)}</td>
               <td>${templateUtilities.renderTextAsHtml(metric.maxCell)}</td>
-              <td>${metric.count}</td>
-              <td>${dateRange}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.countCell)}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.daysWithDataCell)}</td>
+              <td>${templateUtilities.renderTextAsHtml(metric.dateRangeCell)}</td>
               <td>${templateUtilities.renderTextAsHtml(metric.sourceDevice)}</td>
             </tr>`;
       }

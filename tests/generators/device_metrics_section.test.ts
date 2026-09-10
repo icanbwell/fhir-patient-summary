@@ -53,10 +53,21 @@ describe('DeviceMetricsSection', () => {
    * wrapped in a literal `<div>` element, which DeviceMetricsTemplate would
    * HTML-escape as untrusted text rather than parse as markup.
    */
+  /** The six ai-health-optimization window-statistics sub-sections (see PR #81 / adrs/0006-device-metric-window-statistics.md), keyed by their exact Composition `title`s. */
+  type WindowStatistics = {
+    readingCount: string;
+    daysWithData: string;
+    average: string;
+    minimum: string;
+    maximum: string;
+    dateRange: string;
+  };
+
   const metricSection = (
     title: string,
     code: string,
-    observations: TObservation[]
+    observations: TObservation[],
+    windowStatistics?: WindowStatistics
   ) => ({
     title,
     code: { coding: [{ system: 'http://loinc.org', code, display: title }] },
@@ -94,6 +105,16 @@ describe('DeviceMetricsSection', () => {
         title: 'valueQuantity.unit',
         text: { status: 'generated', div: 'count/min' },
       },
+      ...(windowStatistics
+        ? [
+            { title: 'Reading Count', text: { status: 'generated', div: windowStatistics.readingCount } },
+            { title: 'Days With Data', text: { status: 'generated', div: windowStatistics.daysWithData } },
+            { title: 'Average', text: { status: 'generated', div: windowStatistics.average } },
+            { title: 'Minimum', text: { status: 'generated', div: windowStatistics.minimum } },
+            { title: 'Maximum', text: { status: 'generated', div: windowStatistics.maximum } },
+            { title: 'Date Range', text: { status: 'generated', div: windowStatistics.dateRange } },
+          ]
+        : []),
     ],
     entry: observations.map(o => ({ reference: `Observation/${o.id}` })),
   });
@@ -468,5 +489,105 @@ describe('DeviceMetricsSection', () => {
     const section = await buildSection(buildBundle());
 
     expect(section).toBeUndefined();
+  });
+
+  describe('upstream window statistics (ai-health-optimization PR #81)', () => {
+    const heartRateWindowStats: WindowStatistics = {
+      readingCount: '412',
+      daysWithData: '30',
+      average: '64.2 count/min',
+      minimum: '52 count/min',
+      maximum: '138 count/min',
+      dateRange: '2025-12-30 to 2026-01-28',
+    };
+
+    it('prefers the Composition-embedded window statistics over recomputing from resolved Observations', async () => {
+      const compositionWithStats = {
+        ...(deviceComposition as unknown as Record<string, unknown>),
+        id: 'device-metrics-window-stats',
+        section: [metricSection('Heart rate', '8867-4', heartRate, heartRateWindowStats)],
+      } as unknown as TComposition;
+
+      const section = await buildSection(buildBundle([compositionWithStats]));
+      const div = section?.text?.div ?? '';
+
+      // The window-statistics values are used verbatim, not the naive mean
+      // over the capped resolved sample (which would be "64.5 count/min" —
+      // see the plain aggregate-stats test above).
+      expect(div).toContain('64.2 count/min');
+      expect(div).not.toContain('64.5 count/min');
+      expect(div).toContain('52 count/min');
+      expect(div).toContain('138 count/min');
+      expect(div).toContain('<td>412</td>');
+      expect(div).toContain('<td>30</td>');
+      expect(div).toContain('2025-12-30 to 2026-01-28');
+    });
+
+    it('still resolves category grouping from the real Observations when window statistics are also present', async () => {
+      const cardioObservations = observationsFor('hr', '8867-4', 'Heart rate', 3).map(o => ({
+        ...o,
+        category: [
+          { coding: [{ system: 'https://www.icanbwell.com/display-group', code: 'cardiovascular', display: 'Cardiovascular' }] },
+        ],
+      })) as TObservation[];
+      const compositionWithStats = {
+        ...(deviceComposition as unknown as Record<string, unknown>),
+        id: 'device-metrics-window-stats-category',
+        section: [metricSection('Heart rate', '8867-4', cardioObservations, heartRateWindowStats)],
+      } as unknown as TComposition;
+
+      const section = await buildSection(buildBundle([compositionWithStats, ...cardioObservations]));
+      const div = section?.text?.div ?? '';
+
+      expect(div).toContain('<h4>Cardiovascular</h4>');
+      expect(div).toContain('64.2 count/min');
+    });
+
+    it('uses the window statistics even in includeSummaryCompositionOnly (stub-only) mode, unlike the legacy fallback', async () => {
+      const compositionWithStats = {
+        ...(deviceComposition as unknown as Record<string, unknown>),
+        id: 'device-metrics-window-stats-stub',
+        section: [metricSection('Heart rate', '8867-4', heartRate, heartRateWindowStats)],
+      } as unknown as TComposition;
+
+      const section = await buildSection(
+        buildBundle([compositionWithStats]),
+        true,
+        true // includeSummaryCompositionOnly: entries resolve to stub placeholders only
+      );
+      const div = section?.text?.div ?? '';
+
+      // Unlike the stub-only fallback test above (which shows em dashes for
+      // Average/Min/Max), the Composition's own window statistics are used
+      // directly since they don't depend on resolving real Observations.
+      expect(div).toContain('64.2 count/min');
+      expect(div).toContain('<td>412</td>');
+      expect(div).toContain('<td>30</td>');
+      // No resolvable Observation for category in stub-only mode -> "Other".
+      expect(div).toContain('<h4>Other</h4>');
+    });
+
+    it('falls back to recomputing from resolved Observations when window statistics are only partially present', async () => {
+      const partialStatsSection = {
+        ...metricSection('Heart rate', '8867-4', heartRate),
+        section: [
+          ...metricSection('Heart rate', '8867-4', heartRate).section,
+          { title: 'Reading Count', text: { status: 'generated', div: '412' } },
+          // Missing the other five window-statistics fields.
+        ],
+      };
+      const partialStatsComposition = {
+        ...(deviceComposition as unknown as Record<string, unknown>),
+        id: 'device-metrics-partial-window-stats',
+        section: [partialStatsSection],
+      } as unknown as TComposition;
+
+      const section = await buildSection(buildBundle([partialStatsComposition]));
+      const div = section?.text?.div ?? '';
+
+      // Falls through to the legacy recomputed average (64.5), not the
+      // partially-present "412" reading count treated as authoritative.
+      expect(div).toContain('64.5 count/min');
+    });
   });
 });
