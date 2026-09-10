@@ -35,10 +35,33 @@ const AGGRESSIVE_MINIFY_OPTIONS = {
 };
 
 /**
+ * A `<` only starts markup when followed by a tag name, `/`, `!` (comment or
+ * doctype) or `?` (processing instruction). Anything else is literal text.
+ *
+ * Clinical free text routinely carries comparator values the templates
+ * interpolate without escaping — "<10", "<= 5 mg/dL", "< 60 mL/min". Left
+ * raw, the minifier's parser reads them as a malformed tag and rejects the
+ * whole narrative.
+ */
+const STRAY_LESS_THAN = /<(?![a-zA-Z/!?])/g;
+
+/**
  * Generates narrative content for FHIR resources using TypeScript templates
  * Replaces the Nunjucks-based narrative generator
  */
 export class NarrativeGenerator {
+    /**
+     * Escapes `<` characters that cannot be the start of a tag, leaving real
+     * markup untouched. Idempotent, so it is safe to apply more than once and
+     * on content the templates already escaped via `renderTextAsHtml`.
+     * @param html - HTML content that may contain unescaped clinical text
+     * @returns The same HTML with stray `<` replaced by `&lt;`
+     */
+    static escapeStrayAngleBrackets(html: string): string {
+        if (!html) return html;
+        return html.replace(STRAY_LESS_THAN, '&lt;');
+    }
+
     /**
      * Generates narrative HTML content for a section
      * @param section - IPS section type
@@ -83,12 +106,23 @@ export class NarrativeGenerator {
     static async minifyHtmlAsync(html: string, aggressive: boolean = false): Promise<string> {
         if (!html) return html;
 
+        const normalized = this.escapeStrayAngleBrackets(html);
+
         try {
             const options = aggressive ? AGGRESSIVE_MINIFY_OPTIONS : DEFAULT_MINIFY_OPTIONS;
-            return await htmlMinify(html, options);
+            return await htmlMinify(normalized, options);
         } catch (error) {
-            console.warn('HTML minification failed', error, html);
-            return `${error instanceof Error ? error.message : String(error)}`;
+            // Log no content. The narrative may hold sensitive clinical data,
+            // and html-minifier-terser echoes a fragment of its input in the
+            // error message, so neither is safe to write out.
+            console.warn(
+                `HTML minification failed (${error instanceof Error ? error.name : typeof error}); ` +
+                `returning unminified content of ${normalized.length} chars`
+            );
+            // Minification is an optimization. Returning the error message here
+            // would replace the narrative with it and copy the echoed fragment
+            // into the Composition.
+            return normalized;
         }
     }
 
@@ -104,6 +138,10 @@ export class NarrativeGenerator {
         if (divMatch) {
             content = divMatch[1]; // Extract inner content
         }
+
+        // Escape unconditionally — the narrative has to be well-formed XHTML
+        // for consumers whether or not it gets minified.
+        content = this.escapeStrayAngleBrackets(content);
 
         // Apply minification if requested
         if (minify) {
