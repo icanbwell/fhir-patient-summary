@@ -53,6 +53,7 @@ export class TypeScriptTemplateMapper {
    * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
    * @param useSectionSummary - Whether to use the section summary for narrative generation
    * @param now - Optional current date to use for generating relative dates in the narrative
+   * @param summaryUnderlyingResources - Optional resolved resources referenced by a summary Composition's section entries (see ISummaryTemplate.generateSummaryNarrative), passed through to templates that need per-reading data
    * @returns HTML string for rendering
    */
   static generateNarrative(
@@ -60,7 +61,8 @@ export class TypeScriptTemplateMapper {
     resources: TDomainResource[],
     timezone: string | undefined,
     useSectionSummary: boolean = false,
-    now?: Date
+    now?: Date,
+    summaryUnderlyingResources?: TDomainResource[]
   ): string | undefined {
     const templateClass: ITemplate = this.sectionToTemplate[section];
 
@@ -68,11 +70,15 @@ export class TypeScriptTemplateMapper {
       throw new Error(`No template found for section: ${section}`);
     }
 
-    return useSectionSummary
-      ? (templateClass as ISummaryTemplate).generateSummaryNarrative(
+    const summaryTemplateClass = templateClass as ISummaryTemplate;
+    const supportsSummaryNarrative = typeof summaryTemplateClass.generateSummaryNarrative === 'function';
+
+    return useSectionSummary && supportsSummaryNarrative
+      ? summaryTemplateClass.generateSummaryNarrative(
           resources as TComposition[],
           timezone,
-          now
+          now,
+          summaryUnderlyingResources
         )
       : templateClass.generateNarrative(resources, timezone, now);
   }

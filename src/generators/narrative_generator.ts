@@ -69,6 +69,7 @@ export class NarrativeGenerator {
      * @param timezone - Optional timezone to use for date formatting (e.g., 'America/New_York', 'Europe/London')
      * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
      * @param now - Optional date parameter
+     * @param summaryUnderlyingResources - Optional resolved resources referenced by a summary Composition's section entries (see ISummaryTemplate.generateSummaryNarrative), passed through to templates that need per-reading data
      * @returns Generated HTML content or undefined if no resources
      */
     static async generateNarrativeContentAsync<T extends TDomainResource>(
@@ -76,7 +77,8 @@ export class NarrativeGenerator {
         resources: T[],
         timezone: string | undefined,
         useSectionSummary: boolean = false,
-        now?: Date
+        now?: Date,
+        summaryUnderlyingResources?: TDomainResource[]
     ): Promise<string | undefined> {
         if (!resources || resources.length === 0) {
             return undefined; // No resources to generate narrative
@@ -84,7 +86,7 @@ export class NarrativeGenerator {
 
         try {
             // Use the TypeScript template mapper to generate HTML
-            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary, now);
+            const content = TypeScriptTemplateMapper.generateNarrative(section, resources, timezone, useSectionSummary, now, summaryUnderlyingResources);
             if (!content) {
                 return undefined; // No content generated
             }
@@ -160,6 +162,7 @@ export class NarrativeGenerator {
      * @param minify - Whether to minify the HTML content (default: true)
      * @param useSectionSummary - Whether to use section summary for narrative generation (default: false)
      * @param now - Optional date parameter
+     * @param summaryUnderlyingResources - Optional resolved resources referenced by a summary Composition's section entries (see ISummaryTemplate.generateSummaryNarrative), passed through to templates that need per-reading data
      * @returns Promise that resolves to a FHIR Narrative object or undefined if no resources
      */
     static async generateNarrativeAsync<T extends TDomainResource>(
@@ -168,9 +171,10 @@ export class NarrativeGenerator {
         timezone: string | undefined,
         minify: boolean = true,
         useSectionSummary: boolean = false,
-        now?: Date
+        now?: Date,
+        summaryUnderlyingResources?: TDomainResource[]
     ): Promise<Narrative | undefined> {
-        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary, now);
+        const content = await this.generateNarrativeContentAsync(section, resources, timezone, useSectionSummary, now, summaryUnderlyingResources);
         if (!content) {
             return undefined;
         }

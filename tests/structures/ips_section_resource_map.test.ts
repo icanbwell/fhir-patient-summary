@@ -71,4 +71,40 @@ describe('IPSSectionResourceHelper', () => {
     expect(filter && filter(mockPatientFemale)).toBe(true);
     expect(filter && filter(mockPatientMale)).toBe(false);
   });
+
+  const wearableHeartRateObservation = {
+    resourceType: 'Observation',
+    category: [{ coding: [{ code: 'vital-signs' }] }],
+    meta: {
+      security: [
+        { system: 'https://www.icanbwell.com/owner', code: 'Fitbit' },
+        { system: 'https://www.icanbwell.com/vendor', code: 'validic' },
+      ],
+    },
+  };
+  const wearableGlucoseObservation = {
+    resourceType: 'Observation',
+    category: [{ coding: [{ code: 'laboratory' }] }],
+    meta: { security: [{ system: 'https://www.icanbwell.com/vendor', code: 'validic' }] },
+  };
+  const clinicalVitalSignObservation = {
+    resourceType: 'Observation',
+    category: [{ coding: [{ code: 'vital-signs', system: 'http://terminology.hl7.org/CodeSystem/observation-category' }] }],
+  };
+  const clinicalLabObservation = {
+    resourceType: 'Observation',
+    category: [{ coding: [{ code: 'laboratory', system: 'http://terminology.hl7.org/CodeSystem/observation-category' }] }],
+  };
+
+  it('excludes wearable Observations from VITAL_SIGNS even when category is vital-signs', () => {
+    const filter = IPSSectionResourceFilters[IPSSections.VITAL_SIGNS];
+    expect(filter && filter(wearableHeartRateObservation)).toBe(false);
+    expect(filter && filter(clinicalVitalSignObservation)).toBe(true);
+  });
+
+  it('excludes wearable Observations from DIAGNOSTIC_REPORTS even when category is laboratory', () => {
+    const filter = IPSSectionResourceFilters[IPSSections.DIAGNOSTIC_REPORTS];
+    expect(filter && filter(wearableGlucoseObservation)).toBe(false);
+    expect(filter && filter(clinicalLabObservation)).toBe(true);
+  });
 });
