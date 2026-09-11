@@ -23,7 +23,8 @@
     "**/@tufjs/models/minimatch": "9.0.9",
     "**/@typescript-eslint/typescript-estree/minimatch": "9.0.9",
     "**/glob/minimatch": "9.0.9",
-    "**/editorconfig/minimatch": "9.0.9"
+    "**/editorconfig/minimatch": "9.0.9",
+    "js-yaml": "4.3.2"
   },
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./dist/index.js",
