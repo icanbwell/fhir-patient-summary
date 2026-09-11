@@ -1,6 +1,9 @@
 {
   "name": "@icanbwell/fhirpatientsummary",
   "version": "x.x.x",
+  "resolutions": {
+    "lodash": "4.18.1"
+  },
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
