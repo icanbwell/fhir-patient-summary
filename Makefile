@@ -1,14 +1,5 @@
-.PHONY:up
-up:
-	docker compose build --parallel && \
-	docker compose up -d
-
-.PHONY:down
-down:
-	docker compose down
-
 .PHONY:update
-update:down
+update:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	npm install --location=global yarn && \
 	rm -f yarn.lock && \
@@ -16,7 +7,7 @@ update:down
 
 # https://www.npmjs.com/package/npm-check-updates
 .PHONY:upgrade_packages
-upgrade_packages:down
+upgrade_packages:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	yarn install --no-optional && \
 	npm list -g npm-check-updates || npm install -g npm-check-updates && \
@@ -32,36 +23,6 @@ lint:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	npm run lint && \
 	npm run typecheck
-
-.PHONY:fix-lint
-fix-lint:
-	. ${NVM_DIR}/nvm.sh && nvm use && \
-	npm run fix_lint && \
-	npm run lint
-
-.PHONY:clean-pre-commit
-clean-pre-commit: ## removes pre-commit hook
-	rm -f .git/hooks/pre-commit
-
-.PHONY:setup-pre-commit
-setup-pre-commit:
-	cp ./pre-commit-hook ./.git/hooks/pre-commit
-
-.PHONY:run-pre-commit
-run-pre-commit: setup-pre-commit
-	./.git/hooks/pre-commit
-
-.PHONY:generate_components
-generate_components:
-	. ${NVM_DIR}/nvm.sh && nvm use && \
-	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/generator/generate_components.py" \
-	eslint --fix "src/pages/resources/**/*.tsx"
-
-.PHONY:generate_types
-generate_types:
-	. ${NVM_DIR}/nvm.sh && nvm use && \
-	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/generator/generate_types.py" \
-	eslint --fix "src/types/**/*.ts"
 
 .PHONY:split_bundle
 split_bundle:
